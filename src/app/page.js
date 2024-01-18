@@ -1,6 +1,19 @@
+import { featuresdata } from "@/utils/dummydata";
 
 export default function page() {
-  return (
-    <div>Home page</div>
-  )
+    return (
+        <div className="p-4">
+            <div className="w-full grid grid-cols-4 gap-2 items-center">
+                {
+                    featuresdata.map((items, index) => (
+                        <div className=" w-full flex justify-center flex-col items-center" key={index}>
+                            <div className="rounded-[50%] p-24  bg-[#D9D9D9]"></div>
+                            <p className="mb-0 context my-1 font-semibold capitalize">{items.name}</p>
+                        </div>
+                    ))
+                }
+
+            </div>
+        </div>
+    )
 }

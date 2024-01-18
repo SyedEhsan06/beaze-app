@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Homebanner from '@/components/Homebanner'
+import Homebanner from '@/components/home/banner/Homebanner';
+import Footer from '@/components/footer/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,8 +14,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className='w-full'>
-      <Homebanner/>
-      {children}
+        <Homebanner />
+        {children}
+        <Footer />
       </body>
     </html>
   )
