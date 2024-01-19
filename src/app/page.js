@@ -6,10 +6,10 @@ import { featuresdata } from "@/utils/dummydata";
 
 export default function page() {
     return (
-      <div className="grid grid-cols-1 gap-y-10 my-10 px-3">
-        <Features/>
-       <Productslider/>
-       <Offerbanner/>
-      </div>
+        <div className="grid grid-cols-1 gap-y-10 my-10 px-3">
+            <Features />
+            <Productslider />
+            <Offerbanner />
+        </div>
     )
 }
