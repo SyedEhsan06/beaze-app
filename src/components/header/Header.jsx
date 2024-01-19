@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { IoSearch } from "react-icons/io5";
 import { FaCartShopping } from "react-icons/fa6";
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 export default function Header() {
     const [scrollLength, setScrollLength] = useState(0);
     useEffect(() => {
@@ -18,16 +19,16 @@ export default function Header() {
 
     return (
         <header
-            className={`w-full shadow transition-all duration-150 ${scrollLength > 620 ? 'fixed top-0 left-0 bg-white border' : 'static'}`}
+            className={`w-full shadow transition-all duration-150 ${scrollLength > 620 ? 'fixed top-0 left-0 bg-white border z-20' : 'static'}`}
         >
             <nav className="w-full py-2">
-                <ul className="px-3  flex items-center m-0  justify-between">
+                <ul className="px-3  flex items-center m-0  justify-between text-[18px]">
                     <li className=''>
                         <Image src="/images/logo.png" width={60} height={60} alt="logo"
                         />
                     </li>
-                    <li className='context font-semibold'>Shop </li>
-                    <li className='context font-semibold'>About </li>
+                    <li className='context font-semibold'><Link href={'/'}>Shop </Link></li>
+                    <li className='context font-semibold'><Link href={'/'}>About </Link> </li>
                     <li className='w-[350px] flex  bg-white rounded shadow-sm items-center justify-center px-2 border'>
                         <div className='w-2/12 text-[#9B9494] font-bold'>
                             <IoSearch size={18} />
@@ -37,9 +38,9 @@ export default function Header() {
                         </div>
                     </li>
 
-                    <li className=' context font-semibold'>Sherlock’s Account  </li>
+                    <li className=' context font-semibold'> <Link href={'/'}>Sherlock’s Account  </Link>  </li>
                     <li className='context font-semibold'>
-                        <button className='flex gap-2 bg-gray-950 text-white font-semibold items-center py-1 rounded px-3'>
+                        <button className='flex gap-3 bg-gray-950 text-white font-semibold items-center py-1 rounded px-4'>
                             <FaCartShopping /><span> cart</span>
                         </button>
                     </li>

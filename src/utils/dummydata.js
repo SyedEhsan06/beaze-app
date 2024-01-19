@@ -4,25 +4,7 @@ import { FaTwitter, FaLinkedin, FaFacebookF } from "react-icons/fa";
 
 
 
-export const featuresdata = [
-    {
-        name: 'The Perfect Fit',
-        icon: ''
-    },
-    {
-        name: 'Sustainable Materials',
-        icon: ''
-    },
-    {
-        name: 'Exchange or Return',
-        icon: ''
-    },
-    {
-        name: 'Delivery in 48 hours',
-        icon: ''
-    }
-]
-
+//footer
 export const sociallinks = [
     {
         icon: <ImInstagram />,
@@ -169,5 +151,105 @@ export const footerlinsk = [
 
 
 
+]
+
+//home
+
+export const featuresdata = [
+    {
+        name: 'The Perfect Fit',
+        icon: ''
+    },
+    {
+        name: 'Sustainable Materials',
+        icon: ''
+    },
+    {
+        name: 'Exchange or Return',
+        icon: ''
+    },
+    {
+        name: 'Delivery in 48 hours',
+        icon: ''
+    }
+]
+
+export const homesliderdata = [
+    {
+        heading : 'Explore & Discover',
+        products : [
+            {
+                title : 'Crop Tops',
+                img : '/images/web/product/explore/p1.jpg'
+            },
+            {
+                title : 'Sweatshirts',
+                img : '/images/web/product/explore/p2.jpg'
+            },
+            {
+                title : 'Bags & Backpacks',
+                img : '/images/web/product/explore/p3.jpg'
+            },
+            {
+                title : 'Women’s Ethnic',
+                img : '/images/web/product/explore/p4.jpg'
+            },
+            {
+                title : 'Crop Tops',
+                img : '/images/web/product/explore/p1.jpg'
+            },
+            {
+                title : 'Sweatshirts',
+                img : '/images/web/product/explore/p2.jpg'
+            },
+            {
+                title : 'Bags & Backpacks',
+                img : '/images/web/product/explore/p3.jpg'
+            },
+            {
+                title : 'Women’s Ethnic',
+                img : '/images/web/product/explore/p4.jpg'
+            }
+        ]
+    },
+    {
+        heading : 'Bestsellers',
+        products : [
+            {
+                title : 'Floral top',
+                img : '/images/web/product/bestseller/p1.jpg'
+            },
+            {
+                title : 'Denim Shorts',
+                img : '/images/web/product/bestseller/p2.jpg'
+            },
+            {
+                title : 'Sneakers',
+                img : '/images/web/product/bestseller/p3.jpg'
+            },
+            {
+                title : 'Saarees',
+                img : '/images/web/product/bestseller/p4.jpg'
+            },
+            {
+                title : 'Floral top',
+                img : '/images/web/product/bestseller/p1.jpg'
+            },
+            {
+                title : 'Denim Shorts',
+                img : '/images/web/product/bestseller/p2.jpg'
+            },
+            {
+                title : 'Sneakers',
+                img : '/images/web/product/bestseller/p3.jpg'
+            },
+            {
+                title : 'Saarees',
+                img : '/images/web/product/bestseller/p4.jpg'
+            }
+            
+        
+        ]
+    }
 ]
 
