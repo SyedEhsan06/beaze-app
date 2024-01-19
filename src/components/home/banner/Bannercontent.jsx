@@ -1,6 +1,14 @@
+"use client"
 import { MdArrowCircleDown } from "react-icons/md";
 
 export default function Bannercontent() {
+
+    const handleScrollTo620 = () => {
+        window.scrollTo({
+          top: 622,
+          behavior: 'smooth',
+        });
+      };
     return (
         <>
             <h1 className=" mb-0 headtext font-[800] text-[100px] uppercase text-white space-x-1 text-with-shadow">Beaze</h1>
@@ -15,7 +23,7 @@ export default function Bannercontent() {
 
             <div className="">
                 <p className="text-sm p-1 text-white context mb-0 font-semibold">Scroll</p>
-                <MdArrowCircleDown size={40} className="  cursor-pointer text-white" />
+                <MdArrowCircleDown size={40} className="  cursor-pointer text-white" onClick={handleScrollTo620}/>
             </div>
 
 

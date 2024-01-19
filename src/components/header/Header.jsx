@@ -2,23 +2,38 @@
 import Image from 'next/image'
 import { IoSearch } from "react-icons/io5";
 import { FaCartShopping } from "react-icons/fa6";
+import { useEffect, useState } from 'react';
 export default function Header() {
+    const [scrollLength, setScrollLength] = useState(0);
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    const handleScroll = () => {
+        setScrollLength(window.scrollY);
+    };
+
     return (
-        <header className="w-full shadow">
-            <nav className="w-full pt-1">
-                <ul className="px-3 pb-3 flex items-end m-0  justify-between">
+        <header
+            className={`w-full shadow transition-all duration-150 ${scrollLength > 620 ? 'fixed top-0 left-0 bg-white border' : 'static'}`}
+        >
+            <nav className="w-full py-2">
+                <ul className="px-3  flex items-center m-0  justify-between">
                     <li className=''>
                         <Image src="/images/logo.png" width={60} height={60} alt="logo"
                         />
                     </li>
                     <li className='context font-semibold'>Shop </li>
                     <li className='context font-semibold'>About </li>
-                    <li className='w-[350px] flex  bg-white rounded shadow-sm items-center justify-center px-2'>
+                    <li className='w-[350px] flex  bg-white rounded shadow-sm items-center justify-center px-2 border'>
                         <div className='w-2/12 text-[#9B9494] font-bold'>
                             <IoSearch size={18} />
                         </div>
                         <div className='w-10/12'>
-                            <input type="text" className='w-full context font text-xs focus:outline-none py-[8px] text-[#9B9494]' placeholder='Search Tops, Jeans, Blazers, suspenders' />
+                            <input type="text" className='w-full context font text-xs focus:outline-none py-[8px] text-[#9B9494] ' placeholder='Search Tops, Jeans, Blazers, suspenders' />
                         </div>
                     </li>
 

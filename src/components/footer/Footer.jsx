@@ -1,3 +1,4 @@
+import Copyright from "./Copyright";
 import Footermenu from "./Footermenu";
 import Sociallinks from "./Sociallinks";
 
@@ -7,6 +8,7 @@ export default function footer() {
    <footer>
     <Sociallinks/>
     <Footermenu/>
+    <Copyright/>
    </footer>
   )
 }
