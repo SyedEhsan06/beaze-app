@@ -4,8 +4,8 @@ import Image from "next/image";
 
 export default function Footermenu() {
   return (
-    <div className="py-6 px-24 bg-theme-footer-bg  context ">
-      <div className="w-full grid grid-cols-3 gap-5 justify-items-center">
+    <div className="py-6 px-10 lg:px-24 bg-theme-footer-bg  context ">
+      <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-5 justify-items-center">
         {
           footerlinsk.map((items, index) => (
             <div key={index} >

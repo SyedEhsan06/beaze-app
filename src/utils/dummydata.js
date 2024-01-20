@@ -253,3 +253,66 @@ export const homesliderdata = [
     }
 ]
 
+export const teazeproduct = [
+    {
+        heading : 'Teaze',
+        products : [
+            {
+                title : 'The Doodler',
+                img : '/images/web/product/teaze/p1.jpg'
+            },
+            {
+                title : 'Oversized Banyan',
+                img : '/images/web/product/teaze/p2.jpg'
+            },
+            {
+                title : 'Funny Outcast Tee',
+                img : '/images/web/product/teaze/p3.jpg'
+            },
+            {
+                title : 'Basic Beige Tee',
+                img : '/images/web/product/teaze/p4.jpg'
+            },
+            {
+                title : 'The Doodler',
+                img : '/images/web/product/teaze/p1.jpg'
+            },
+            {
+                title : 'Oversized Banyan',
+                img : '/images/web/product/teaze/p2.jpg'
+            },
+            {
+                title : 'Funny Outcast Tee',
+                img : '/images/web/product/teaze/p3.jpg'
+            },
+            {
+                title : 'Basic Beige Tee',
+                img : '/images/web/product/teaze/p4.jpg'
+            }
+        ]
+    },
+]
+
+
+export const reviewsdata = [
+    {
+     rating : 5,
+     title : "“A wardrobe staple” ",
+     text : "The fabric is excellent quality and feels comfortable against the skin. I'm impressed with the attention to detail in the stitching, and it holds up well after multiple washes. The fit is just right, not too tight or baggy. I wear it for both casual outings and semi-formal occasions, and it's versatile enough for both."
+    },
+    {
+        rating : 4,
+        title : "“Love the Fit !”",
+        text : "I recently purchased the Summer Breeze Floral Maxi Dress, and it has become an absolute favorite in my wardrobe. The moment I put it on, I felt like I was ready to take on the world. The dress is not only stunningly beautiful but also incredibly comfortable to wear."
+       },
+       {
+        rating : 5,
+        title : "“A wardrobe staple” ",
+        text : "The fabric is excellent quality and feels comfortable against the skin. I'm impressed with the attention to detail in the stitching, and it holds up well after multiple washes. The fit is just right, not too tight or baggy. I wear it for both casual outings and semi-formal occasions, and it's versatile enough for both."
+       },
+       {
+           rating : 4,
+           title : "“Love the Fit !”",
+           text : "I recently purchased the Summer Breeze Floral Maxi Dress, and it has become an absolute favorite in my wardrobe. The moment I put it on, I felt like I was ready to take on the world. The dress is not only stunningly beautiful but also incredibly comfortable to wear."
+          }
+]

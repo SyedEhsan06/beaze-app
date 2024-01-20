@@ -3,14 +3,14 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
-import { homesliderdata } from '@/utils/dummydata';
+import { teazeproduct } from '@/utils/dummydata';
 import Image from 'next/image';
 
-export default function Productslider() {
+export default function Teazeslider() {
     return (
         <>
             {
-                homesliderdata.map((items, index) => (
+                teazeproduct.map((items, index) => (
                     <div key={index} className='px-3 mb-16'>
                         <h4 className='text-2xl headtext font-[900]  mb-3 capitalize'>{items.heading}</h4>
                         <Swiper

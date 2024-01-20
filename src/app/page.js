@@ -2,14 +2,18 @@
 import Features from "@/components/home/homecontent/Features";
 import Offerbanner from "@/components/home/homecontent/Offerbanner";
 import Productslider from "@/components/home/homecontent/Productslider";
+import Ratings from "@/components/home/homecontent/Ratings";
+import Teazeslider from "@/components/home/homecontent/Teazeslider";
 import { featuresdata } from "@/utils/dummydata";
 
 export default function page() {
     return (
-        <div className="grid grid-cols-1 gap-y-10 my-10 px-3">
+        <div className="grid grid-cols-1 mt-10 ">
             <Features />
             <Productslider />
             <Offerbanner />
+            <Teazeslider/>
+            <Ratings/>
         </div>
     )
 }

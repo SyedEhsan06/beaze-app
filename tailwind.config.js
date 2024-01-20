@@ -14,7 +14,8 @@ module.exports = {
       },
       colors : {
         'theme-main-color' : '#FFEA00',
-        'theme-footer-bg' : '#2A0241'
+        'theme-footer-bg' : '#2A0241',
+        'rating-stars' : '#FEDB18'
       }
     },
   },
