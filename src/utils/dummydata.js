@@ -158,19 +158,21 @@ export const footerlinsk = [
 export const featuresdata = [
     {
         name: 'The Perfect Fit',
-        icon: ''
+        icon: '/images/web/Illustrations/ballet.png',
+       
     },
     {
         name: 'Sustainable Materials',
-        icon: ''
+        icon: '/images/web/Illustrations/Illustration-plant.png',
+     
     },
     {
         name: 'Exchange or Return',
-        icon: ''
+        icon: '/images/web/Illustrations/Ink.png'
     },
     {
         name: 'Delivery in 48 hours',
-        icon: ''
+        icon: '/images/web/Illustrations/rolling.png'
     }
 ]
 

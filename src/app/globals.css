@@ -45,23 +45,7 @@
 }
 
 /* for swipper */
-.swiper-button-prev,
-.swiper-button-next {
-  margin-inline: -10px
-}
 
-.swiper-button-next::after{
-  color: black;
-font-size: 60px;
-font-weight: 800;
-}
-
-.swiper-button-prev::after{
-  color: black;
-  font-weight: 800;
-  font-size: 60px;
- 
-}
 
 /* 
 :root {

@@ -20,15 +20,15 @@ export default function Productslider() {
                             breakpoints={{
                             0: {
                                 slidesPerView: 1.3,
-                                spaceBetween: 10,
+                                spaceBetween: 30,
                             },
                             640: {
                                 slidesPerView: 2.2,
-                                spaceBetween: 10,
+                                spaceBetween: 30,
                             },
                             1024: {
                                 slidesPerView: 4.2,
-                                spaceBetween: 20,
+                                spaceBetween: 30,
                             }
                         }}
                             className="mySwiper"
@@ -36,11 +36,11 @@ export default function Productslider() {
                             {
                                 items.products.map((pitems, pindex) => (
                                     <SwiperSlide key={pindex}>
-                                        <div className='w-[240px] cursor-pointer'>
-                                            <div className='w-full h-[270px] relative rounded'>
-                                                <Image src={pitems.img} fill className='rounded-2xl'></Image>
+                                        <div className=' w-full cursor-pointer rounded h-auto'>
+                                            <div className='w-full  xl  rounded-2xl'>
+                                                <img src={pitems.img}  className='w-[100%] rounded-2xl'></img>
                                             </div>
-                                            <p className="mb-0 context my-1 font-semibold capitalize text-center">{pitems.title}</p>
+                                            <p className="mb-0 context py-2 font-semibold capitalize text-center">{pitems.title}</p>
                                         </div>
                                     </SwiperSlide>
 

@@ -11,7 +11,7 @@ export default function Bannercontent() {
       };
     return (
         <>
-            <h1 className=" mb-0 headtext font-[800] text-[100px] uppercase text-white space-x-1 text-with-shadow">Beaze</h1>
+            <h1 className=" mt-[70px] mb-0 headtext font-[800] text-[100px] uppercase text-white space-x-1 text-with-shadow">Beaze</h1>
 
             <div className="">
                 <h3 className="bg-theme-main-color rounded-3xl mb-0 headtext font-[800] text-2xl text-gray-950  capitalize  space-x-1 py-2 px-20">
