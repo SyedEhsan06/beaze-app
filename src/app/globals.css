@@ -16,6 +16,11 @@
   background: #c7c6c6;
 }
 
+/* header */
+
+.linkshdow {
+  text-shadow: 0px 1px 5px rgba(255,255,255, 0.6);
+}
 
 .bannerdiv:before {
   content: '';

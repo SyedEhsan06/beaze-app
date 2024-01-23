@@ -2,8 +2,8 @@ import { featuresdata } from "@/utils/dummydata"
 
 export default function Features() {
     return (
-        <div>
-            <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-8  lg:gap-28 items-center px-2 mb-16">
+        <div className="lg:px-8 px-4">
+            <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-8  lg:gap-28 items-center  mb-16">
                 {
                     featuresdata.map((items, index) => (
                         <div className=" w-full flex justify-center flex-col items-center " key={index}>
@@ -13,7 +13,7 @@ export default function Features() {
              </div>
                </div>
                           
-                            <p className="mb-0 context mt-8 font-semibold capitalize">{items.name}</p>
+                            <p className="mb-0 context mt-8 font-semibold capitalize text-xl">{items.name}</p>
                         </div>
                     ))
                 }

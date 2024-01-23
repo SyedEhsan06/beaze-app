@@ -11,8 +11,8 @@ export default function Productslider() {
         <>
             {
                 homesliderdata.map((items, index) => (
-                    <div key={index} className='px-3 mb-16'>
-                        <h4 className='text-2xl headtext font-[900]  mb-3 capitalize'>{items.heading}</h4>
+                    <div key={index} className='lg:px-8 px-4  mb-16'>
+                        <h4 className='text-[2rem] headtext font-[900]  mb-3 capitalize'>{items.heading}</h4>
                         <Swiper
                             centeredSlides={false}
                             pagination={false}
@@ -40,7 +40,7 @@ export default function Productslider() {
                                             <div className='w-full  xl  rounded-2xl'>
                                                 <img src={pitems.img}  className='w-[100%] rounded-2xl'></img>
                                             </div>
-                                            <p className="mb-0 context py-2 font-semibold capitalize text-center">{pitems.title}</p>
+                                            <p className="mb-0 context py-2 font-semibold capitalize text-center text-xl">{pitems.title}</p>
                                         </div>
                                     </SwiperSlide>
 

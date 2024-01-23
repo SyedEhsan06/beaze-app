@@ -50,8 +50,8 @@ export default function Ratings() {
                             <div className=''>
                                 <div className=' marker:cursor-pointer border rounded-2xl shadow-sm bg-white flex flex-col p-8 md:p-14 w-full '>
                                     <Stars rating={items.rating} />
-                                    <p className=" context text-lg  md:text-xl xl:text-2xl font-semibold capitalize text-center mb-4">{items.title}</p>
-                                    <p className="mb-0 context my-1  capitalize text-center text-sm md:text-lg xl:text-xl">
+                                    <p className=" context text-3xl xl:text-2xl font-semibold capitalize text-center mb-4">{items.title}</p>
+                                    <p className="mb-0 context my-1  capitalize text-center text-xl">
                                         <ReactReadMoreReadLess
                                             charLimit={180}
 

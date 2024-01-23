@@ -5,8 +5,10 @@ import { FaCartShopping } from "react-icons/fa6";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { IoIosArrowDown } from "react-icons/io";
+import Shopmenu from './Shopmenu';
 export default function Header() {
     const [scrollLength, setScrollLength] = useState(0);
+    const[showmenu,setshowmenu] = useState(false)
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => {
@@ -20,30 +22,36 @@ export default function Header() {
 
     return (
         <header>
-            <nav className={` z-10 w-full shadow py-2 transition-all hidden lg:block duration-150 ${scrollLength > 620 ? 'fixed top-0 left-0 bg-white border z-20 ' : ' absolute top-0 left-0  bg-transparent'}`}>
+            <nav className={` z-10 w-full shadow py-2 transition-all hidden lg:block duration-150 ${scrollLength > 620 ? 'fixed top-0 left-0 bg-white border z-20 ' : ' absolute top-0 left-0  bg-transparent linkshdow'}`}>
                 <ul className="px-3  flex items-center m-0  justify-between text-[20px] xl:[24px] ">
-                    <li className=''>
+                    <li className='px-2'>
                         <Image src="/images/logo.png" width={60} height={60} alt="logo"
                         />
                     </li>
-                    <li className='context font-semibold'><Link href={'/'}>Shop </Link></li>
-                    <li className='context font-semibold'><Link href={'/'}>About </Link> </li>
+                    <li className={`context font-semibold px-2 duration-75 transition-all cursor-pointer ${showmenu ? 'bg-white  rounded-2xl' : null}`} onClick={() => setshowmenu(!showmenu)} >Shop</li>
+                    
+                    <li className='context font-semibold px-2'><Link href={'/'}>About </Link> </li>
                     <li className='w-[350px] xl:w-[400px] flex  bg-white rounded shadow-sm items-center justify-center px-2 border'>
                         <div className='w-2/12 text-[#9B9494] font-bold'>
-                            <IoSearch size={18} />
+                            <IoSearch size={20} />
                         </div>
                         <div className='w-10/12'>
-                            <input type="text" className='w-full context font text-xs focus:outline-none py-[8px] text-[#9B9494] ' placeholder='Search Tops, Jeans, Blazers, suspenders' />
+                            <input type="text" className='w-full context font text-[16px] focus:outline-none py-[8px] text-[#03071E] ' placeholder='Search Tops, Jeans, Blazers, suspenders' />
                         </div>
                     </li>
 
-                    <li className=' context font-semibold'> <Link href={'/'}>Sign in   </Link>  |  <Link href={'/'}> Create an Account  </Link> </li>
-                    <li className='context font-semibold'>
-                        <button className='flex gap-3 bg-gray-950 text-white font-semibold items-center py-1 rounded px-4'>
-                            <FaCartShopping /><span> cart</span>
+                    <li className=' context font-semibold px-2'> <Link href={'/'}>Sign in   </Link>  |  <Link href={'/'}> Create an Account  </Link> </li>
+                    <li className='context font-semibold px-2'>
+                        <button className='flex gap-3 bg-gray-950 text-white font-semibold items-center py-1 rounded px-4 uppercase'>
+                            <FaCartShopping size={18} /> cart
                         </button>
                     </li>
                 </ul>
+
+               {
+                showmenu &&  <Shopmenu/>
+               }
+               
             </nav>
 
 
