@@ -10,6 +10,11 @@
             type: String,
             required: true,
         },
+        type: {
+            type: String,
+            required: true,
+            enum: ["teaze", "explore", "best"],
+        },
     }); 
 
     const categorySchema = new Schema({
@@ -21,6 +26,11 @@
         img:{
             type: String,
             required: true,
+        },
+        type: {
+            type: String,
+            required: true,
+            enum: ["teaze", "explore", "best"],
         },
         subcategories: [subcategorySchema],
     });

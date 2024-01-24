@@ -21,6 +21,10 @@ export async function POST(req) {
     if (existingCategory) {
       return Response.json({ error: "Category already exists" });
     }
+    const validTypes = ["teaze", "explore", "best"];
+    if (!validTypes.includes(data.type)) {
+      return Response.json({ error: "Invalid category type" });
+    }
 
     const category = await Category.create(data);
     return Response.json({ category, msg: "Category created" });
