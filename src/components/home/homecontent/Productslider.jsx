@@ -19,7 +19,7 @@ export default function Productslider() {
                             modules={[Pagination]}
                             breakpoints={{
                             0: {
-                                slidesPerView: 1.3,
+                                slidesPerView: 1.2,
                                 spaceBetween: 30,
                             },
                             640: {

@@ -13,7 +13,7 @@ export default function Features() {
              </div>
                </div>
                           
-                            <p className="mb-0 context mt-8 font-semibold capitalize text-xl">{items.name}</p>
+                            <p className="mb-0 context mt-8 font-semibold capitalize md:text-xl text-lg">{items.name}</p>
                         </div>
                     ))
                 }

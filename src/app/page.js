@@ -8,7 +8,7 @@ export default function page() {
     return (
      <React.Fragment>
         <Homebanner/>
-        <div className="grid grid-cols-1 mt-10 ">
+        <div className="grid grid-cols-1 mt-10 overflow-x-hidden ">
          <Homemain/>
         </div>
      </React.Fragment>

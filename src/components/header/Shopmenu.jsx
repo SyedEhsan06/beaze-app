@@ -24,7 +24,7 @@ export default function Shopmenu() {
         <div className="grid grid-cols-3 gap-x-20 gap-y-10">
           {
             menus.map((items,index) => (
-                <div className="bg-white p-3  rounded-[7px]" key={index}>
+                <div className="bg-white p-3  rounded-[7px] transition-all duration-75  border-transparent border hover:border-theme-footer-bg" key={index}>
              <Link href={'/'}>
             <div className="flex items-center gap-x-2">
             <div className="w-4/12 rounded-[7px] ">
