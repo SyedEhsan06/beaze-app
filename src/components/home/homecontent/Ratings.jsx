@@ -15,7 +15,7 @@ export default function Ratings() {
     const swiperRef = useRef(null);
 
     return (
-        <div className='bg-[#F7F6F5] py-6 px-16 relative'>
+        <div className='bg-[#F7F6F5] py-6 px-7 md:px-16 relative'>
             <Swiper
                 onSwiper={(swiper) => (swiperRef.current = swiper)}
                 modules={[Navigation]}
@@ -48,10 +48,10 @@ export default function Ratings() {
                     reviewsdata.map((items, index) => (
                         <SwiperSlide key={index}>
                             <div className=''>
-                                <div className=' marker:cursor-pointer border rounded-2xl shadow-sm bg-white flex flex-col p-8 md:p-14 w-full '>
+                                <div className=' marker:cursor-pointer border rounded-2xl shadow-sm bg-white flex flex-col p-6 md:p-14 w-full '>
                                     <Stars rating={items.rating} />
-                                    <p className=" context text-lg  md:text-xl xl:text-2xl font-semibold capitalize text-center mb-4">{items.title}</p>
-                                    <p className="mb-0 context my-1  capitalize text-center text-sm md:text-lg xl:text-xl">
+                                    <p className=" context text-2xl md:text-3xl  font-semibold capitalize text-center mb-4">{items.title}</p>
+                                    <p className="mb-0 context my-1  capitalize text-center text-lg md:text-xl">
                                         <ReactReadMoreReadLess
                                             charLimit={180}
 
@@ -73,10 +73,10 @@ export default function Ratings() {
             <div>
                 <div>
                     <button onClick={() => swiperRef.current?.slidePrev()} className=' absolute top-[50%] left-3'>
-                        <img src="/images/web/slider/prev.png" className='md:w-[70%] w-[50%]' alt="" />
+                        <img src="/images/web/slider/prev.png" className='md:w-[70%] w-[20%]' alt="" />
                     </button>
-                    <button onClick={() => swiperRef.current?.slideNext()} className=' absolute top-[50%] right-0'>
-                        <img src="/images/web/slider/next.png" className='md:w-[70%] w-[50%]' alt="" />
+                    <button onClick={() => swiperRef.current?.slideNext()} className=' absolute top-[50%] md:right-0 right-[-8%]'>
+                        <img src="/images/web/slider/next.png" className='md:w-[70%] w-[20%]' alt="" />
                     </button>
                 </div>
             </div>

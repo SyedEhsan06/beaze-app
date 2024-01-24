@@ -11,15 +11,15 @@ export default function Teazeslider() {
         <>
             {
                 teazeproduct.map((items, index) => (
-                    <div key={index} className='px-3 mb-16'>
-                        <h4 className='text-2xl headtext font-[900]  mb-3 capitalize'>{items.heading}</h4>
+                    <div key={index} className='lg:px-8 px-4  mb-16'>
+                        <h4 className='text-[2rem] headtext font-[900]  mb-3 capitalize'>{items.heading}</h4>
                         <Swiper
                             centeredSlides={false}
                             pagination={false}
                             modules={[Pagination]}
                             breakpoints={{
                             0: {
-                                slidesPerView: 1.3,
+                                slidesPerView: 1.2,
                                 spaceBetween: 30,
                             },
                             640: {
@@ -40,7 +40,7 @@ export default function Teazeslider() {
                                             <div className='w-full rounded-2xl'>
                                                 <img src={pitems.img}  className='rounded-2xl w-[100%] '></img>
                                             </div>
-                                            <p className="mb-0 context py-2 font-semibold capitalize text-center">{pitems.title}</p>
+                                            <p className="mb-0 context py-2 font-semibold capitalize text-center text-xl">{pitems.title}</p>
                                         </div>
                                     </SwiperSlide>
 

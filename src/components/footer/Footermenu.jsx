@@ -4,8 +4,8 @@ import Image from "next/image";
 
 export default function Footermenu() {
   return (
-    <div className="py-6 px-10 lg:px-24 bg-theme-footer-bg  context ">
-      <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-5 justify-items-center">
+    <div className=" py-12 px-4 md:px-10 lg:px-24 bg-theme-footer-bg  context ">
+      <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-5 md:justify-items-center ">
         {
           footerlinsk.map((items, index) => (
             <div key={index} >
@@ -13,12 +13,12 @@ export default function Footermenu() {
               <ul className="">
                 {
                   items.menus.map((menuitem, menuindex) => (
-                    <li className="text-gray-200 text-sm font-[300] mt-4" key={menuindex}><Link href={menuitem.link}>{menuitem.name}</Link></li>
+                    <li className="text-white text-opacity-[75%] text-lg font-[400] mt-4" key={menuindex}><Link href={menuitem.link}>{menuitem.name}</Link></li>
                   ))
                 }
               </ul>
               {
-                items.logo && <Image src={items.logo} width={60} height={60} alt="logo" className="m-4"></Image>
+                items.logo && <Image src={items.logo} width={60} height={60} alt="logo" className="m-8"></Image>
               }
 
               {items.secondmenu && items.secondmenu.map((seconmenuitem, secondmenuindex) => (
@@ -27,7 +27,7 @@ export default function Footermenu() {
                   <ul className="">
                     {
                       seconmenuitem.menus.map((smenuitem, smenuindex) => (
-                        <li className="text-gray-200 text-sm font-[300] mt-4" key={smenuindex}><Link href={smenuitem.link}>{smenuitem.name}</Link></li>
+                        <li className="text-white text-opacity-[75%] text-lg font-[400] mt-4" key={smenuindex}><Link href={smenuitem.link}>{smenuitem.name}</Link></li>
                       ))
                     }
                   </ul>
