@@ -8,7 +8,7 @@ export default function Sociallinks() {
             <div className=' flex justify-center  w-full lg:gap-x-28 gap-x-5'>
                 {
                     sociallinks.map((items, index) => (
-                        <button className='p-2 rounded-xl bg-gray-950 text-white text-3xl' key={index}><Link href={'/'}>{items.icon}</Link></button>
+                        <button className='p-2 rounded-xl bg-gray-950 text-white text-3xl md:text-4xl' key={index}><Link href={'/'}>{items.icon}</Link></button>
                     ))
                 }
             </div>

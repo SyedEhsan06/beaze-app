@@ -10,6 +10,7 @@ export default function Shopmenu() {
     useEffect(() => {
         handelgetshopmenu()
     },[])
+    
     const handelgetshopmenu = async() => {
         try{
             const response = await fetchData('category')
@@ -20,8 +21,8 @@ export default function Shopmenu() {
         }
     }
   return (
-    <div className="absolute bg-[#EBE9DB] pt-8 pb-12 px-40 w-full left-0 top-[100%] transition-all duration-75">
-        <div className="grid grid-cols-3 gap-x-20 gap-y-10">
+
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-x-20 md:gap-y-10 gap-x-5 gap-y-5">
           {
             menus.map((items,index) => (
                 <div className="bg-white p-3  rounded-[7px] transition-all duration-75  border-transparent border hover:border-theme-footer-bg" key={index}>
@@ -39,6 +40,5 @@ export default function Shopmenu() {
             ))
           }
         </div>
-    </div>
   )
 }
