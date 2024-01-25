@@ -67,6 +67,14 @@ const productSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    teaze: {
+      type: Boolean,
+      default: false,
+    },
+    quantity: {
+      type: Number,
+      default:5,
+    },
   },
   {
     timestamps: true,

@@ -14,21 +14,21 @@ export async function GET() {
 
 export async function POST(req) {
   try {
-    const data = await req.json();
-  
-    const existingCategory = await Category.findOne({ name: data.name });
+      const data = await req.json();
 
-    if (existingCategory) {
-      return Response.json({ error: "Category already exists" });
-    }
-    const validTypes = ["teaze", "explore", "best"];
-    if (!validTypes.includes(data.type)) {
-      return Response.json({ error: "Invalid category type" });
-    }
+      const existingProduct = await Product.findOne({ productId: data.productId });
 
-    const category = await Category.create(data);
-    return Response.json({ category, msg: "Category created" });
-  } catch (err) {
-    return Response.json({ error: err.message });
+      if (existingProduct) {
+          const incrementQuantity = data.quantity || 1;
+          existingProduct.quantity += incrementQuantity;
+          await existingProduct.save();
+          return new Response.json(existingProduct);
+      } else {
+          const products = await Product.insertMany(data);
+          return new Response.json(products);
+      }
+  } catch (error) {
+      console.error('POST request error:', error);
+      return new Response(500, { error: 'Internal Server Error' });
   }
 }

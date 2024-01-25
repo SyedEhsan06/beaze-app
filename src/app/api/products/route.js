@@ -51,8 +51,17 @@ export async function GET(req) {
 export async function POST(req) {
     try {
         const data = await req.json();
-        const products = await Product.insertMany(data);
-        return new Response.json(products);
+
+        const existingProduct = await Product.findOne({ productId: data.productId });
+
+        if (existingProduct) {
+            existingProduct.quantity += 1;
+            await existingProduct.save();
+            return new Response.json(existingProduct);
+        } else {
+            const products = await Product.insertMany(data);
+            return new Response.json(products);
+        }
     } catch (error) {
         console.error('POST request error:', error);
         return new Response(500, { error: 'Internal Server Error' });
