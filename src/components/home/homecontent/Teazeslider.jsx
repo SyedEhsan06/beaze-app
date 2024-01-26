@@ -38,7 +38,9 @@ export default function Teazeslider() {
                                     <SwiperSlide key={pindex}>
                                     <div className=' w-full cursor-pointer rounded h-auto'>
                                             <div className='w-full rounded-2xl'>
-                                                <img src={pitems.img}  className='rounded-2xl w-[100%] '></img>
+                                            {
+                                                pitems.img ?  <img src={pitems.img}  className='w-[100%] rounded-2xl'></img> :  <img src='/images/web/product/notfound.png'  className='w-[100%] rounded-2xl'></img>
+                                               }
                                             </div>
                                             <p className="mb-0 context py-2 font-semibold capitalize text-center text-xl">{pitems.title}</p>
                                         </div>
