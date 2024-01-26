@@ -16,7 +16,8 @@ module.exports = {
         'theme-main-color' : '#FFEA00',
         'theme-footer-bg' : '#2A0241',
         'rating-stars' : '#FEDB18',
-        'text-secondary' : '#2A0241'
+        'text-secondary' : '#2A0241',
+        'button-secondary' : '#F8B43A'
       }
     },
   },
