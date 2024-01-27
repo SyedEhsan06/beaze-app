@@ -1,7 +1,7 @@
 import axios from 'axios';
 
- const BASE_URL = "http://localhost:3000/api"
-
+//  const BASE_URL = "http://localhost:3000/api"
+const BASE_URL = "https://beaze-app-git-main-syed-ehsans-projects.vercel.app/api/category"
 const axiosWithToken = () => {
   
   const instance = axios.create({
