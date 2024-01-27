@@ -37,7 +37,20 @@ export async function GET(req) {
                     { 'features.title': searchRegex },
                 ],
             });
-        } else {
+        } else if (queryObject.filter) {
+            const filterObject = {};
+            let filters = queryObject.filter.split(',');
+            filters.forEach(filter => {
+                const [key, value] = filter.split(':');
+                if (filterObject[key]) {
+                    filterObject[key].push(value);
+                } else {
+                    filterObject[key] = [value];
+                }
+            }); // Corrected placement of closing parenthesis
+            products = await Product.find(filterObject);
+        }
+        else {
             products = await Product.find({});
         }
 

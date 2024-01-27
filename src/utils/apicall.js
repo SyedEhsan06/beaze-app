@@ -35,7 +35,7 @@ export const postData = async (endpoint, data) => {
 };
 
 
-export const delteData = async (endpoint) => {
+export const deleteData = async (endpoint) => {
   try {
     const response = await axiosWithToken().delete(`${BASE_URL}/${endpoint}`);
     return response.data;

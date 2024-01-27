@@ -5,16 +5,16 @@ import Offerbanner from './Offerbanner'
 import Teazeslider from './Teazeslider'
 import Ratings from './Ratings'
 
-export default function Homemain() {
+export default function Homemain({data}) {
  
-   
+    
 
   return (
   <>
     <Features/>
-    <Productslider/>
+    <Productslider  data={data} />
     <Offerbanner/>
-    <Teazeslider/>
+    <Teazeslider  />
     <Ratings/>
   </>
   )
