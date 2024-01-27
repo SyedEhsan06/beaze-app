@@ -318,3 +318,280 @@ export const reviewsdata = [
            text : "I recently purchased the Summer Breeze Floral Maxi Dress, and it has become an absolute favorite in my wardrobe. The moment I put it on, I felt like I was ready to take on the world. The dress is not only stunningly beautiful but also incredibly comfortable to wear."
           }
 ]
+
+
+//categories page
+export const categoriesdata = [
+    {
+        title : 'Men’s Clothes',
+        subcategory : [
+            {
+                title : 'View All'
+            },
+            {
+                title : 'Tshirts'
+            },
+            {
+                title : 'Shorts & Skirts'
+            },
+            {
+                title : 'Jackets and Overalls'
+            },
+            {
+                title : 'Jeans & Denims'
+            },
+            {
+                title : 'Sheos & sleepers'
+            },
+        ]
+    },
+    {
+        title : 'Women’s Clothes',
+        subcategory : [
+            {
+                title : 'View All'
+            },
+            {
+                title : 'Tops & Blouses'
+            },
+            {
+                title : 'Shorts & Skirts'
+            },
+            {
+                title : 'Jackets and Overalls'
+            },
+            {
+                title : 'Jeans & Denims'
+            },
+            {
+                title : 'Dresses & Gowns'
+            },
+        ]
+    },
+    {
+        title : 'Women’s Clothes',
+        subcategory : [
+            {
+                title : 'View All'
+            },
+            {
+                title : 'Tops & Blouses'
+            },
+            {
+                title : 'Shorts & Skirts'
+            },
+            {
+                title : 'Jackets and Overalls'
+            },
+            {
+                title : 'Jeans & Denims'
+            },
+            {
+                title : 'Dresses & Gowns'
+            },
+        ]
+    },
+    {
+        title : 'Accessories - Women',
+        subcategory : [
+            {
+                title : 'View All'
+            },
+            {
+                title : 'Tops & Blouses'
+            },
+            {
+                title : 'Shorts & Skirts'
+            },
+            {
+                title : 'Jackets and Overalls'
+            },
+            {
+                title : 'Jeans & Denims'
+            },
+            {
+                title : 'Dresses & Gowns'
+            },
+        ]
+    },
+    {
+        title : 'Accessories - Men',
+        subcategory : [
+            {
+                title : 'View All'
+            },
+            {
+                title : 'Tops & Blouses'
+            },
+            {
+                title : 'Shorts & Skirts'
+            },
+            {
+                title : 'Jackets and Overalls'
+            },
+            {
+                title : 'Jeans & Denims'
+            },
+            {
+                title : 'Dresses & Gowns'
+            },
+        ]
+    },
+    {
+        title : 'Lingerie',
+        subcategory : [
+            {
+                title : 'View All'
+            },
+            {
+                title : 'Tops & Blouses'
+            },
+            {
+                title : 'Shorts & Skirts'
+            },
+            {
+                title : 'Jackets and Overalls'
+            },
+            {
+                title : 'Jeans & Denims'
+            },
+            {
+                title : 'Dresses & Gowns'
+            },
+        ]
+    },
+    {
+        title : 'Women’s Ethnic',
+        subcategory : [
+            {
+                title : 'View All'
+            },
+            {
+                title : 'Tops & Blouses'
+            },
+            {
+                title : 'Shorts & Skirts'
+            },
+            {
+                title : 'Jackets and Overalls'
+            },
+            {
+                title : 'Jeans & Denims'
+            },
+            {
+                title : 'Dresses & Gowns'
+            },
+        ]
+    },
+    {
+        title : 'Men’s Ethnic',
+        subcategory : [
+            {
+                title : 'View All'
+            },
+            {
+                title : 'Tops & Blouses'
+            },
+            {
+                title : 'Shorts & Skirts'
+            },
+            {
+                title : 'Jackets and Overalls'
+            },
+            {
+                title : 'Jeans & Denims'
+            },
+            {
+                title : 'Dresses & Gowns'
+            },
+        ]
+    },
+    {
+        title : 'Back to School Collection',
+        subcategory : [
+            {
+                title : 'View All'
+            },
+            {
+                title : 'Tops & Blouses'
+            },
+            {
+                title : 'Shorts & Skirts'
+            },
+            {
+                title : 'Jackets and Overalls'
+            },
+            {
+                title : 'Jeans & Denims'
+            },
+            {
+                title : 'Dresses & Gowns'
+            },
+        ]
+    }
+]
+
+
+export const categoryProducts = [
+    {
+        pname : 'Off-Shoulder Pinstripes',
+        price : 899,
+        img: 'p1.png'
+    },
+    {
+        pname : 'Off-Shoulder Pinstripes',
+        price : 899,
+        img: 'p2.png'
+    },
+    {
+        pname : 'Off-Shoulder Pinstripes',
+        price : 899,
+        img: 'p3.png'
+    },
+    {
+        pname : 'Off-Shoulder Pinstripes',
+        price : 899,
+        img: 'p4.png'
+    },
+    {
+        pname : 'Off-Shoulder Pinstripes',
+        price : 899,
+        img: 'p5.png'
+    },
+    {
+        pname : 'Off-Shoulder Pinstripes',
+        price : 899,
+        img: 'p6.png'
+    },
+    {
+        pname : 'Off-Shoulder Pinstripes',
+        price : 899,
+        img: 'p7.png'
+    },
+    {
+        pname : 'Off-Shoulder Pinstripes',
+        price : 899,
+        img: 'p8.png'
+    }
+]
+
+
+export const filtertypes =[
+    {
+        title : 'Price - High to Low',
+        val : ''
+    },
+    {
+        title : 'Price - Low to High',
+        val : ''
+    },
+    {
+        title : 'Bestsellers First',
+        val : ''
+    },
+    {
+        title : 'New Arrivals First',
+        val : ''
+    }
+]
+
