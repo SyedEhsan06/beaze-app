@@ -42,17 +42,24 @@ export default function Header() {
             console.log(err)
         }
     }
-
+    useEffect(() => {
+        document.addEventListener('click', function (event) {
+        if(!event.target.className.includes('showmenu')){
+            setshowmenu(false)
+        }
+        });
+    }
+        , [])
 
     return (
-        <header>
-            <nav className={` z-10 w-full shadow py-2 transition-all hidden lg:block duration-150 ${scrollLength > 620 ? 'fixed top-0 left-0 bg-white border z-20 ' : ' absolute top-0 left-0  bg-white bg-opacity-[50%] linkshdow'}`}>
+        <header  >
+            <nav className={` showmenu  z-10 w-full shadow py-2 transition-all hidden lg:block duration-150 ${scrollLength > 620 ? 'fixed top-0 left-0 bg-white border z-20 ' : ' absolute top-0 left-0  bg-white bg-opacity-[50%] linkshdow'}`}>
                 <ul className="px-3  flex items-center m-0  justify-between text-[20px] xl:[24px] ">
                     <li className='px-2'>
                         <Image src="/images/logo.png" width={60} height={60} alt="logo"
                         />
                     </li>
-                    <li className={`context  px-5 duration-75 transition-all cursor-pointer ${showmenu ? 'bg-white  rounded-2xl font-[800]' : 'font-semibold'}`} onClick={() => setshowmenu(!showmenu)} >Shop</li>
+                    <li className={`context showmenu   px-5 duration-75 transition-all cursor-pointer ${showmenu ? 'bg-white  rounded-2xl font-[800]' : 'font-semibold'}`} onClick={() => setshowmenu(!showmenu)} >Shop</li>
 
                     <li className='context font-semibold px-2'><Link href={'/'}>About </Link> </li>
                     <li className='w-[350px] xl:w-[400px] flex  bg-white rounded shadow-sm items-center justify-center px-2 border gap-3'>
@@ -75,8 +82,8 @@ export default function Header() {
                 </ul>
 
                 {
-                    showmenu && <div className="absolute bg-[#EBE9DB] pt-8 pb-16 px-40 w-full left-0 top-[100%] transition-all duration-75">
-                        <Shopmenu meudata={shopmenudata} />
+                    showmenu && <div className="absolute showmenu bg-[#EBE9DB] pt-8 pb-16 px-40 w-full left-0 top-[100%] transition-all duration-75">
+                        <Shopmenu   meudata={shopmenudata} />
                     </div>
 
                 }
