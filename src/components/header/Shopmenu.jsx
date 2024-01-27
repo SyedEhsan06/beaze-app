@@ -13,11 +13,11 @@ export default function Shopmenu({meudata}) {
                 <div className="bg-white p-1 showmenu  rounded-[7px] transition-all duration-75  border-transparent border hover:border-theme-footer-bg" key={index}>
              <Link href={'/'}>
             <div className="flex items-center gap-x-2 showmenu ">
-            <div className="w-3/12 rounded-[7px] ">
-              {items.img ?  <img src={`/images/web/shopmenu/${items.img}.jpg`} className="rounded-[7px]" alt="" /> :  <img src="/images/web/product/notfound.png" className="rounded-[7px]" alt="" />}
+            <div className="w-3/12 rounded-[7px] showmenu ">
+              {items.img ?  <img src={`/images/web/shopmenu/${items.img}.jpg`} className="rounded-[7px] showmenu" alt="" /> :  <img src="/images/web/product/notfound.png" className="rounded-[7px] showmenu" alt="" />}
                </div>
                <div className="w-9/12">
-                <p className=" text-lg font-[500] text-center" >{items.name}</p>
+                <p className=" text-lg font-[500] text-center showmenu " >{items.name}</p>
                </div>
             </div>
              </Link>
