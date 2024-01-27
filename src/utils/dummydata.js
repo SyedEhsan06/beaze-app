@@ -574,3 +574,24 @@ export const categoryProducts = [
         img: 'p8.png'
     }
 ]
+
+
+export const filtertypes =[
+    {
+        title : 'Price - High to Low',
+        val : ''
+    },
+    {
+        title : 'Price - Low to High',
+        val : ''
+    },
+    {
+        title : 'Bestsellers First',
+        val : ''
+    },
+    {
+        title : 'New Arrivals First',
+        val : ''
+    }
+]
+
