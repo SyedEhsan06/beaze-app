@@ -4,7 +4,7 @@ import Contentcategories from './Contentcategories'
 
 export default function Containercategories() {
   return (
-    <div className='w-full flex'>
+    <div className='w-full flex '>
       <div className='w-3/12 bg-white shadow'>
         <Sidemenu />
       </div>

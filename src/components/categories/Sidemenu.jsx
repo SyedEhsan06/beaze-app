@@ -8,17 +8,15 @@ export default function Sidemenu() {
   const [checkedmenus, setcheckedmenus] = useState([]);
 
   const handleCheckboxChange = (index) => {
-    const currentIndex = checkedmenus.indexOf(index);
-    const newCheckedItems = [...checkedmenus];
-
-    if (currentIndex === -1) {
-      newCheckedItems.push(index);
+    const isChecked = checkedmenus.includes(index);
+  
+    if (!isChecked) {
+      setcheckedmenus([index]);
     } else {
-      newCheckedItems.splice(currentIndex, 1);
+      setcheckedmenus([]);
     }
-
-    setcheckedmenus(newCheckedItems);
   };
+  
 
   const isVisible = (index) => checkedmenus.includes(index);
   return (

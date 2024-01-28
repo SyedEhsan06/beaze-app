@@ -2,11 +2,50 @@
 import { FaXmark } from "react-icons/fa6";
 import { HiBars3 } from "react-icons/hi2";
 import { FaAngleDown } from "react-icons/fa";
-import { categoryProducts, filtertypes } from '@/utils/dummydata';
-import { useState } from "react";
+import { categoryProducts, filtertypes,filtertypesdata } from '@/utils/dummydata';
+import {BiSolidChevronDown} from 'react-icons/bi'
+import { useState,useEffect } from "react";
+import Filterdatalist from "./Filterdatalist";
 export default function Contentcategories() {
     const [showsort, setshowsort] = useState(false);
-    const [selectedfilter, setselectedfilter] = useState(1)
+    const [selectedfilter, setselectedfilter] = useState(1);
+    const [checkedmenus, setcheckedmenus] = useState([]);
+    const [filtercount, setfiltercount] = useState(5);
+    const [filtertypes, setfiltertypes] = useState(filtertypesdata);
+    const [isfilterbaropen, setisfilterbaropen] = useState(false);
+
+   
+    
+   
+  
+    const handleButtonClick = () => {
+      setisfilterbaropen(!isfilterbaropen);
+    };
+  
+
+    const handleCheckboxChange = (index) => {
+      const isChecked = checkedmenus.includes(index);
+    
+      if (!isChecked) {
+        setcheckedmenus([index]);
+      } else {
+        setcheckedmenus([]);
+      }
+    };
+    
+    const isVisible = (index) => checkedmenus.includes(index);
+
+    const handelshowmore = (index) => {
+       const lengths = filtertypes[index].subcategory.length
+       setfiltercount(lengths)
+      };
+    
+      const handelshowless = (index) => {
+      setfiltercount(5)
+      };
+    
+
+
     return (
         <div className='w-full'>
             <div className='w-full flex'>
@@ -16,7 +55,7 @@ export default function Contentcategories() {
                     <div className='flex items-center gap-2 py-1 px-[6px] bg-button-secondary rounded-sm font-[500] text-sm shadow-sm'><FaXmark className=' cursor-pointer text-xs' />Floral </div>
                 </div>
                 <div className='w-3/12 flex gap-2 context justify-between relative '>
-                    <button className=' cursor-pointer flex items-center gap-x-2 font-semibold rounded-sm border px-2 bg-white text-opacity-[78%]'>
+                    <button className=' cursor-pointer flex items-center gap-x-2 font-semibold rounded-sm border px-2 bg-white text-opacity-[78%]' onClick={handleButtonClick}>
                         <HiBars3 /> More filters
                     </button>
 
@@ -54,6 +93,46 @@ export default function Contentcategories() {
                     ))
                 }
             </div>
+
+
+          <div className={`fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm w-[350px] p-4 top-0 z-30 rounded-tl-[28px] border py-3 px-4  context ${isfilterbaropen ? 'block' : 'hidden'}`}>
+            <div className="py-3 px-3 w-full flex gap-x-4 border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700]">
+            <FaXmark className=" cursor-pointer" onClick={() => setisfilterbaropen(false)}/> Filters
+            </div>
+
+            <div className="">
+            {
+                filtertypes.map((items, index) => (
+          <div className='w-full flex flex-col  gap-y-2 py-4  border-b border-theme-footer-bg  border-opacity-[40%] context px-3' key={index}>
+            <div className=' cursor-pointer' onClick={() => handleCheckboxChange(index)}>
+              <div className=' flex  items-center cursor-pointer'>
+                <div>
+                  <p className=' text-xl font-[600] mb-0'>{items.title}</p>
+                </div>
+
+                <button className='text-xl ml-auto'><BiSolidChevronDown className={` transition-all duration-75 ${isVisible(index) && ' rotate-180'}`} /></button>
+
+              </div>
+            </div>
+            <div className={`${isVisible(index) ? 'block' : 'hidden'}`}>
+              <Filterdatalist subcategory={items.subcategory} showCount={filtercount} indexing={index}  onShowMore={() => handelshowmore(index)} onShowLess={() => handelshowless(index)}/>
+
+             
+            </div>
+            
+
+          </div>
+        ))
+      }
+      
+            </div>
+
+            <div className="w-full flex items-center gap-x-4 py-3">
+                <button className="w-4/12 border border-[#000000] text-text-secondary text-lg font-[300] py-1 rounded-[22px]">Reset</button>
+                <button className="w-8/12 border bg-[#F8B43A] text-text-secondary text-lg font-[500] py-1 rounded-[22px] ">Apply filter</button>
+              </div>
+          </div>
+
         </div>
     )
 }

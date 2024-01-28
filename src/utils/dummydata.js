@@ -595,3 +595,181 @@ export const filtertypes =[
     }
 ]
 
+
+export const filtertypesdata = [
+    {
+        title : 'Colour',
+        subcategory : [
+            {
+                title : 'Red'
+            },
+            {
+                title : 'white'
+            },
+            {
+                title : 'Black'
+            },
+            {
+                title : 'Green'
+            },
+            {
+                title : 'Coral'
+            },
+            {
+                title : 'Blue'
+            },
+            {
+                title : 'orange'
+            },
+            {
+                title : 'Yellow'
+            },
+            {
+                title : 'Brown'
+            },
+            {
+                title : 'Pink'
+            },
+        ]
+    },
+    {
+        title : 'Sleeve Length',
+        subcategory : [
+            {
+                title : 'Red'
+            },
+            {
+                title : 'white'
+            },
+            {
+                title : 'Black'
+            },
+            {
+                title : 'Green'
+            },
+            {
+                title : 'Coral'
+            },
+            {
+                title : 'Blue'
+            },
+            {
+                title : 'orange'
+            },
+            {
+                title : 'Yellow'
+            },
+            {
+                title : 'Brown'
+            },
+            {
+                title : 'Pink'
+            },
+        ]
+    },
+    {
+        title : 'Size',
+        subcategory : [
+            {
+                title : 'Red'
+            },
+            {
+                title : 'white'
+            },
+            {
+                title : 'Black'
+            },
+            {
+                title : 'Green'
+            },
+            {
+                title : 'Coral'
+            },
+            {
+                title : 'Blue'
+            },
+            {
+                title : 'orange'
+            },
+            {
+                title : 'Yellow'
+            },
+            {
+                title : 'Brown'
+            },
+            {
+                title : 'Pink'
+            },
+        ]
+    },
+    {
+        title : 'Material',
+        subcategory : [
+            {
+                title : 'Red'
+            },
+            {
+                title : 'white'
+            },
+            {
+                title : 'Black'
+            },
+            {
+                title : 'Green'
+            },
+            {
+                title : 'Coral'
+            },
+            {
+                title : 'Blue'
+            },
+            {
+                title : 'orange'
+            },
+            {
+                title : 'Yellow'
+            },
+            {
+                title : 'Brown'
+            },
+            {
+                title : 'Pink'
+            },
+        ]
+    },
+    {
+        title : 'Style',
+        subcategory : [
+            {
+                title : 'Red'
+            },
+            {
+                title : 'white'
+            },
+            {
+                title : 'Black'
+            },
+            {
+                title : 'Green'
+            },
+            {
+                title : 'Coral'
+            },
+            {
+                title : 'Blue'
+            },
+            {
+                title : 'orange'
+            },
+            {
+                title : 'Yellow'
+            },
+            {
+                title : 'Brown'
+            },
+            {
+                title : 'Pink'
+            },
+        ]
+    },
+]

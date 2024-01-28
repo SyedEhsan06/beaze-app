@@ -49,7 +49,7 @@
   text-shadow: 1px 1px 2px rgba(255, 234, 0, 1);
 }
 
-/* for swipper */
+
 
 
 /* 
@@ -112,6 +112,8 @@ input[type="checkbox"]:checked::before {
   font-size: 14px; 
   color: #000000; 
 }
+
+
 
 
 @tailwind base;
