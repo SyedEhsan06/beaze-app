@@ -64,23 +64,32 @@ export default function Productslider({ data }) {
         >
           {explore?.map((pitems, pindex) => (
             <SwiperSlide key={pindex}>
-              <div className=" w-full cursor-pointer rounded h-auto">
-                <div className="w-full  xl  rounded-2xl">
+              <div className=" w-full cursor-pointer rounded h-auto group">
+
+
+                <div className='  cursor-pointer   relative   h-[286px] w-full overflow-hidden rounded-[19px] group-hover:shadow-gray-950  hover:shadow transition-all duration-150 '>
+
                   {pitems.img ? (
-                    <img
+                    <Image
                       src={
                         pitems.img === "categoryimage"
                           ? "/images/web/product/notfound.png"
                           : pitems.img
                       }
-                      className="w-[100%] rounded-2xl"
-                    ></img>
+                      alt="Your Image"
+                      layout="fill"
+                      objectFit="cover"
+                    ></Image>
                   ) : (
-                    <img
-                      src="/images/web/product/notfound.png"
-                      className="w-[100%] rounded-2xl"
-                    ></img>
+                    <Image
+                      src={`/images/web/product/notfound.png`}
+                      alt="Your Image"
+                      layout="fill"
+                      objectFit="cover"
+                    />
                   )}
+
+
                 </div>
                 <p className="mb-0 context py-2 font-semibold capitalize text-center text-xl">
                   {pitems.name}
@@ -116,8 +125,8 @@ export default function Productslider({ data }) {
         >
           {best?.map((pitems, pindex) => (
             <SwiperSlide key={pindex}>
-              <div className=" w-full cursor-pointer rounded h-auto">
-                <div className="w-full  xl  rounded-2xl">
+              <div className=" w-full cursor-pointer rounded h-auto group">
+                {/* <div className="w-full  xl  rounded-2xl">
                   {pitems.img ? (
                     <img
                       src={
@@ -133,6 +142,30 @@ export default function Productslider({ data }) {
                       className="w-[100%] rounded-2xl"
                     ></img>
                   )}
+                </div> */}
+                <div className='  cursor-pointer   relative   h-[286px] w-full overflow-hidden rounded-[19px] group-hover:shadow-gray-950  hover:shadow transition-all duration-150 '>
+
+                  {pitems.img ? (
+                    <Image
+                      src={
+                        pitems.img === "categoryimage"
+                          ? "/images/web/product/notfound.png"
+                          : pitems.img
+                      }
+                      alt="Your Image"
+                      layout="fill"
+                      objectFit="cover"
+                    ></Image>
+                  ) : (
+                    <Image
+                      src={`/images/web/product/notfound.png`}
+                      alt="Your Image"
+                      layout="fill"
+                      objectFit="cover"
+                    />
+                  )}
+
+
                 </div>
                 <p className="mb-0 context py-2 font-semibold capitalize text-center text-xl">
                   {pitems.name}

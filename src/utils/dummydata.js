@@ -515,18 +515,8 @@ export const categoriesdata = [
             {
                 title : 'Tops & Blouses'
             },
-            {
-                title : 'Shorts & Skirts'
-            },
-            {
-                title : 'Jackets and Overalls'
-            },
-            {
-                title : 'Jeans & Denims'
-            },
-            {
-                title : 'Dresses & Gowns'
-            },
+            
+           
         ]
     }
 ]
@@ -746,30 +736,7 @@ export const filtertypesdata = [
             {
                 title : 'white'
             },
-            {
-                title : 'Black'
-            },
-            {
-                title : 'Green'
-            },
-            {
-                title : 'Coral'
-            },
-            {
-                title : 'Blue'
-            },
-            {
-                title : 'orange'
-            },
-            {
-                title : 'Yellow'
-            },
-            {
-                title : 'Brown'
-            },
-            {
-                title : 'Pink'
-            },
+           
         ]
     },
 ]

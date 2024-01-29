@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Filterdatalist({ subcategory, showCount, indexing, onShowMore, onShowLess }) {
+export default function Sidemenufilterlist({ subcategory, showCount, indexing, onShowMore, onShowLess }) {
     return (
         <div>
             {subcategory.slice(0, showCount).map((item, index) => (

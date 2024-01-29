@@ -13,7 +13,7 @@ export default function Footermenu() {
               <ul className="">
                 {
                   items.menus.map((menuitem, menuindex) => (
-                    <li className="text-white text-opacity-[75%] text-lg font-[400] mt-4" key={menuindex}><Link href={menuitem.link}>{menuitem.name}</Link></li>
+                    <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]" key={menuindex}><Link href={menuitem.link}>{menuitem.name}</Link></li>
                   ))
                 }
               </ul>

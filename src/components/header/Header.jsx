@@ -56,8 +56,8 @@ export default function Header() {
             <nav className={` showmenu  z-10 w-full shadow py-2 transition-all hidden lg:block duration-150 ${scrollLength > 620 ? 'fixed top-0 left-0 bg-white border z-20 ' : ' absolute top-0 left-0  bg-white bg-opacity-[50%] linkshdow'}`}>
                 <ul className="px-3  flex items-center m-0  justify-between text-[20px] xl:[24px] ">
                     <li className='px-2'>
-                        <Image src="/images/logo.png" width={60} height={60} alt="logo"
-                        />
+                       <Link href={'/'}> <Image src="/images/logo.png" width={60} height={60} alt="logo"/></Link>
+                   
                     </li>
                     <li className={`context showmenu   px-5 duration-75 transition-all cursor-pointer ${showmenu ? 'bg-white  rounded-2xl font-[800]' : 'font-semibold'}`} onClick={() => setshowmenu(!showmenu)} >Shop</li>
 
