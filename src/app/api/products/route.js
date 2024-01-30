@@ -1,13 +1,21 @@
 import { connectToDb } from '@/lib/utils';
 import Product from '@/lib/models/products';
 
-connectToDb();
 
 export async function GET(req) {
+    await connectToDb(); 
     try {
-        const queryParams = req.url.split('?')[1];
+        let queryParams = req.url.split('?')[1];
         const queryObject = {};
-
+        console.log(queryParams);
+        queryParams=decodeURIComponent(queryParams);
+        if(queryParams=="Women%E2%80%99s%20Clothes"){
+            queryParams="category=Women%27s%20Clothes"
+        }
+        else if (queryParams=="Men%E2%80%99s%20Clothes"){
+            queryParams="category=Men%27s%20Clothes"
+        }
+        console.log(queryParams);
         if (queryParams) {
             queryParams.split('&').forEach(param => {
                 const [key, value] = param.split('=');
@@ -15,6 +23,7 @@ export async function GET(req) {
             });
         }
 
+        
         let products;
 
         if (queryObject.category && queryObject.subcategory) {
@@ -23,6 +32,7 @@ export async function GET(req) {
                 subcategory: queryObject.subcategory,
             });
         } else if (queryObject.category) {
+            console.log(queryObject.category)
             products = await Product.find({ category: queryObject.category });
         } else if (queryObject.subcategory) {
             products = await Product.find({ subcategory: queryObject.subcategory });

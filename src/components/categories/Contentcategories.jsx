@@ -7,7 +7,9 @@ import { BiSolidChevronDown } from 'react-icons/bi'
 import { useState, useEffect,useRef } from "react";
 import Filterdatalist from "./Filterdatalist";
 import Image from "next/image";
-export default function Contentcategories() {
+import { fetchData } from "@/utils/apicall";
+import axios from "axios";
+export default function Contentcategories({params}) {
   const [showsort, setshowsort] = useState(false);
   const [selectedfilter, setselectedfilter] = useState(1);
   const [checkedmenus, setcheckedmenus] = useState([]);
@@ -15,7 +17,24 @@ export default function Contentcategories() {
   const [filtertypes, setfiltertypes] = useState(filtertypesdata);
   const [isfilterbaropen, setisfilterbaropen] = useState(false);
   const divRef = useRef();
-  
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchDataAsync = async () => {
+      try {
+        let slug = decodeURIComponent(params.slug);        
+        // const encodedString = slug.replace("'", "%27").replace(" ", "%20");
+        const response = await axios.get(`http://localhost:3000/api/products?${params?.type}=${slug}`);
+        setData(response?.data);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    
+    fetchDataAsync();
+  }, []);
+
+  // console.log(data);
 
   useEffect(() => {
     const handleBodyClick = (event) => {
@@ -115,20 +134,21 @@ export default function Contentcategories() {
 
       <div className='mt-5 grid grid-cols-4 gap-8 context'>
         {
-          categoryProducts.map((items, index) => (
+          data?.products?.map((items, index) => (
             <div key={index} className=" group relative">
               <div className=' flex flex-col text-[#03071E]'>
                 <div className='   cursor-pointer  transition-all duration-100 relative rounded-[6px]  group-hover:opacity-50 h-[200px] w-full overflow-hidden'>
                   {/* <img src={`/images/web/categories/${items.img}`} alt="" className="h-[100%] w-[100%]" /> */}
                   <Image
-                    src={`/images/web/categories/${items.img}`}
+                    // src={`/images/web/categories/${items.img}`}
+            src={`${items?.images[0]}`}
                     alt="Your Image"
                     layout="fill"
                     objectFit="cover" 
                   />
 
                 </div>
-                <h6 className=' font-[700]  text-[1.1rem] mt-2  leading-[1rem] '>{items.pname}</h6>
+                <h6 className=' font-[700]  text-[1.1rem] mt-2  leading-[1rem] '>{items.title}</h6>
                 <p className='py-1 text-[1rem] font-[400]'>Rs {items.price}</p>
                 <button className=' transition-all duration-100 w-full py-2 text-center bg-theme-footer-bg rounded text-white text-lg font-[400] hover:bg-opacity-[80%]'>Add to Cart</button>
               </div>

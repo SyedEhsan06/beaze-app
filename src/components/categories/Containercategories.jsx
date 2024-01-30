@@ -2,7 +2,7 @@ import React from 'react'
 import Sidemenu from './Sidemenu'
 import Contentcategories from './Contentcategories'
 
-export default function Containercategories() {
+export default function Containercategories({params}) {
   
   return (
     <div className='w-full flex '>
@@ -10,7 +10,7 @@ export default function Containercategories() {
         <Sidemenu />
       </div>
       <div className='w-[78%] pt-5 pb-9 px-8 bg-gray-50'>
-        <Contentcategories />
+        <Contentcategories params={params} />
       </div>
     </div>
   )
