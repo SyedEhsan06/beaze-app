@@ -148,7 +148,9 @@ export default function Contentcategories({params}) {
                   />
 
                 </div>
-                <h6 className=' font-[700]  text-[1.1rem] mt-2  leading-[1rem] '>{items.title}</h6>
+                <h6 className=' font-[700]  text-[1.1rem] mt-2  leading-[1rem] '>{
+                  items.title.length > 20 ? items.title.slice(0, 20) + '...' : items.title
+                }</h6>
                 <p className='py-1 text-[1rem] font-[400]'>Rs {items.price}</p>
                 <button className=' transition-all duration-100 w-full py-2 text-center bg-theme-footer-bg rounded text-white text-lg font-[400] hover:bg-opacity-[80%]'>Add to Cart</button>
               </div>
