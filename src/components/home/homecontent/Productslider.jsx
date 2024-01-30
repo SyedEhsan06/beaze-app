@@ -6,6 +6,7 @@ import { Pagination } from "swiper/modules";
 import { homesliderdata } from "@/utils/dummydata";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Productslider({ data }) {
   const [best, setBest] = useState([]);
@@ -35,7 +36,15 @@ export default function Productslider({ data }) {
       setExplore([...exploreCategory, ...exploreSubCategories]);
     }
   }, [data]);
-
+  const router = useRouter();
+  const handleFetch = (item) => {
+      if(item.subcategories===undefined){
+          router.push(`/products/subcategory/${item.name}`)
+  }
+  else{
+      router.push(`/products/category/${item.name}`)
+  }
+  }
   return (
     <>
       <div className="lg:px-8 px-4  mb-16">
@@ -64,7 +73,10 @@ export default function Productslider({ data }) {
         >
           {explore?.map((pitems, pindex) => (
             <SwiperSlide key={pindex}>
-              <div className=" w-full cursor-pointer rounded h-auto group">
+              <div className=" w-full cursor-pointer rounded h-auto group"
+              onClick={()=>handleFetch(pitems)}
+              
+              >
 
 
                 <div className='  cursor-pointer   relative   h-[286px] w-full overflow-hidden rounded-[19px] group-hover:shadow-gray-950  hover:shadow transition-all duration-150 '>
@@ -125,24 +137,9 @@ export default function Productslider({ data }) {
         >
           {best?.map((pitems, pindex) => (
             <SwiperSlide key={pindex}>
-              <div className=" w-full cursor-pointer rounded h-auto group">
-                {/* <div className="w-full  xl  rounded-2xl">
-                  {pitems.img ? (
-                    <img
-                      src={
-                        pitems.img === "categoryimage"
-                          ? "/images/web/product/notfound.png"
-                          : pitems.img
-                      }
-                      className="w-[100%] rounded-2xl"
-                    ></img>
-                  ) : (
-                    <img
-                      src="/images/web/product/notfound.png"
-                      className="w-[100%] rounded-2xl"
-                    ></img>
-                  )}
-                </div> */}
+              <div className=" w-full cursor-pointer rounded h-auto group"
+              onClick={()=>handleFetch(pitems)}
+              >
                 <div className='  cursor-pointer   relative   h-[286px] w-full overflow-hidden rounded-[19px] group-hover:shadow-gray-950  hover:shadow transition-all duration-150 '>
 
                   {pitems.img ? (
