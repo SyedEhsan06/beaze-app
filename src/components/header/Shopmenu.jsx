@@ -13,7 +13,7 @@ export default function Shopmenu({ meudata }) {
             pathname: `/products/category/${items.name}`,
           }}>
             <div className="flex items-center gap-x-2 showmenu ">
-              <div className="w-3/12  cursor-pointer   relative   h-[60px] overflow-hidden rounded-[7px]">
+              <div className="w-3/12  cursor-pointer   relative   h-[70px] overflow-hidden rounded-[7px]">
                 {items.img ? (
                   <Image
                     src={`/images/web/shopmenu/${items.img}.jpg`}

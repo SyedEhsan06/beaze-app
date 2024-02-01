@@ -11,7 +11,7 @@ export default function Bannercontent() {
       };
     return (
         <>
-            <h1 className=" mt-[70px] mb-0 headtext font-[800] text-[100px] md:text-[150px] uppercase text-white space-x-1 text-with-shadow">Beaze</h1>
+            <h1 className=" mt-[20px] mb-0 headtext font-[800] text-[100px] md:text-[150px] uppercase text-white space-x-1 text-with-shadow">Beaze</h1>
 
             <div className="">
               <div className="flex justify-center">

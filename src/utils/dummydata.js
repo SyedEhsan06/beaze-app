@@ -740,3 +740,62 @@ export const filtertypesdata = [
         ]
     },
 ]
+// serchbar
+
+export const recentsearch = [
+    {
+        title  :'Denim'
+    },
+    {
+        title  :'Crop Tops'
+    },
+    {
+        title  :'Floral Tshirts'
+    },
+    {
+        title  :'Kids Pants'
+    }
+   
+]
+
+
+export const popularsearches = [
+    {
+        title  :'Little Black Dress'
+    },
+    {
+        title  :'Slim Fit Shirts for Men'
+    },
+    {
+        title  :'Lace Tops'
+    },
+    {
+        title  :'V Neck'
+    }
+   
+]
+
+
+
+export const searchdatadummy= [
+    {
+        ptitle : 'Black Satin Dress with a Bust Belt',
+        price : 999,
+        img : '/images/web/product/bestseller/p1.jpg',
+        desc  :'Women’s Western Wear / Dresses /'
+    },
+    {
+        ptitle : 'Black Satin Dress with a Bust Belt',
+        price : 999,
+        img : '/images/web/product/bestseller/p2.jpg',
+        desc  :'Women’s Western Wear / Dresses /'
+    },
+    {
+        ptitle : 'Black Satin Dress with a Bust Belt',
+        price : 999,
+        img : '/images/web/product/bestseller/p3.jpg',
+        desc  :'Women’s Western Wear / Dresses /'
+    },
+  
+   
+]

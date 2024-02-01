@@ -148,8 +148,10 @@ export default function Contentcategories({params}) {
                   />
 
                 </div>
-                <h6 className=' font-[700]  text-[1.1rem] mt-2  leading-[1rem] '>{
-                  items.title.length > 20 ? items.title.slice(0, 20) + '...' : items.title
+                <h6 className=' font-[700]  text-[1.1rem] mt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis '>
+                  {/* items.title.length > 20 ? items.title.slice(0, 20) + '...' : items.title */}
+                {
+                 items.title
                 }</h6>
                 <p className='py-1 text-[1rem] font-[400]'>Rs {items.price}</p>
                 <button className=' transition-all duration-100 w-full py-2 text-center bg-theme-footer-bg rounded text-white text-lg font-[400] hover:bg-opacity-[80%]'>Add to Cart</button>
@@ -173,7 +175,7 @@ export default function Contentcategories({params}) {
                 <div className=' cursor-pointer' onClick={() => handleCheckboxChange(index)}>
                   <div className=' flex  items-center cursor-pointer'>
                     <div>
-                      <p className=' text-xl font-[600] mb-0'>{items.title}</p>
+                      <p className=' text-xl font-[600] mb-0 w-full '>{items.title}</p>
                     </div>
 
                     <button className='text-xl ml-auto'><BiSolidChevronDown className={` transition-all duration-75 ${isVisible(index) && ' rotate-180'}`} /></button>

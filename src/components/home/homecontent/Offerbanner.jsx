@@ -4,7 +4,7 @@ export default function Offerbanner() {
     return (
         <div className="w-full  relative mb-16">
             <div className="w-gull grid md:grid-cols-2 grid-cols-1 gap-2">
-                <div className="cursor-pointer relative  w-full overflow-hiddenh-[500px] md:block hidden">
+                <div className="cursor-pointer relative  w-full overflow-hiddenh-[660px] md:block hidden">
 
                     <Image
                         src={`/images/web/offerbanimage.jpg`}
@@ -17,8 +17,8 @@ export default function Offerbanner() {
 
 
 
-                <div className="w-full flex flex-col gap-y-2 h-[500px]">
-                    <div className='  cursor-pointer   relative   h-[245px] w-full overflow-hidden'>
+                <div className="w-full flex flex-col gap-y-3 h-[660px]">
+                    <div className='  cursor-pointer   relative   h-[322px] w-full overflow-hidden'>
 
                         <Image
                             src={`/images/web/bannerquotation.jpg`}
@@ -28,7 +28,7 @@ export default function Offerbanner() {
                         />
 
                     </div>
-                    <div className='  cursor-pointer   relative   h-[245px] w-full overflow-hidden'>
+                    <div className='  cursor-pointer   relative   h-[322px] w-full overflow-hidden'>
 
                         <Image
                             src={`/images/web/banneroffer.jpg`}

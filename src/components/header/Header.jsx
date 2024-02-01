@@ -8,6 +8,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import Shopmenu from './Shopmenu';
 import { FaXmark, FaChevronLeft } from "react-icons/fa6";
 import { fetchData } from '@/utils/apicall';
+import { popularsearches, recentsearch, searchdatadummy } from '@/utils/dummydata';
 
 
 export default function Header() {
@@ -15,7 +16,8 @@ export default function Header() {
     const [showmenu, setshowmenu] = useState(false);
     const [showhide, setshowhide] = useState(0);
     const [showshop, setshowshop] = useState(false);
-    const [shopmenudata, setshopmenudata] = useState([])
+    const [shopmenudata, setshopmenudata] = useState([]);
+    const [searchdata, setsearchdata] = useState([])
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => {
@@ -44,32 +46,110 @@ export default function Header() {
     }
     useEffect(() => {
         document.addEventListener('click', function (event) {
-        if(!event.target.className.includes('showmenu')){
-            setshowmenu(false)
-        }
+            if (!event.target.className.includes('showmenu')) {
+                setshowmenu(false)
+            }
         });
     }
         , [])
 
+    const handelsearch = (val) => {
+        if (val.length >= 3) {
+            setshowhide(4)
+            const searchTerm = val.trim().toLowerCase();
+            const filtreddata = searchdatadummy.filter(item => {
+                return item.ptitle.toLowerCase().includes(searchTerm);
+            });
+            setsearchdata(filtreddata)
+        } else {
+            setshowhide(0);
+            setsearchdata([])
+        }
+    }
+
     return (
-        <header  >
-            <nav className={` showmenu  z-10 w-full shadow py-2 transition-all hidden lg:block duration-150 ${scrollLength > 620 ? 'fixed top-0 left-0 bg-white border z-20 ' : ' absolute top-0 left-0  bg-white bg-opacity-[50%] linkshdow'}`}>
+        <header className={`h-[70px] showmenu  z-10 w-full shadow py-2 transition-all duration-150 ${scrollLength > 620 ? 'fixed top-0 left-0 bg-white border z-20 ' : ' absolute top-0 left-0  bg-white bg-opacity-[50%] linkshdow'}`}>
+            <nav className='lg:block hidden' >
                 <ul className="px-3  flex items-center m-0  justify-between text-[20px] xl:[24px] ">
                     <li className='px-2'>
-                       <Link href={'/'}> <Image src="/images/logo.png" width={60} height={60} alt="logo"/></Link>
-                   
+                        <Link href={'/'}> <Image src="/images/logo.png" width={60} height={60} alt="logo" /></Link>
+
                     </li>
                     <li className={`context showmenu   px-5 duration-75 transition-all cursor-pointer ${showmenu ? 'bg-white  rounded-2xl font-[800]' : 'font-semibold'}`} onClick={() => setshowmenu(!showmenu)} >Shop</li>
 
                     <li className='context font-semibold px-2'><Link href={'/'}>About </Link> </li>
-                    <li className='w-[350px] xl:w-[400px] flex  bg-white rounded shadow-sm items-center justify-center px-2 border gap-3'>
-                        <div className='w-1/12 text-[#9B9494] font-bold'>
+                    <li className='w-[350px] xl:w-[400px] flex  bg-white rounded shadow-sm items-center justify-center px-2 border gap-3 relative transition-all duration-150 '>
+                        <div className='w-[8.33%] text-[#9B9494] font-bold'>
                             <button className='px-2'>
                                 <IoSearch size={20} />
                             </button>
                         </div>
-                        <div className='w-11/12'>
-                            <input type="text" className='w-full context font text-[16px] focus:outline-none py-[8px] text-[#03071E] ' placeholder='Search Tops, Jeans, Blazers, suspenders' />
+                        <div className={`w-10/12 transition-all duration-150 ${showhide == 4 ? 'w-10/12' : 'w-11/12'}`}>
+                            <input type="text" className='w-full context font text-[16px] focus:outline-none py-[8px] text-[#03071E] ' placeholder='Search Tops, Jeans, Blazers, suspenders' onChange={(e) => handelsearch(e.target.value)} />
+                        </div>
+
+                        <div className={`w-1/12 text-[#9B9494] font-bold transition-all duration-150 ${showhide == 4 ? 'w-1/12' : 'hidden'}`}>
+                            <button className='px-2 text-[#2A0141]' onClick={() => setshowhide(0)}>
+                                <FaXmark size={20} />
+                            </button>
+                        </div>
+
+                        <div className={`w-full absolute border shadow-sm text-sm bg-white top-[105%] left-0 rounded-[4px]  context ${showhide == 4 ? 'block' : 'hidden'}`}>
+
+                            <div className={`pt-4 ${searchdata.length >= 1 ? 'block' : 'hidden'}`}>
+                                <h4 className='text-lg font-semibold px-3'>Top Results</h4>
+
+                                <div>
+                                    {
+                                        searchdata.map((items, index) => (
+                                            <div className='py-4 px-4 flex gap-x-5  border-b-[0.5px] border-[#DBD9D9]' key={index}>
+                                                <div className='w-4/12  relative   h-[105px]  overflow-hidden rounded-[8px]'>
+                                                    <Image
+                                                        src={
+                                                            items.img ? items.img : "/images/web/product/notfound.png"
+                                                        }
+                                                        alt="Your Image"
+                                                        layout="fill"
+                                                        objectFit="cover"
+                                                    ></Image>
+                                                </div>
+                                                <div className='w-8/12 flex flex-col py-2 '>
+                                                    <h5 className=' text-lg font-[400] leading-[1rem]'>{items.ptitle}</h5>
+                                                    <p className=' text-sm font-[300] mt-2 '> Rs {items.price}</p>
+                                                    <p className=' text-xs font-[200] mt-auto'>{items.desc}</p>
+                                                </div>
+
+                                            </div>
+                                        ))
+                                    }
+
+                                    <div className='w-full'>
+                                        <button className=' bg-theme-footer-bg capitalize  font-[600] text-xl text-center text-white py-3 w-full rounded-bl-[4px]  rounded-br-[4px] '>View All Results</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={`px-3 py-4 ${searchdata.length >= 1 ? 'hidden' : 'block'}`}>
+                                <div className='pb-6'>
+                                    <h4 className='text-lg font-semibold'>Recent Searches</h4>
+                                    <div className='w-full flex pt-2  gap-3 flex-wrap items-center'>
+                                        {
+                                            recentsearch.map((items, index) => (
+                                                <div key={index} className='px-3 py-1 bg-[#F0F0F0] text-[#00000096] font-[400] border-[0.5px] border-[#98989880] border-opacity-[50%] rounded-[4px] text-sm] capitalize cursor-pointer'>{items.title}</div>
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                                <div className='pb-6'>
+                                    <h4 className='text-lg font-semibold'>Popular Searches</h4>
+                                    <div className='w-full flex pt-2  gap-3 flex-wrap items-center'>
+                                        {
+                                            popularsearches.map((items, index) => (
+                                                <div key={index} className='px-3 py-1 bg-[#F0F0F0] text-[#00000096] font-[400] border-[0.5px] border-[#98989880] border-opacity-[50%] rounded-[4px] text-sm] capitalize cursor-pointer'>{items.title}</div>
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </li>
 
@@ -83,7 +163,7 @@ export default function Header() {
 
                 {
                     showmenu && <div className="absolute showmenu bg-[#EBE9DB] pt-8 pb-16 px-40 w-full left-0 top-[100%] transition-all duration-75">
-                        <Shopmenu   meudata={shopmenudata} />
+                        <Shopmenu meudata={shopmenudata} />
                     </div>
 
                 }
@@ -92,7 +172,7 @@ export default function Header() {
 
 
 
-            <nav className={`w-full shadow py-2 transition-all z-20 block lg:hidden duration-150 ${scrollLength > 620 ? 'fixed top-0 left-0 bg-white border z-20 ' : ' absolute top-0 left-0  bg-white bg-opacity-[50%]'}`}>
+            <nav className={`block lg:hidden`}>
                 <ul className="px-4  flex items-center m-0  justify-between text-[24px]">
                     <li className=''>
                         <Image src="/images/logo.png" width={60} height={60} alt="logo"

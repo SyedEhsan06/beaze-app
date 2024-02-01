@@ -2,7 +2,8 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Pagination } from 'swiper/modules';
+import 'swiper/swiper-bundle.css';
+import { Pagination,Keyboard } from 'swiper/modules';
 import { teazeproduct } from '@/utils/dummydata';
 import Image from 'next/image';
 
@@ -16,7 +17,8 @@ export default function Teazeslider() {
                         <Swiper
                             centeredSlides={false}
                             pagination={false}
-                            modules={[Pagination]}
+                            modules={[Pagination,Keyboard]}
+                             keyboard={{ enabled: true }}
                             breakpoints={{
                                 0: {
                                     slidesPerView: 1.2,
@@ -44,7 +46,7 @@ export default function Teazeslider() {
                                             </div> */}
 
 
-                                            <div className='  cursor-pointer   relative   h-[286px] w-full overflow-hidden rounded-[19px] group-hover:shadow-gray-950  hover:shadow transition-all duration-150 '>
+                                            <div className='  cursor-pointer   relative   h-[340px] w-full overflow-hidden rounded-[19px] group-hover:shadow-gray-950  hover:shadow transition-all duration-150 '>
 
                                                 {
                                                     pitems.img ? <Image src={pitems.img} alt="Your Image"

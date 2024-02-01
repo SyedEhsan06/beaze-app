@@ -2,7 +2,8 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Pagination } from "swiper/modules";
+import 'swiper/swiper-bundle.css';
+import { Pagination,Keyboard} from "swiper/modules";
 import { homesliderdata } from "@/utils/dummydata";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -54,7 +55,8 @@ export default function Productslider({ data }) {
         <Swiper
           centeredSlides={false}
           pagination={false}
-          modules={[Pagination]}
+          modules={[Pagination,Keyboard]}
+          keyboard={{ enabled: true }}
           breakpoints={{
             0: {
               slidesPerView: 1.2,
@@ -79,7 +81,7 @@ export default function Productslider({ data }) {
               >
 
 
-                <div className='  cursor-pointer   relative   h-[286px] w-full overflow-hidden rounded-[19px] group-hover:shadow-gray-950  hover:shadow transition-all duration-150 '>
+                <div className='  cursor-pointer   relative   h-[340px] w-full overflow-hidden rounded-[19px] group-hover:shadow-gray-950  hover:shadow transition-all duration-150 '>
 
                   {pitems.img ? (
                     <Image
@@ -118,7 +120,8 @@ export default function Productslider({ data }) {
         <Swiper
           centeredSlides={false}
           pagination={false}
-          modules={[Pagination]}
+          modules={[Pagination,Keyboard]}
+          keyboard={{ enabled: true }}
           breakpoints={{
             0: {
               slidesPerView: 1.2,
@@ -140,7 +143,7 @@ export default function Productslider({ data }) {
               <div className=" w-full cursor-pointer rounded h-auto group"
               onClick={()=>handleFetch(pitems)}
               >
-                <div className='  cursor-pointer   relative   h-[286px] w-full overflow-hidden rounded-[19px] group-hover:shadow-gray-950  hover:shadow transition-all duration-150 '>
+                <div className='  cursor-pointer   relative   h-[340px] w-full overflow-hidden rounded-[19px] group-hover:shadow-gray-950  hover:shadow transition-all duration-150 '>
 
                   {pitems.img ? (
                     <Image
