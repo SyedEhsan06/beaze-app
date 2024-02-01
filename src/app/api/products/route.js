@@ -14,6 +14,11 @@ export async function GET(req) {
         }
         else if (queryParams=="Men%E2%80%99s%20Clothes"){
             queryParams="category=Men%27s%20Clothes"
+        }else if (queryParams.toLowerCase().includes("men")) {
+            queryParams = queryParams.replace(/men'?s?/gi, "Men's Clothes");
+        }
+        else if (queryParams.toLowerCase().includes("women")) {
+            queryParams = queryParams.replace(/women'?s?/gi, "Women's Clothes");
         }
         console.log(queryParams);
         if (queryParams) {
