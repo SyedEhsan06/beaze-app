@@ -8,7 +8,10 @@ import { useState, useEffect,useRef } from "react";
 import Filterdatalist from "./Filterdatalist";
 import Image from "next/image";
 import { fetchData } from "@/utils/apicall";
-import axios from "axios";
+import { Triangle } from 'react-loader-spinner'
+import Loader from "../loader/Loader";
+import { FaBars } from "react-icons/fa6";
+import Sidemenu from "./Sidemenu";
 export default function Contentcategories({params}) {
   const [showsort, setshowsort] = useState(false);
   const [selectedfilter, setselectedfilter] = useState(1);
@@ -16,23 +19,41 @@ export default function Contentcategories({params}) {
   const [filtercount, setfiltercount] = useState(5);
   const [filtertypes, setfiltertypes] = useState(filtertypesdata);
   const [isfilterbaropen, setisfilterbaropen] = useState(false);
+  const[loader,setloader] = useState(false);
+  const[showsidebar,setshowsidebar] = useState(false)
+  
   const divRef = useRef();
   const [data, setData] = useState([]);
   useEffect(() => {
-    const fetchDataAsync = async () => {
-      try {
-        let slug = decodeURIComponent(params.slug);        
-        // const encodedString = slug.replace("'", "%27").replace(" ", "%20");
-        const response = await axios.get(`http://localhost:3000/api/products?${params?.type}=${slug}`);
-        setData(response?.data);
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    // const fetchDataAsync = async () => {
+    //   try {
+    //     let slug = decodeURIComponent(params.slug);        
+    //     // const encodedString = slug.replace("'", "%27").replace(" ", "%20");
+    //     const response = await axios.get(`http://localhost:3000/api/products?${params?.type}=${slug}`);
+    //     setData(response?.data);
+    //     console.log(response.data);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
     
-    fetchDataAsync();
+    // fetchDataAsync();
+    handelfetchdata()
   }, []);
+
+
+  const handelfetchdata= async() => {
+    setloader(true)
+try{
+  let slug = decodeURIComponent(params.slug);    
+const response = await fetchData(`products?${params?.type}=${slug}`)
+setData(response);
+setloader(false)
+}catch(err){
+  console.log(err)
+  setloader(false)
+}
+  }
 
   // console.log(data);
 
@@ -95,8 +116,14 @@ export default function Contentcategories({params}) {
 
   return (
     <div className='w-full'>
-      <div className='w-full flex pt-3 pb-2 gap-x-4'>
-        <div className='w-8/12 flex gap-2 context text-text-secondary flex-wrap'>
+   
+      <div className='w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 '>
+        <div className='lg:w-8/12 w-full flex gap-2 context text-text-secondary flex-wrap '>
+        <div className="lg:hidden">
+      <button className=" p-3 rounded-full bg-white shadow-sm border">
+<FaBars size={20} onClick={() => setshowsidebar(true)}/>
+      </button>
+    </div>
           <div>
             <div className='flex items-center gap-2  px-[6px] bg-button-secondary rounded-sm font-[500] text-sm shadow-sm relative py-1'><FaXmark className=' cursor-pointer text-xs' />Crop Tops</div>
           </div>
@@ -106,8 +133,8 @@ export default function Contentcategories({params}) {
           </div>
 
         </div>
-        <div className='w-4/12 flex gap-3 context justify-between relative items-center '>
-          <div>
+        <div className='lg:w-4/12 w-full flex gap-3 context  lg:justify-between relative items-center '>
+          <div className="ml-auto lg:ml-0">
             <button className=' cursor-pointer flex items-center gap-x-2 font-semibold rounded-sm border px-4 bg-white text-opacity-[78%]' onClick={handleButtonClick}>
               <HiBars3 /><span className="mt-[2px]"> More filters</span>
             </button>
@@ -132,7 +159,9 @@ export default function Contentcategories({params}) {
         </div>
       </div>
 
-      <div className='mt-5 grid grid-cols-4 gap-8 context'>
+     <div className="mt-5">
+   {
+    loader ? <Loader/> :   <div className=' grid lg:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context'>
         {
           data?.products?.map((items, index) => (
             <div key={index} className=" group relative">
@@ -161,9 +190,11 @@ export default function Contentcategories({params}) {
           ))
         }
       </div>
+   }
 
+     </div>
 
-      <div className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm w-[350px] p-4 top-0 z-30 rounded-tl-[28px] border py-3 px-4  context ${isfilterbaropen ? 'block' : 'hidden'}`} ref={divRef}>
+      <div className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[350px] w-[80%] p-4 top-0 z-30 rounded-tl-[28px] border py-3 px-4  context ${isfilterbaropen ? 'block' : 'hidden'}`} ref={divRef}>
         <div className="py-3 px-3 w-full flex gap-x-4 border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700]">
           <FaXmark className=" cursor-pointer" onClick={() => setisfilterbaropen(false)} /> Filters
         </div>
@@ -199,6 +230,15 @@ export default function Contentcategories({params}) {
           <button className="w-4/12 border border-[#000000] text-text-secondary text-lg font-[300] py-1 rounded-[22px]">Reset</button>
           <button className="w-8/12 border bg-[#F8B43A] text-text-secondary text-lg font-[500] py-1 rounded-[22px] ">Apply filter</button>
         </div>
+      </div>
+
+      <div className={`your-specific-class fixed overflow-y-auto left-0 h-[100vh] bg-white shadow-sm lg:hidden w-[80%] p-4 top-0 z-30 rounded-tr-[28px] border py-3 px-3  context ${showsidebar ? 'block' : 'hidden'}`} ref={divRef}>
+      <div className="flex">
+        <button className="p-3 shadow-sm rounded-full ml-auto mr-2 bg-theme-footer-bg text-white" onClick={() => setshowsidebar(false)}>
+          <FaXmark size={20}/>
+        </button>
+      </div>
+        <Sidemenu/>
       </div>
 
     </div>
