@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-export default function Shopmenu({ meudata }) {
+export default function Shopmenu({ meudata,showhide }) {
   return (
     <div className="grid showmenu grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-x-8 md:gap-y-4 gap-x-5 gap-y-3">
       {meudata?.map((items, index) => (
@@ -11,7 +11,7 @@ export default function Shopmenu({ meudata }) {
         >
           <Link href={{
             pathname: `/products/category/${items.name}`,
-          }}>
+          }} onClick={() => showhide(0)}>
             <div className="flex items-center gap-x-2 showmenu ">
               <div className="w-3/12  cursor-pointer   relative   h-[70px] overflow-hidden rounded-[7px]">
                 {items.img ? (

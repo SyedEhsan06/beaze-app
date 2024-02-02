@@ -30,7 +30,7 @@ const subcategorySchema = new Schema({
         type: Boolean,
         default: false,
     },
-    filters: [filterSchema], 
+    subfilters: [filterSchema], // Include filterSchema here for subcategory-specific filters
 });
 
 const categorySchema = new Schema({
@@ -52,6 +52,7 @@ const categorySchema = new Schema({
         type: Boolean,
         default: false,
     },
+    commonfilters: [filterSchema],
     subcategories: [subcategorySchema],
 });
 
