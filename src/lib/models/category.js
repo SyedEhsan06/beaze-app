@@ -1,6 +1,17 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const filterSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    options: {
+        type: [String],
+        required: true,
+    },
+});
+
 const subcategorySchema = new Schema({
     name: {
         type: String,
@@ -19,6 +30,7 @@ const subcategorySchema = new Schema({
         type: Boolean,
         default: false,
     },
+    filters: [filterSchema], 
 });
 
 const categorySchema = new Schema({
@@ -43,6 +55,5 @@ const categorySchema = new Schema({
     subcategories: [subcategorySchema],
 });
 
-// const Category = mongoose.model("Category", categorySchema);
-const Category = mongoose?.models.Category || mongoose.model("Category", categorySchema);
+const Category = mongoose.models.Category || mongoose.model("Category", categorySchema);
 module.exports = Category;

@@ -7,7 +7,6 @@ export async function GET(req) {
     try {
         let queryParams = req.url.split('?')[1];
         const queryObject = {};
-        console.log(queryParams);
         queryParams=decodeURIComponent(queryParams);
         if(queryParams=="Women%E2%80%99s%20Clothes"){
             queryParams="category=Women%27s%20Clothes"
@@ -20,7 +19,6 @@ export async function GET(req) {
         else if (queryParams.toLowerCase().includes("women")) {
             queryParams = queryParams.replace(/women'?s?/gi, "Women's Clothes");
         }
-        console.log(queryParams);
         if (queryParams) {
             queryParams.split('&').forEach(param => {
                 const [key, value] = param.split('=');
@@ -37,7 +35,6 @@ export async function GET(req) {
                 subcategory: queryObject.subcategory,
             });
         } else if (queryObject.category) {
-            console.log(queryObject.category)
             products = await Product.find({ category: queryObject.category });
         } else if (queryObject.subcategory) {
             products = await Product.find({ subcategory: queryObject.subcategory });
@@ -52,19 +49,41 @@ export async function GET(req) {
                     { 'features.title': searchRegex },
                 ],
             });
-        } else if (queryObject.filter) {
-            const filterObject = {};
-            let filters = queryObject.filter.split(',');
-            filters.forEach(filter => {
-                const [key, value] = filter.split(':');
-                if (filterObject[key]) {
-                    filterObject[key].push(value);
-                } else {
-                    filterObject[key] = [value];
-                }
-            }); // Corrected placement of closing parenthesis
-            products = await Product.find(filterObject);
+        }else if (queryObject.type && (queryObject.color || queryObject.size || queryObject.material || queryObject.sleeve)) {
+            const filter = { category: queryObject.type };
+            
+            if (queryObject.color) {
+                const colors = queryObject.color.split(',');
+                filter['attributes.name'] = 'Colors';
+                filter['attributes.value'] = { $in: colors };
+            }
+            
+            if (queryObject.size) {
+                const sizes = queryObject.size.split(',');
+                filter['attributes.name'] = 'Sizes';
+                filter['attributes.value'] = { $in: sizes };
+            }
+            
+            if (queryObject.material) {
+                filter['attributes.name'] = 'Material';
+                filter['attributes.value'] = queryObject.material;
+            }
+            
+            if (queryObject.sleeve) {
+                filter['attributes.name'] = 'Sleeve';
+                filter['attributes.value'] = queryObject.sleeve;
+            }
+            
+            let filteredProd = Product.find(filter);
+            filteredProd = await filteredProd.exec(); // Execute the query
+            
+            return Response.json({ filteredProd, count: filteredProd.length });
         }
+        
+        
+        
+        
+        
         else {
             products = await Product.find({});
         }
@@ -76,22 +95,26 @@ export async function GET(req) {
     }
 }
 
-export async function POST(req) {
+export async function POST(req, res) {
+    await connectToDb(); 
+  
     try {
-        const data = await req.json();
-
-        const existingProduct = await Product.findOne({ productId: data.productId });
-
-        if (existingProduct) {
-            existingProduct.quantity += 1;
-            await existingProduct.save();
-            return new Response.json(existingProduct);
-        } else {
-            const products = await Product.insertMany(data);
-            return new Response.json(products);
-        }
+      const data = await req.json();
+  
+      const existingProduct = await Product.findOne({ 
+        productId: data.productId,
+      });
+        
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+        await existingProduct.save();
+        return Response.json(existingProduct);
+      } else {
+        const products = await Product.insertMany(data);
+        return Response.json(products);
+      }
     } catch (error) {
-        console.error('POST request error:', error);
-        return new Response(500, { error: 'Internal Server Error' });
+      console.error('POST request error:', error);
+      return Response.json({ error: 'Internal Server Error' });
     }
-}
+  }
