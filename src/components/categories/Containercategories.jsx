@@ -6,7 +6,7 @@ export default function Containercategories({params}) {
   
   return (
     <div className='w-full flex '>
-      <div className='lg:w-[22%] bg-white shadow hidden'>
+      <div className='lg:w-[22%] bg-white shadow hidden lg:block'>
         <Sidemenu />
       </div>
       <div className='lg:w-[78%] w-[100%] pt-5 pb-9 lg:px-8 px-4 bg-gray-50'>

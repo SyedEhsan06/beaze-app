@@ -8,7 +8,6 @@ import { useState, useEffect,useRef } from "react";
 import Filterdatalist from "./Filterdatalist";
 import Image from "next/image";
 import { fetchData } from "@/utils/apicall";
-import { Triangle } from 'react-loader-spinner'
 import Loader from "../loader/Loader";
 import { FaBars } from "react-icons/fa6";
 import Sidemenu from "./Sidemenu";
