@@ -104,9 +104,9 @@ const handelshowless = (index) => {
   setfiltercount(5);
 };
 
-useEffect(() => {
-  setfiltertypes(filterData);
-}, [data]);
+// useEffect(() => {
+//   setfiltertypes(filterData);
+// }, [data]);
 const handleFilterSelection = (Ftitle,selectedFields) => {
   // Do something with the selected fields
   console.log(Ftitle.

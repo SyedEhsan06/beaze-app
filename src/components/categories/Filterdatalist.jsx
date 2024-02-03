@@ -11,7 +11,7 @@ export default function Filterdatalist({ Ftitle, onFilterSelection, subcategory,
         setSelectedFilters(updatedSelectedFilters);
       
         // Call the callback function with the selected fields
-        onFilterSelection(Ftitle, updatedSelectedFilters);
+        // onFilterSelection(Ftitle, updatedSelectedFilters);
     };
 
     return (
