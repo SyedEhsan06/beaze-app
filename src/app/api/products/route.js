@@ -50,8 +50,11 @@ export async function GET(req) {
                 ],
             });
         }else if (queryObject.type && (queryObject.color || queryObject.size || queryObject.material || queryObject.sleeve)) {
-            const filter = { category: queryObject.type };
-            
+            const subcategory = queryObject.type.split(',').map(type => type.trim());
+            const filter = { subcategory: { $in: subcategory } };
+            if(queryObject.type=='category'){
+                filter['category'] = queryObject.category;
+            }
             if (queryObject.color) {
                 const colors = queryObject.color.split(',');
                 filter['attributes.name'] = 'Colors';
@@ -73,9 +76,13 @@ export async function GET(req) {
                 filter['attributes.name'] = 'Sleeve';
                 filter['attributes.value'] = queryObject.sleeve;
             }
-            
+            //only subcategory
+            if (queryObject.type && !queryObject.color && !queryObject.size && !queryObject.material && !queryObject.sleeve) {
+                console.log('subcategory', subcategory);
+                products = await Product.find({ subcategory: { $in: subcategory } });
+            }
             let filteredProd = Product.find(filter);
-            filteredProd = await filteredProd.exec(); // Execute the query
+            filteredProd = await filteredProd.exec(); 
             
             return Response.json({ filteredProd, count: filteredProd.length });
         }
