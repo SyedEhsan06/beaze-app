@@ -1,9 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
+import Loader from "../loader/Loader";
 
 export default function Shopmenu({ meudata,showhide }) {
   return (
     <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-x-8 md:gap-y-4 gap-x-5 gap-y-3">
+      {!meudata?<Loader/>:<>
       {meudata?.map((items, index) => (
         <div
           className="bg-white p-1   rounded-[7px] transition-all duration-75  border-transparent border hover:border-theme-footer-bg"
@@ -39,7 +41,7 @@ export default function Shopmenu({ meudata,showhide }) {
             </div>
           </Link>
         </div>
-      ))}
+      ))}</>}
     </div>
   );
 }
