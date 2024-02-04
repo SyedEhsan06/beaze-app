@@ -15,7 +15,9 @@ export default function Homepage() {
             try {
                 const result = await fetchData('category');
                 setData(result);
-                setloader(false)
+                if(result){
+                    setloader(false)
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setloader(false)

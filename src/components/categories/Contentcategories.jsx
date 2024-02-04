@@ -22,7 +22,7 @@ export default function Contentcategories({ params }) {
   const [checkedmenus, setcheckedmenus] = useState([]);
   const [filtercount, setfiltercount] = useState(5);
   const [filtertypes, setfiltertypes] = useState(filtertypesdata);
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState(true);
   const [showsidebar, setshowsidebar] = useState(false);
   const [showfilter, setshowfilter] = useState(false);
   const [showfilterbar, setshowfilterbar] = useState(false);
@@ -40,6 +40,9 @@ export default function Contentcategories({ params }) {
         console.log(process.env.NEXT_PUBLIC_API_URL);
         const response = await fetchData(`products?${params?.type}=${slug}`);
         setData(response);
+        if (response) {
+          setLoader(false);
+        }
         console.log(response);
       } catch (error) {
         console.log(error);

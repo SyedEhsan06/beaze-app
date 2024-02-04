@@ -271,7 +271,7 @@ const handelsearch = (val) => {
 
         {showmenu && (
           <div className="absolute showmenu bg-[#EBE9DB] pt-8 pb-16 px-40 w-full left-0 top-[100%] transition-all duration-75">
-            <Shopmenu meudata={shopmenudata} />
+            <Shopmenu meudata={shopmenudata}  />
           </div>
         )}
       </nav>
