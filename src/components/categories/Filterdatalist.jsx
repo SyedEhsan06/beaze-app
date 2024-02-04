@@ -1,5 +1,4 @@
 import React from 'react';
-
 export default function Filterdatalist({ Ftitle, onFilterSelection, subcategory, showCount, indexing, onShowMore, onShowLess }) {
     const [selectedFilters, setSelectedFilters] = React.useState([]);
 

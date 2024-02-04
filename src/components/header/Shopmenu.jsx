@@ -11,7 +11,7 @@ export default function Shopmenu({ meudata,showhide }) {
         >
           <Link href={{
             pathname: `/products/category/${items.name}`,
-          }} onClick={() => showhide(0)}>
+          }} >
             <div className="flex items-center gap-x-2 showmenu ">
               <div className="w-3/12  cursor-pointer   relative   h-[70px] overflow-hidden rounded-[7px]">
                 {items.img ? (

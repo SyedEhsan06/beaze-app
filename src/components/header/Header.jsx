@@ -103,7 +103,7 @@ const handelsearch = (val) => {
     };
 
     const timeoutId = setTimeout(() => {
-      if (search.length >= 3) {
+      if (search.length >= 2) {
         fetchdata();
       }
     }, 500);

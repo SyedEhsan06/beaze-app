@@ -1,6 +1,7 @@
 import axios from 'axios';
 
- const BASE_URL = "http://localhost:3000/api"
+ const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/api`;
+ console.log("BASE_URL",BASE_URL)
 // const BASE_URL = "https://beaze-app-git-main-syed-ehsans-projects.vercel.app/api"
 const axiosWithToken = () => {
   
