@@ -19,6 +19,7 @@ import axios from "axios";
 import Sidemenu from "./Sidemenu";
 import { useSelector } from "react-redux";
 import { selectCategoryProduct } from "@/redux/slices/productSlice";
+import { selectSubcategory } from "@/redux/slices/filterSlice";
 export default function Contentcategories({ params }) {
   const [showsort, setshowsort] = useState(false);
   const [selectedfilter, setselectedfilter] = useState(1);
@@ -26,7 +27,7 @@ export default function Contentcategories({ params }) {
   const [filtercount, setfiltercount] = useState(5);
   const [filtertypes, setfiltertypes] = useState(filtertypesdata);
   const [loader, setLoader] = useState(true);
-  const[sorts, setSorts] = useState(sortsData)
+  const [sorts, setSorts] = useState(sortsData);
   const [showsidebar, setshowsidebar] = useState(false);
   const [showfilter, setshowfilter] = useState(false);
   const [showfilterbar, setshowfilterbar] = useState(false);
@@ -39,20 +40,18 @@ export default function Contentcategories({ params }) {
   // console.log(selectData);
   useEffect(() => {
     let rawData = selectData.response;
-    if(rawData){
-      sessionStorage.setItem('categoryData', JSON.stringify(rawData));
+    if (rawData) {
+      sessionStorage.setItem("categoryData", JSON.stringify(rawData));
     }
-    if(sessionStorage.getItem('categoryData')){
-      let cachedData = JSON.parse(sessionStorage.getItem('categoryData'));
+    if (sessionStorage.getItem("categoryData")) {
+      let cachedData = JSON.parse(sessionStorage.getItem("categoryData"));
       setLoader(false);
       console.log(cachedData);
       console.log(cachedData.products);
       setData(cachedData.products);
     }
   }, [selectData]);
-  
 
-  
   // useEffect(() => {
   //   const fetchDataAsync = async () => {
   //     try {
@@ -111,7 +110,7 @@ export default function Contentcategories({ params }) {
   const handleCheckboxChange = (index) => {
     const currentIndex = checkedmenus.indexOf(index);
     const newCheckedItems = [...checkedmenus];
-        if (currentIndex === -1) {
+    if (currentIndex === -1) {
       newCheckedItems.push(index);
     } else {
       newCheckedItems.splice(currentIndex, 1);
@@ -131,52 +130,7 @@ export default function Contentcategories({ params }) {
     setfiltercount(5);
   };
 
-  // useEffect(() => {
-  //   setfiltertypes(filterData);
-  // }, [data]);
-  // const handleFilterSelection = (Ftitle, selectedFields) => {
-  //   // Do something with the selected fields
-  //   console.log(Ftitle.toLowerCase(), selectedFields);
-  //   const filteredDataApi = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `${
-  //           process.env.NEXT_PUBLIC_API_URL
-  //         }/api/products?${Ftitle.toLowerCase()}=${selectedFields}`
-  //       );
-  //       setData(response?.data);
-  //       console.log(response.data);
-  //       if (response?.data?.products?.length === 0) {
-  //         fetchDataAsync();
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   filteredDataApi();
-  // };
-// const [allFilters, setAllFilters] = useState([]);
-// useEffect(() => {
-//   const fetchFilters = async () => {
-//     try {
-//       const response = await fetchData(`category?${data?.[0]?.category}`);
-//       console.log(response);
-//       let commonFilters = response?.categories?.commonFilters
-//       let subFilters = response?.categories?.subcategories?.map((item) => {
-//         return item?.subfilters
-//       })
-//       console.log(commonFilters);
-//       console.log(subFilters);
-//       setAllFilters([...commonFilters, ...subFilters]);
-//       console.log(allFilters);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-//   fetchFilters();
-// }
-// , [data]);
-  const handleSortSelection = (items,index) => {
+  const handleSortSelection = (items, index) => {
     setselectedfilter(index);
     // console.log(items);
     switch (items.val) {
@@ -189,22 +143,40 @@ export default function Contentcategories({ params }) {
       case "best":
         // let best = data.sort((a, b) => b.features.length - a.features.length); //will use this later
         // if(best.length === 0){
-          setData(data.sort((a, b) => a.quantity - b.quantity));
+        setData(data.sort((a, b) => a.quantity - b.quantity));
         // }
         // else{
-          // setData(best);
+        // setData(best);9
         // }
         // setData(data.sort((a, b) => b.features.length - a.features.length));
         break;
-        case "new":
-          setData(data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
-          break;
+      case "new":
+        setData(
+          data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        );
+        break;
       default:
         setData(data);
+    }
+    setshowsort(false);
+  };
+  const [subcategory, setSubcategory] = useState([]);
+  const selectedsubCats = useSelector(selectSubcategory);
+  useEffect(() => {
+    if (selectedsubCats) {
+      const selectedSubcategoryArray = Object.entries(selectedsubCats)
+        .filter(([subcategory, isSelected]) => isSelected)
+        .map(([subcategory]) => subcategory);
 
-  }
-  setshowsort(false);
-  }
+      setSubcategory(selectedSubcategoryArray);
+      console.log(selectedSubcategoryArray);
+    }
+  }, [selectedsubCats]);
+
+  const handleFilterSelection = (Ftitle, selectedFilters) => {
+    console.log(Ftitle, selectedFilters);
+    setSubcategory(selectedFilters);
+  };
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
@@ -214,19 +186,16 @@ export default function Contentcategories({ params }) {
               <FaBars size={20} onClick={() => setshowsidebar(true)} />
             </button>
           </div>
-          <div>
-            <div className="flex items-center gap-2  px-[6px] bg-button-secondary rounded-sm font-[500] text-sm shadow-sm relative py-1">
-              <FaXmark className=" cursor-pointer text-xs" />
-              Crop Tops
-            </div>
-          </div>
-
-          <div>
+        {
+          subcategory.map((item, index) => (
             <div className="flex items-center gap-2  px-[6px] bg-button-secondary rounded-sm font-[500] text-sm shadow-sm py-1">
               <FaXmark className=" cursor-pointer text-xs" />
-              Floral{" "}
+              {
+                item.length > 10 ? item.slice(0, 15) + '...' : item
+              }
             </div>
-          </div>
+          ))
+        }
         </div>
         <div className="lg:w-4/12 w-full flex gap-3 context  lg:justify-between relative items-center ">
           <div className="ml-auto lg:ml-0">
@@ -265,7 +234,7 @@ export default function Contentcategories({ params }) {
                     selectedfilter === index && " text-white bg-theme-footer-bg"
                   }`}
                   key={index}
-                  onClick={() =>handleSortSelection(items,index)}
+                  onClick={() => handleSortSelection(items, index)}
                 >
                   {items.title}
                 </li>
@@ -360,6 +329,7 @@ export default function Contentcategories({ params }) {
                   indexing={index}
                   onShowMore={() => handelshowmore(index)}
                   onShowLess={() => handelshowless(index)}
+                  onFilterSelection={handleFilterSelection}
                 />
               </div>
             </div>

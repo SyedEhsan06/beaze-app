@@ -58,10 +58,8 @@ export default function Sidemenu() {
     const selectedSubcategory = categoriesdata
       .find((category) => category.name === categoryName)
       .subcategories.find((subcat) => subcat._id === subcategoryId)?.name;
-    console.log("Selected Subcategory:", selectedSubcategory);
     setSelectedSubcategories([...selectedSubcategories, selectedSubcategory]);
     dispatch(setSubcategory(selectedSubcategory));
-    console.log("Selected Subcategories:", Subcategories);
   };
 
   return (

@@ -1,15 +1,17 @@
 import React from 'react';
+
 export default function Filterdatalist({ Ftitle, onFilterSelection, subcategory, showCount, indexing, onShowMore, onShowLess }) {
     const [selectedFilters, setSelectedFilters] = React.useState([]);
 
-    const handleCheckboxChange = (Ftitle, title) => {
+    const handleCheckboxChange = (title) => {
         const isSelected = selectedFilters.includes(title);
         const updatedSelectedFilters = isSelected
           ? selectedFilters.filter((filter) => filter !== title)
           : [...selectedFilters, title];
         setSelectedFilters(updatedSelectedFilters);
-        console.log(updatedSelectedFilters);
+        onFilterSelection(Ftitle, updatedSelectedFilters);
     };
+    
     return (
         <div>
             {subcategory.slice(0, showCount).map((item, index) => (
@@ -20,7 +22,7 @@ export default function Filterdatalist({ Ftitle, onFilterSelection, subcategory,
                                 type="checkbox"
                                 id={item.title + indexing}
                                 checked={selectedFilters.includes(item.title)}
-                                onChange={() => handleCheckboxChange(Ftitle, item.title)}
+                                onChange={() => handleCheckboxChange(item.title)}
                             />
                         </div>
                         <label htmlFor={item.title + indexing} className='text-lg cursor-pointer'>{item.title}</label>

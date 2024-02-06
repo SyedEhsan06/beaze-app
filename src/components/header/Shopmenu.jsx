@@ -24,7 +24,7 @@ export default function Shopmenu({ meudata,showhide }) {
         >
           <Link href={{
             pathname: `/products`,
-          }} onClick={()=>
+          }} onMouseDown={()=>
             handleDispatch("category",items.name)
           } >
             <div className="flex items-center gap-x-2  ">
