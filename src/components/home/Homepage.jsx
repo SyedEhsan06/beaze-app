@@ -4,29 +4,27 @@ import Homebanner from "./banner/Homebanner";
 import Homemain from './homecontent/Homemain';
 import { fetchData } from "@/utils/apicall";
 import Loader from "../loader/Loader";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategories, selectCategories } from "@/redux/slices/categorySlice";
 
 export default function Homepage() {
     const [data, setData] = useState([]);
-    const[loader,setloader] = useState(false)
-
+    const[loader,setloader] = useState(true)
+    const dispatch = useDispatch()
+    let selectData = useSelector(selectCategories)
     useEffect(() => {
-        const fetchDataAsync = async () => {
-            setloader(true)
-            try {
-                const result = await fetchData('category');
-                setData(result);
-                if(result){
-                    setloader(false)
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setloader(false)
-            }
-        };
-
-        fetchDataAsync();
-    }, []);
-
+        if(selectData.length === 0){
+            dispatch(fetchCategories())
+            console.log(selectData)
+        }
+        setData(selectData)
+        if(selectData){
+            setloader(false)
+        }
+    }
+    , [selectData]);
+    
+  
     return (
         <>
           {

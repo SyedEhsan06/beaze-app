@@ -13,6 +13,8 @@ import {
   recentsearch,
   searchdatadummy,
 } from "@/utils/dummydata";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategories, selectCategories } from "@/redux/slices/categorySlice";
 
 export default function Header() {
   const [scrollLength, setScrollLength] = useState(0);
@@ -27,9 +29,7 @@ export default function Header() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  useEffect(() => {
-    handelgetshopmenudata();
-  }, []);
+
 
   const handleScroll = () => {
     setScrollLength(window.scrollY);
@@ -38,21 +38,23 @@ export default function Header() {
   const handelshowmenu = () => {
     showhide === 1 ? setshowhide(0) : setshowhide(1);
   };
-  const handelgetshopmenudata = async () => {
-    try {
-      const response = await fetchData("category");
-      setshopmenudata(response.categories);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const dispatch = useDispatch()
+  let selectData = useSelector(selectCategories)
   useEffect(() => {
-    document.addEventListener("click", function (event) {
-      if (!event.target.className.includes("showmenu")) {
-        setshowmenu(false);
+      if(selectData.length === 0){
+          dispatch(fetchCategories())
       }
-    });
-  }, []);
+      setshopmenudata(selectData.categories)     
+  }
+  , [selectData]);
+  
+  // useEffect(() => {
+  //   document.addEventListener("click", function (event) {
+  //     if (!event?.target?.className?.includes("showmenu")) {
+  //       setshowmenu(false);
+  //     }
+  //   });
+  // }, []);
 
 //   const handelsearch = (val) => {
 //     if (val.length >= 3) {

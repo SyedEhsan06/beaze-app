@@ -6,6 +6,7 @@ import {
   categoryProducts,
   filtertypes,
   filtertypesdata,
+  sortsData,
 } from "@/utils/dummydata";
 import { BiSolidChevronDown } from "react-icons/bi";
 import { useState, useEffect, useRef } from "react";
@@ -16,6 +17,8 @@ import Loader from "../loader/Loader";
 import { FaBars } from "react-icons/fa6";
 import axios from "axios";
 import Sidemenu from "./Sidemenu";
+import { useSelector } from "react-redux";
+import { selectCategoryProduct } from "@/redux/slices/productSlice";
 export default function Contentcategories({ params }) {
   const [showsort, setshowsort] = useState(false);
   const [selectedfilter, setselectedfilter] = useState(1);
@@ -23,6 +26,7 @@ export default function Contentcategories({ params }) {
   const [filtercount, setfiltercount] = useState(5);
   const [filtertypes, setfiltertypes] = useState(filtertypesdata);
   const [loader, setLoader] = useState(true);
+  const[sorts, setSorts] = useState(sortsData)
   const [showsidebar, setshowsidebar] = useState(false);
   const [showfilter, setshowfilter] = useState(false);
   const [showfilterbar, setshowfilterbar] = useState(false);
@@ -30,27 +34,46 @@ export default function Contentcategories({ params }) {
   const [isfilterbaropen, setisfilterbaropen] = useState(false);
   const divRef = useRef();
   const [data, setData] = useState([]);
-  useEffect(() => {
-    const fetchDataAsync = async () => {
-      try {
-        let slug = decodeURIComponent(params.slug);
-        console.log(slug);
-        // const encodedString = slug.replace("'", "%27").replace(" ", "%20");
-        //http://localhost:3000/api/products?type=Accessories&color=Silver&size=Small,Medium
-        console.log(process.env.NEXT_PUBLIC_API_URL);
-        const response = await fetchData(`products?${params?.type}=${slug}`);
-        setData(response);
-        if (response) {
-          setLoader(false);
-        }
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const selectData = useSelector(selectCategoryProduct);
 
-    fetchDataAsync();
-  }, []);
+  // console.log(selectData);
+  useEffect(() => {
+    let rawData = selectData.response;
+    if(rawData){
+      sessionStorage.setItem('categoryData', JSON.stringify(rawData));
+    }
+    if(sessionStorage.getItem('categoryData')){
+      let cachedData = JSON.parse(sessionStorage.getItem('categoryData'));
+      setLoader(false);
+      console.log(cachedData);
+      console.log(cachedData.products);
+      setData(cachedData.products);
+    }
+  }, [selectData]);
+  
+
+  
+  // useEffect(() => {
+  //   const fetchDataAsync = async () => {
+  //     try {
+  //       let slug = decodeURIComponent(params.slug);
+  //       console.log(slug);
+  //       // const encodedString = slug.replace("'", "%27").replace(" ", "%20");
+  //       //http://localhost:3000/api/products?type=Accessories&color=Silver&size=Small,Medium
+  //       console.log(process.env.NEXT_PUBLIC_API_URL);
+  //       const response = await fetchData(`products?${params?.type}=${slug}`);
+  //       setData(response);
+  //       if (response) {
+  //         setLoader(false);
+  //       }
+  //       console.log(response);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+
+  //   fetchDataAsync();
+  // }, []);
 
   // console.log(data);
 
@@ -88,8 +111,7 @@ export default function Contentcategories({ params }) {
   const handleCheckboxChange = (index) => {
     const currentIndex = checkedmenus.indexOf(index);
     const newCheckedItems = [...checkedmenus];
-
-    if (currentIndex === -1) {
+        if (currentIndex === -1) {
       newCheckedItems.push(index);
     } else {
       newCheckedItems.splice(currentIndex, 1);
@@ -112,28 +134,77 @@ export default function Contentcategories({ params }) {
   // useEffect(() => {
   //   setfiltertypes(filterData);
   // }, [data]);
-  const handleFilterSelection = (Ftitle, selectedFields) => {
-    // Do something with the selected fields
-    console.log(Ftitle.toLowerCase(), selectedFields);
-    const filteredDataApi = async () => {
-      try {
-        const response = await axios.get(
-          `${
-            process.env.NEXT_PUBLIC_API_URL
-          }/api/products?${Ftitle.toLowerCase()}=${selectedFields}`
-        );
-        setData(response?.data);
-        console.log(response.data);
-        if (response?.data?.products?.length === 0) {
-          fetchDataAsync();
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    filteredDataApi();
-  };
+  // const handleFilterSelection = (Ftitle, selectedFields) => {
+  //   // Do something with the selected fields
+  //   console.log(Ftitle.toLowerCase(), selectedFields);
+  //   const filteredDataApi = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${
+  //           process.env.NEXT_PUBLIC_API_URL
+  //         }/api/products?${Ftitle.toLowerCase()}=${selectedFields}`
+  //       );
+  //       setData(response?.data);
+  //       console.log(response.data);
+  //       if (response?.data?.products?.length === 0) {
+  //         fetchDataAsync();
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   filteredDataApi();
+  // };
+// const [allFilters, setAllFilters] = useState([]);
+// useEffect(() => {
+//   const fetchFilters = async () => {
+//     try {
+//       const response = await fetchData(`category?${data?.[0]?.category}`);
+//       console.log(response);
+//       let commonFilters = response?.categories?.commonFilters
+//       let subFilters = response?.categories?.subcategories?.map((item) => {
+//         return item?.subfilters
+//       })
+//       console.log(commonFilters);
+//       console.log(subFilters);
+//       setAllFilters([...commonFilters, ...subFilters]);
+//       console.log(allFilters);
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+//   fetchFilters();
+// }
+// , [data]);
+  const handleSortSelection = (items,index) => {
+    setselectedfilter(index);
+    // console.log(items);
+    switch (items.val) {
+      case "hightolow":
+        setData(data.sort((a, b) => b.price - a.price));
+        break;
+      case "lowtohigh":
+        setData(data.sort((a, b) => a.price - b.price));
+        break;
+      case "best":
+        // let best = data.sort((a, b) => b.features.length - a.features.length); //will use this later
+        // if(best.length === 0){
+          setData(data.sort((a, b) => a.quantity - b.quantity));
+        // }
+        // else{
+          // setData(best);
+        // }
+        // setData(data.sort((a, b) => b.features.length - a.features.length));
+        break;
+        case "new":
+          setData(data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+          break;
+      default:
+        setData(data);
 
+  }
+  setshowsort(false);
+  }
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
@@ -188,13 +259,13 @@ export default function Contentcategories({ params }) {
             }`}
           >
             <ul className="text-sm font-[400] cursor-pointer ">
-              {filtertypes.map((items, index) => (
+              {sorts.map((items, index) => (
                 <li
                   className={`py-2 border-b px-4 ${
                     selectedfilter === index && " text-white bg-theme-footer-bg"
                   }`}
                   key={index}
-                  onClick={() => setselectedfilter(index)}
+                  onClick={() =>handleSortSelection(items,index)}
                 >
                   {items.title}
                 </li>
@@ -209,7 +280,7 @@ export default function Contentcategories({ params }) {
           <Loader />
         ) : (
           <div className=" grid lg:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context">
-            {data?.products?.map((items, index) => (
+            {data?.map((items, index) => (
               <div key={index} className=" group relative">
                 <div className=" flex flex-col text-[#03071E]">
                   <div className="   cursor-pointer  transition-all duration-100 relative rounded-[6px]  group-hover:opacity-50 h-[200px] w-full overflow-hidden">

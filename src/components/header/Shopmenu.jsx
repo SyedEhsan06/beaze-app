@@ -1,8 +1,19 @@
 import Link from "next/link";
 import Image from "next/image";
 import Loader from "../loader/Loader";
+import { useDispatch } from "react-redux";
+import { fetchProducts } from "@/redux/slices/productSlice";
 
 export default function Shopmenu({ meudata,showhide }) {
+  const dispatch = useDispatch()
+  const handleDispatch = (type,item) => {
+    dispatch(fetchProducts(
+      {
+        type,
+        item
+      }
+    ))
+  }
   return (
     <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-x-8 md:gap-y-4 gap-x-5 gap-y-3">
       {!meudata?<Loader/>:<>
@@ -12,8 +23,10 @@ export default function Shopmenu({ meudata,showhide }) {
           key={index}
         >
           <Link href={{
-            pathname: `/products/category/${items.name}`,
-          }} >
+            pathname: `/products`,
+          }} onClick={()=>
+            handleDispatch("category",items.name)
+          } >
             <div className="flex items-center gap-x-2  ">
               <div className="w-3/12  cursor-pointer   relative   h-[70px] overflow-hidden rounded-[7px]">
                 {items.img ? (

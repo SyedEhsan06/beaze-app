@@ -566,22 +566,22 @@ export const categoryProducts = [
 ]
 
 
-export const filtertypes =[
+export const sortsData =[
     {
         title : 'Price - High to Low',
-        val : ''
+        val : 'hightolow'
     },
     {
         title : 'Price - Low to High',
-        val : ''
+        val : 'lowtohigh'
     },
     {
         title : 'Bestsellers First',
-        val : ''
+        val : 'best'
     },
     {
         title : 'New Arrivals First',
-        val : ''
+        val : 'new'
     }
 ]
 

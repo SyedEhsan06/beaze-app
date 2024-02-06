@@ -8,11 +8,8 @@ export default function Filterdatalist({ Ftitle, onFilterSelection, subcategory,
           ? selectedFilters.filter((filter) => filter !== title)
           : [...selectedFilters, title];
         setSelectedFilters(updatedSelectedFilters);
-      
-        // Call the callback function with the selected fields
-        // onFilterSelection(Ftitle, updatedSelectedFilters);
+        console.log(updatedSelectedFilters);
     };
-
     return (
         <div>
             {subcategory.slice(0, showCount).map((item, index) => (
