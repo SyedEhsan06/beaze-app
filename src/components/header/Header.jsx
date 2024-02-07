@@ -182,7 +182,7 @@ const handelsearch = (val) => {
               >
                 <h4 className="text-lg font-semibold px-3">Top Results</h4>
 
-                <div>
+                <div className=" max-h-[415px] overflow-y-auto">
                   {searchdata.map((items, index) => (
                     <div
                       className="py-4 px-4 flex gap-x-5  border-b-[0.5px] border-[#DBD9D9]"
@@ -215,12 +215,14 @@ const handelsearch = (val) => {
                     </div>
                   ))}
 
-                  <div className="w-full">
+                 
+                </div>
+
+                <div className="w-full">
                     <button className=" bg-theme-footer-bg capitalize  font-[600] text-xl text-center text-white py-3 w-full rounded-bl-[4px]  rounded-br-[4px] ">
                       View All Results
                     </button>
                   </div>
-                </div>
               </div>
               <div
                 className={`px-3 py-4 ${
