@@ -7,7 +7,6 @@ import Ratings from './Ratings'
 
 export default function Homemain({data}) {
  
-    
 
   return (
   <>

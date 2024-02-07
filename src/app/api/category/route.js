@@ -1,34 +1,39 @@
 import Category from "@/lib/models/category";
 import { connectToDb } from "@/lib/utils";
 
-connectToDb();
-
-export async function GET() {
+export async function GET(req) {
+  await connectToDb();
+  let categories;
   try {
-    const categories = await Category.find({});
-    return Response.json({ categories });
+    let queryParams = req.url.split("?")[1];
+    if (queryParams) {
+      queryParams = decodeURIComponent(queryParams);
+    }
+    if (queryParams) {
+      categories = await Category.find({ name: queryParams });
+    } else {
+      categories = await Category.find();
+    }
   } catch (err) {
     return Response.json({ error: err.message });
   }
+  return Response.json({ categories });
 }
 
 export async function POST(req) {
+  await connectToDb();
   try {
-      const data = await req.json();
-
-      const existingProduct = await Product.findOne({ productId: data.productId });
-
-      if (existingProduct) {
-          const incrementQuantity = data.quantity || 1;
-          existingProduct.quantity += incrementQuantity;
-          await existingProduct.save();
-          return new Response.json(existingProduct);
-      } else {
-          const products = await Product.insertMany(data);
-          return new Response.json(products);
-      }
-  } catch (error) {
-      console.error('POST request error:', error);
-      return new Response(500, { error: 'Internal Server Error' });
+    const data = await req.json();
+    const existingCategory = await Category.findOne({
+      name: data.name,
+    });
+    if (existingCategory) {
+      return Response.json({ error: "Category already exists" });
+    }
+    const category = new Category(data);
+    await category.save();
+    return Response.json({ category });
+  } catch (err) {
+    return Response.json({ error: err.message });
   }
 }

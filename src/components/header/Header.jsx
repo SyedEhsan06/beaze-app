@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { IoSearch } from "react-icons/io5";
 import { FaCartShopping } from "react-icons/fa6";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
 import Shopmenu from "./Shopmenu";
@@ -13,6 +13,11 @@ import {
   recentsearch,
   searchdatadummy,
 } from "@/utils/dummydata";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchCategories,
+  selectCategories,
+} from "@/redux/slices/categorySlice";
 
 export default function Header() {
   const [scrollLength, setScrollLength] = useState(0);
@@ -27,54 +32,39 @@ export default function Header() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  useEffect(() => {
-    handelgetshopmenudata();
-  }, []);
+
 
   const handleScroll = () => {
     setScrollLength(window.scrollY);
   };
+  const shopRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (shopRef.current && !shopRef.current.contains(event.target)) {
+        setshowmenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [shopRef]);
+
 
   const handelshowmenu = () => {
     showhide === 1 ? setshowhide(0) : setshowhide(1);
   };
-  const handelgetshopmenudata = async () => {
-    try {
-      const response = await fetchData("category");
-      setshopmenudata(response.categories);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const dispatch = useDispatch();
+  let selectData = useSelector(selectCategories);
   useEffect(() => {
-    document.addEventListener("click", function (event) {
-      if (!event.target.className.includes("showmenu")) {
-        setshowmenu(false);
-      }
-    });
-  }, []);
+    if (selectData.length === 0) {
+      dispatch(fetchCategories());
+    }
+    setshopmenudata(selectData.categories);
+  }, [selectData]);
 
-//   const handelsearch = (val) => {
-//     if (val.length >= 3) {
-//       setshowhide(4);
-//     const fetchdata = async () => {
-//         try {
-//             console.log(val);
-//             const response = await fetchData(`products?search=${val}`);
-//             setsearchdata(response.products);
-//             console.log(response);
-//         } catch (err) {
-//             console.log(err);
-//         }
-//     };
-    
-//     } else {
-//       setshowhide(0);
-//       setsearchdata([]);
-//     }
-//   };
-const [search, setSearch] = useState("");
-const handelsearch = (val) => {
+  const [search, setSearch] = useState("");
+  const handelsearch = (val) => {
     setshowhide(4);
     setSearch(val);
     if (val.length == 0) {
@@ -89,7 +79,10 @@ const handelsearch = (val) => {
 
         if (search !== cachedSearchText) {
           const response = await fetchData(`products?search=${search}`);
-          sessionStorage.setItem("cachedData", JSON.stringify(response.products));
+          sessionStorage.setItem(
+            "cachedData",
+            JSON.stringify(response.products)
+          );
           sessionStorage.setItem("cachedSearchText", search);
           setsearchdata(response.products);
         } else {
@@ -103,14 +96,15 @@ const handelsearch = (val) => {
     };
 
     const timeoutId = setTimeout(() => {
-      if (search.length >= 3) {
+      if (search.length >= 2) {
         fetchdata();
       }
     }, 500);
 
     return () => clearTimeout(timeoutId);
   }, [search]);
-    return (
+
+  return (
     <header
       className={`h-[70px] showmenu  z-10 w-full shadow py-2 transition-all duration-150 ${
         scrollLength > 620
@@ -127,6 +121,7 @@ const handelsearch = (val) => {
             </Link>
           </li>
           <li
+          ref={shopRef}
             className={`context showmenu   px-5 duration-75 transition-all cursor-pointer ${
               showmenu ? "bg-white  rounded-2xl font-[800]" : "font-semibold"
             }`}
@@ -272,8 +267,8 @@ const handelsearch = (val) => {
         </ul>
 
         {showmenu && (
-          <div className="absolute showmenu bg-[#EBE9DB] pt-8 pb-16 px-40 w-full left-0 top-[100%] transition-all duration-75">
-            <Shopmenu meudata={shopmenudata} />
+          <div  className="absolute showmenu bg-[#EBE9DB] pt-8 pb-16 px-40 w-full left-0 top-[100%] transition-all duration-75">
+            <Shopmenu meudata={shopmenudata} Closeref={shopRef} />
           </div>
         )}
       </nav>
@@ -316,8 +311,8 @@ const handelsearch = (val) => {
                 </div>
                 <div className=" py-5 px-3">
                   {showshop ? (
-                    <div className="w-full">
-                      <Shopmenu meudata={shopmenudata} />
+                    <div className="w-full" >
+                      <Shopmenu meudata={shopmenudata}  Closeref={shopRef}/>
                     </div>
                   ) : (
                     <div className="w-full h-[100%]  ">
