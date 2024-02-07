@@ -20,6 +20,13 @@ import Sidemenu from "./Sidemenu";
 import { useSelector } from "react-redux";
 import { selectCategoryProduct } from "@/redux/slices/productSlice";
 import { selectSubcategory } from "@/redux/slices/filterSlice";
+import Productcart from "./Productcart";
+import Modal from 'react-awesome-modal';
+import Productmodal from "./Productmodal";
+import Link from "next/link";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function Contentcategories({ params }) {
   const [showsort, setshowsort] = useState(false);
   const [selectedfilter, setselectedfilter] = useState(1);
@@ -32,10 +39,15 @@ export default function Contentcategories({ params }) {
   const [showfilter, setshowfilter] = useState(false);
   const [showfilterbar, setshowfilterbar] = useState(false);
   const [showfilterbar2, setshowfilterbar2] = useState(false);
-  const [isfilterbaropen, setisfilterbaropen] = useState(false);
+  const [isfilterbaropen, setisfilterbaropen] = useState(0);
+const[cartdata,setcartdata] = useState([])
+const[showpricemenu,setshowpricemenu] = useState(false)
   const divRef = useRef();
   const [data, setData] = useState([]);
+  const [ismodalopen,setismodalopen] = useState(false);
+  const [productdata,setproductdata] =  useState([])
   const selectData = useSelector(selectCategoryProduct);
+ 
 
   // console.log(selectData);
   useEffect(() => {
@@ -92,7 +104,7 @@ export default function Contentcategories({ params }) {
           ancestor = ancestor.parentElement;
         }
 
-        setisfilterbaropen(false);
+        setisfilterbaropen(0);
       }
     };
 
@@ -177,6 +189,48 @@ export default function Contentcategories({ params }) {
     console.log(Ftitle, selectedFilters);
     setSubcategory(selectedFilters);
   };
+
+  const handelpeoductinfo = async(id) => {
+    setLoader(true)
+    try{
+      const response = await fetchData(`products/${id}`)
+     setproductdata(response.products)
+     setLoader(false)
+      setismodalopen(true)
+
+    }catch(err){
+      setLoader(false)
+      console.log(err)
+    }
+  }
+
+const closeModal = () => {
+  setismodalopen(false)
+}
+
+
+const handeladdtocart = (obj) => {
+  
+  const isObjectPresent = cartdata.some(item => JSON.stringify(item) === JSON.stringify(obj));
+
+  if (isObjectPresent) {
+
+    toast.error('Item already added to cart', {
+      position: 'top-right',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+  } else {
+    setcartdata((prevArray) => [...prevArray, obj]);
+    setisfilterbaropen(2)
+  }
+}
+
+
+console.log(cartdata)
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
@@ -201,7 +255,7 @@ export default function Contentcategories({ params }) {
           <div className="ml-auto lg:ml-0">
             <button
               className=" cursor-pointer flex items-center gap-x-2 font-semibold rounded-sm border px-4 bg-white text-opacity-[78%]"
-              onClick={handleButtonClick}
+              onClick={() => setisfilterbaropen(1)}
             >
               <HiBars3 />
               <span className="mt-[2px]"> More filters</span>
@@ -262,20 +316,22 @@ export default function Contentcategories({ params }) {
                       objectFit="cover"
                     />
                   </div>
-                  <h6 className=" font-[700]  text-[1.1rem] mt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
-                    {/* items.title.length > 20 ? items.title.slice(0, 20) + '...' : items.title */}
-                    {items.title}
-                  </h6>
+                <Link href={`/productinfo/${items._id}`} >
+                <h6 className=" font-[700]  text-[1.1rem] mt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
+                   
+                   {items.title}
+                 </h6>
+                </Link>
                   <p className="py-1 text-[1rem] font-[400]">
                     Rs {items.price}
                   </p>
-                  <button className=" transition-all duration-100 w-full py-2 text-center bg-theme-footer-bg rounded text-white text-lg font-[400] hover:bg-opacity-[80%]">
+                  <button className=" transition-all duration-100 w-full py-2 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  hover:bg-opacity-[80%]" onClick={() => handeladdtocart(items)}>
                     Add to Cart
                   </button>
                 </div>
-                <p className="w-[70%] transition-all duration-100 cursor-pointer rounded-xl absolute left-[50%] translate-x-[-50%] hidden group-hover:block top-[50%] z-10 bg-button-secondary px-5  text-text-secondary text-[1rem]  text-center  hover:shadow-gray-950  hover:shadow">
+                <button className="w-[70%] transition-all duration-100 cursor-pointer rounded-xl absolute left-[50%] translate-x-[-50%] hidden group-hover:block top-[50%] z-10 bg-button-secondary px-5  text-text-secondary text-[1rem]  text-center  hover:shadow-gray-950  hover:shadow" onClick={() => handelpeoductinfo(items._id)}>
                   Quick buy
-                </p>
+                </button>
               </div>
             ))}
           </div>
@@ -284,14 +340,14 @@ export default function Contentcategories({ params }) {
 
       <div
         className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[350px] w-[80%] p-4 top-0 z-30 rounded-tl-[28px] border py-3 px-4  context ${
-          isfilterbaropen ? "block" : "hidden"
+          isfilterbaropen === 1 ? "block" : "hidden"
         }`}
         ref={divRef}
       >
         <div className="py-3 px-3 w-full flex gap-x-4 border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700]">
           <FaXmark
             className=" cursor-pointer"
-            onClick={() => setisfilterbaropen(false)}
+            onClick={() => setisfilterbaropen(0)}
           />{" "}
           Filters
         </div>
@@ -370,6 +426,20 @@ export default function Contentcategories({ params }) {
         </div>
         <Sidemenu />
       </div>
+
+      <Modal
+        visible={ismodalopen}
+        width="80%"
+        height="550"
+        effect="fadeInDown"
+        onClickAway={closeModal}
+
+      >
+
+   <Productmodal produtdata= {productdata} modalclose = {closeModal}/>
+       
+      </Modal>
+      <ToastContainer />
     </div>
   );
 }

@@ -20,6 +20,7 @@ export default function ModalImageSlider({ sliderdata }) {
                     layout="fill"
                     objectFit="cover"
                     className='rounded-[8px] transition-all duration-300'
+                    alt={`image not fond`}
                 />
             </div>
             <div className={`grid grid-cols-${sliderdata?.length} gap-2`}>
@@ -33,6 +34,7 @@ export default function ModalImageSlider({ sliderdata }) {
                             src={items}
                             layout="fill"
                             objectFit="cover"
+                            alt={`${index} index image not fond`}
                             className='rounded-[5px] cursor-pointer hover:opacity-[80%] hover:shadow-sm transition-all duration-150 '
                         />
                     </div>
