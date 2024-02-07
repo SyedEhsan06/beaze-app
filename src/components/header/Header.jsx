@@ -40,15 +40,25 @@ export default function Header() {
   const shopRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (shopRef.current && !shopRef.current.contains(event.target)) {
-        setshowmenu(false);
-      }
+        if (shopRef.current && !shopRef.current.contains(event.target)) {
+            setshowmenu(false);
+        }
     };
-    document.addEventListener("mousedown", handleClickOutside);
+
+    if (window.innerWidth < 768) {
+        document.addEventListener("click", handleClickOutside);
+    } else {
+        document.addEventListener("click", handleClickOutside);
+    }
+
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+        if (window.innerWidth < 768) {
+            document.removeEventListener("click", handleClickOutside);
+        } else {
+            document.removeEventListener("click", handleClickOutside);
+        }
     };
-  }, [shopRef]);
+}, [shopRef]);
 
 
   const handelshowmenu = () => {
@@ -310,7 +320,7 @@ export default function Header() {
                   </button>
                 </div>
                 <div className=" py-5 px-3">
-                  {showshop ? (
+                  {showmenu ? (
                     <div className="w-full" >
                       <Shopmenu meudata={shopmenudata}  Closeref={shopRef}/>
                     </div>
