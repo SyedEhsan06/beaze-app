@@ -32,6 +32,9 @@ export async function GET(req) {
       });
     } else if (queryObject.category) {
       products = await Product.find({ category: queryObject.category });
+      if (queryObject.category === "all") {
+        products = await Product.find({});
+      }
     } else if (queryObject.subcategory) {
       products = await Product.find({ subcategory: queryObject.subcategory });
     } else if (queryObject.search) {

@@ -17,37 +17,40 @@ import Loader from "../loader/Loader";
 import { FaBars } from "react-icons/fa6";
 import axios from "axios";
 import Sidemenu from "./Sidemenu";
-import { useSelector } from "react-redux";
-import { selectCategoryProduct } from "@/redux/slices/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchProducts,
+  selectCategoryProduct,
+} from "@/redux/slices/productSlice";
 import { selectSubcategory } from "@/redux/slices/filterSlice";
 import Productcart from "./Productcart";
-import Modal from 'react-awesome-modal';
+import Modal from "react-awesome-modal";
 import Productmodal from "./Productmodal";
 import Link from "next/link";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Contentcategories({ params }) {
   const [showsort, setshowsort] = useState(false);
-  const [selectedfilter, setselectedfilter] = useState(1);
+  const [selectedfilter, setselectedfilter] = useState(null);
   const [checkedmenus, setcheckedmenus] = useState([]);
   const [filtercount, setfiltercount] = useState(5);
   const [filtertypes, setfiltertypes] = useState(filtertypesdata);
   const [loader, setLoader] = useState(true);
   const [sorts, setSorts] = useState(sortsData);
-  const [showsidebar, setshowsidebar] = useState(false);
-  const [showfilter, setshowfilter] = useState(false);
-  const [showfilterbar, setshowfilterbar] = useState(false);
-  const [showfilterbar2, setshowfilterbar2] = useState(false);
+  // const [showsidebar, setshowsidebar] = useState(false);
+  // const [showfilter, setshowfilter] = useState(false);
+  // const [showfilterbar, setshowfilterbar] = useState(false);
+  // const [showfilterbar2, setshowfilterbar2] = useState(false);
   const [isfilterbaropen, setisfilterbaropen] = useState(0);
-  const [cartdata, setcartdata] = useState([])
-  const [showpricemenu, setshowpricemenu] = useState(false)
+  const [cartdata, setcartdata] = useState([]);
+  const [showpricemenu, setshowpricemenu] = useState(false);
   const divRef = useRef();
   const [data, setData] = useState([]);
   const [ismodalopen, setismodalopen] = useState(false);
-  const [productdata, setproductdata] = useState([])
+  const [productdata, setproductdata] = useState([]);
   const selectData = useSelector(selectCategoryProduct);
-
+  const dispatch = useDispatch();
 
   // console.log(selectData);
   useEffect(() => {
@@ -58,35 +61,13 @@ export default function Contentcategories({ params }) {
     if (sessionStorage.getItem("categoryData")) {
       let cachedData = JSON.parse(sessionStorage.getItem("categoryData"));
       setLoader(false);
-      console.log(cachedData);
-      console.log(cachedData.products);
       setData(cachedData.products);
     }
-  }, [selectData]);
-
-  // useEffect(() => {
-  //   const fetchDataAsync = async () => {
-  //     try {
-  //       let slug = decodeURIComponent(params.slug);
-  //       console.log(slug);
-  //       // const encodedString = slug.replace("'", "%27").replace(" ", "%20");
-  //       //http://localhost:3000/api/products?type=Accessories&color=Silver&size=Small,Medium
-  //       console.log(process.env.NEXT_PUBLIC_API_URL);
-  //       const response = await fetchData(`products?${params?.type}=${slug}`);
-  //       setData(response);
-  //       if (response) {
-  //         setLoader(false);
-  //       }
-  //       console.log(response);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   fetchDataAsync();
-  // }, []);
-
-  // console.log(data);
+    if (!rawData && !sessionStorage.getItem("categoryData")) {
+      dispatch(fetchProducts("category", "all"));
+      console.log("fetching");
+    }
+  }, [selectData, dispatch]);
 
   useEffect(() => {
     const handleBodyClick = (event) => {
@@ -105,7 +86,6 @@ export default function Contentcategories({ params }) {
         }
 
         setisfilterbaropen(0);
-
       }
     };
 
@@ -145,6 +125,9 @@ export default function Contentcategories({ params }) {
 
   const handleSortSelection = (items, index) => {
     setselectedfilter(index);
+    if (selectedfilter === index) {
+      setselectedfilter(null);
+    }
     // console.log(items);
     switch (items.val) {
       case "hightolow":
@@ -192,32 +175,30 @@ export default function Contentcategories({ params }) {
   };
 
   const handelpeoductinfo = async (id) => {
-    setLoader(true)
+    setLoader(true);
     try {
-      const response = await fetchData(`products/${id}`)
-      setproductdata(response.products)
-      setLoader(false)
-      setismodalopen(true)
-
+      const response = await fetchData(`products/${id}`);
+      setproductdata(response.products);
+      setLoader(false);
+      setismodalopen(true);
     } catch (err) {
-      setLoader(false)
-      console.log(err)
+      setLoader(false);
+      console.log(err);
     }
-  }
+  };
 
   const closeModal = () => {
-    setismodalopen(false)
-  }
-
+    setismodalopen(false);
+  };
 
   const handeladdtocart = (obj) => {
-
-    const isObjectPresent = cartdata.some(item => JSON.stringify(item) === JSON.stringify(obj));
+    const isObjectPresent = cartdata.some(
+      (item) => JSON.stringify(item) === JSON.stringify(obj)
+    );
 
     if (isObjectPresent) {
-
-      toast.error('Item already added to cart', {
-        position: 'top-right',
+      toast.error("Item already added to cart", {
+        position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -226,32 +207,28 @@ export default function Contentcategories({ params }) {
       });
     } else {
       setcartdata((prevArray) => [...prevArray, obj]);
-      setisfilterbaropen(2)
+      setisfilterbaropen(2);
     }
-  }
-
-
-  console.log(cartdata)
+  };
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
         <div className="lg:w-8/12 w-full flex order-2 lg:order-1  gap-2 context text-text-secondary flex-wrap ">
-
-          {
-            subcategory.map((item, index) => (
-              <div className="flex items-center gap-2  px-[6px] bg-button-secondary rounded-sm font-[500] text-sm shadow-sm py-1">
-                <FaXmark className=" cursor-pointer text-xs" />
-                {
-                  item.length > 10 ? item.slice(0, 15) + '...' : item
-                }
-              </div>
-            ))
-          }
+          {subcategory.map((item, index) => (
+            <div className="flex items-center gap-2  px-[6px] bg-button-secondary rounded-sm font-[500] text-sm shadow-sm py-1">
+              <FaXmark className=" cursor-pointer text-xs" />
+              {item.length > 10 ? item.slice(0, 15) + "..." : item}
+            </div>
+          ))}
         </div>
         <div className="lg:w-4/12 lg:order-2 order-1 w-full flex gap-3 context  lg:justify-between relative items-center ">
-          <div className="lg:hidden " >
-            <button className=" p-3 rounded-full bg-white shadow-sm border flex items-center gap-x-1" onClick={() => setisfilterbaropen(3)}>
-              <FaBars size={20} /> <span className=" text-xs mt-1">Categories</span>
+          <div className="lg:hidden ">
+            <button
+              className=" p-3 rounded-full bg-white shadow-sm border flex items-center gap-x-1"
+              onClick={() => setisfilterbaropen(3)}
+            >
+              <FaBars size={20} />{" "}
+              <span className=" text-xs mt-1">Categories</span>
             </button>
           </div>
           <div className="ml-auto lg:ml-0">
@@ -270,22 +247,25 @@ export default function Contentcategories({ params }) {
               onClick={() => setshowsort(!showsort)}
             >
               <FaAngleDown
-                className={`transition-all duration-75 ${showsort && "rotate-[180deg]"
-                  }`}
+                className={`transition-all duration-75 ${
+                  showsort && "rotate-[180deg]"
+                }`}
               />{" "}
               Sort
             </button>
           </div>
 
           <div
-            className={`top-[110%] w-[200px] border  right-0 bg-white shadow rounded-lg absolute z-20 ${showsort ? "block" : "hidden"
-              }`}
+            className={`top-[110%] w-[200px] border  right-0 bg-white shadow rounded-lg absolute z-20 ${
+              showsort ? "block" : "hidden"
+            }`}
           >
             <ul className="text-sm font-[400] cursor-pointer ">
               {sorts.map((items, index) => (
                 <li
-                  className={`py-2 border-b px-4 ${selectedfilter === index && " text-white bg-theme-footer-bg"
-                    }`}
+                  className={`py-2 border-b px-4 ${
+                    selectedfilter === index && " text-white bg-theme-footer-bg"
+                  }`}
                   key={index}
                   onClick={() => handleSortSelection(items, index)}
                 >
@@ -298,48 +278,87 @@ export default function Contentcategories({ params }) {
       </div>
 
       <div className="mt-5">
-        {loader ? (
+        {data.length === 0 && loader ? (
           <Loader />
         ) : (
           <div className=" grid lg:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context">
-            {data?.map((items, index) => (
-              <div key={index} className=" group relative">
-                <div className=" flex flex-col text-[#03071E]">
-                  <div className="   cursor-pointer  transition-all duration-100 relative rounded-[6px]  lg:group-hover:opacity-50 h-[200px] w-full overflow-hidden">
-                    {/* <img src={`/images/web/categories/${items.img}`} alt="" className="h-[100%] w-[100%]" /> */}
-                    <Image
-                      // src={`/images/web/categories/${items.img}`}
-                      src={`${items?.images[0]}`}
-                      alt="Your Image"
-                      layout="fill"
-                      objectFit="cover"
+            {data.length == 0 ? (
+              <>
+                <div className="flex items-center justify-center h-screen">
+                  <div className="text-center">
+                    <img
+                      src="/images/web/product/notfound.png"
+                      alt="Not Found"
+                      className="w-64 h-48 mx-auto mb-4"
                     />
+                    <h1 className="text-2xl font-bold text-gray-800 mb-2">
+                      No products found
+                    </h1>
+                    <div className="flex justify-center gap-4">
+                      <button
+                        onClick={() =>
+                          dispatch(fetchProducts("category", "all"))
+                        }
+                        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                      >
+                        Fetch All Data
+                      </button>
+                      <Link
+                        href={"/"}
+                        className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                      >
+                        Go to Home
+                      </Link>
+                    </div>
                   </div>
-                  <Link href={`/productinfo/${items._id}`} >
-                    <h6 className=" font-[700]  text-[1.1rem] mt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
-
-                      {items.title}
-                    </h6>
-                  </Link>
-                  <p className="py-1 text-[1rem] font-[400]">
-                    Rs {items.price}
-                  </p>
-                  <button className=" transition-all duration-100 w-full md:py-2 py-1 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  lg:hover:bg-opacity-[80%]" onClick={() => handeladdtocart(items)}>
-                    Add to Cart
+                </div>
+              </>
+            ) : (
+              data?.map((items, index) => (
+                <div key={index} className=" group relative">
+                  <div className=" flex flex-col text-[#03071E]">
+                    <div className="   cursor-pointer  transition-all duration-100 relative rounded-[6px]  lg:group-hover:opacity-50 h-[200px] w-full overflow-hidden">
+                      {/* <img src={`/images/web/categories/${items.img}`} alt="" className="h-[100%] w-[100%]" /> */}
+                      <Image
+                        // src={`/images/web/categories/${items.img}`}
+                        src={`${items?.images[0]}`}
+                        alt="Your Image"
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                    </div>
+                    <Link href={`/productinfo/${items._id}`}>
+                      <h6 className=" font-[700]  text-[1.1rem] mt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
+                        {items.title}
+                      </h6>
+                    </Link>
+                    <p className="py-1 text-[1rem] font-[400]">
+                      Rs {items.price}
+                    </p>
+                    <button
+                      className=" transition-all duration-100 w-full md:py-2 py-1 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  lg:hover:bg-opacity-[80%]"
+                      onClick={() => handeladdtocart(items)}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                  <button
+                    className="w-[70%] transition-all duration-100 cursor-pointer rounded-xl absolute left-[50%] translate-x-[-50%] lg:hidden lg:group-hover:block top-[50%] lg:z-10 z-[1] bg-button-secondary px-5  text-text-secondary text-[1rem]  text-center  lg:hover:shadow-gray-950  hover:shadow"
+                    onClick={() => handelpeoductinfo(items._id)}
+                  >
+                    Quick buy
                   </button>
                 </div>
-                <button className="w-[70%] transition-all duration-100 cursor-pointer rounded-xl absolute left-[50%] translate-x-[-50%] lg:hidden lg:group-hover:block top-[50%] lg:z-10 z-[1] bg-button-secondary px-5  text-text-secondary text-[1rem]  text-center  lg:hover:shadow-gray-950  hover:shadow" onClick={() => handelpeoductinfo(items._id)}>
-                  Quick buy
-                </button>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         )}
       </div>
 
       <div
-        className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[350px] w-[80%] p-4 top-0 z-30 rounded-tl-[28px] border py-3 px-4  context ${isfilterbaropen === 1 ? "block" : "hidden"
-          }`}
+        className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[350px] w-[80%] p-4 top-0 z-30 rounded-tl-[28px] border py-3 px-4  context ${
+          isfilterbaropen === 1 ? "block" : "hidden"
+        }`}
         ref={divRef}
       >
         <div className="py-3 px-3 w-full flex gap-x-4 border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700]">
@@ -369,8 +388,9 @@ export default function Contentcategories({ params }) {
 
                   <button className="text-xl ml-auto">
                     <BiSolidChevronDown
-                      className={` transition-all duration-75 ${isVisible(index) && " rotate-180"
-                        }`}
+                      className={` transition-all duration-75 ${
+                        isVisible(index) && " rotate-180"
+                      }`}
                     />
                   </button>
                 </div>
@@ -399,17 +419,30 @@ export default function Contentcategories({ params }) {
         </div>
       </div>
 
-      <div className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[350px] w-[80%]  top-0 z-30 rounded-tl-[28px] border py-3 context ${isfilterbaropen === 2 ? 'block' : 'hidden'}`} ref={divRef}>
+      <div
+        className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[350px] w-[80%]  top-0 z-30 rounded-tl-[28px] border py-3 context ${
+          isfilterbaropen === 2 ? "block" : "hidden"
+        }`}
+        ref={divRef}
+      >
         <div className="py-3 px-6 w-full flex gap-x-4 border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700]">
-          <FaXmark className=" cursor-pointer" onClick={() => setisfilterbaropen(0)} /> Cart
+          <FaXmark
+            className=" cursor-pointer"
+            onClick={() => setisfilterbaropen(0)}
+          />{" "}
+          Cart
         </div>
-        <Productcart products={cartdata} showprice={showpricemenu} setshowprice={setshowpricemenu} />
-
+        <Productcart
+          products={cartdata}
+          showprice={showpricemenu}
+          setshowprice={setshowpricemenu}
+        />
       </div>
 
       <div
-        className={`your-specific-class fixed overflow-y-auto left-0 h-[100vh] bg-white shadow-sm lg:hidden w-[80%] p-4 top-0 z-30 rounded-tr-[28px] border py-3 px-3  context ${isfilterbaropen === 3 ? "block" : "hidden"
-          }`}
+        className={`your-specific-class fixed overflow-y-auto left-0 h-[100vh] bg-white shadow-sm lg:hidden w-[80%] p-4 top-0 z-30 rounded-tr-[28px] border py-3 px-3  context ${
+          isfilterbaropen === 3 ? "block" : "hidden"
+        }`}
         ref={divRef}
       >
         <div className="flex">
@@ -429,11 +462,8 @@ export default function Contentcategories({ params }) {
         height="550"
         effect="fadeInDown"
         onClickAway={closeModal}
-
       >
-
         <Productmodal produtdata={productdata} modalclose={closeModal} />
-
       </Modal>
       <ToastContainer />
     </div>

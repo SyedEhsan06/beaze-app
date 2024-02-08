@@ -36,7 +36,7 @@ export default function Shopmenu({ meudata,showhide }) {
               <div className="w-3/12  cursor-pointer   relative   h-[70px] overflow-hidden rounded-[7px]">
                 {items.img ? (
                   <Image
-                    src={`/images/web/shopmenu/${items.img}.jpg`}
+                    src={items.img=="categoryimage"?"/images/web/product/notfound.png":items.img}
                     alt="Your Image"
                     layout="fill"
                     objectFit="cover"

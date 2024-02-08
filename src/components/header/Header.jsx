@@ -18,6 +18,7 @@ import {
   fetchCategories,
   selectCategories,
 } from "@/redux/slices/categorySlice";
+import { fetchProducts } from "@/redux/slices/productSlice";
 
 export default function Header() {
   const [scrollLength, setScrollLength] = useState(0);
@@ -32,8 +33,8 @@ export default function Header() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-
+  
+    
   const handleScroll = () => {
     setScrollLength(window.scrollY);
   };
@@ -113,7 +114,18 @@ export default function Header() {
 
     return () => clearTimeout(timeoutId);
   }, [search]);
-
+  const handleDispatch = () => {
+    setshowhide(0);
+    let type = "search";
+    if(search.length >= 1){
+      dispatch(
+        fetchProducts({
+          type,
+          item: search,
+        })
+      );
+    }
+  };
   return (
     <header
       className={`h-[70px] showmenu  z-10 w-full shadow py-2 transition-all duration-150 ${
@@ -189,9 +201,15 @@ export default function Header() {
 
                 <div className=" max-h-[415px] overflow-y-auto">
                   {searchdata.map((items, index) => (
-                    <div
-                      className="py-4 px-4 flex gap-x-5  border-b-[0.5px] border-[#DBD9D9]"
-                      key={index}
+                   <Link href={`/productinfo/${items._id}`} key={index}
+                    onClick={
+                      () => {
+                        setshowhide(0);
+                      }
+                    }
+                  >
+                     <div
+                      className="py-4 px-4 flex gap-x-5  border-b-[0.5px] border-[#DBD9D9]"        
                     >
                       <div className="w-4/12  relative   h-[105px]  overflow-hidden rounded-[8px]">
                         <Image
@@ -218,15 +236,21 @@ export default function Header() {
                         </p>
                       </div>
                     </div>
+                    </Link>
                   ))}
 
                  
                 </div>
 
                 <div className="w-full">
-                    <button className=" bg-theme-footer-bg capitalize  font-[600] text-xl text-center text-white py-3 w-full rounded-bl-[4px]  rounded-br-[4px] ">
+                    <Link href={'/products'}
+
+                      onMouseDown={handleDispatch}>
+                    <button
+                    className=" bg-theme-footer-bg capitalize  font-[600] text-xl text-center text-white py-3 w-full rounded-bl-[4px]  rounded-br-[4px] ">
                       View All Results
                     </button>
+                      </Link>
                   </div>
               </div>
               <div

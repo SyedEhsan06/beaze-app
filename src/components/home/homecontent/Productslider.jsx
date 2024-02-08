@@ -43,7 +43,6 @@ export default function Productslider({ data }) {
   // const router = useRouter();
   const dispatch = useDispatch();
   const handleFetch = (params) => {
-    console.log(params);
     if (params.subcategories === undefined) {
       let type = "subcategory";
       let item = params.name;
