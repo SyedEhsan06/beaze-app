@@ -106,10 +106,10 @@ export default function Header() {
     };
 
     const timeoutId = setTimeout(() => {
-      if (search.length >= 2) {
+      if (search.length >= 1) {
         fetchdata();
       }
-    }, 500);
+    }, 400);
 
     return () => clearTimeout(timeoutId);
   }, [search]);
