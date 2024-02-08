@@ -7,15 +7,15 @@ export async function GET(req) {
     let queryParams = req.url.split("?")[1];
     const queryObject = {};
     queryParams = decodeURIComponent(queryParams);
-    if (queryParams == "Women%E2%80%99s%20Clothes") {
-      queryParams = "category=Women%27s%20Clothes";
-    } else if (queryParams == "Men%E2%80%99s%20Clothes") {
-      queryParams = "category=Men%27s%20Clothes";
-    } else if (queryParams.toLowerCase().includes("men")) {
-      queryParams = queryParams.replace(/men'?s?/gi, "Men's Clothes");
-    } else if (queryParams.toLowerCase().includes("women")) {
-      queryParams = queryParams.replace(/women'?s?/gi, "Women's Clothes");
-    }
+    // if (queryParams == "Women%E2%80%99s%20Clothes") {
+    //   queryParams = "category=Women%27s%20Clothes";
+    // } else if (queryParams == "Men%E2%80%99s%20Clothes") {
+    //   queryParams = "category=Men%27s%20Clothes";
+    // } else if (queryParams.toLowerCase().includes("men")) {
+    //   queryParams = queryParams.replace(/men'?s?/gi, "Men's Clothes");
+    // } else if (queryParams.toLowerCase().includes("women")) {
+    //   queryParams = queryParams.replace(/women'?s?/gi, "Women's Clothes");
+    // }
     if (queryParams) {
       queryParams.split("&").forEach((param) => {
         const [key, value] = param.split("=");
@@ -37,7 +37,8 @@ export async function GET(req) {
       }
     } else if (queryObject.subcategory) {
       products = await Product.find({ subcategory: queryObject.subcategory });
-    } else if (queryObject.search) {
+    }
+    else if (queryObject.search) {
       const searchRegex = { $regex: queryObject.search, $options: "i" };
 
       products = await Product.find({
