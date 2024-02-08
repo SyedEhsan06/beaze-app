@@ -302,7 +302,7 @@ export default function Header() {
               />
             </div>
             {showhide === 1 && (
-              <div className="absolute w-[80%]  bg-[#EBE9DB] left-0 top-[100%] h-[92vh] transition-all duration-75  overflow-y-auto">
+              <div className="absolute w-[80%] z-40 bg-[#EBE9DB] left-0 top-[100%] h-[92vh] transition-all duration-75  overflow-y-auto">
                 <div className="w-full flex">
                   {showshop && (
                     <button className="text-white text-2xl p-2 bg-gray-950">

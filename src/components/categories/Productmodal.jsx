@@ -11,13 +11,13 @@ export default function Productmodal({produtdata,modalclose}) {
     const[sizeindex,setsizeindex] = useState(1)
 console.log(produtdata)
   return (
-    <div className="w-full px-5 py-6 relative">
-     <button className=' absolute top-[10px] right-3' onClick={() => modalclose()}><FaXmark size={30}/></button>
-    <div className="w-full flex gap-x-5">
-  <div className="w-[45%]">
+    <div className="w-full px-5 py-6 relative h-[500px] overflow-y-auto">
+     <button className=' absolute top-[10px] right-3 z-10' onClick={() => modalclose()}><FaXmark size={30}/></button>
+    <div className="w-full lg:flex lg:gap-x-5 grid grid-cols-1 gap-y-5 lg:gap-y-0">
+  <div className="lg:w-[45%] ">
     <ModalImageSlider sliderdata ={produtdata.images}/>
   </div>
-  <div className="w-[50%] flex flex-col   justify-between">
+  <div className="lg:w-[50%] flex flex-col gap-4 lg:gap-0   justify-between">
   <div className="w-full flex flex-col">
               
               <h5 className="headtext font-semibold text-3xl leading-[2.8rem]">{produtdata.title}</h5>
