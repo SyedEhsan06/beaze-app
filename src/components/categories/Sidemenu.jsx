@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState } from "react";
 import { BiSolidChevronDown } from "react-icons/bi";
 import Sidemenufilterlist from "./Sidemenufilterlist";
@@ -11,6 +12,7 @@ import {
   selectSubcategory,
   setSubcategory,
 } from "@/redux/slices/filterSlice";
+import { selectCategoryProduct } from "@/redux/slices/productSlice";
 
 export default function Sidemenu() {
   const [checkedmenus, setcheckedmenus] = useState([]);
@@ -20,6 +22,7 @@ export default function Sidemenu() {
   const dispatch = useDispatch();
   const Subcategories = useSelector(selectSubcategory);
 
+  
   useEffect(() => {
     if (rawData) {
       setCategoriesdata(rawData.categories);
@@ -61,7 +64,26 @@ export default function Sidemenu() {
     setSelectedSubcategories([...selectedSubcategories, selectedSubcategory]);
     dispatch(setSubcategory(selectedSubcategory));
   };
-
+  const [uniqueCategory, setUniqueCategory] = useState([]);
+  let selectedData = useSelector(selectCategoryProduct);
+  const [selectedCategoryData, setSelectedCategoryData] = useState([]);
+  
+  useEffect(() => {
+    let currentCategory;
+    if (sessionStorage.getItem("categoryData")) {
+      currentCategory = JSON.parse(sessionStorage.getItem("categoryData"));
+      let cats = currentCategory.products.map((product) => product.category);
+      let uniqueCategory = [...new Set(cats)];
+      setUniqueCategory(uniqueCategory);
+      const indexes = uniqueCategory.map(categoryName =>
+        categoriesdata?.findIndex(category => category.name === categoryName)
+      );
+      setcheckedmenus(indexes.filter(index => index !== -1));
+    } else {
+      setcheckedmenus([]);
+    }
+  }, [categoriesdata, sessionStorage.getItem("categoryData")]);
+  
   return (
     <aside className="w-full  py-0  px-5 overflow-y-auto">
       {categoriesdata?.map((items, index) => (

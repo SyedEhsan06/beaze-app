@@ -135,6 +135,24 @@ export default function Header() {
       dispatch(closeCart());
     }
   };
+  const [count, setCount] = useState(0);
+  // let countData = useSelector((state) => state.cart.cart)
+  // if(countData.length >= 1){
+  //   //unique data
+  //   let supCount = countData.map((item) => item._id);
+  //   let unique = [...new Set(supCount)];
+  //   let count = unique.length;
+  //   setCount(count);
+  // }
+  const countData = useSelector((state) => state.cart.cart);
+  useEffect(() => {
+    console.log(countData);
+      let supCount = countData.map((item) => item._id);
+      let unique = [...new Set(supCount)];
+      let count = unique.length;
+      setCount(count);
+    
+  }, [countData]);
   return (
     <header
       className={`h-[70px] showmenu  z-10 w-full shadow py-2 transition-all duration-150 ${
@@ -309,7 +327,7 @@ export default function Header() {
             onClick={handleCartOpen
             }
             className="flex gap-3 bg-gray-950 text-white font-semibold items-center py-1 rounded px-4 uppercase">
-              <FaCartShopping size={18} /> cart
+              <FaCartShopping size={18} /> cart <span className="text-[14px] font-[400]">{count}</span>
             </button>
           </li>
         </ul>

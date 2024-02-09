@@ -5,12 +5,16 @@ export default function Filterdatalist({ Ftitle, onFilterSelection, subcategory,
 
     const handleCheckboxChange = (title) => {
         const isSelected = selectedFilters.includes(title);
-        const updatedSelectedFilters = isSelected
-          ? selectedFilters.filter((filter) => filter !== title)
-          : [...selectedFilters, title];
+        let updatedSelectedFilters;
+        if (isSelected) {
+            updatedSelectedFilters = selectedFilters.filter((filter) => filter !== title);
+        } else {
+            updatedSelectedFilters = [...selectedFilters, title];
+        }
         setSelectedFilters(updatedSelectedFilters);
         onFilterSelection(Ftitle, updatedSelectedFilters);
     };
+    
     
     return (
         <div>
