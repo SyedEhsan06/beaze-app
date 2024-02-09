@@ -24,7 +24,7 @@ export default function Shopmenu({ meudata,showhide }) {
 
     {meudata?.map((items, index) => (
         <div
-          className="bg-white p-1   rounded-[7px] transition-all duration-75  border-transparent border hover:border-theme-footer-bg"
+          className="bg-white p-1   rounded-[7px] transition-all duration-75  border-transparent border lg:hover:border-theme-footer-bg"
           key={index}
         >
           <Link href={{
@@ -33,7 +33,7 @@ export default function Shopmenu({ meudata,showhide }) {
             handleDispatch("category",items.name)
           } >
             <div className="flex items-center gap-x-2  ">
-              <div className="w-3/12  cursor-pointer   relative   h-[70px] overflow-hidden rounded-[7px]">
+              <div className="w-3/12  cursor-pointer   relative   md:h-[70px] h-[50px] overflow-hidden rounded-[7px]">
                 {items.img ? (
                   <Image
                     src={items.img=="categoryimage"?"/images/web/product/notfound.png":items.img}

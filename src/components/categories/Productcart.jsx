@@ -3,12 +3,12 @@ import Image from 'next/image'
 import { IoMdAdd } from "react-icons/io";
 import { RiSubtractFill } from "react-icons/ri";
 import { FaTrashAlt } from "react-icons/fa";
-export default function Productcart({ products, showprice, setshowprice }) {
+export default function Productcart({ products, showprice, setshowprice,setisfilteropen }) {
 
 
     return (
         <>
-            <div className='pt-5'>
+            <div className='pt-5' onClick={() => setisfilteropen(2)}>
                 <div className=' overflow-y-auto max-h-[405px] border-b'>
                     <div className='px-3'>
                        {
@@ -28,12 +28,14 @@ export default function Productcart({ products, showprice, setshowprice }) {
                                 <h5 className='text-lg font-[500] leading-4'>{items.title}</h5>
                                 <p className=' text-[1rem] text-text-secondary font-[300]'>Size : M | Colour : Black</p>
                                 <div className='mt-1 flex items-center border-[0.5px] w-[60%] justify-between rounded'>
+                                  
+                                   
                                     <button className='py-1 px-2 border-r-[0.5px]'>
-                                        <IoMdAdd />
+                                        <RiSubtractFill className='font-[800]' />
                                     </button>
                                     <div className='py-1 px-2 '>1</div>
                                     <button className='py-1 px-2 border-l-[0.5px]'>
-                                        <RiSubtractFill className='font-[800]' />
+                                        <IoMdAdd />
                                     </button>
                                 </div>
 
