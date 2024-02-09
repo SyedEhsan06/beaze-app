@@ -57,6 +57,7 @@ export default function Contentcategories({ params }) {
     let rawData = selectData.response;
     if (rawData) {
       sessionStorage.setItem("categoryData", JSON.stringify(rawData));
+      setData(rawData.products);
     }
     if (sessionStorage.getItem("categoryData")) {
       let cachedData = JSON.parse(sessionStorage.getItem("categoryData"));
