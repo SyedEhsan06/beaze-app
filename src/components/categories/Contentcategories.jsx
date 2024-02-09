@@ -30,6 +30,8 @@ import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import { addToCart, selectCart } from "@/redux/slices/cartSlice";
+import { closeCart, selectCartOpen } from "@/redux/slices/cartOpenSlice";
 
 export default function Contentcategories({ params }) {
   const [showsort, setshowsort] = useState(false);
@@ -167,7 +169,6 @@ let router = useRouter();
         .map(([subcategory]) => subcategory);
 
       setSubcategory(selectedSubcategoryArray);
-      console.log(selectedSubcategoryArray);
     }
   }, [selectedsubCats]);
 
@@ -192,26 +193,37 @@ let router = useRouter();
   const closeModal = () => {
     setismodalopen(false);
   };
+  const selectedCartData = useSelector(selectCart);
 
   const handeladdtocart = (obj) => {
-    const isObjectPresent = cartdata.some(
-      (item) => JSON.stringify(item) === JSON.stringify(obj)
-    );
-
-    if (isObjectPresent) {
-      toast.error("Item already added to cart", {
+    setisfilterbaropen(2);
+    dispatch(addToCart(obj));
+    if (selectedCartData.some(item => item._id === obj._id)) {
+      toast.success("Added same product again", {
         position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
+        autoClose: 500,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
+        progress: undefined,
       });
-    } else {
-      setcartdata((prevArray) => [...prevArray, obj]);
-      setisfilterbaropen(2);
     }
+    else {
+      toast.success("Added to cart", {
+        position: "top-right",
+        autoClose: 500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+    localStorage.setItem("cart", JSON.stringify(selectedCartData));
   };
+  const cartOpenState = useSelector(selectCartOpen);
+  console.log(cartOpenState);
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
@@ -423,21 +435,23 @@ let router = useRouter();
 
       <div
         className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[350px] w-[80%]  top-0 z-30 rounded-tl-[28px] border py-3 context ${
-          isfilterbaropen === 2 ? "block" : "hidden"
+          cartOpenState? "block" : "hidden"
         }`}
         ref={divRef}
       >
         <div className="py-3 px-6 w-full flex gap-x-4 border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700]">
           <FaXmark
             className=" cursor-pointer"
-            onClick={() => setisfilterbaropen(0)}
+            onClick={
+              ()=>dispatch(closeCart())
+            }
           />{" "}
           Cart
         </div>
         <Productcart
-          products={cartdata}
-          showprice={showpricemenu}
-          setshowprice={setshowpricemenu}
+          handelCartShow={
+            cartOpenState
+          }c
         />
       </div>
 

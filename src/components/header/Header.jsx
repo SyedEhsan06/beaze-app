@@ -19,6 +19,7 @@ import {
   selectCategories,
 } from "@/redux/slices/categorySlice";
 import { fetchProducts } from "@/redux/slices/productSlice";
+import { closeCart, openCart } from "@/redux/slices/cartOpenSlice";
 
 export default function Header() {
   const [scrollLength, setScrollLength] = useState(0);
@@ -124,6 +125,14 @@ export default function Header() {
           item: search,
         })
       );
+    }
+  };
+  const [cartOpen, setCartOpen] = useState(false);
+  const handleCartOpen = () => {
+    setCartOpen(!cartOpen);
+    dispatch(openCart());
+    if (cartOpen) {
+      dispatch(closeCart());
     }
   };
   return (
@@ -294,7 +303,10 @@ export default function Header() {
             <Link href={"/"}> Create an Account </Link>{" "}
           </li>
           <li className="context font-semibold px-2">
-            <button className="flex gap-3 bg-gray-950 text-white font-semibold items-center py-1 rounded px-4 uppercase">
+            <button
+            onClick={handleCartOpen
+            }
+            className="flex gap-3 bg-gray-950 text-white font-semibold items-center py-1 rounded px-4 uppercase">
               <FaCartShopping size={18} /> cart
             </button>
           </li>
