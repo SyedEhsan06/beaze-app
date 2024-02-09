@@ -73,32 +73,56 @@ let router = useRouter();
     }
   }, [selectData, dispatch]);
 
-  useEffect(() => {
-    const handleBodyClick = (event) => {
-      const clickedElement = event.target;
-      if (
-        divRef.current &&
-        !clickedElement.classList.contains("your-specific-class")
-      ) {
-        let ancestor = clickedElement.parentElement;
+  // useEffect(() => {
+  //   const handleBodyClick = (event) => {
+  //     const clickedElement = event.target;
+  //     if (
+  //       divRef.current &&
+  //       !clickedElement.classList.contains("your-specific-class")
+  //     ) {
+  //       let ancestor = clickedElement.parentElement;
 
-        while (ancestor && ancestor !== document.body) {
-          if (ancestor.classList.contains("your-specific-class")) {
-            return;
-          }
-          ancestor = ancestor.parentElement;
-        }
+  //       while (ancestor && ancestor !== document.body) {
+  //         if (ancestor.classList.contains("your-specific-class")) {
+  //           return;
+  //         }
+  //         ancestor = ancestor.parentElement;
+  //       }
 
-        setisfilterbaropen(0);
-      }
-    };
+  //       setisfilterbaropen(0);
+  //     }
+  //   };
 
-    document.body.addEventListener("click", handleBodyClick);
+  //   document.body.addEventListener("click", handleBodyClick);
 
-    return () => {
-      document.body.removeEventListener("click", handleBodyClick);
-    };
+  //   return () => {
+  //     document.body.removeEventListener("click", handleBodyClick);
+  //   };
+  // }, []);
+
+
+
+
+useEffect(() => {
+    document.addEventListener("keydown", hideOnescape, true);
+    document.addEventListener("click", hideoutside, true);
+
   }, []);
+  
+  const hideOnescape = (e) => {
+
+if(e.key === "Escape"){
+setisfilterbaropen(0)
+}
+  }
+
+  
+  const hideoutside = (e) => {
+    if (divRef.current && !divRef.current.contains(e.target)) {
+      setisfilterbaropen(0)
+    }
+  };
+
 
   const handleButtonClick = () => {
     setisfilterbaropen(0);
@@ -200,7 +224,7 @@ let router = useRouter();
     dispatch(addToCart(obj));
     if (selectedCartData.some(item => item._id === obj._id)) {
       toast.success("Added same product again", {
-        position: "top-right",
+        position: "bottom-left",
         autoClose: 500,
         hideProgressBar: true,
         closeOnClick: true,
@@ -211,7 +235,7 @@ let router = useRouter();
     }
     else {
       toast.success("Added to cart", {
-        position: "top-right",
+        position: "bottom-left",
         autoClose: 500,
         hideProgressBar: true,
         closeOnClick: true,
@@ -223,7 +247,6 @@ let router = useRouter();
     localStorage.setItem("cart", JSON.stringify(selectedCartData));
   };
   const cartOpenState = useSelector(selectCartOpen);
-  console.log(cartOpenState);
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
@@ -292,11 +315,11 @@ let router = useRouter();
       </div>
 
       <div className="mt-5">
-        {data.length === 0 && loader ? (
+        {data?.length === 0 && loader ? (
           <Loader />
         ) : (
           <div className=" grid lg:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context">
-            {data.length == 0 ? (
+            {data?.length == 0 ? (
               <>
                 <div className="flex items-center justify-center h-screen">
                   <div className="text-center">
@@ -383,7 +406,7 @@ let router = useRouter();
           Filters
         </div>
 
-        <div className="">
+        <div className="" onClick={() => setisfilterbaropen(1)}>
           {filtertypes.map((items, index) => (
             <div
               className="w-full flex flex-col  gap-y-2 py-4  border-b border-theme-footer-bg  border-opacity-[40%] context px-3"

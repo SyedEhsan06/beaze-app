@@ -153,10 +153,12 @@ export default function Header() {
           </li>
           <li
           ref={shopRef}
-            className={`context showmenu   px-5 duration-75 transition-all cursor-pointer ${
+            className={`group context showmenu   px-5 duration-75 transition-all cursor-pointer ${
               showmenu ? "bg-white  rounded-2xl font-[800]" : "font-semibold"
             }`}
             onClick={() => setshowmenu(!showmenu)}
+            onMouseEnter={() => setshowmenu(true)}
+          
           >
             Shop
           </li>
@@ -356,7 +358,7 @@ export default function Header() {
                   </button>
                 </div>
                 <div className=" py-5 px-3">
-                  {showmenu ? (
+                  {showshop ? (
                     <div className="w-full" >
                       <Shopmenu meudata={shopmenudata}  Closeref={shopRef}/>
                     </div>
