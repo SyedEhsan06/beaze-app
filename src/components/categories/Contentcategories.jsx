@@ -29,6 +29,7 @@ import Productmodal from "./Productmodal";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 export default function Contentcategories({ params }) {
   const [showsort, setshowsort] = useState(false);
@@ -51,7 +52,7 @@ export default function Contentcategories({ params }) {
   const [productdata, setproductdata] = useState([]);
   const selectData = useSelector(selectCategoryProduct);
   const dispatch = useDispatch();
-
+let router = useRouter();
   // console.log(selectData);
   useEffect(() => {
     let rawData = selectData.response;
@@ -64,7 +65,7 @@ export default function Contentcategories({ params }) {
       setLoader(false);
       setData(cachedData.products);
     }
-    if (!rawData && !sessionStorage.getItem("categoryData")) {
+    if (!data && !rawData && !sessionStorage.getItem("categoryData")&& router.isReady) {
       dispatch(fetchProducts("category", "all"));
       console.log("fetching");
     }
