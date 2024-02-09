@@ -84,7 +84,7 @@ export default function Sidemenu() {
     }
     setSelectedSubcategories([]);
     dispatch(setSubcategory());
-  }, [categoriesdata, sessionStorage.getItem("categoryData")]);
+  }, [categoriesdata, sessionStorage?.getItem("categoryData")]);
   
   return (
     <aside className="w-full  py-0  px-5 overflow-y-auto">
@@ -120,7 +120,7 @@ export default function Sidemenu() {
               onShowMore={() => handelshowmore(index)}
               onShowLess={() => handelshowless(index)}
               onSubcategorySelect={handleSubcategorySelect}
-              refresh={categoriesdata}
+              // refresh={categoriesdata}
             />
           </div>
         </div>
