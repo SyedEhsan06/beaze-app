@@ -70,8 +70,8 @@ export default function Sidemenu() {
   
   useEffect(() => {
     let currentCategory;
-    if (sessionStorage.getItem("categoryData")) {
-      currentCategory = JSON.parse(sessionStorage.getItem("categoryData"));
+    if (sessionStorage?.getItem("categoryData")) {
+      currentCategory = JSON.parse(sessionStorage?.getItem("categoryData"));
       let cats = currentCategory.products.map((product) => product.category);
       let uniqueCategory = [...new Set(cats)];
       setUniqueCategory(uniqueCategory);
@@ -82,6 +82,8 @@ export default function Sidemenu() {
     } else {
       setcheckedmenus([]);
     }
+    setSelectedSubcategories([]);
+    dispatch(setSubcategory());
   }, [categoriesdata, sessionStorage.getItem("categoryData")]);
   
   return (
@@ -118,6 +120,7 @@ export default function Sidemenu() {
               onShowMore={() => handelshowmore(index)}
               onShowLess={() => handelshowless(index)}
               onSubcategorySelect={handleSubcategorySelect}
+              refresh={categoriesdata}
             />
           </div>
         </div>

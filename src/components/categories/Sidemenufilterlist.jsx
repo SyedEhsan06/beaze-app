@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-export default function Sidemenufilterlist({ category, subcategory, showCount, indexing, onShowMore, onShowLess, onSubcategorySelect }) {
+export default function Sidemenufilterlist({ refresh,category, subcategory, showCount, indexing, onShowMore, onShowLess, onSubcategorySelect }) {
     const [selectedSubcategories, setSelectedSubcategories] = useState([]);
-
+    console.log('selectedSubcategories', refresh);
     const handleSubcategorySelect = (subcategoryId) => {
         const isSelected = selectedSubcategories.includes(subcategoryId);
         if (isSelected) {
