@@ -25,37 +25,31 @@ export default function Sidemenufilterlist({
   const router = useRouter();
   const handleSubcategorySelect = (subcategoryId) => {
     const isSelected = selectedSubcategories.includes(subcategoryId);
-    let updatedSelectedSubcategories = [];
-    let updatedItemCheck = [];
-  
     if (isSelected) {
-      updatedSelectedSubcategories = selectedSubcategories.filter(
-        (id) => id !== subcategoryId
+      setSelectedSubcategories(
+        selectedSubcategories.filter((id) => id !== subcategoryId)
       );
-      updatedItemCheck = itemCheck.filter((id) => id !== subcategoryId);
     } else {
-      updatedSelectedSubcategories = [...selectedSubcategories, subcategoryId];
-      updatedItemCheck = [...itemCheck, subcategoryId];
+      setSelectedSubcategories([...selectedSubcategories, subcategoryId]);
     }
-  
-    console.log('updatedSelectedSubcategories:', updatedSelectedSubcategories);
-    console.log('updatedItemCheck:', updatedItemCheck);
-  
-    setSelectedSubcategories(updatedSelectedSubcategories);
-    setItemCheck(updatedItemCheck);
     onSubcategorySelect(category, subcategoryId);
-  
+
     if (
       JSON.stringify(prevSelectedKeys.current) !== JSON.stringify(selectedKeys)
     ) {
-      prevSelectedKeys.current = selectedKeys;
+      prevSelectedKeys.current = selectedKeys; // Update the previous selected keys
       const selectedSubcategories = Object.keys(selectedRedux).filter(
         (subcategory) => selectedRedux[subcategory]
       );
+      console.log(
+        selectedData.response?.products?.map((item) => item.subcategory)
+      );
       const item = selectedSubcategories.map((subcategory) => subcategory);
+      //   console.log("item", item);
       setItemCheck(item);
+      //   console.log("side menu hit api");
       const type = "type";
-  
+
       dispatch(
         fetchProducts({
           type,
@@ -64,31 +58,6 @@ export default function Sidemenufilterlist({
       );
     }
   };
-     // useEffect(() => {
-
-    //   if (
-    //     JSON.stringify(prevSelectedKeys.current) !== JSON.stringify(selectedKeys)
-    //   ) {
-    //     prevSelectedKeys.current = selectedKeys; // Update the previous selected keys
-    //     const selectedSubcategories = Object.keys(selectedRedux).filter(
-    //       (subcategory) => selectedRedux[subcategory]
-    //     );
-    //     console.log(
-    //       selectedData.response?.products?.map((item) => item.subcategory)
-    //     );
-    //     const item = selectedSubcategories.map((subcategory) => subcategory);
-    //     //   console.log("item", item);
-    //     setItemCheck(item);
-    //     console.log("side menu hit api");
-    //     const type = "type";
-    //     dispatch(
-    //       fetchProducts({
-    //         type,
-    //         item,
-    //       })
-    //     );
-    //   }
-    // }, [selectedSubcategories]);
   const handleAllClick = () => {
     if (selectedSubcategories.length === subcategory.length) {
       setSelectedSubcategories([]);
@@ -104,59 +73,52 @@ export default function Sidemenufilterlist({
   );
   const [selected, setSelected] = useState(selectedKeys);
   const [itemCheck, setItemCheck] = useState([]);
-    // useEffect(() => {
+    useEffect(() => {
 
-    //   if (
-    //     JSON.stringify(prevSelectedKeys.current) !== JSON.stringify(selectedKeys)
-    //   ) {
-    //     prevSelectedKeys.current = selectedKeys; // Update the previous selected keys
-    //     const selectedSubcategories = Object.keys(selectedRedux).filter(
-    //       (subcategory) => selectedRedux[subcategory]
-    //     );
-    //     console.log(
-    //       selectedData.response?.products?.map((item) => item.subcategory)
-    //     );
-    //     const item = selectedSubcategories.map((subcategory) => subcategory);
-    //     //   console.log("item", item);
-    //     setItemCheck(item);
-    //     console.log("side menu hit api");
-    //     const type = "type";
-    //     dispatch(
-    //       fetchProducts({
-    //         type,
-    //         item,
-    //       })
-    //     );
-    //   }
-    // }, [selectedSubcategories]);
+      if (
+        JSON.stringify(prevSelectedKeys.current) !== JSON.stringify(selectedKeys)
+      ) {
+        prevSelectedKeys.current = selectedKeys; // Update the previous selected keys
+        const selectedSubcategories = Object.keys(selectedRedux).filter(
+          (subcategory) => selectedRedux[subcategory]
+        );
+        console.log(
+          selectedData.response?.products?.map((item) => item.subcategory)
+        );
+        const item = selectedSubcategories.map((subcategory) => subcategory);
+        //   console.log("item", item);
+        setItemCheck(item);
+        console.log("side menu hit api");
+        const type = "type";
+        dispatch(
+          fetchProducts({
+            type,
+            item,
+          })
+        );
+      }
+    }, [selectedSubcategories]);
 
   return (
     <div>
       <div className="flex flex-col my-1">
-        {/* <div className="flex gap-x-4 items-center pb-2">
+        <div className="flex gap-x-4 items-center pb-2">
           <div className="relative w-[15px] h-[15px]">
             <input
               type="checkbox"
-              checked={
-                selectedSubcategories.length === subcategory.length
-              }
-              onChange={
-                ()=>handleCheckboxChange(category)
-              }
+              checked={selectedSubcategories.length === subcategory.length}
               onClick={handleAllClick}
               id={`all_${indexing}`}
             />
           </div>
           <label
             htmlFor={`all_${indexing}`}
-            checked={
-                selectedSubcategories.length === subcategory.length
-            }
+            checked={category === ucategory}
             className="text-lg cursor-pointer"
           >
             All Items
           </label>
-        </div> */}
+        </div>
       </div>
 
       {subcategory?.slice(0, showCount).map((item, index) => (
