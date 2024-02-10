@@ -35,7 +35,6 @@ export const filterSlice = createSlice({
 });
 
 export const { setCategory, setColor, setSize, setMaterial, setSleeve ,setSubcategory} = filterSlice.actions;
-
 export const selectCategory = (state) => state.filter.category;
 export const selectColor = (state) => state.filter.color;
 export const selectSize = (state) => state.filter.size;

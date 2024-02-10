@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import { BiSolidChevronDown } from "react-icons/bi";
 import Sidemenufilterlist from "./Sidemenufilterlist";
@@ -23,16 +23,19 @@ export default function Sidemenu() {
   const dispatch = useDispatch();
   const Subcategories = useSelector(selectSubcategory);
 
-  
   useEffect(() => {
     if (rawData) {
       setCategoriesdata(rawData.categories);
+      // setSelectedSubcategories([]);
+      setSelectedSubcategories([]);
     } else {
       dispatch(fetchCategories());
+      // setSelectedSubcategories([]);
     }
   }, [rawData]);
 
   const handleCheckboxChange = (index) => {
+    // console.log("index", index);
     const currentIndex = checkedmenus.indexOf(index);
     const newCheckedItems = [...checkedmenus];
 
@@ -68,25 +71,35 @@ export default function Sidemenu() {
   const [uniqueCategory, setUniqueCategory] = useState([]);
   let selectedData = useSelector(selectCategoryProduct);
   const [selectedCategoryData, setSelectedCategoryData] = useState([]);
-  
+
   useEffect(() => {
+    // console.log("selectedData");
     let currentCategory;
-    if (sessionStorage?.getItem("categoryData")) {
+    if (
+      sessionStorage?.getItem("categoryData") &&
+      typeof window !== "undefined"
+      
+    ) {
       currentCategory = JSON.parse(sessionStorage?.getItem("categoryData"));
-      let cats = currentCategory.products.map((product) => product.category);
+      let cats = currentCategory?.products?.map((product) => product.category);
       let uniqueCategory = [...new Set(cats)];
       setUniqueCategory(uniqueCategory);
-      const indexes = uniqueCategory.map(categoryName =>
-        categoriesdata?.findIndex(category => category.name === categoryName)
+      const indexes = uniqueCategory.map((categoryName) =>
+        categoriesdata?.findIndex((category) => category.name === categoryName)
       );
-      setcheckedmenus(indexes.filter(index => index !== -1));
+      setcheckedmenus(indexes.filter((index) => index !== -1));
     } else {
       setcheckedmenus([]);
     }
     setSelectedSubcategories([]);
     dispatch(setSubcategory());
+<<<<<<< HEAD
   }, [categoriesdata, typeof window !== "undefined"?sessionStorage?.getItem("categoryData"): null]);
   
+=======
+  }, [dispatch,categoriesdata,typeof window !== "undefined"?sessionStorage?.getItem("categoryData"): null, ]);
+
+>>>>>>> 9805484b015f3b6099e2ad93e7a34ed5e9907d7b
   return (
     <aside className="w-full  py-0  px-5 overflow-y-auto">
       {categoriesdata?.map((items, index) => (
@@ -121,7 +134,8 @@ export default function Sidemenu() {
               onShowMore={() => handelshowmore(index)}
               onShowLess={() => handelshowless(index)}
               onSubcategorySelect={handleSubcategorySelect}
-              // refresh={categoriesdata}
+              selectedSubs ={selectedSubcategories}
+              ucategory={uniqueCategory}
             />
           </div>
         </div>

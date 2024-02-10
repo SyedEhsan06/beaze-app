@@ -57,7 +57,7 @@ export default function Contentcategories({ params }) {
 let router = useRouter();
   // console.log(selectData);
   useEffect(() => {
-    let rawData = selectData.response;
+    let rawData = selectData?.response;
     if (rawData) {
       sessionStorage?.setItem("categoryData", JSON.stringify(rawData));
       setData(rawData.products);
@@ -67,39 +67,15 @@ let router = useRouter();
       setLoader(false);
       setData(cachedData.products);
     }
-    if (!data && !rawData && !sessionStorage?.getItem("categoryData")&& router.isReady) {
-      dispatch(fetchProducts("category", "all"));
-      console.log("fetching");
-    }
+    // if (!data && !rawData && !sessionStorage?.getItem("categoryData")&& router.isReady) {
+    //   dispatch(fetchProducts("category", "all"));
+    //   console.log("fetching");
+    // }
+    
   }, [selectData, dispatch]);
 
-  // useEffect(() => {
-  //   const handleBodyClick = (event) => {
-  //     const clickedElement = event.target;
-  //     if (
-  //       divRef.current &&
-  //       !clickedElement.classList.contains("your-specific-class")
-  //     ) {
-  //       let ancestor = clickedElement.parentElement;
-
-  //       while (ancestor && ancestor !== document.body) {
-  //         if (ancestor.classList.contains("your-specific-class")) {
-  //           return;
-  //         }
-  //         ancestor = ancestor.parentElement;
-  //       }
-
-  //       setisfilterbaropen(0);
-  //     }
-  //   };
-
-  //   document.body.addEventListener("click", handleBodyClick);
-
-  //   return () => {
-  //     document.body.removeEventListener("click", handleBodyClick);
-  //   };
-  // }, []);
-
+  const subcategorySelect = useSelector(selectSubcategory);
+  // console.log(subcategorySelect);
 
 
 
@@ -251,12 +227,12 @@ setisfilterbaropen(0)
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
         <div className="lg:w-8/12 w-full flex order-2 lg:order-1  gap-2 context text-text-secondary flex-wrap ">
-          {subcategory.map((item, index) => (
+          {/* {subcategory.map((item, index) => (
             <div className="flex items-center gap-2  px-[6px] bg-button-secondary rounded-sm font-[500] text-sm shadow-sm py-1">
               <FaXmark className=" cursor-pointer text-xs" />
               {item.length > 10 ? item.slice(0, 15) + "..." : item}
             </div>
-          ))}
+          ))} */}
         </div>
         <div className="lg:w-4/12 lg:order-2 order-1 w-full flex gap-3 context  lg:justify-between relative items-center ">
           <div className="lg:hidden ">
