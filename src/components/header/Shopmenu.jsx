@@ -4,7 +4,7 @@ import Loader from "../loader/Loader";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "@/redux/slices/productSlice";
 
-export default function Shopmenu({ meudata,showhide }) {
+export default function Shopmenu({ meudata,Closeref,closevaribale }) {
   const dispatch = useDispatch()
   const handleDispatch = (type,item) => {
     dispatch(fetchProducts(
@@ -19,13 +19,14 @@ export default function Shopmenu({ meudata,showhide }) {
 
     <>
       {
-        !meudata?<Loader/> :  <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-x-8 md:gap-y-4 gap-x-5 gap-y-3">
+        !meudata?<Loader/> :  <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-x-8 md:gap-y-4 gap-x-5 gap-y-3" onClick={() => closevaribale(true)}>
    
 
     {meudata?.map((items, index) => (
         <div
           className="bg-white p-1   rounded-[7px] transition-all duration-75  border-transparent border lg:hover:border-theme-footer-bg"
           key={index}
+          onClick={ () => Closeref(0)}
         >
           <Link href={{
             pathname: `/products`,

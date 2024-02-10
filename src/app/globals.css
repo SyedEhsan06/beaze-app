@@ -114,6 +114,12 @@ input[type="checkbox"]:checked::before {
 }
 
 
+.customscroolbar{
+  background-color: #FFB61DCC;
+  width: 8px;
+}
+
+
 /* 
 loader */
 
@@ -182,6 +188,7 @@ loader */
   76% { transform:rotate(945deg); opacity: 0; }
   100% { transform:rotate(945deg); opacity: 0; } 
 }
+
 
 
 @tailwind base;

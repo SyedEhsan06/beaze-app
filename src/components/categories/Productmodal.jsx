@@ -11,7 +11,7 @@ export default function Productmodal({produtdata,modalclose}) {
     const[sizeindex,setsizeindex] = useState(1)
 console.log(produtdata)
   return (
-    <div className="w-full px-5 py-6 relative h-[500px] overflow-y-auto">
+    <div className="px-5 pt-6 pb-8 relative min-h-[500px] max-h-[650px] overflow-y-auto w-[1050px]">
      <button className=' absolute top-[10px] right-3 z-10' onClick={() => modalclose()}><FaXmark size={30}/></button>
     <div className="w-full lg:flex lg:gap-x-5 grid grid-cols-1 gap-y-5 lg:gap-y-0">
   <div className="lg:w-[45%] ">
@@ -83,8 +83,8 @@ console.log(produtdata)
 
 
             <div className=" grid grid-cols-1 gap-y-4 headtext ">
-                <button className=" w-full bg-theme-footer-bg text-white font-[700] text-xl py-2 rounded lg:hover:bg-opacity-[90%] lg:hover:shadow-sm transition-all duration-150 ">Checkout</button>
-                <button className=" w-full  text-[#474747] font-[300] text-lg py-2 rounded border-[0.3px] border-[#000000] ">Cancel</button>
+                <button className=" w-full bg-theme-footer-bg text-white font-[700] text-xl py-2 rounded lg:hover:bg-opacity-[90%] lg:hover:shadow-sm transition-all duration-150 " >Checkout</button>
+                <button className=" w-full  text-[#474747] font-[300] text-lg py-2 rounded border-[0.3px] border-[#000000] " onClick={() => modalclose()}>Cancel</button>
             </div>
 
 

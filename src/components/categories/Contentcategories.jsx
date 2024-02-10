@@ -497,8 +497,6 @@ setisfilterbaropen(0)
 
       <Modal
         visible={ismodalopen}
-        width="80%"
-        height="550"
         effect="fadeInDown"
         onClickAway={closeModal}
       >

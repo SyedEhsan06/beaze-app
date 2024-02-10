@@ -13,6 +13,7 @@ import {
   setSubcategory,
 } from "@/redux/slices/filterSlice";
 import { selectCategoryProduct } from "@/redux/slices/productSlice";
+import { typeOf } from "react-read-more-read-less";
 
 export default function Sidemenu() {
   const [checkedmenus, setcheckedmenus] = useState([]);
@@ -84,7 +85,7 @@ export default function Sidemenu() {
     }
     setSelectedSubcategories([]);
     dispatch(setSubcategory());
-  }, [categoriesdata, sessionStorage?.getItem("categoryData")]);
+  }, [categoriesdata, typeof window !== "undefined"?sessionStorage?.getItem("categoryData"): null]);
   
   return (
     <aside className="w-full  py-0  px-5 overflow-y-auto">
