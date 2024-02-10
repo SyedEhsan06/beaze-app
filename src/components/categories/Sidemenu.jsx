@@ -93,13 +93,8 @@ export default function Sidemenu() {
     }
     setSelectedSubcategories([]);
     dispatch(setSubcategory());
-<<<<<<< HEAD
-  }, [categoriesdata, typeof window !== "undefined"?sessionStorage?.getItem("categoryData"): null]);
-  
-=======
   }, [dispatch,categoriesdata,typeof window !== "undefined"?sessionStorage?.getItem("categoryData"): null, ]);
 
->>>>>>> 9805484b015f3b6099e2ad93e7a34ed5e9907d7b
   return (
     <aside className="w-full  py-0  px-5 overflow-y-auto">
       {categoriesdata?.map((items, index) => (
