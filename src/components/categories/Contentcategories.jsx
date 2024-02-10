@@ -57,7 +57,7 @@ export default function Contentcategories({ params }) {
 let router = useRouter();
   // console.log(selectData);
   useEffect(() => {
-    let rawData = selectData.response;
+    let rawData = selectData?.response;
     if (rawData) {
       sessionStorage?.setItem("categoryData", JSON.stringify(rawData));
       setData(rawData.products);
