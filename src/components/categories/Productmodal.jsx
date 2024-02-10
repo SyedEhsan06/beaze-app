@@ -9,7 +9,7 @@ import {IoMdAdd} from 'react-icons/io'
 export default function Productmodal({produtdata,modalclose}) {
     const [quantity,setquantity] = useState(1);
     const[sizeindex,setsizeindex] = useState(1)
-console.log(produtdata)
+// console.log(produtdata)
   return (
     <div className="w-full px-5 py-6 relative h-[500px] overflow-y-auto">
      <button className=' absolute top-[10px] right-3 z-10' onClick={() => modalclose()}><FaXmark size={30}/></button>

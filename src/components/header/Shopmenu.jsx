@@ -3,10 +3,12 @@ import Image from "next/image";
 import Loader from "../loader/Loader";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "@/redux/slices/productSlice";
+import { setSubcategory } from "@/redux/slices/filterSlice";
 
 export default function Shopmenu({ meudata,showhide }) {
   const dispatch = useDispatch()
   const handleDispatch = (type,item) => {
+    dispatch(setSubcategory())
     dispatch(fetchProducts(
       {
         type,

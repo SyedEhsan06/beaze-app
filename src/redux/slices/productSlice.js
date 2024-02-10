@@ -6,15 +6,18 @@ import axios from "axios";
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async (params) => {
-    
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/products?${params.type}=${params.item}`
-      );
-      return { response: response.data, params: params };
-    } catch (error) {
-      throw error;
+    if(params.item!==undefined){
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/products?${params.type}=${params.item}`
+        );
+        // console.log(params);
+        return { response: response.data, params: params };
+      } catch (error) {
+        throw error;
+      }
     }
+    
   }
 );
 let initialState = {
