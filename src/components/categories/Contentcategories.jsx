@@ -67,10 +67,10 @@ let router = useRouter();
       setLoader(false);
       setData(cachedData.products);
     }
-    // if (!data && !rawData && !sessionStorage?.getItem("categoryData")&& router.isReady) {
-    //   dispatch(fetchProducts("category", "all"));
-    //   console.log("fetching");
-    // }
+    if (!data && !rawData && !sessionStorage?.getItem("categoryData")&& router.isReady) {
+      dispatch(fetchProducts("category", "all"));
+      console.log("fetching");
+    }
     
   }, [selectData, dispatch]);
 
