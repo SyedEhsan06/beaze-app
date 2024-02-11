@@ -41,41 +41,93 @@ export default function Contentcategories({ params }) {
   const [filtertypes, setfiltertypes] = useState(filtertypesdata);
   const [loader, setLoader] = useState(true);
   const [sorts, setSorts] = useState(sortsData);
-  // const [showsidebar, setshowsidebar] = useState(false);
-  // const [showfilter, setshowfilter] = useState(false);
-  // const [showfilterbar, setshowfilterbar] = useState(false);
-  // const [showfilterbar2, setshowfilterbar2] = useState(false);
   const [isfilterbaropen, setisfilterbaropen] = useState(0);
-  const [cartdata, setcartdata] = useState([]);
-  const [showpricemenu, setshowpricemenu] = useState(false);
+  // const [cartdata, setcartdata] = useState([]);
+  // const [showpricemenu, setshowpricemenu] = useState(false);
   const divRef = useRef();
   const [data, setData] = useState([]);
   const [ismodalopen, setismodalopen] = useState(false);
   const [productdata, setproductdata] = useState([]);
   const selectData = useSelector(selectCategoryProduct);
   const dispatch = useDispatch();
+  
+  
+    const subcategorySelect = useSelector(selectSubcategory);
 let router = useRouter();
-  // console.log(selectData);
-  useEffect(() => {
-    let rawData = selectData?.response;
-    if (rawData) {
-      sessionStorage?.setItem("categoryData", JSON.stringify(rawData));
-      setData(rawData.products);
-    }
-    if (sessionStorage?.getItem("categoryData")) {
-      let cachedData = JSON.parse(sessionStorage?.getItem("categoryData"));
-      setLoader(false);
-      setData(cachedData.products);
-    }
-    if (!data && !rawData && !sessionStorage?.getItem("categoryData")) {
-      dispatch(fetchProducts("category", "all"));
-      console.log("fetching");
-    }
-    
-  }, [selectData, dispatch]);
+useEffect(() => {
+  let rawData = selectData?.response;
+  // if (selectData?.params?.type==="category"){
+  //   // dispatch(setSubcategory(
+  //   //   selectDa
+  //   // ))
+  //   console.log(selectData?.response.products?.map((item)=>item.subcategory));
+  //   let dis = selectData?.response.products.map((item)=>item.subcategory)
+  //   dispatch(setSubcategory(dis))
+  // }
+  if (rawData) {
+    sessionStorage?.setItem("categoryData", JSON.stringify(rawData));
+    setData(rawData.products);
+  }
 
-  const subcategorySelect = useSelector(selectSubcategory);
-  // console.log(subcategorySelect);
+  if (sessionStorage?.getItem("categoryData")) {
+    let cachedData = JSON.parse(sessionStorage?.getItem("categoryData"));
+    setLoader(false);
+    setData(cachedData.products);
+  }
+
+  // Fetch products based on selected subcategories
+  const fetchProductsBySubcategory = async () => {
+    try {
+      console.log("fetching");
+      console.log(subcategorySelect);
+  
+      // Convert selected subcategories object to an array of selected subcategory names
+      let selectedSubcategories = Object.keys(subcategorySelect).filter(
+        (key) => subcategorySelect[key] === true && key !== "undefined"
+      );
+  
+      console.log(selectedSubcategories.join(","));
+  
+      // Fetch products based on selected subcategories
+      const response = await fetchData(`products?type=${selectedSubcategories.join(",")}`);
+      
+      // Filter out duplicate products
+      const uniqueProducts = response.products.filter((product) => !data.some((existingProduct) => existingProduct._id === product._id));
+      
+      // Update state with unique products
+      setData([...data, ...uniqueProducts]);
+    } catch (error) {
+      console.error("Error fetching products by subcategory:", error);
+    }
+  };
+  
+  const fetchProductsDebounced = debounce(fetchProductsBySubcategory, 500);
+  console.log(Object.keys(subcategorySelect).filter(key => subcategorySelect[key] && key !== 'undefined'))
+
+  if (Object.keys(subcategorySelect).filter(key => subcategorySelect[key] && key !== 'undefined').length > 0){
+    // Fetch products when selected subcategories change
+    if(subcategorySelect!==undefined){
+      fetchProductsDebounced();
+    }
+  } else if (!data && !rawData && !sessionStorage?.getItem("categoryData")) {
+    // Fetch all products if no data is available
+    dispatch(fetchProducts("category", "all"));
+    console.log("fetching");
+  }
+
+  console.log("fetching");
+
+}, [selectData, dispatch, subcategorySelect]);
+
+// Debounce function to limit how often the fetchProductsBySubcategory function is called
+function debounce(func, wait) {
+  let timeout;
+  return function (...args) {
+    const context = this;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(context, args), wait);
+  };
+}
 
 
 

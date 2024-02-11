@@ -92,7 +92,7 @@ export default function Productslider({ data }) {
         >
           {explore?.map((pitems, pindex) => (
             <SwiperSlide key={pindex}>
-              <Link href={`/products`}>
+              <Link href={`/products/${pitems.name}`}>
                 <div
                   className=" w-full cursor-pointer rounded h-auto group"
                   onClick={() => handleFetch(pitems)}
@@ -154,7 +154,7 @@ export default function Productslider({ data }) {
         >
           {best?.map((pitems, pindex) => (
             <SwiperSlide key={pindex}>
-              <Link href={`/products`}>
+              <Link href={`/products/${pitems.name}`}>
                 <div
                   className=" w-full cursor-pointer rounded h-auto group"
                   onClick={() => handleFetch(pitems)}

@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import { BiSolidChevronDown } from "react-icons/bi";
 import Sidemenufilterlist from "./Sidemenufilterlist";
@@ -7,98 +6,54 @@ import {
   fetchCategories,
   selectCategories,
 } from "@/redux/slices/categorySlice";
-import {
-  selectCategory,
-  selectSubcategory,
-  setSubcategory,
-} from "@/redux/slices/filterSlice";
-import { selectCategoryProduct } from "@/redux/slices/productSlice";
-import { typeOf } from "react-read-more-read-less";
+import { selectSubcategory, setSubcategory } from "@/redux/slices/filterSlice";
+import { useRouter } from "next/navigation";
 
-export default function Sidemenu() {
-  const [checkedmenus, setcheckedmenus] = useState([]);
-  const [filtercount, setfiltercount] = useState(5);
-  const rawData = useSelector(selectCategories);
-  const [categoriesdata, setCategoriesdata] = useState([]);
+export default function Sidemenu({ categories }) {
+  const [checkedMenus, setCheckedMenus] = useState([]);
+  const [filterCount, setFilterCount] = useState(5);
   const dispatch = useDispatch();
-  const Subcategories = useSelector(selectSubcategory);
+  const router = useRouter();
 
   useEffect(() => {
-    if (rawData) {
-      setCategoriesdata(rawData.categories);
-      // setSelectedSubcategories([]);
-      setSelectedSubcategories([]);
-    } else {
-      dispatch(fetchCategories());
-      // setSelectedSubcategories([]);
-    }
-  }, [rawData]);
+    // Reset component and remove all selected items when router pathname changes
+    setCheckedMenus([]);
+    dispatch(setSubcategory([])); // Reset selected subcategory in Redux store
+  }, [router.pathname]);
 
   const handleCheckboxChange = (index) => {
-    // console.log("index", index);
-    const currentIndex = checkedmenus.indexOf(index);
-    const newCheckedItems = [...checkedmenus];
-
+    const currentIndex = checkedMenus.indexOf(index);
+    const newCheckedItems = [...checkedMenus];
     if (currentIndex === -1) {
       newCheckedItems.push(index);
     } else {
       newCheckedItems.splice(currentIndex, 1);
     }
-
-    setcheckedmenus(newCheckedItems);
+    setCheckedMenus(newCheckedItems);
   };
 
-  const isVisible = (index) => checkedmenus.includes(index);
+  const isVisible = (index) => checkedMenus.includes(index);
 
-  const handelshowmore = (index) => {
-    const lengths = categoriesdata[index].subcategory.length;
-    setfiltercount(lengths);
+  const handelshowmore = () => {
+    setFilterCount(categories[index].subcategory.length);
   };
 
-  const handelshowless = (index) => {
-    setfiltercount(5);
+  const handelshowless = () => {
+    setFilterCount(5);
   };
-  const [selectedSubcategories, setSelectedSubcategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState([]);
-  const handleSubcategorySelect = (categoryName, subcategoryId) => {
-    const selectedCategory = categoryName;
-    const selectedSubcategory = categoriesdata
-      .find((category) => category.name === categoryName)
-      .subcategories.find((subcat) => subcat._id === subcategoryId)?.name;
-    setSelectedSubcategories([...selectedSubcategories, selectedSubcategory]);
-    dispatch(setSubcategory(selectedSubcategory));
-  };
-  const [uniqueCategory, setUniqueCategory] = useState([]);
-  let selectedData = useSelector(selectCategoryProduct);
-  const [selectedCategoryData, setSelectedCategoryData] = useState([]);
 
-  useEffect(() => {
-    // console.log("selectedData");
-    let currentCategory;
-    if (
-      sessionStorage?.getItem("categoryData") &&
-      typeof window !== "undefined"
-      
-    ) {
-      currentCategory = JSON.parse(sessionStorage?.getItem("categoryData"));
-      let cats = currentCategory?.products?.map((product) => product.category);
-      let uniqueCategory = [...new Set(cats)];
-      setUniqueCategory(uniqueCategory);
-      const indexes = uniqueCategory.map((categoryName) =>
-        categoriesdata?.findIndex((category) => category.name === categoryName)
-      );
-      setcheckedmenus(indexes.filter((index) => index !== -1));
-    } else {
-      setcheckedmenus([]);
-    }
-    setSelectedSubcategories([]);
-    dispatch(setSubcategory());
-  }, [dispatch,categoriesdata,typeof window !== "undefined"?sessionStorage?.getItem("categoryData"): null, ]);
+  const handleSubcategorySelect = (subcategory) => {
+    dispatch(setSubcategory(subcategory));
+    console.log(subcategory);
+  };
 
   return (
-    <aside className="w-full  py-0  px-5 overflow-y-auto">
-      {categoriesdata?.map((items, index) => (
-        <div className="w-full flex flex-col  gap-y-2 my-7 context" key={index}>
+    <aside className="w-full py-0 px-5 overflow-y-auto">
+      {categories?.map((items, index) => (
+        <div
+          className="w-full flex flex-col gap-y-2 my-7 context"
+          key={index}
+        >
           <div
             className=" cursor-pointer"
             onClick={() => handleCheckboxChange(index)}
@@ -124,13 +79,13 @@ export default function Sidemenu() {
             <Sidemenufilterlist
               category={items.name}
               subcategory={items.subcategories}
-              showCount={filtercount}
+              showCount={filterCount}
               indexing={index}
-              onShowMore={() => handelshowmore(index)}
-              onShowLess={() => handelshowless(index)}
-              onSubcategorySelect={handleSubcategorySelect}
-              selectedSubs ={selectedSubcategories}
-              ucategory={uniqueCategory}
+              onShowMore={handelshowmore}
+              onShowLess={handelshowless}
+              onSubcategorySelect={(subcategory) => {
+                handleSubcategorySelect(subcategory);
+              }}
             />
           </div>
         </div>

@@ -31,7 +31,7 @@ export default function Shopmenu({ meudata,Closeref,closevaribale }) {
           onClick={ () => Closeref(0)}
         >
           <Link href={{
-            pathname: `/products`,
+            pathname: `/products/${items.name}`,
           }} onMouseDown={()=>
             handleDispatch("category",items.name)
           } >

@@ -132,7 +132,6 @@ export default function Header() {
     return () => clearTimeout(timeoutId);
   }, [search]);
   const handleDispatch = () => {
-    dispatch(setSubcategory([]))
     setshowhide(0);
     let type = "search";
     if(search.length >= 1){
@@ -324,7 +323,7 @@ export default function Header() {
                 </div>
 
                 <div className="w-full">
-                    <Link href={'/products'}
+                    <Link href={`/products/searched`}
 
                       onMouseDown={handleDispatch}>
                     <button
