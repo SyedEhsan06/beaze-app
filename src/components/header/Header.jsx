@@ -324,7 +324,6 @@ export default function Header() {
 
                 <div className="w-full">
                     <Link href={`/products/searched`}
-
                       onMouseDown={handleDispatch}>
                     <button
                     className=" bg-theme-footer-bg capitalize  font-[600] text-xl text-center text-white py-3 w-full rounded-bl-[4px]  rounded-br-[4px] ">
