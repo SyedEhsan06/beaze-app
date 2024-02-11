@@ -13,6 +13,7 @@ import {
   setSubcategory,
 } from "@/redux/slices/filterSlice";
 import { selectCategoryProduct } from "@/redux/slices/productSlice";
+import { typeOf } from "react-read-more-read-less";
 
 export default function Sidemenu() {
   const [checkedmenus, setcheckedmenus] = useState([]);

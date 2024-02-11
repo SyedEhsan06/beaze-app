@@ -38,6 +38,9 @@ export default function Productcarousel({ sliderdata }) {
           </div>
         ))}
       </div>
+
+
+      
       <div
         className={`grid grid-cols-${sliderdata?.length} mt-3 h-[5px] bg-[#E9E6E0CC] bg-opacity-[80%]`}
       >

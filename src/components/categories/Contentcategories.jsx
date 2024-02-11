@@ -223,6 +223,24 @@ setisfilterbaropen(0)
     localStorage.setItem("cart", JSON.stringify(selectedCartData));
   };
   const cartOpenState = useSelector(selectCartOpen);
+
+  useEffect(() => {
+    const header = document.querySelector('header');
+    if (isfilterbaropen !== 0) {
+      document.body.classList.add('blurbody');
+      header.classList.remove('absolute');
+      header.classList.add('headerfixed');
+    } else {
+      document.body.classList.remove('blurbody');
+      header.classList.remove('headerfixed');
+      header.classList.add('absolute');
+    }
+
+    // Cleanup the class when the component unmounts
+    return () => {
+      document.body.classList.remove('blurbody');
+    };
+  }, [isfilterbaropen]);
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
@@ -257,21 +275,21 @@ setisfilterbaropen(0)
           <div>
             <button
               className=" cursor-pointer flex items-center gap-x-2 font-semibold rounded-sm border md:px-4 px-2 bg-white text-opacity-[78%] "
-              onClick={() => setshowsort(!showsort)}
+              onClick={() => isfilterbaropen === 4 ? setisfilterbaropen(0) : setisfilterbaropen(4)}
             >
               <FaAngleDown
                 className={`transition-all duration-75 ${
-                  showsort && "rotate-[180deg]"
+                  isfilterbaropen === 4 && "rotate-[180deg]"
                 }`}
               />{" "}
               Sort
             </button>
           </div>
 
-          <div
+          <div ref={divRef}
             className={`top-[110%] w-[200px] border  right-0 bg-white shadow rounded-lg absolute z-20 ${
-              showsort ? "block" : "hidden"
-            }`}
+              isfilterbaropen === 4 ? "block" : "hidden"
+            }`} onClick={() => setisfilterbaropen(4)}
           >
             <ul className="text-sm font-[400] cursor-pointer ">
               {sorts.map((items, index) => (
@@ -330,7 +348,7 @@ setisfilterbaropen(0)
               data?.map((items, index) => (
                 <div key={index} className=" group relative">
                   <div className=" flex flex-col text-[#03071E]">
-                    <div className="   cursor-pointer  transition-all duration-100 relative rounded-[6px]  lg:group-hover:opacity-50 h-[200px] w-full overflow-hidden">
+                    <div className="   cursor-pointer  transition-all duration-100 relative rounded-[6px]  lg:group-hover:opacity-50 h-[200px] 2xl:h-[250px] w-full overflow-hidden">
                       {/* <img src={`/images/web/categories/${items.img}`} alt="" className="h-[100%] w-[100%]" /> */}
                       <Image
                         // src={`/images/web/categories/${items.img}`}
@@ -341,7 +359,7 @@ setisfilterbaropen(0)
                       />
                     </div>
                     <Link href={`/productinfo/${items._id}`}>
-                      <h6 className=" font-[700]  text-[1.1rem] mt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
+                      <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
                         {items.title}
                       </h6>
                     </Link>
@@ -473,9 +491,8 @@ setisfilterbaropen(0)
 
       <Modal
         visible={ismodalopen}
-        width="80%"
-        height="550"
         effect="fadeInDown"
+        width = '80%'
         onClickAway={closeModal}
       >
         <Productmodal produtdata={productdata} modalclose={closeModal} />
