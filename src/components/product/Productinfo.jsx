@@ -10,6 +10,7 @@ import Loader from "../loader/Loader";
 import Productcarousel from "./Productcarousel";
 import Modal from "react-awesome-modal";
 import Productmobile from "./Productmobile";
+import { FaXmark } from "react-icons/fa6";
 
 export default function Productinfo({ pid }) {
   const [loader, setloader] = useState(false);
@@ -292,11 +293,11 @@ export default function Productinfo({ pid }) {
       <Modal
         visible={ismodalopen}
         effect="fadeInDown"
-        width = '80%'
+        width = '90%'
         onClickAway={closeModal}
       >
       <div className="p-8 relative">
-      <button className=" absolute right-1" ></button>
+      <button className=" absolute right-1 top-1 bg-black text-white p-2 rounded-full" onClick={() => setismodalopen(false)} ><FaXmark size={16} /></button>
        <Productmobile sliderdata={productinfo.images} setopemodal={setismodalopen}/>
       </div>
       </Modal>
