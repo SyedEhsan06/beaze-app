@@ -7,7 +7,7 @@ import 'swiper/swiper-bundle.css';
 import { Pagination, Keyboard } from 'swiper/modules';
 
 
-export default function Productcarousel({ sliderdata,setopemodal }) {
+export default function Productmobile({ sliderdata,setopemodal }) {
   const [imageindex, setimageindex] = useState(0);
 
   const progressbar = [
@@ -20,7 +20,7 @@ export default function Productcarousel({ sliderdata,setopemodal }) {
 
   return (
     <div className="w-full">
-      <div className="w-full h-[390px] relative mb-3 rounded-[8px] md:block hidden">
+      <div className="w-full h-[390px] relative mb-3 rounded-[8px] ">
         <Image
           src={sliderdata?.[imageindex]}
           layout="fill"

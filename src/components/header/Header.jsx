@@ -196,9 +196,27 @@ export default function Header() {
     // inputRef.current.focus()
   }
 
+  useEffect(() => {
+   
+    const header = document.querySelector('header');
+    if (showhide !== 0) {
+      document.body.classList.add('blurbody');
+      header.classList.remove('absolute');
+      header.classList.add('headerfixednotblur');
+    } else {
+      document.body.classList.remove('blurbody');
+      header.classList.remove('headerfixednotblur');
+      header.classList.add('absolute');
+    }
+    // Cleanup the class when the component unmounts
+    return () => {
+      document.body.classList.remove('blurbody');
+    };
+  }, [showhide]);
+
   return (
     <header
-      className={`h-[70px] showmenu  z-10 w-full shadow py-2 transition-all duration-150 ${
+      className={`h-[70px] showmenu  z-30 w-full shadow py-2 transition-all duration-150 ${
         scrollLength > 620
           ? "fixed top-0 left-0 bg-white border z-20 "
           : " absolute top-0 left-0  bg-white bg-opacity-[50%] linkshdow"
@@ -269,8 +287,8 @@ export default function Header() {
             </div>
 
             <div ref={divRef}
-              className={`w-full absolute border shadow-sm text-sm bg-white top-[105%] left-0 rounded-[4px]  context ${
-                showhide == 4 ? "block" : "hidden"
+              className={`w-full absolute border shadow-sm   text-sm bg-white top-[105%] left-0 rounded-[4px]  context ${
+                showhide === 4 ? "block " : "hidden"
               }`}
             >
               <div
@@ -482,7 +500,7 @@ export default function Header() {
               <FaCartShopping className=" relative"  onClick={handleCartOpen
             } />
             {
-              count !== 0 &&  <span className=" absolute right-[-30%] top-[-40%]  bg-[#F8B43A] mb-0 text-sm text-theme-footer-bg rounded-full leading-[10px] pt-[5px] px-[5px] pb-[3px] font-[700] ">{count}</span>
+              count !== 0 &&  <span className=" absolute right-[-30%] top-[-40%]  bg-[#F8B43A] mb-0 text-sm text-theme-footer-bg rounded-full leading-[10px] pt-[10px]  px-[5px] pb-[8px] font-[700] ">{count}</span>
             }
              </div>
              

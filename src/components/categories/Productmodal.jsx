@@ -40,8 +40,8 @@ export default function Productmodal({produtdata,modalclose}) {
   <div className="lg:w-[50%] flex flex-col gap-4 lg:gap-0   justify-between">
   <div className="w-full flex flex-col">
               
-              <h5 className="headtext font-semibold text-3xl leading-[2.8rem]">{produtdata.title}</h5>
-              <p className="context font-[500] text-2xl">INR {produtdata.price}</p>
+              <h5 className="headtext font-semibold md:text-3xl leading-[2.8rem]  text-2xl ">{produtdata.title}</h5>
+              <p className="context font-[500] md:text-2xl text-[1.3rem] ">INR {produtdata.price}</p>
 
               <p className="context mt-2 text-[1rem] text-opacity-[50%] font-[300]">
                 {produtdata.description}
@@ -67,10 +67,11 @@ export default function Productmodal({produtdata,modalclose}) {
 
 
 
-            <div className=" context ">
+            <div className=' md:block  grid grid-cols-2 gap-x-3'>
+            <div className=" context  ">
               <div className="w-full">
                 <label htmlFor="sizeselect" className=" font-[400] text-lg">Select a colour</label>
-            <div className="w-[40%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] px-4 py-1 flex items-center">
+            <div className="md:w-[40%] w-[100%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] px-4 py-1 flex items-center">
           <div className="w-[90%]">
             <select className="w-full border-none focus:outline-none appearance-none bg-transparent cursor-pointer"  id="sizeselect">
               <option value="">Select Colour</option>
@@ -90,15 +91,16 @@ export default function Productmodal({produtdata,modalclose}) {
 
 
 
-            <div className=" context">
+            <div className=" context md:mt-3">
               <div className="w-full">
                 <p  className=" font-[400] text-lg">Select quantity</p>
-            <div className="w-[30%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 ">
+            <div className="md:w-[30%] w-[60%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 ">
                 <button disabled={quantity === 1 ? true : false} className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer" onClick={() =>setquantity(quantity-1)}><RiSubtractLine  size={20}/></button> 
                 <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1">{quantity}</div> 
                 <button className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"  onClick={() =>setquantity(quantity+1)}><IoMdAdd  size={20}/></button> 
             </div>
               </div>
+            </div>
             </div>
 
 

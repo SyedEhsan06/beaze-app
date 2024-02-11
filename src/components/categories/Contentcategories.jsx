@@ -196,7 +196,7 @@ setisfilterbaropen(0)
   const selectedCartData = useSelector(selectCart);
 
   const handeladdtocart = (obj) => {
-    setisfilterbaropen(2);
+   
     dispatch(addToCart(obj));
     if (selectedCartData.some(item => item._id === obj._id)) {
       toast.success("Added same product again", {

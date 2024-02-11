@@ -8,6 +8,8 @@ import { IoMdAdd } from "react-icons/io";
 import Image from "next/image";
 import Loader from "../loader/Loader";
 import Productcarousel from "./Productcarousel";
+import Modal from "react-awesome-modal";
+import Productmobile from "./Productmobile";
 
 export default function Productinfo({ pid }) {
   const [loader, setloader] = useState(false);
@@ -15,6 +17,7 @@ export default function Productinfo({ pid }) {
   const [productinfo, setproductinfo] = useState([]);
   const [sizeindex, setsizeindex] = useState(1);
   const [showdesc, setshowdesc] = useState(false);
+  const [ismodalopen,setismodalopen] = useState(false)
   const { slug } = pid;
 
   useEffect(() => {
@@ -32,28 +35,32 @@ export default function Productinfo({ pid }) {
     }
   };
 
+  const closeModal = () => {
+   setismodalopen(false)
+  }
+
   return (
     <>
       {loader ? (
         <Loader />
       ) : (
         <div>
-          <div className="w-full bg-gray-100 py-10 px-16 rounded-[11px]  relative">
+          <div className="w-full bg-gray-100 py-10 md:px-16 px-8 rounded-[11px]  relative">
             <div className="w-full">
-              <div className="w-full flex gap-16">
-                <div className="w-[50%]">
-                  <Productcarousel sliderdata={productinfo.images} />
+              <div className="w-full md:flex md:gap-16 gap-5 grid grid-cols-1">
+                <div className="md:w-[50%]">
+                  <Productcarousel sliderdata={productinfo.images} setopemodal={setismodalopen} />
                 </div>
-                <div className="w-[50%] ">
+                <div className="md:w-[50%] ">
                   <div className="w-[80%] flex-col justify-between flex">
                     <div className="w-full flex flex-col">
                       <p className=" text-[400] context text-sm mb-3 ">
                         Women’s Clothing / Tops & Blouses / Classic Shirts{" "}
                       </p>
-                      <h5 className="headtext font-semibold text-3xl leading-[2.8rem]">
+                      <h5 className="headtext font-semibold md:text-3xl text-2xl leading-[2.8rem]">
                         {productinfo.title}
                       </h5>
-                      <p className="context font-[500] text-2xl">
+                      <p className="context font-[500] md:text-2xl text-[1.3rem]">
                         INR {productinfo.price}
                       </p>
 
@@ -62,7 +69,7 @@ export default function Productinfo({ pid }) {
                   </p> */}
                     </div>
 
-                    <div className="context mt-7">
+                    <div className="context md:mt-7 mt-4">
                       <div className="w-full">
                         <p className=" font-[400] text-lg">Select a size</p>
                         <div className="flex mt-1 gap-2 flex-wrap">
@@ -87,7 +94,8 @@ export default function Productinfo({ pid }) {
                       </div>
                     </div>
 
-                    <div className=" context mt-3">
+                   <div className="md:block grid grid-cols-2 gap-3">
+                   <div className=" context mt-3">
                       <div className="w-full">
                         <label
                           htmlFor="sizeselect"
@@ -95,7 +103,7 @@ export default function Productinfo({ pid }) {
                         >
                           Select a colour
                         </label>
-                        <div className="w-[40%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] px-4 py-1 flex items-center">
+                        <div className="md:w-[40%] w-[100%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] px-4 py-1 flex items-center">
                           <div className="w-[90%]">
                             <select
                               className="w-full border-none focus:outline-none appearance-none bg-transparent cursor-pointer"
@@ -124,10 +132,10 @@ export default function Productinfo({ pid }) {
                       </div>
                     </div>
 
-                    <div className=" context mt-3">
+                    <div className=" context mt-3 md:mt-6 ">
                       <div className="w-full">
                         <p className=" font-[400] text-lg">Select quantity</p>
-                        <div className="w-[30%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 ">
+                        <div className="md:w-[30%] w-[90%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 ">
                           <button
                             disabled={quantity === 1 ? true : false}
                             className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
@@ -148,6 +156,7 @@ export default function Productinfo({ pid }) {
                       </div>
                     </div>
 
+                   </div>
                     <div className=" grid grid-cols-1 gap-y-4 headtext py-2 mt-6">
                       <button className=" w-full bg-theme-footer-bg text-white font-[700] text-xl py-2 rounded ">
                         Checkout
@@ -159,7 +168,7 @@ export default function Productinfo({ pid }) {
 
                     <div className="mt-5">
                       <button
-                        className="context font-[500] text-2xl w-[80%] flex items-center gap-x-5"
+                        className="context font-[500] text-2xl md:w-[80%] w-[100%] flex items-center gap-x-5"
                         onClick={() => setshowdesc(!showdesc)}
                       >
                         Description & Details{" "}
@@ -278,6 +287,19 @@ export default function Productinfo({ pid }) {
           </div>
         </div>
       )}
+
+      
+      <Modal
+        visible={ismodalopen}
+        effect="fadeInDown"
+        width = '80%'
+        onClickAway={closeModal}
+      >
+      <div className="p-8 relative">
+      <button className=" absolute right-1" ></button>
+       <Productmobile sliderdata={productinfo.images} setopemodal={setismodalopen}/>
+      </div>
+      </Modal>
     </>
   );
 }
