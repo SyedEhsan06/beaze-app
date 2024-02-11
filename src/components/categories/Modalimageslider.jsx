@@ -32,7 +32,7 @@ const [showfullimage,setshowfullimage] = useState(true)
         
 
 
-          <div className='mt-5'>
+          <div className='mt-5 md:mt-0'>
           <Swiper
                 centeredSlides={false}
                 pagination={false}
@@ -40,12 +40,12 @@ const [showfullimage,setshowfullimage] = useState(true)
                 keyboard={{ enabled: true }}
                 breakpoints={{
                     0: {
-                        slidesPerView: 2,
-                        spaceBetween: 30,
+                        slidesPerView: 3,
+                        spaceBetween: 10,
                     },
                     640: {
-                        slidesPerView: 2.2,
-                        spaceBetween: 30,
+                        slidesPerView: 3,
+                        spaceBetween: 10,
                     },
                     1024: {
                         slidesPerView: 3,
@@ -82,7 +82,7 @@ const [showfullimage,setshowfullimage] = useState(true)
 
             <div className={`w-full mt-3 h-[5px] bg-[#E9E6E0CC] bg-opacity-[80%] `}>
             <div
-                        className={`h-[100%] transition-all duration-300 bg-opacity-[80%] w-full bg-[#FFB61DCC]  `}
+                        className={`h-[100%] transition-all duration-300 bg-opacity-[80%]  bg-[#FFB61DCC] w-[40%]  `}
                         
                     ></div>
             </div>

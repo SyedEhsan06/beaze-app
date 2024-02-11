@@ -248,7 +248,7 @@ setisfilterbaropen(0)
   const selectedCartData = useSelector(selectCart);
 
   const handeladdtocart = (obj) => {
-    setisfilterbaropen(2);
+   
     dispatch(addToCart(obj));
     if (selectedCartData.some(item => item._id === obj._id)) {
       toast.success("Added same product again", {
@@ -341,7 +341,7 @@ setisfilterbaropen(0)
           <div ref={divRef}
             className={`top-[110%] w-[200px] border  right-0 bg-white shadow rounded-lg absolute z-20 ${
               isfilterbaropen === 4 ? "block" : "hidden"
-            }`} onClick={() => setisfilterbaropen(4)}
+            }`} 
           >
             <ul className="text-sm font-[400] cursor-pointer ">
               {sorts.map((items, index) => (
@@ -350,7 +350,7 @@ setisfilterbaropen(0)
                     selectedfilter === index && " text-white bg-theme-footer-bg"
                   }`}
                   key={index}
-                  onClick={() => handleSortSelection(items, index)}
+                  onClick={() => {handleSortSelection(items, index)}}
                 >
                   {items.title}
                 </li>

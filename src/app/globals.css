@@ -75,6 +75,12 @@
   position: fixed;
    filter: blur(2px);
 }
+
+.headerfixednotblur{
+  position: fixed;
+}
+
+
 /* 
 :root {
   --foreground-rgb: 0, 0, 0;
