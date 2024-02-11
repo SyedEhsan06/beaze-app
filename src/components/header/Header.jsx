@@ -476,7 +476,16 @@ export default function Header() {
                   onClick={handelfocuonserch}
                 />
               )}
-              <FaCartShopping />
+
+
+              <div className=" relative">
+              <FaCartShopping className=" relative"  onClick={handleCartOpen
+            } />
+            {
+              count !== 0 &&  <span className=" absolute right-[-30%] top-[-40%]  bg-[#F8B43A] mb-0 text-sm text-theme-footer-bg rounded-full leading-[10px] pt-[5px] px-[5px] pb-[3px] font-[700] ">{count}</span>
+            }
+             </div>
+             
             </button>
           </li>
         </ul>

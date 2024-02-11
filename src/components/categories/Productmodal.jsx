@@ -1,21 +1,41 @@
 "use client"
 import React, { useState } from 'react'
 import ModalImageSlider from './Modalimageslider'
-import { FaXmark } from "react-icons/fa6";
+import { FaXmark,FaChevronLeft  } from "react-icons/fa6";
 import {BiSolidChevronDown} from 'react-icons/bi'
 import {RiSubtractLine} from 'react-icons/ri'
 import {IoMdAdd} from 'react-icons/io'
+import Image from 'next/image';
 
 export default function Productmodal({produtdata,modalclose}) {
     const [quantity,setquantity] = useState(1);
-    const[sizeindex,setsizeindex] = useState(1)
-// console.log(produtdata)
+    const[sizeindex,setsizeindex] = useState(1);
+    const [imageindex, setimageindex] = useState(0);
+    const[showimage,setshowimage] = useState(true)
+
   return (
-    <div className="px-5 pt-6 pb-8 relative min-h-[500px] max-h-[650px] overflow-y-auto w-[1050px]">
+  <>
+    {
+    showimage ? <div className='px-5 pt-6 pb-8 relative'>
+    <button className=' absolute top-[10px] right-3 z-10' onClick={() => {modalclose(); setshowimage(false)}}><FaXmark size={30}/></button>
+    <button className=' absolute top-[10px] left-3 z-10' onClick={() => setshowimage(false)}><FaChevronLeft  size={30}/></button>
+<div className=' mt-7'>
+<div className='w-full h-[350px] relative mb-3 rounded-[8px] lg:hidden block'>
+                <Image
+                    src={produtdata.images[imageindex]}
+                    layout="fill"
+                    objectFit="cover"
+                    className='rounded-[8px] transition-all duration-300'
+                    alt={`image not fond`}
+                />
+            </div>
+</div>
+
+    </div> :   <div className="px-5 pt-6 pb-8 relative md:min-h-[500px] md:max-h-[650px] overflow-y-auto ">
      <button className=' absolute top-[10px] right-3 z-10' onClick={() => modalclose()}><FaXmark size={30}/></button>
     <div className="w-full lg:flex lg:gap-x-5 grid grid-cols-1 gap-y-5 lg:gap-y-0">
   <div className="lg:w-[45%] ">
-    <ModalImageSlider sliderdata ={produtdata.images}/>
+    <ModalImageSlider sliderdata ={produtdata.images} showonphone = {setshowimage} imageindex={imageindex} setimageindex={setimageindex}/>
   </div>
   <div className="lg:w-[50%] flex flex-col gap-4 lg:gap-0   justify-between">
   <div className="w-full flex flex-col">
@@ -93,5 +113,7 @@ export default function Productmodal({produtdata,modalclose}) {
   </div>
     </div>
   </div>
+    }
+  </>
   )
 }
