@@ -22,7 +22,7 @@ export default function Productmodal({produtdata,modalclose}) {
 <div className=' mt-7'>
 <div className='w-full h-[350px] relative mb-3 rounded-[8px] lg:hidden block'>
                 <Image
-                    src={produtdata.images[imageindex]}
+                    src={produtdata?.images?.[imageindex]}
                     layout="fill"
                     objectFit="cover"
                     className='rounded-[8px] transition-all duration-300'

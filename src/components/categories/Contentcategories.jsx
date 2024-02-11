@@ -223,6 +223,24 @@ setisfilterbaropen(0)
     localStorage.setItem("cart", JSON.stringify(selectedCartData));
   };
   const cartOpenState = useSelector(selectCartOpen);
+
+  useEffect(() => {
+    const header = document.querySelector('header');
+    if (isfilterbaropen !== 0) {
+      document.body.classList.add('blurbody');
+      header.classList.remove('absolute');
+      header.classList.add('headerfixed');
+    } else {
+      document.body.classList.remove('blurbody');
+      header.classList.remove('headerfixed');
+      header.classList.add('absolute');
+    }
+
+    // Cleanup the class when the component unmounts
+    return () => {
+      document.body.classList.remove('blurbody');
+    };
+  }, [isfilterbaropen]);
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
