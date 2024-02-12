@@ -101,7 +101,7 @@ useEffect(() => {
     }
   };
   
-  const fetchProductsDebounced = debounce(fetchProductsBySubcategory, 500);
+  const fetchProductsDebounced = debounce(fetchProductsBySubcategory, 100);
   console.log(Object.keys(subcategorySelect).filter(key => subcategorySelect[key] && key !== 'undefined'))
 
   if (Object.keys(subcategorySelect).filter(key => subcategorySelect[key] && key !== 'undefined').length > 0){

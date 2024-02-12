@@ -8,7 +8,9 @@ import { setSubcategory } from "@/redux/slices/filterSlice";
 export default function Shopmenu({ meudata,Closeref,closevaribale }) {
   const dispatch = useDispatch()
   const handleDispatch = (type,item) => {
-    dispatch(setSubcategory())
+    dispatch(setSubcategory(
+      null
+    ))
     dispatch(fetchProducts(
       {
         type,

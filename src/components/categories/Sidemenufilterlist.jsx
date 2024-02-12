@@ -1,4 +1,5 @@
 import { selectSubcategory, setSubcategory } from "@/redux/slices/filterSlice";
+import { selectCategoryProduct } from "@/redux/slices/productSlice";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -17,7 +18,16 @@ export default function Sidemenufilterlist({
   };
   const checkedRedux = useSelector(selectSubcategory);
   
-  console.log(checkedRedux);
+  // console.log(checkedRedux);
+  const currentData = useSelector(selectCategoryProduct);
+  console.log(currentData);
+  const subcategories = currentData?.response?.products?.map((item) => item.subcategory);
+  console.log(subcategories);
+  const filterSubcategory = useSelector(selectSubcategory);
+  let selectedSubcategories = Object.keys(filterSubcategory).filter(
+    (key) => filterSubcategory[key] === true && key !== "undefined"
+  );
+
   return (
     <div>
 
