@@ -49,7 +49,9 @@ export async function GET(req) {
           { "features.title": searchRegex },
         ],
       });
-    } else if (
+    } 
+
+    else if (
       queryObject.type &&
       (queryObject.color ||
         queryObject.size ||

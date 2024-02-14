@@ -75,23 +75,25 @@ export default function Contentcategories({ params }) {
   const [filterData, setFilterData] = useState([]);
   useEffect(() => {
     const fetchProductsBySubcategory = async () => {
-      setFilterLoader(true);
       try {
+        // Set filterLoader to true at the beginning of the fetch operation
+        setFilterLoader(true);
+        
         // Filter out empty arrays from subcategorySelect
         const nonEmptySubcategories = subcategorySelect.filter(
           (subcategory) => subcategory.length > 0
         );
-
+    
         if (nonEmptySubcategories.length > 0) {
           const selectedSubcategories = nonEmptySubcategories
             .flat()
             .filter((subcategory) => subcategory !== "undefined");
-
+    
           console.log("selectedSubcategories", selectedSubcategories);
           const response = await fetchData(
             `products?type=${selectedSubcategories?.join(",")}`
           );
-
+    
           console.log("response", response);
           if (response && response.products && response.products.length > 0) {
             const existingProductIds = data.map((product) => product._id);
@@ -99,18 +101,19 @@ export default function Contentcategories({ params }) {
               (product) => !existingProductIds.includes(product._id)
             );
             setFilterData(uniqueProducts);
-            setFilterLoader(false);
           } else {
             setFilterData([]);
           }
         } else {
           setFilterData([]);
-          setFilterLoader(false);
         }
-        setLoader(false);
+    
+        // Set filterLoader to false after the filter data has been updated
+        setFilterLoader(false);
       } catch (error) {
         console.error("Error fetching products by subcategory:", error);
-        setLoader(false);
+        // Set filterLoader to false in case of error
+        setFilterLoader(false);
       }
     };
 
