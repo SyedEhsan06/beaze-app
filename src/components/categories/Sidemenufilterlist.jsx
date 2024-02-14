@@ -15,15 +15,6 @@ export default function Sidemenufilterlist({
 }) {
   const dispatch = useDispatch();
   const selectedSubcategories = useSelector(selectSubcategory);
-
-  const handleCheckboxChange = (itemName) => {
-    dispatch(toggleSubcategory(itemName));
-  };
-  const usepathname = usePathname();
-  const router = useRouter();
-  useEffect(() => {
-    dispatch(toggleSubcategory([])); 
-  }, [usepathname]);
   const currentData=useSelector(selectCategoryProduct)
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -34,6 +25,15 @@ export default function Sidemenufilterlist({
   , [currentData]);
   const catsFromData = data?.response?.products.map((item) => item.subcategory);
   const cats = [...new Set(catsFromData)];
+  const handleCheckboxChange = (itemName) => {
+    dispatch(toggleSubcategory(itemName));
+  };
+  const usepathname = usePathname();
+  const router = useRouter();
+  useEffect(() => {
+    dispatch(toggleSubcategory([])); 
+  }, [usepathname,currentData]);
+  
   console.log('cats',cats)
   return (
     <div>

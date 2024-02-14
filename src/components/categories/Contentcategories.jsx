@@ -33,7 +33,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { addToCart, selectCart } from "@/redux/slices/cartSlice";
 import { closeCart, selectCartOpen } from "@/redux/slices/cartOpenSlice";
 import { selectCategories } from "@/redux/slices/categorySlice";
-
+import { ThreeDots } from "react-loader-spinner";
+import './content.style.css'
 export default function Contentcategories({ params }) {
   const [showsort, setshowsort] = useState(false);
   const [selectedfilter, setselectedfilter] = useState(null);
@@ -43,7 +44,7 @@ export default function Contentcategories({ params }) {
   const [loader, setLoader] = useState(true);
   const [sorts, setSorts] = useState(sortsData);
   const [isfilterbaropen, setisfilterbaropen] = useState(0);
-  // const [cartdata, setcartdata] = useState([]);
+  const [filterLoader, setFilterLoader] = useState(false);
   // const [showpricemenu, setshowpricemenu] = useState(false);
   const divRef = useRef();
   const [data, setData] = useState([]);
@@ -51,7 +52,7 @@ export default function Contentcategories({ params }) {
   const [productdata, setproductdata] = useState([]);
   const selectData = useSelector(selectCategoryProduct);
   const dispatch = useDispatch();
-const usepathname = usePathname();
+  const usepathname = usePathname();
   const subcategorySelect = useSelector(selectSubcategory);
   let router = useRouter();
   let debounceTimeoutRef = useRef(null);
@@ -75,22 +76,23 @@ const usepathname = usePathname();
   useEffect(() => {
     console.log("mounted");
     const fetchProductsBySubcategory = async () => {
+      setFilterLoader(true);
       try {
         // Filter out empty arrays from subcategorySelect
         const nonEmptySubcategories = subcategorySelect.filter(
           (subcategory) => subcategory.length > 0
         );
-  
+
         if (nonEmptySubcategories.length > 0) {
-          const selectedSubcategories = nonEmptySubcategories.flat().filter(
-            (subcategory) => subcategory !== "undefined"
-          );
-  
+          const selectedSubcategories = nonEmptySubcategories
+            .flat()
+            .filter((subcategory) => subcategory !== "undefined");
+
           console.log("selectedSubcategories", selectedSubcategories);
           const response = await fetchData(
             `products?type=${selectedSubcategories?.join(",")}`
           );
-  
+
           console.log("response", response);
           if (response && response.products && response.products.length > 0) {
             const existingProductIds = data.map((product) => product._id);
@@ -98,11 +100,13 @@ const usepathname = usePathname();
               (product) => !existingProductIds.includes(product._id)
             );
             setFilterData(uniqueProducts);
+            setFilterLoader(false);
           } else {
             setFilterData([]);
           }
         } else {
           setFilterData([]);
+          setFilterLoader(false);
         }
         setLoader(false);
       } catch (error) {
@@ -110,25 +114,29 @@ const usepathname = usePathname();
         setLoader(false);
       }
     };
-  
-    if (subcategorySelect && subcategorySelect.length > 0 && subcategorySelect !== undefined) {
+
+    if (
+      subcategorySelect &&
+      subcategorySelect.length > 0 &&
+      subcategorySelect !== undefined
+    ) {
       fetchProductsBySubcategory();
     } else {
       setFilterData([]); // Reset filterData when no subcategories selected
       setLoader(false);
     }
-  }, [subcategorySelect,dispatch]);
-  
-  const [completeData, setCompleteData] = useState([]);
-useEffect(() => {
-  const mergedData = [...data, ...filterData];
-  const uniqueData = Array.from(new Set(mergedData.map(item => item._id)))
-    .map(id => mergedData.find(item => item._id === id));
-  
-  setCompleteData(uniqueData);
-  sessionStorage?.setItem("categoryData", JSON.stringify(data));
-}, [data, filterData, usepathname]);
+  }, [subcategorySelect, dispatch]);
 
+  const [completeData, setCompleteData] = useState([]);
+  useEffect(() => {
+    const mergedData = [...data, ...filterData];
+    const uniqueData = Array.from(
+      new Set(mergedData.map((item) => item._id))
+    ).map((id) => mergedData.find((item) => item._id === id));
+
+    setCompleteData(uniqueData);
+    sessionStorage?.setItem("categoryData", JSON.stringify(data));
+  }, [data, filterData, usepathname]);
 
   useEffect(() => {
     if (selectData.length < 1) {
@@ -394,7 +402,15 @@ useEffect(() => {
           </div>
         </div>
       </div>
+      {filterLoader ? (
+        <ThreeDots
 
+          color="#F8B43A"
+          className="absolute z-[99999] left-1/2 top-1/2  "
+          height={120}
+          width={120}
+        />
+      ) : null}
       <div className="mt-5">
         {completeData?.length === 0 && loader ? (
           <Loader />

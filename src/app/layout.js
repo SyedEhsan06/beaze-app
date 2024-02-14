@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
       <body className="w-full">
         <Providers>
           <Header />
-          <NextTopLoader height={5}  />
+          <NextTopLoader color="#F8B43A" height={5}  />
           {children}
           <Footer />
         </Providers>
