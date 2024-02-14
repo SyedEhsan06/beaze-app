@@ -407,7 +407,7 @@ export default function Contentcategories({ params }) {
       {filterLoader ? (
         <ThreeDots
           color="#F8B43A"
-          className="absolute z-[99999] left-1/2 top-1/2  "
+          className="absolute threedotcss z-[99999] left-1/2 top-1/2  "
           height={120}
           width={120}
         />
