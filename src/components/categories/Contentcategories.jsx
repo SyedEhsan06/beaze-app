@@ -34,7 +34,7 @@ import { addToCart, selectCart } from "@/redux/slices/cartSlice";
 import { closeCart, selectCartOpen } from "@/redux/slices/cartOpenSlice";
 import { selectCategories } from "@/redux/slices/categorySlice";
 import { ThreeDots } from "react-loader-spinner";
-import './content.style.css'
+import './content.css'
 export default function Contentcategories({ params }) {
   const [showsort, setshowsort] = useState(false);
   const [selectedfilter, setselectedfilter] = useState(null);
