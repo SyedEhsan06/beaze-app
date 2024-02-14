@@ -74,7 +74,6 @@ export default function Contentcategories({ params }) {
   }, [dispatch, selectData]);
   const [filterData, setFilterData] = useState([]);
   useEffect(() => {
-    console.log("mounted");
     const fetchProductsBySubcategory = async () => {
       setFilterLoader(true);
       try {
@@ -404,7 +403,6 @@ export default function Contentcategories({ params }) {
       </div>
       {filterLoader ? (
         <ThreeDots
-
           color="#F8B43A"
           className="absolute z-[99999] left-1/2 top-1/2  "
           height={120}
