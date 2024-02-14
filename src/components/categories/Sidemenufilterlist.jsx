@@ -1,7 +1,7 @@
-import { selectSubcategory, setSubcategory } from "@/redux/slices/filterSlice";
-import { selectCategoryProduct } from "@/redux/slices/productSlice";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { selectSubcategory, toggleSubcategory } from "@/redux/slices/filterSlice";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Sidemenufilterlist({
   subcategory,
@@ -12,25 +12,18 @@ export default function Sidemenufilterlist({
   onShowLess,
 }) {
   const dispatch = useDispatch();
+  const selectedSubcategories = useSelector(selectSubcategory);
 
-  const handleCheckboxChange = (itemname) => {
-    onSubcategorySelect(itemname)
+  const handleCheckboxChange = (itemName) => {
+    dispatch(toggleSubcategory(itemName));
   };
-  const checkedRedux = useSelector(selectSubcategory);
-  
-  // console.log(checkedRedux);
-  const currentData = useSelector(selectCategoryProduct);
-  console.log(currentData);
-  const subcategories = currentData?.response?.products?.map((item) => item.subcategory);
-  console.log(subcategories);
-  const filterSubcategory = useSelector(selectSubcategory);
-  let selectedSubcategories = Object.keys(filterSubcategory).filter(
-    (key) => filterSubcategory[key] === true && key !== "undefined"
-  );
-
+  const usepathname = usePathname();
+  const router = useRouter();
+  useEffect(() => {
+    dispatch(toggleSubcategory([])); 
+  }, [usepathname]);
   return (
     <div>
-
       {subcategory?.slice(0, showCount).map((item, index) => (
         <div className="flex flex-col my-1" key={index}>
           <div className="flex gap-x-4 items-center pb-2">
@@ -39,7 +32,7 @@ export default function Sidemenufilterlist({
                 type="checkbox"
                 id={item.name + indexing}
                 onChange={() => handleCheckboxChange(item.name)}
-                checked={item.checked} // New line: Determine if the checkbox should be checked
+                checked={selectedSubcategories.includes(item.name)}
               />
             </div>
             <label

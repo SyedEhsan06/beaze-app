@@ -5,6 +5,7 @@ import Footer from "@/components/footer/Footer";
 import Header from "@/components/header/Header";
 import { Providers } from "@/redux/provider";
 import fav from '../../public/images/logo.png'
+import NextTopLoader from "nextjs-toploader";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
       <body className="w-full">
         <Providers>
           <Header />
+          <NextTopLoader height={5}  />
           {children}
           <Footer />
         </Providers>

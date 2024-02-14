@@ -3,12 +3,12 @@ import Image from "next/image";
 import Loader from "../loader/Loader";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "@/redux/slices/productSlice";
-import { setSubcategory } from "@/redux/slices/filterSlice";
+import { toggleSubcategory } from "@/redux/slices/filterSlice";
 
 export default function Shopmenu({ meudata,Closeref,closevaribale }) {
   const dispatch = useDispatch()
   const handleDispatch = (type,item) => {
-    dispatch(setSubcategory(
+    dispatch(toggleSubcategory(
       null
     ))
     dispatch(fetchProducts(
@@ -33,7 +33,7 @@ export default function Shopmenu({ meudata,Closeref,closevaribale }) {
           onClick={ () => Closeref(0)}
         >
           <Link href={{
-            pathname: `/products/${items.name}`,
+            pathname: `/products/${(items.name).toLowerCase().replace(/ /g, "-")}`,
           }} onMouseDown={()=>
             handleDispatch("category",items.name)
           } >

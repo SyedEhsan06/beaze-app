@@ -16,7 +16,7 @@ useEffect(() => {
     setCategories(categorySelect.categories)
   }
 }
-, [categorySelect]);
+, [categorySelect,dispatch]);
 
   return (
     <div className='w-full flex '>

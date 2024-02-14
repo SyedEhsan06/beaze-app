@@ -32,6 +32,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { addToCart, selectCart } from "@/redux/slices/cartSlice";
 import { closeCart, selectCartOpen } from "@/redux/slices/cartOpenSlice";
+import { selectCategories } from "@/redux/slices/categorySlice";
 
 export default function Contentcategories({ params }) {
   const [showsort, setshowsort] = useState(false);
@@ -50,107 +51,116 @@ export default function Contentcategories({ params }) {
   const [productdata, setproductdata] = useState([]);
   const selectData = useSelector(selectCategoryProduct);
   const dispatch = useDispatch();
-  
-  
-    const subcategorySelect = useSelector(selectSubcategory);
-let router = useRouter();
-useEffect(() => {
-  let rawData = selectData?.response;
-  // if (selectData?.params?.type==="category"){
-  //   // dispatch(setSubcategory(
-  //   //   selectDa
-  //   // ))
-  //   console.log(selectData?.response.products?.map((item)=>item.subcategory));
-  //   let dis = selectData?.response.products.map((item)=>item.subcategory)
-  //   dispatch(setSubcategory(dis))
-  // }
-  if (rawData) {
-    sessionStorage?.setItem("categoryData", JSON.stringify(rawData));
-    setData(rawData.products);
-  }
 
-  if (sessionStorage?.getItem("categoryData")) {
-    let cachedData = JSON.parse(sessionStorage?.getItem("categoryData"));
-    setLoader(false);
-    setData(cachedData.products);
-  }
-
-  // Fetch products based on selected subcategories
-  const fetchProductsBySubcategory = async () => {
-    try {
-      console.log("fetching");
-      console.log(subcategorySelect);
-  
-      // Convert selected subcategories object to an array of selected subcategory names
-      let selectedSubcategories = Object.keys(subcategorySelect).filter(
-        (key) => subcategorySelect[key] === true && key !== "undefined"
-      );
-  
-      console.log(selectedSubcategories.join(","));
-  
-      // Fetch products based on selected subcategories
-      const response = await fetchData(`products?type=${selectedSubcategories.join(",")}`);
-      
-      // Filter out duplicate products
-      const uniqueProducts = response.products.filter((product) => !data.some((existingProduct) => existingProduct._id === product._id));
-      
-      // Update state with unique products
-      setData([...data, ...uniqueProducts]);
-    } catch (error) {
-      console.error("Error fetching products by subcategory:", error);
+  const subcategorySelect = useSelector(selectSubcategory);
+  let router = useRouter();
+  let debounceTimeoutRef = useRef(null);
+  useEffect(() => {
+    const rawData = selectData?.response;
+    if (rawData) {
+      sessionStorage?.setItem("categoryData", JSON.stringify(rawData));
+      setData(rawData.products);
     }
-  };
-  
-  const fetchProductsDebounced = debounce(fetchProductsBySubcategory, 100);
-  console.log(Object.keys(subcategorySelect).filter(key => subcategorySelect[key] && key !== 'undefined'))
 
-  if (Object.keys(subcategorySelect).filter(key => subcategorySelect[key] && key !== 'undefined').length > 0){
-    // Fetch products when selected subcategories change
-    if(subcategorySelect!==undefined){
-      fetchProductsDebounced();
+    if (
+      !data.length &&
+      !selectData &&
+      !sessionStorage?.getItem("categoryData")
+    ) {
+      // Fetch all products if no data is available
+      dispatch(fetchProducts("category", "all"));
     }
-  } else if (!data && !rawData && !sessionStorage?.getItem("categoryData")) {
-    // Fetch all products if no data is available
-    dispatch(fetchProducts("category", "all"));
-    console.log("fetching");
+  }, [dispatch, selectData]);
+  const [filterData, setFilterData] = useState([]);
+  useEffect(() => {
+    const fetchProductsBySubcategory = async () => {
+      try {
+        if (subcategorySelect && subcategorySelect.length > 0) {
+          const selectedSubcategories = subcategorySelect.filter(
+            (subcategory) => subcategory !== "undefined"
+          );
+          const response = await fetchData(
+            `products?type=${selectedSubcategories.join(",")}`
+          );
+
+          if (response && response.products && response.products.length > 0) {
+            const existingProductIds = data.map((product) => product._id);
+            const uniqueProducts = response.products.filter(
+              (product) => !existingProductIds.includes(product._id)
+            );
+            setFilterData(uniqueProducts);
+          } else {
+            setFilterData([]);
+          }
+        } else {
+          setFilterData([]);
+        }
+        setLoader(false);
+      } catch (error) {
+        console.error("Error fetching products by subcategory:", error);
+        setLoader(false);
+      }
+    };
+
+    if (subcategorySelect.length > 0 && subcategorySelect !== undefined) {
+      fetchProductsBySubcategory();
+    } else {
+      setFilterData([]); // Reset filterData when no subcategories selected
+      setLoader(false);
+    }
+  }, [subcategorySelect, data, router.pathname]);
+  const [completeData, setCompleteData] = useState([]);
+  useEffect(() => {
+    if (data.length > 0) {
+      setCompleteData([...data, ...filterData]);
+      sessionStorage?.setItem("categoryData", JSON.stringify(data));
+    }
+  }, [data, filterData]);
+
+  useEffect(() => {
+    if (selectData.length < 1) {
+      let rawData = sessionStorage?.getItem("categoryData");
+      if (rawData) {
+        console.log("rawData", JSON.parse(rawData));
+        setData(JSON.parse(rawData));
+      }
+    }
+  }, []);
+  useEffect(() => {
+    if (
+      !selectData &&
+      !filterData &&
+      !sessionStorage?.getItem("categoryData") &&
+      !data
+    ) {
+      dispatch(fetchProducts("category", "all"));
+    }
+  }, [selectData, filterData, data]);
+  function debounce(func, wait) {
+    let timeout;
+    return function (...args) {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), wait);
+    };
   }
 
-  console.log("fetching");
-
-}, [selectData, dispatch, subcategorySelect]);
-
-// Debounce function to limit how often the fetchProductsBySubcategory function is called
-function debounce(func, wait) {
-  let timeout;
-  return function (...args) {
-    const context = this;
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(context, args), wait);
-  };
-}
-
-
-
-useEffect(() => {
+  useEffect(() => {
     document.addEventListener("keydown", hideOnescape, true);
     document.addEventListener("click", hideoutside, true);
-
   }, []);
-  
+
   const hideOnescape = (e) => {
-
-if(e.key === "Escape"){
-setisfilterbaropen(0)
-}
-  }
-
-  
-  const hideoutside = (e) => {
-    if (divRef.current && !divRef.current.contains(e.target)) {
-      setisfilterbaropen(0)
+    if (e.key === "Escape") {
+      setisfilterbaropen(0);
     }
   };
 
+  const hideoutside = (e) => {
+    if (divRef.current && !divRef.current.contains(e.target)) {
+      setisfilterbaropen(0);
+    }
+  };
 
   const handleButtonClick = () => {
     setisfilterbaropen(0);
@@ -187,46 +197,39 @@ setisfilterbaropen(0)
     // console.log(items);
     switch (items.val) {
       case "hightolow":
-        setData(data.sort((a, b) => b.price - a.price));
+        setCompleteData(completeData.sort((a, b) => b.price - a.price));
         break;
       case "lowtohigh":
-        setData(data.sort((a, b) => a.price - b.price));
+        setCompleteData(completeData.sort((a, b) => a.price - b.price));
         break;
       case "best":
-        // let best = data.sort((a, b) => b.features.length - a.features.length); //will use this later
+        // let best = completeData.sort((a, b) => b.features.length - a.features.length); //will use this later
         // if(best.length === 0){
-        setData(data.sort((a, b) => a.quantity - b.quantity));
+        setCompleteData(completeData.sort((a, b) => a.quantity - b.quantity));
         // }
         // else{
-        // setData(best);9
+        // setCompleteData(best);9
         // }
-        // setData(data.sort((a, b) => b.features.length - a.features.length));
+        // setCompleteData(completeData.sort((a, b) => b.features.length - a.features.length));
         break;
       case "new":
-        setData(
-          data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        setCompleteData(
+          completeData.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          )
         );
         break;
       default:
-        setData(data);
+        setCompleteData(completeData);
     }
     setshowsort(false);
   };
-  const [subcategory, setSubcategory] = useState([]);
+  const [subcategory, toggleSubcategory] = useState([]);
   const selectedsubCats = useSelector(selectSubcategory);
-  useEffect(() => {
-    if (selectedsubCats) {
-      const selectedSubcategoryArray = Object.entries(selectedsubCats)
-        .filter(([subcategory, isSelected]) => isSelected)
-        .map(([subcategory]) => subcategory);
-
-      setSubcategory(selectedSubcategoryArray);
-    }
-  }, [selectedsubCats]);
 
   const handleFilterSelection = (Ftitle, selectedFilters) => {
     console.log(Ftitle, selectedFilters);
-    setSubcategory(selectedFilters);
+    toggleSubcategory(selectedFilters);
   };
 
   const handelpeoductinfo = async (id) => {
@@ -248,9 +251,8 @@ setisfilterbaropen(0)
   const selectedCartData = useSelector(selectCart);
 
   const handeladdtocart = (obj) => {
-   
     dispatch(addToCart(obj));
-    if (selectedCartData.some(item => item._id === obj._id)) {
+    if (selectedCartData.some((item) => item._id === obj._id)) {
       toast.success("Added same product again", {
         position: "bottom-left",
         autoClose: 500,
@@ -260,8 +262,7 @@ setisfilterbaropen(0)
         draggable: true,
         progress: undefined,
       });
-    }
-    else {
+    } else {
       toast.success("Added to cart", {
         position: "bottom-left",
         autoClose: 500,
@@ -277,22 +278,34 @@ setisfilterbaropen(0)
   const cartOpenState = useSelector(selectCartOpen);
 
   useEffect(() => {
-    const header = document.querySelector('header');
+    const header = document.querySelector("header");
     if (isfilterbaropen !== 0) {
-      document.body.classList.add('blurbody');
-      header.classList.remove('absolute');
-      header.classList.add('headerfixed');
+      document.body.classList.add("blurbody");
+      header.classList.remove("absolute");
+      header.classList.add("headerfixed");
     } else {
-      document.body.classList.remove('blurbody');
-      header.classList.remove('headerfixed');
-      header.classList.add('absolute');
+      document.body.classList.remove("blurbody");
+      header.classList.remove("headerfixed");
+      header.classList.add("absolute");
     }
 
     // Cleanup the class when the component unmounts
     return () => {
-      document.body.classList.remove('blurbody');
+      document.body.classList.remove("blurbody");
     };
   }, [isfilterbaropen]);
+  const cats = useSelector(selectCategories);
+  const [category, setCategory] = useState([]);
+
+  useEffect(() => {
+    if (cats) {
+      setCategory(cats.categories);
+    }
+    // console.log(cats?.categories?.[0].commonfilters.map((item) => item.name));
+    // console.log(
+    //   cats?.categories?.[0].commonfilters.map((item) => item.options)
+    // );
+  }, [cats]);
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
@@ -327,7 +340,11 @@ setisfilterbaropen(0)
           <div>
             <button
               className=" cursor-pointer flex items-center gap-x-2 font-semibold rounded-sm border md:px-4 px-2 bg-white text-opacity-[78%] "
-              onClick={() => isfilterbaropen === 4 ? setisfilterbaropen(0) : setisfilterbaropen(4)}
+              onClick={() =>
+                isfilterbaropen === 4
+                  ? setisfilterbaropen(0)
+                  : setisfilterbaropen(4)
+              }
             >
               <FaAngleDown
                 className={`transition-all duration-75 ${
@@ -338,10 +355,11 @@ setisfilterbaropen(0)
             </button>
           </div>
 
-          <div ref={divRef}
+          <div
+            ref={divRef}
             className={`top-[110%] w-[200px] border  right-0 bg-white shadow rounded-lg absolute z-20 ${
               isfilterbaropen === 4 ? "block" : "hidden"
-            }`} 
+            }`}
           >
             <ul className="text-sm font-[400] cursor-pointer ">
               {sorts.map((items, index) => (
@@ -350,7 +368,9 @@ setisfilterbaropen(0)
                     selectedfilter === index && " text-white bg-theme-footer-bg"
                   }`}
                   key={index}
-                  onClick={() => {handleSortSelection(items, index)}}
+                  onClick={() => {
+                    handleSortSelection(items, index);
+                  }}
                 >
                   {items.title}
                 </li>
@@ -361,11 +381,11 @@ setisfilterbaropen(0)
       </div>
 
       <div className="mt-5">
-        {data?.length === 0 && loader ? (
+        {completeData?.length === 0 && loader ? (
           <Loader />
         ) : (
           <div className=" grid lg:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context">
-            {data?.length == 0 ? (
+            {completeData?.length == 0 ? (
               <>
                 <div className="flex items-center justify-center h-screen">
                   <div className="text-center">
@@ -397,7 +417,7 @@ setisfilterbaropen(0)
                 </div>
               </>
             ) : (
-              data?.map((items, index) => (
+              completeData?.map((items, index) => (
                 <div key={index} className=" group relative">
                   <div className=" flex flex-col text-[#03071E]">
                     <div className="   cursor-pointer  transition-all duration-100 relative rounded-[6px]  lg:group-hover:opacity-50 h-[200px] 2xl:h-[250px] w-full overflow-hidden">
@@ -504,24 +524,18 @@ setisfilterbaropen(0)
 
       <div
         className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[350px] w-[80%]  top-0 z-30 rounded-tl-[28px] border py-3 context ${
-          cartOpenState? "block" : "hidden"
+          cartOpenState ? "block" : "hidden"
         }`}
         ref={divRef}
       >
         <div className="py-3 px-6 w-full flex gap-x-4 border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700]">
           <FaXmark
             className=" cursor-pointer"
-            onClick={
-              ()=>dispatch(closeCart())
-            }
+            onClick={() => dispatch(closeCart())}
           />{" "}
           Cart
         </div>
-        <Productcart
-          handelCartShow={
-            cartOpenState
-          }c
-        />
+        <Productcart handelCartShow={cartOpenState} c />
       </div>
 
       <div
@@ -544,7 +558,7 @@ setisfilterbaropen(0)
       <Modal
         visible={ismodalopen}
         effect="fadeInDown"
-        width = '80%'
+        width="80%"
         onClickAway={closeModal}
       >
         <Productmodal produtdata={productdata} modalclose={closeModal} />
