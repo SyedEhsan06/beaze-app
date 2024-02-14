@@ -29,7 +29,7 @@ import Productmodal from "./Productmodal";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { addToCart, selectCart } from "@/redux/slices/cartSlice";
 import { closeCart, selectCartOpen } from "@/redux/slices/cartOpenSlice";
 import { selectCategories } from "@/redux/slices/categorySlice";
@@ -51,7 +51,7 @@ export default function Contentcategories({ params }) {
   const [productdata, setproductdata] = useState([]);
   const selectData = useSelector(selectCategoryProduct);
   const dispatch = useDispatch();
-
+const usepathname = usePathname();
   const subcategorySelect = useSelector(selectSubcategory);
   let router = useRouter();
   let debounceTimeoutRef = useRef(null);
@@ -73,16 +73,25 @@ export default function Contentcategories({ params }) {
   }, [dispatch, selectData]);
   const [filterData, setFilterData] = useState([]);
   useEffect(() => {
+    console.log("mounted");
     const fetchProductsBySubcategory = async () => {
       try {
-        if (subcategorySelect && subcategorySelect.length > 0) {
-          const selectedSubcategories = subcategorySelect.filter(
+        // Filter out empty arrays from subcategorySelect
+        const nonEmptySubcategories = subcategorySelect.filter(
+          (subcategory) => subcategory.length > 0
+        );
+  
+        if (nonEmptySubcategories.length > 0) {
+          const selectedSubcategories = nonEmptySubcategories.flat().filter(
             (subcategory) => subcategory !== "undefined"
           );
+  
+          console.log("selectedSubcategories", selectedSubcategories);
           const response = await fetchData(
-            `products?type=${selectedSubcategories.join(",")}`
+            `products?type=${selectedSubcategories?.join(",")}`
           );
-
+  
+          console.log("response", response);
           if (response && response.products && response.products.length > 0) {
             const existingProductIds = data.map((product) => product._id);
             const uniqueProducts = response.products.filter(
@@ -101,21 +110,25 @@ export default function Contentcategories({ params }) {
         setLoader(false);
       }
     };
-
-    if (subcategorySelect.length > 0 && subcategorySelect !== undefined) {
+  
+    if (subcategorySelect && subcategorySelect.length > 0 && subcategorySelect !== undefined) {
       fetchProductsBySubcategory();
     } else {
       setFilterData([]); // Reset filterData when no subcategories selected
       setLoader(false);
     }
-  }, [subcategorySelect, data, router.pathname]);
+  }, [subcategorySelect,dispatch]);
+  
   const [completeData, setCompleteData] = useState([]);
-  useEffect(() => {
-    if (data.length > 0) {
-      setCompleteData([...data, ...filterData]);
-      sessionStorage?.setItem("categoryData", JSON.stringify(data));
-    }
-  }, [data, filterData]);
+useEffect(() => {
+  const mergedData = [...data, ...filterData];
+  const uniqueData = Array.from(new Set(mergedData.map(item => item._id)))
+    .map(id => mergedData.find(item => item._id === id));
+  
+  setCompleteData(uniqueData);
+  sessionStorage?.setItem("categoryData", JSON.stringify(data));
+}, [data, filterData, usepathname]);
+
 
   useEffect(() => {
     if (selectData.length < 1) {
@@ -126,16 +139,16 @@ export default function Contentcategories({ params }) {
       }
     }
   }, []);
-  useEffect(() => {
-    if (
-      !selectData &&
-      !filterData &&
-      !sessionStorage?.getItem("categoryData") &&
-      !data
-    ) {
-      dispatch(fetchProducts("category", "all"));
-    }
-  }, [selectData, filterData, data]);
+  // useEffect(() => {
+  //   if (
+  //     !selectData &&
+  //     !filterData &&
+  //     !sessionStorage?.getItem("categoryData") &&
+  //     !data
+  //   ) {
+  //     dispatch(fetchProducts("category", "all"));
+  //   }
+  // }, [selectData, filterData, data]);
   function debounce(func, wait) {
     let timeout;
     return function (...args) {
@@ -144,7 +157,9 @@ export default function Contentcategories({ params }) {
       timeout = setTimeout(() => func.apply(context, args), wait);
     };
   }
-
+  console.log("data", data);
+  console.log("filterData", filterData);
+  console.log("completeData", completeData);
   useEffect(() => {
     document.addEventListener("keydown", hideOnescape, true);
     document.addEventListener("click", hideoutside, true);

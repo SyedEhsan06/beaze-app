@@ -92,9 +92,8 @@ export default function Productslider({ data }) {
         >
           {explore?.map((pitems, pindex) => (
             <SwiperSlide key={pindex}>
-              <Link href={`/products/${(pitems.name)
-                .toLowerCase()
-                .replace(/ /g, "-")
+              <Link href={`/products
+           
               }`}>
                 <div
                   className=" w-full cursor-pointer rounded h-auto group"
@@ -157,9 +156,8 @@ export default function Productslider({ data }) {
         >
           {best?.map((pitems, pindex) => (
             <SwiperSlide key={pindex}>
-              <Link href={`/products/${(pitems.name)
-              .toLowerCase()
-              .replace(/ /g, "-")
+              <Link href={`/products
+            
               }`}>
                 <div
                   className=" w-full cursor-pointer rounded h-auto group"

@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSubcategory, toggleSubcategory } from "@/redux/slices/filterSlice";
 import { usePathname, useRouter } from "next/navigation";
+import { selectCategoryProduct } from "@/redux/slices/productSlice";
 
 export default function Sidemenufilterlist({
   subcategory,
@@ -22,6 +24,17 @@ export default function Sidemenufilterlist({
   useEffect(() => {
     dispatch(toggleSubcategory([])); 
   }, [usepathname]);
+  const currentData=useSelector(selectCategoryProduct)
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    if (currentData) {
+      setData(currentData);
+    }
+  }
+  , [currentData]);
+  const catsFromData = data?.response?.products.map((item) => item.subcategory);
+  const cats = [...new Set(catsFromData)];
+  console.log('cats',cats)
   return (
     <div>
       {subcategory?.slice(0, showCount).map((item, index) => (
@@ -32,7 +45,7 @@ export default function Sidemenufilterlist({
                 type="checkbox"
                 id={item.name + indexing}
                 onChange={() => handleCheckboxChange(item.name)}
-                checked={selectedSubcategories.includes(item.name)}
+                checked={selectedSubcategories.includes(item.name) || cats.includes(item.name)}
               />
             </div>
             <label

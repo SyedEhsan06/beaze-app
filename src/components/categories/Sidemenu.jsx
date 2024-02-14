@@ -5,20 +5,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories, selectCategories } from "@/redux/slices/categorySlice";
 import { selectSubcategory, toggleSubcategory } from "@/redux/slices/filterSlice";
 import { usePathname, useRouter } from "next/navigation";
+import { selectCategoryProduct } from "@/redux/slices/productSlice";
 
 export default function Sidemenu({ categories }) {
   const [checkedMenus, setCheckedMenus] = useState([]);
   const [filterCount, setFilterCount] = useState(5);
   const dispatch = useDispatch();
   const router = useRouter();
-
+  const currentData= useSelector(selectCategoryProduct);
   const usepathname = usePathname();
   useEffect(() => {
     // Reset component and remove all selected items when router pathname changes
     setCheckedMenus([]);
     dispatch(toggleSubcategory([]));
     // console.log("usepathname", usepathname);
-  }, [usepathname]);
+  }, [usepathname,dispatch,currentData]);
   const handleCheckboxChange = (index) => {
     const currentIndex = checkedMenus.indexOf(index);
     const newCheckedItems = [...checkedMenus];
