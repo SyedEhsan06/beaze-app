@@ -149,16 +149,6 @@ export default function Contentcategories({ params }) {
       }
     }
   }, []);
-  // useEffect(() => {
-  //   if (
-  //     !selectData &&
-  //     !filterData &&
-  //     !sessionStorage?.getItem("categoryData") &&
-  //     !data
-  //   ) {
-  //     dispatch(fetchProducts("category", "all"));
-  //   }
-  // }, [selectData, filterData, data]);
   function debounce(func, wait) {
     let timeout;
     return function (...args) {
@@ -167,9 +157,9 @@ export default function Contentcategories({ params }) {
       timeout = setTimeout(() => func.apply(context, args), wait);
     };
   }
-  console.log("data", data);
-  console.log("filterData", filterData);
-  console.log("completeData", completeData);
+  // console.log("data", data);
+  // console.log("filterData", filterData);
+  // console.log("completeData", completeData);
   useEffect(() => {
     document.addEventListener("keydown", hideOnescape, true);
     document.addEventListener("click", hideoutside, true);
@@ -407,7 +397,7 @@ export default function Contentcategories({ params }) {
       {filterLoader ? (
         <ThreeDots
           color="#F8B43A"
-          className="absolute threedotcss z-[99999] left-[50%] top-[50%]  "
+         radius={20}
           height={120}
           width={120}
         />
@@ -416,7 +406,7 @@ export default function Contentcategories({ params }) {
         {completeData?.length === 0 && loader ? (
           <Loader />
         ) : (
-          <div className=" grid lg:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context">
+          <div className={`${filterLoader?'blur-md transition-all ease-linear ':''}  grid lg:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context  `}>
             {completeData?.length == 0 ? (
               <>
                 <div className="flex items-center justify-center h-screen">
