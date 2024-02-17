@@ -360,25 +360,29 @@ const colorFilter = useSelector(selectColor);
 const sizeFilter = useSelector(selectSize);
 const materialFilter = useSelector(selectMaterial);
 const sleeveFilter = useSelector(selectSleeve);
-console.log(materialFilter);
+const[filterEmpty, setFilterEmpty] = useState(false);
 const [rightFilteredProducts, setRightFilteredProducts] = useState([]);
+console.log(filterEmpty)
 useEffect(() => {
   // Filter products when any filter changes
   if (colorFilter.length === 0 && sizeFilter.length === 0 && materialFilter.length === 0 && sleeveFilter.length === 0) {
     setCompleteData([...filterData, ...data]);
+    setFilterEmpty(true);
 }
   if (colorFilter.length > 0 || sizeFilter.length > 0 || materialFilter.length > 0 || sleeveFilter.length > 0) {
+    setFilterEmpty(false);
     const filtered = completeData.filter(product => {
       const colorMatch = colorFilter.length === 0 || colorFilter.some(filter => product.attributes.find(attr => attr.name === 'Colors').value.includes(filter));
       const sizeMatch = sizeFilter.length === 0 || sizeFilter.some(filter => product.attributes.find(attr => attr.name === 'Sizes').value.includes(filter));
       const materialMatch = materialFilter.length === 0 || materialFilter.some(filter => product.attributes.find(attr => attr.name === 'Material') && product.attributes.find(attr => attr.name === 'Material').value === filter);
-      const sleeveMatch = sleeveFilter.length === 0 || sleeveFilter.includes(product.attributes.find(attr => attr.name === 'Sleeve').value);
+      // const sleeveMatch = sleeveFilter.length === 0 || sleeveFilter.includes(product.attributes.find(attr => attr.name === 'Sleeve')?.value);
+
 
       
-      return colorMatch && sizeMatch && materialMatch && sleeveMatch;
+      return colorMatch && sizeMatch && materialMatch ;
   });
   
-      
+    
       if (filtered.length > 0) {
         setRightFilteredProducts(filtered);
       }
@@ -388,6 +392,7 @@ useEffect(() => {
       
     }
 }, [colorFilter, sizeFilter, materialFilter, sleeveFilter]);
+
   const handleResetfilter = () => {
     dispatch(toggleColor([]));
     dispatch(toggleMaterial([]));
@@ -622,7 +627,7 @@ useEffect(() => {
             Reset
           </button>
           <button onClick={
-            handleApplyfilter
+           filterEmpty ? handleResetfilter : handleApplyfilter
           } className="w-8/12 border bg-[#F8B43A] text-text-secondary text-lg font-[500] py-1 rounded-[22px] ">
             Apply filter
           </button>
