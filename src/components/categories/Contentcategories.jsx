@@ -22,7 +22,7 @@ import {
   fetchProducts,
   selectCategoryProduct,
 } from "@/redux/slices/productSlice";
-import { selectSubcategory } from "@/redux/slices/filterSlice";
+import { selectColor, selectMaterial, selectSize, selectSleeve, selectSubcategory, toggleColor, toggleMaterial, toggleSize, toggleSleeve } from "@/redux/slices/filterSlice";
 import Productcart from "./Productcart";
 import Modal from "react-awesome-modal";
 import Productmodal from "./Productmodal";
@@ -34,7 +34,7 @@ import { addToCart, selectCart } from "@/redux/slices/cartSlice";
 import { closeCart, selectCartOpen } from "@/redux/slices/cartOpenSlice";
 import { selectCategories } from "@/redux/slices/categorySlice";
 import { ThreeDots } from "react-loader-spinner";
-import './content.css'
+import "./content.css";
 export default function Contentcategories({ params }) {
   const [showsort, setshowsort] = useState(false);
   const [selectedfilter, setselectedfilter] = useState(null);
@@ -78,22 +78,22 @@ export default function Contentcategories({ params }) {
       try {
         // Set filterLoader to true at the beginning of the fetch operation
         setFilterLoader(true);
-        
+
         // Filter out empty arrays from subcategorySelect
         const nonEmptySubcategories = subcategorySelect.filter(
           (subcategory) => subcategory.length > 0
         );
-    
+
         if (nonEmptySubcategories.length > 0) {
           const selectedSubcategories = nonEmptySubcategories
             .flat()
             .filter((subcategory) => subcategory !== "undefined");
-    
+
           console.log("selectedSubcategories", selectedSubcategories);
           const response = await fetchData(
             `products?type=${selectedSubcategories?.join(",")}`
           );
-    
+
           console.log("response", response);
           if (response && response.products && response.products.length > 0) {
             const existingProductIds = data.map((product) => product._id);
@@ -107,7 +107,7 @@ export default function Contentcategories({ params }) {
         } else {
           setFilterData([]);
         }
-    
+
         // Set filterLoader to false after the filter data has been updated
         setFilterLoader(false);
       } catch (error) {
@@ -311,16 +311,93 @@ export default function Contentcategories({ params }) {
   }, [isfilterbaropen]);
   const cats = useSelector(selectCategories);
   const [category, setCategory] = useState([]);
-
+  const [allFilters, setAllFilters] = useState([]);
+  let currentCategory = completeData?.map((item) => item.category);
+let uniqueCategory = [...new Set(currentCategory)];
+  console.log('uniqueCategory', uniqueCategory);
+  console.log('cats', completeData);
   useEffect(() => {
-    if (cats) {
-      setCategory(cats.categories);
+    if (cats && completeData) { 
+      try {
+        // Extract unique category names from completeData
+        let currentCategory = completeData.map((item) => item.category);
+        let uniqueCategory = [...new Set(currentCategory)];
+        
+        // Filter categories from Redux state that match uniqueCategory
+        const filteredCategories = cats.categories.filter(cat => uniqueCategory.includes(cat.name));
+  
+        // Extract subfilters and common filters from filteredCategories
+        const allSubfilters = filteredCategories.flatMap(cat => cat.subcategories.flatMap(subcat => subcat.subfilters));
+        const allCommonFilters = filteredCategories.flatMap(cat => cat.commonfilters);
+            console.log(filteredCategories);
+        const mergedFilters = [...allSubfilters, ...allCommonFilters];
+        console.log(allSubfilters);
+        console.log('mergedFilters', mergedFilters);
+        const uniqueFilters = mergedFilters.reduce((acc, filter) => {
+          const existingFilter = acc.find(f => f.name === filter.name);
+          if (existingFilter) {
+            existingFilter.options = [...new Set([...existingFilter.options, ...filter.options])];
+          } else {
+            acc.push({ name: filter.name, options: [...new Set(filter.options)] });
+          }
+          return acc; 
+        }, []);
+  
+        console.log('uniqueFilters', uniqueFilters);
+  
+        // Update state with the merged filters
+        setCategory(filteredCategories);
+        setAllFilters(uniqueFilters);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
-    // console.log(cats?.categories?.[0].commonfilters.map((item) => item.name));
-    // console.log(
-    //   cats?.categories?.[0].commonfilters.map((item) => item.options)
-    // );
-  }, [cats]);
+  }, [cats, completeData]);
+  
+    console.log(selectData)
+//handle filter selection
+const colorFilter = useSelector(selectColor);
+const sizeFilter = useSelector(selectSize);
+const materialFilter = useSelector(selectMaterial);
+const sleeveFilter = useSelector(selectSleeve);
+console.log(materialFilter);
+const [rightFilteredProducts, setRightFilteredProducts] = useState([]);
+useEffect(() => {
+  // Filter products when any filter changes
+  if (colorFilter.length === 0 && sizeFilter.length === 0 && materialFilter.length === 0 && sleeveFilter.length === 0) {
+    setCompleteData([...filterData, ...data]);
+}
+  if (colorFilter.length > 0 || sizeFilter.length > 0 || materialFilter.length > 0 || sleeveFilter.length > 0) {
+    const filtered = completeData.filter(product => {
+      const colorMatch = colorFilter.length === 0 || colorFilter.some(filter => product.attributes.find(attr => attr.name === 'Colors').value.includes(filter));
+      const sizeMatch = sizeFilter.length === 0 || sizeFilter.some(filter => product.attributes.find(attr => attr.name === 'Sizes').value.includes(filter));
+      const materialMatch = materialFilter.length === 0 || materialFilter.some(filter => product.attributes.find(attr => attr.name === 'Material') && product.attributes.find(attr => attr.name === 'Material').value === filter);
+      const sleeveMatch = sleeveFilter.length === 0 || sleeveFilter.includes(product.attributes.find(attr => attr.name === 'Sleeve').value);
+
+      
+      return colorMatch && sizeMatch && materialMatch && sleeveMatch;
+  });
+  
+      
+      if (filtered.length > 0) {
+        setRightFilteredProducts(filtered);
+      }
+      else {
+        setRightFilteredProducts([]);
+      }
+      
+    }
+}, [colorFilter, sizeFilter, materialFilter, sleeveFilter]);
+  const handleResetfilter = () => {
+    dispatch(toggleColor([]));
+    dispatch(toggleMaterial([]));
+    dispatch(toggleSize([]));
+    dispatch(toggleSleeve([]));
+    setCompleteData([...filterData, ...data]);
+  }
+  const handleApplyfilter = () => {
+    setCompleteData(rightFilteredProducts);
+  }
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
@@ -395,18 +472,17 @@ export default function Contentcategories({ params }) {
         </div>
       </div>
       {filterLoader ? (
-        <ThreeDots
-          color="#F8B43A"
-         radius={20}
-          height={120}
-          width={120}
-        />
+        <ThreeDots color="#F8B43A" radius={20} height={120} width={120} />
       ) : null}
       <div className="mt-5">
         {completeData?.length === 0 && loader ? (
           <Loader />
         ) : (
-          <div className={`${filterLoader?'blur-md transition-all ease-linear ':''}  grid lg:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context  `}>
+          <div
+            className={`${
+              filterLoader ? "blur-md transition-all ease-linear " : ""
+            }  grid lg:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context  `}
+          >
             {completeData?.length == 0 ? (
               <>
                 <div className="flex items-center justify-center h-screen">
@@ -495,7 +571,7 @@ export default function Contentcategories({ params }) {
         </div>
 
         <div className="" onClick={() => setisfilterbaropen(1)}>
-          {filtertypes.map((items, index) => (
+          {allFilters?.map((items, index) => (
             <div
               className="w-full flex flex-col  gap-y-2 py-4  border-b border-theme-footer-bg  border-opacity-[40%] context px-3"
               key={index}
@@ -507,7 +583,7 @@ export default function Contentcategories({ params }) {
                 <div className=" flex  items-center cursor-pointer">
                   <div>
                     <p className=" text-xl font-[600] mb-0 w-full ">
-                      {items.title}
+                      {items.name}
                     </p>
                   </div>
 
@@ -522,9 +598,12 @@ export default function Contentcategories({ params }) {
               </div>
               <div className={` ${isVisible(index) ? "block" : "hidden"}`}>
                 <Filterdatalist
-                  subcategory={items.subcategory}
+                  subcategory={items.options}
                   showCount={filtercount}
                   indexing={index}
+                  Ftitle={items.name}
+
+                  refresh={isVisible}
                   onShowMore={() => handelshowmore(index)}
                   onShowLess={() => handelshowless(index)}
                   onFilterSelection={handleFilterSelection}
@@ -535,10 +614,16 @@ export default function Contentcategories({ params }) {
         </div>
 
         <div className="w-full flex items-center gap-x-4 py-3">
-          <button className="w-4/12 border border-[#000000] text-text-secondary text-lg font-[300] py-1 rounded-[22px]">
+          <button
+            onClick={
+              handleResetfilter
+            }
+          className="w-4/12 border border-[#000000] text-text-secondary text-lg font-[300] py-1 rounded-[22px]">
             Reset
           </button>
-          <button className="w-8/12 border bg-[#F8B43A] text-text-secondary text-lg font-[500] py-1 rounded-[22px] ">
+          <button onClick={
+            handleApplyfilter
+          } className="w-8/12 border bg-[#F8B43A] text-text-secondary text-lg font-[500] py-1 rounded-[22px] ">
             Apply filter
           </button>
         </div>

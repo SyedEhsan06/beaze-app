@@ -1,21 +1,53 @@
-import React from 'react';
+"use client";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleCategory, toggleColor, toggleSize, toggleMaterial, toggleSleeve, toggleSubcategory, selectColor, selectSize, selectSleeve, selectMaterial } from '@/redux/slices/filterSlice';
 
 export default function Filterdatalist({ Ftitle, onFilterSelection, subcategory, showCount, indexing, onShowMore, onShowLess }) {
-    const [selectedFilters, setSelectedFilters] = React.useState([]);
+    const [selectedFilters, setSelectedFilters] = useState([]);
+    const dispatch = useDispatch();
+    const selectedColor = useSelector(selectColor);
+    const selectedSize = useSelector(selectSize);
+    const selectedMaterial = useSelector(selectMaterial);
+    const selectedSleeve = useSelector(selectSleeve);
 
-    const handleCheckboxChange = (title) => {
-        const isSelected = selectedFilters.includes(title);
-        let updatedSelectedFilters;
-        if (isSelected) {
-            updatedSelectedFilters = selectedFilters.filter((filter) => filter !== title);
+    useEffect(() => {
+        // console.log("Selected Filters:", selectedFilters);
+    }, [selectedFilters]);
+
+    const handleCheckboxChange = (item) => {
+        let updatedFilters = [...selectedFilters];
+
+        // Toggle the filter based on its type
+        if (updatedFilters.includes(item)) {
+            updatedFilters = updatedFilters.filter((filter) => filter !== item);
         } else {
-            updatedSelectedFilters = [...selectedFilters, title];
+            updatedFilters.push(item);
         }
-        setSelectedFilters(updatedSelectedFilters);
-        onFilterSelection(Ftitle, updatedSelectedFilters);
+
+        setSelectedFilters(updatedFilters);
+        dispatchFilterAction(item); 
+    }
+    console.log(Ftitle)
+    const dispatchFilterAction = (item) => {
+        switch (Ftitle) {
+            case 'Colors':
+                dispatch(toggleColor(item));
+                break;
+            case 'Sizes':
+                dispatch(toggleSize(item));
+                break;
+            case 'Material':
+                dispatch(toggleMaterial(item));
+                break;
+            case 'sleeve':
+                dispatch(toggleSleeve(item));
+                break;
+            default:
+                null;
+        }
     };
-    
-    
+
     return (
         <div>
             {subcategory.slice(0, showCount).map((item, index) => (
@@ -24,12 +56,13 @@ export default function Filterdatalist({ Ftitle, onFilterSelection, subcategory,
                         <div className='relative w-[15px] h-[15px]'>
                             <input
                                 type="checkbox"
-                                id={item.title + indexing}
-                                checked={selectedFilters.includes(item.title)}
-                                onChange={() => handleCheckboxChange(item.title)}
+                                id={item + indexing}
+                                name={item + indexing}
+                                checked={selectedColor.includes(item) || selectedSize.includes(item) || selectedMaterial.includes(item) || selectedSleeve.includes(item)}
+                                onClick={() => handleCheckboxChange(item)}
                             />
                         </div>
-                        <label htmlFor={item.title + indexing} className='text-lg cursor-pointer'>{item.title}</label>
+                        <label htmlFor={item + indexing} className='text-lg cursor-pointer'>{item}</label>
                     </div>
                 </div>
             ))}

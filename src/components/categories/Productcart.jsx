@@ -71,7 +71,7 @@ export default function Productcart() {
                   </div>
 
                   <p className=" text-[1rem] font-[500] mt-1">
-                    INR {items.price*items.selectedQty}
+                    INR {(items.price*items.selectedQty).toFixed(2)}
                   </p>
                 </div>
                 <div
@@ -160,7 +160,7 @@ export default function Productcart() {
 
             <div className="w-[50%] flex">
               <p className="ml-auto text-[1rem] font-[500]">{
-              total
+             total.toFixed(2)
               }</p>
             </div>
           </div>

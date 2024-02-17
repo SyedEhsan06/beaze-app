@@ -1,4 +1,3 @@
-
 import { createSlice } from "@reduxjs/toolkit";
 
 let initialState = {
@@ -11,71 +10,44 @@ let initialState = {
   status: "idle",
 };
 
+// Generic function to toggle filters
+const toggleFilter = (state, action, filterKey) => {
+  if (Array.isArray(action.payload) && action.payload.length === 0) {
+    state[filterKey] = [];
+  } else {
+    const filterIndex = state[filterKey].findIndex(
+      (item) => item === action.payload
+    );
+    if (filterIndex === -1) {
+      state[filterKey].push(action.payload);
+    } else {
+      state[filterKey].splice(filterIndex, 1);
+    }
+  }
+};
+
 export const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
     toggleCategory: (state, action) => {
-      const categoryIndex = state.category.findIndex(
-        (item) => item === action.payload
-      );
-      if (categoryIndex === -1) {
-        state.category.push(action.payload);
-      } else {
-        state.category.splice(categoryIndex, 1);
-      }
+      toggleFilter(state, action, "category");
     },
     toggleColor: (state, action) => {
-      const colorIndex = state.color.findIndex((item) => item === action.payload);
-      if (colorIndex === -1) {
-        state.color.push(action.payload);
-      } else {
-        state.color.splice(colorIndex, 1);
-      }
+      toggleFilter(state, action, "color");
     },
     toggleSize: (state, action) => {
-      const sizeIndex = state.size.findIndex((item) => item === action.payload);
-      if (sizeIndex === -1) {
-        state.size.push(action.payload);
-      } else {
-        state.size.splice(sizeIndex, 1);
-      }
+      toggleFilter(state, action, "size");
     },
     toggleMaterial: (state, action) => {
-      const materialIndex = state.material.findIndex(
-        (item) => item === action.payload
-      );
-      if (materialIndex === -1) {
-        state.material.push(action.payload);
-      } else {
-        state.material.splice(materialIndex, 1);
-      }
+      toggleFilter(state, action, "material");
     },
     toggleSleeve: (state, action) => {
-      const sleeveIndex = state.sleeve.findIndex(
-        (item) => item === action.payload
-      );
-      if (sleeveIndex === -1) {
-        state.sleeve.push(action.payload);
-      } else {
-        state.sleeve.splice(sleeveIndex, 1);
-      }
+      toggleFilter(state, action, "sleeve");
     },
     toggleSubcategory: (state, action) => {
-  // Check if payload is an empty array, if so, reset subcategory to an empty array
-  if (Array.isArray(action.payload) && action.payload.length === 0) {
-    state.subcategory = [];
-  } else {
-    const subcategoryIndex = state.subcategory.findIndex(
-      (item) => item === action.payload
-    );
-    if (subcategoryIndex === -1) {
-      state.subcategory.push(action.payload);
-    } else {
-      state.subcategory.splice(subcategoryIndex, 1);
-    }
-  }
-},
+      toggleFilter(state, action, "subcategory");
+    },
   },
 });
 
@@ -96,20 +68,3 @@ export const selectSleeve = (state) => state.filter.sleeve;
 export const selectSubcategory = (state) => state.filter.subcategory;
 
 export default filterSlice.reducer;
-
-// //   // Check if payload is an empty array, if so, reset subcategory to an empty array
-// toggleSubcategory: (state, action) => {
-//   // Check if payload is an empty array, if so, reset subcategory to an empty array
-//   if (Array.isArray(action.payload) && action.payload.length === 0) {
-//     state.subcategory = [];
-//   } else {
-//     const subcategoryIndex = state.subcategory.findIndex(
-//       (item) => item === action.payload
-//     );
-//     if (subcategoryIndex === -1) {
-//       state.subcategory.push(action.payload);
-//     } else {
-//       state.subcategory.splice(subcategoryIndex, 1);
-//     }
-//   }
-// },

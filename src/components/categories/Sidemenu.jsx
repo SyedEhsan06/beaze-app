@@ -3,7 +3,7 @@ import { BiSolidChevronDown } from "react-icons/bi";
 import Sidemenufilterlist from "./Sidemenufilterlist";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories, selectCategories } from "@/redux/slices/categorySlice";
-import { selectSubcategory, toggleSubcategory } from "@/redux/slices/filterSlice";
+import { selectSubcategory, toggleColor, toggleMaterial, toggleSize, toggleSleeve, toggleSubcategory } from "@/redux/slices/filterSlice";
 import { usePathname, useRouter } from "next/navigation";
 import { selectCategoryProduct } from "@/redux/slices/productSlice";
 
@@ -18,6 +18,13 @@ export default function Sidemenu({ categories }) {
     // Reset component and remove all selected items when router pathname changes
     setCheckedMenus([]);
     dispatch(toggleSubcategory([]));
+    dispatch(toggleColor([]));
+    dispatch(toggleMaterial([]));
+    dispatch(toggleSize([]));
+    dispatch(toggleSleeve([]));
+    
+
+
     // console.log("usepathname", usepathname);
   }, [usepathname,dispatch,currentData]);
   const handleCheckboxChange = (index) => {
