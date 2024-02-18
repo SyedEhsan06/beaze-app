@@ -1,6 +1,20 @@
-.sc-beySPh.gZmPOF {
+/* .sc-beySPh.gZmPOF {
     position: absolute;
     z-index: 32323;
     left: 50%;
     top: 50%;
+} */
+.product{
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    z-index: 32323;
+    transform: translate(-20%, -50%);
+}
+.sc-beySPh.gZmPOF{
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    z-index: 32323;
+    transform: translate(-20%, -50%);
 }

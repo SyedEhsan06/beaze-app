@@ -89,12 +89,10 @@ export default function Contentcategories({ params }) {
             .flat()
             .filter((subcategory) => subcategory !== "undefined");
 
-          console.log("selectedSubcategories", selectedSubcategories);
           const response = await fetchData(
             `products?type=${selectedSubcategories?.join(",")}`
           );
 
-          console.log("response", response);
           if (response && response.products && response.products.length > 0) {
             const existingProductIds = data.map((product) => product._id);
             const uniqueProducts = response.products.filter(
@@ -144,7 +142,6 @@ export default function Contentcategories({ params }) {
     if (selectData.length < 1) {
       let rawData = sessionStorage?.getItem("categoryData");
       if (rawData) {
-        console.log("rawData", JSON.parse(rawData));
         setData(JSON.parse(rawData));
       }
     }
@@ -157,9 +154,6 @@ export default function Contentcategories({ params }) {
       timeout = setTimeout(() => func.apply(context, args), wait);
     };
   }
-  // console.log("data", data);
-  // console.log("filterData", filterData);
-  // console.log("completeData", completeData);
   useEffect(() => {
     document.addEventListener("keydown", hideOnescape, true);
     document.addEventListener("click", hideoutside, true);
@@ -209,7 +203,6 @@ export default function Contentcategories({ params }) {
     if (selectedfilter === index) {
       setselectedfilter(null);
     }
-    // console.log(items);
     switch (items.val) {
       case "hightolow":
         setCompleteData(completeData.sort((a, b) => b.price - a.price));
@@ -243,7 +236,6 @@ export default function Contentcategories({ params }) {
   const selectedsubCats = useSelector(selectSubcategory);
 
   const handleFilterSelection = (Ftitle, selectedFilters) => {
-    console.log(Ftitle, selectedFilters);
     toggleSubcategory(selectedFilters);
   };
 
@@ -256,7 +248,6 @@ export default function Contentcategories({ params }) {
       setismodalopen(true);
     } catch (err) {
       setLoader(false);
-      console.log(err);
     }
   };
 
@@ -314,8 +305,6 @@ export default function Contentcategories({ params }) {
   const [allFilters, setAllFilters] = useState([]);
   let currentCategory = completeData?.map((item) => item.category);
 let uniqueCategory = [...new Set(currentCategory)];
-  console.log('uniqueCategory', uniqueCategory);
-  console.log('cats', completeData);
   useEffect(() => {
     if (cats && completeData) { 
       try {
@@ -329,10 +318,7 @@ let uniqueCategory = [...new Set(currentCategory)];
         // Extract subfilters and common filters from filteredCategories
         const allSubfilters = filteredCategories.flatMap(cat => cat.subcategories.flatMap(subcat => subcat.subfilters));
         const allCommonFilters = filteredCategories.flatMap(cat => cat.commonfilters);
-            console.log(filteredCategories);
         const mergedFilters = [...allSubfilters, ...allCommonFilters];
-        console.log(allSubfilters);
-        console.log('mergedFilters', mergedFilters);
         const uniqueFilters = mergedFilters.reduce((acc, filter) => {
           const existingFilter = acc.find(f => f.name === filter.name);
           if (existingFilter) {
@@ -343,7 +329,6 @@ let uniqueCategory = [...new Set(currentCategory)];
           return acc; 
         }, []);
   
-        console.log('uniqueFilters', uniqueFilters);
   
         // Update state with the merged filters
         setCategory(filteredCategories);
@@ -354,7 +339,6 @@ let uniqueCategory = [...new Set(currentCategory)];
     }
   }, [cats, completeData]);
   
-    console.log(selectData)
 //handle filter selection
 const colorFilter = useSelector(selectColor);
 const sizeFilter = useSelector(selectSize);
@@ -362,23 +346,26 @@ const materialFilter = useSelector(selectMaterial);
 const sleeveFilter = useSelector(selectSleeve);
 const[filterEmpty, setFilterEmpty] = useState(false);
 const [rightFilteredProducts, setRightFilteredProducts] = useState([]);
-console.log(filterEmpty)
+const[allFiltersCount, setAllFiltersCount] = useState([]);
 useEffect(() => {
   // Filter products when any filter changes
   if (colorFilter.length === 0 && sizeFilter.length === 0 && materialFilter.length === 0 && sleeveFilter.length === 0) {
     setCompleteData([...filterData, ...data]);
     setFilterEmpty(true);
+    setAllFiltersCount([]);
 }
   if (colorFilter.length > 0 || sizeFilter.length > 0 || materialFilter.length > 0 || sleeveFilter.length > 0) {
     setFilterEmpty(false);
-    const filtered = completeData.filter(product => {
+    setAllFiltersCount([...colorFilter, ...sizeFilter, ...materialFilter, ...sleeveFilter]);
+   let comdata= [...filterData, ...data];
+    const filtered = comdata.filter(product => {
       const colorMatch = colorFilter.length === 0 || colorFilter.some(filter => product.attributes.find(attr => attr.name === 'Colors').value.includes(filter));
       const sizeMatch = sizeFilter.length === 0 || sizeFilter.some(filter => product.attributes.find(attr => attr.name === 'Sizes').value.includes(filter));
       const materialMatch = materialFilter.length === 0 || materialFilter.some(filter => product.attributes.find(attr => attr.name === 'Material') && product.attributes.find(attr => attr.name === 'Material').value === filter);
       // const sleeveMatch = sleeveFilter.length === 0 || sleeveFilter.includes(product.attributes.find(attr => attr.name === 'Sleeve')?.value);
 
-
       
+
       return colorMatch && sizeMatch && materialMatch ;
   });
   
@@ -392,27 +379,56 @@ useEffect(() => {
       
     }
 }, [colorFilter, sizeFilter, materialFilter, sleeveFilter]);
-
+const [showCard, setShowCard] = useState(false);
   const handleResetfilter = () => {
+    setShowCard(false);
     dispatch(toggleColor([]));
     dispatch(toggleMaterial([]));
     dispatch(toggleSize([]));
     dispatch(toggleSleeve([]));
+    setFilterEmpty(true);
+    setAllFiltersCount([]);
     setCompleteData([...filterData, ...data]);
   }
+
   const handleApplyfilter = () => {
+    setShowCard(true);
     setCompleteData(rightFilteredProducts);
   }
+  const handleRemoveFilter = (item, index) => {
+
+    
+    if (colorFilter.includes(item)) {
+      dispatch(toggleColor(item));
+    }
+    if (sizeFilter.includes(item)) {
+      dispatch(toggleSize(item));
+    }
+    if (materialFilter.includes(item)) {
+      dispatch(toggleMaterial(item));
+    }
+    if (sleeveFilter.includes(item)) {
+      dispatch(toggleSleeve(item));
+    }
+    setCompleteData(rightFilteredProducts);
+    handleApplyfilter();
+  }
+
+
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
         <div className="lg:w-8/12 w-full flex order-2 lg:order-1  gap-2 context text-text-secondary flex-wrap ">
-          {/* {subcategory.map((item, index) => (
+          { !filterEmpty && showCard && allFiltersCount.map((item, index) => (
             <div className="flex items-center gap-2  px-[6px] bg-button-secondary rounded-sm font-[500] text-sm shadow-sm py-1">
-              <FaXmark className=" cursor-pointer text-xs" />
+              <FaXmark
+              onClick={(e)=>{
+                handleRemoveFilter(item, index);
+              }}
+              className=" cursor-pointer text-xs" />
               {item.length > 10 ? item.slice(0, 15) + "..." : item}
             </div>
-          ))} */}
+          ))}
         </div>
         <div className="lg:w-4/12 lg:order-2 order-1 w-full flex gap-3 context  lg:justify-between relative items-center ">
           <div className="lg:hidden ">
@@ -476,12 +492,21 @@ useEffect(() => {
           </div>
         </div>
       </div>
-      {filterLoader ? (
-        <ThreeDots color="#F8B43A" radius={20} height={120} width={120} />
-      ) : null}
-      <div className="mt-5">
+      {/* {true ? (
+        <ThreeDots color="#F8B43A" radius={20} height={120} width={120}  />
+      ) : <ThreeDots color="#F8B43A" radius={20} height={120} width={120}  />} */}
+
+      <div className="mt-5 relative">
+       {
+          filterLoader ? (
+            <ThreeDots color="#F8B43A" radius={20} height={120} width={120} wrapperClass='product'   />
+          ) : (
+            null
+          )
+       }
+        
         {completeData?.length === 0 && loader ? (
-          <Loader />
+       <ThreeDots color="#F8B43A" radius={20} height={120} width={120} className='product'  />
         ) : (
           <div
             className={`${

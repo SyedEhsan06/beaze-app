@@ -34,10 +34,9 @@ export default function Sidemenufilterlist({
     dispatch(toggleSubcategory([])); 
   }, [usepathname,currentData]);
   
-  console.log('cats',cats)
   return (
     <div>
-      <div className="flex flex-col my-1">
+      {/* <div className="flex flex-col my-1">
         <div className="flex gap-x-4 items-center pb-2">
           <div className="relative w-[15px] h-[15px]">
             <input
@@ -51,7 +50,7 @@ export default function Sidemenufilterlist({
             View All
           </label>
         </div>
-      </div>
+      </div> */}
       {subcategory?.slice(0, showCount).map((item, index) => (
         <div className="flex flex-col my-1" key={index}>
           <div className="flex gap-x-4 items-center pb-2">
