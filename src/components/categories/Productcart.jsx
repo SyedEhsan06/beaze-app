@@ -11,6 +11,7 @@ import {
   removeSingleFromCart,
   selectCart,
 } from "@/redux/slices/cartSlice";
+import { closeCart } from "@/redux/slices/cartOpenSlice";
 export default function Productcart() {
   const cartData = useSelector(selectCart);
   const [data, setdata] = useState(cartData);
@@ -28,6 +29,7 @@ export default function Productcart() {
   const handleAdd = (id) => {
     dispatch(addToCart({ _id: id }));
   };
+
   let tax= data.reduce((a, b) => a + b.tax*b.selectedQty, 0);
   let total = tax + data.reduce((a, b) => a + b.price*b.selectedQty, 0);
   return (
@@ -167,7 +169,9 @@ export default function Productcart() {
         </div>
 
         <div className="flex w-full headtext gap-3 mb-2">
-          <button className="w-[35%] bg-transparent rounded-[29px] py-2 border-[1px] border-[#000000] text-xl text-[300] text-text-secondary">
+          <button
+          onClick={()=>dispatch(closeCart())}
+          className="w-[35%] bg-transparent rounded-[29px] py-2 border-[1px] border-[#000000] text-xl text-[300] text-text-secondary">
             Cancel
           </button>
           <button className="w-[65%] bg-theme-footer-bg  py-2 text-xl text-white font-[700] rounded-[29px]">
