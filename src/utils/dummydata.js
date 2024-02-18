@@ -796,6 +796,39 @@ export const searchdatadummy= [
         img : '/images/web/product/bestseller/p3.jpg',
         desc  :'Women’s Western Wear / Dresses /'
     },
+    {
+        ptitle : 'Black Satin Dress with a Bust Belt',
+        price : 999,
+        img : '/images/web/product/bestseller/p1.jpg',
+        desc  :'Women’s Western Wear / Dresses /'
+    },
+    {
+        ptitle : 'Black Satin Dress with a Bust Belt',
+        price : 999,
+        img : '/images/web/product/bestseller/p2.jpg',
+        desc  :'Women’s Western Wear / Dresses /'
+    },
+    {
+        ptitle : 'Black Satin Dress with a Bust Belt',
+        price : 999,
+        img : '/images/web/product/bestseller/p3.jpg',
+        desc  :'Women’s Western Wear / Dresses /'
+    },
+  
   
    
+]
+
+
+
+const checkouttabs = [
+    {
+        title : 'Welcome Sherlock'
+    },
+    {
+        title : 'Shipping Details'
+    },
+    {
+        title : 'Shipping Fees'
+    }
 ]
