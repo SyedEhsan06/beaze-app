@@ -21,6 +21,7 @@ import {
 import { fetchProducts } from "@/redux/slices/productSlice";
 import { closeCart, openCart } from "@/redux/slices/cartOpenSlice";
 import { usePathname, useRouter } from "next/navigation";
+import { toggleCategory, toggleSubcategory } from "@/redux/slices/filterSlice";
 
 export default function Header() {
   const [scrollLength, setScrollLength] = useState(0);
@@ -127,16 +128,31 @@ export default function Header() {
     return () => clearTimeout(timeoutId);
   }, [search]);
   const handleDispatch = () => {
+    dispatch(toggleSubcategory([]));
+    dispatch(toggleCategory([]));
     setshowhide(0);
+    console.log(searchdata)
+    const subcategories = searchdata.map((item) => item.subcategory);
+    console.log(subcategories);
+    const unique = [...new Set(subcategories)];
+    const category = searchdata.map((item) => item.category);
+    const uniqueCategory = [...new Set(category)];
+    uniqueCategory.forEach((category) => {
+      dispatch(toggleCategory(category));
+    });
     let type = "search";
     if (search.length >= 1) {
-      dispatch(
-        fetchProducts({
-          type,
-          item: search,
-        })
-      );
+      // dispatch(
+      //   fetchProducts({
+      //     type,
+      //     item: search,
+      //   })
+      // );
+      unique.forEach((subcategory) => {
+        dispatch(toggleSubcategory(subcategory));
+      });
     }
+
   };
   const [cartOpen, setCartOpen] = useState(false);
   const handleCartOpen = () => {
