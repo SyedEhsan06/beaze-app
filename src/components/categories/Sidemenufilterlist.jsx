@@ -15,6 +15,7 @@ export default function Sidemenufilterlist({
 }) {
   const dispatch = useDispatch();
   const selectedSubcategories = useSelector(selectSubcategory);
+  console.log(selectedSubcategories);
   const currentData=useSelector(selectCategoryProduct)
   const [data, setData] = useState([]);
   useEffect(() => {

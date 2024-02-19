@@ -32,13 +32,13 @@ console.log(categorySelect);
   useEffect(() => {
     // Reset component and remove all selected items when router pathname changes
     setCheckedMenus([]);
-    dispatch(toggleSubcategory([]));
+    // dispatch(toggleSubcategory([]));
     dispatch(toggleColor([]));
     dispatch(toggleMaterial([]));
     dispatch(toggleSize([]));
     dispatch(toggleSleeve([]));
 
-  }, [usepathname, dispatch, currentData]);
+  }, [categorySelect, dispatch, currentData]);
   const handleCheckboxChange = (index) => {
     const currentIndex = checkedMenus.indexOf(index);
     const newCheckedItems = [...checkedMenus];
@@ -89,7 +89,7 @@ console.log(categorySelect);
               <div className="flex items-center">
                 <button className="text-xl">
                   {
-                    category.includes(items.name) ? category.includes(items.name) && <span className="text-lg">⭐</span>:<BiSolidChevronDown
+                    categorySelect.includes(items.name) ? categorySelect.includes(items.name) && <span className="text-lg">⭐</span>:<BiSolidChevronDown
                     className={`transition-all duration-75 ${
                       isVisible(index) && "rotate-180"
                     }`}
