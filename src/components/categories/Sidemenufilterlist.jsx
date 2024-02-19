@@ -34,9 +34,9 @@ export default function Sidemenufilterlist({
   };
   const usepathname = usePathname();
   const router = useRouter();
-  useEffect(() => {
-    dispatch(toggleSubcategory([])); 
-  }, [usepathname,selectSubcategory])
+  // useEffect(() => {
+  //   dispatch(toggleSubcategory([])); 
+  // }, [usepathname,selectSubcategory])
   console.log(categorySelect);
   return (
     <div>
