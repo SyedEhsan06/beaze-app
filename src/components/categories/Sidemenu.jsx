@@ -7,6 +7,7 @@ import {
   selectCategories,
 } from "@/redux/slices/categorySlice";
 import {
+  selectCategory,
   selectSubcategory,
   toggleColor,
   toggleMaterial,
@@ -24,6 +25,10 @@ export default function Sidemenu({ categories }) {
   const router = useRouter();
   const currentData = useSelector(selectCategoryProduct);
   const usepathname = usePathname();
+  const selectedSubcategories = useSelector(selectSubcategory);
+  const categorySelect = useSelector(selectCategory);
+  console.log(selectedSubcategories);
+console.log(categorySelect);
   useEffect(() => {
     // Reset component and remove all selected items when router pathname changes
     setCheckedMenus([]);
@@ -64,7 +69,9 @@ export default function Sidemenu({ categories }) {
   let currentCategory = currentData?.response?.products.map(
     (item) => item.category
   );
+  // console.log(currentData);
   let category = [...new Set(currentCategory)];
+  // console.log(category);
   return (
     <aside className="w-full py-0 px-5 overflow-y-auto">
       {categoryToMap?.map((items, index) => (
@@ -94,7 +101,7 @@ export default function Sidemenu({ categories }) {
           </div>
           <div
             className={`${
-              isVisible(index) || category.includes(items.name)
+              isVisible(index) || categorySelect.includes(items.name)
                 ? "block"
                 : "hidden"
             }`}

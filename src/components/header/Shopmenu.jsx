@@ -3,19 +3,26 @@ import Image from "next/image";
 import Loader from "../loader/Loader";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "@/redux/slices/productSlice";
-import { toggleSubcategory } from "@/redux/slices/filterSlice";
-
+import { toggleCategory, toggleColor, toggleSubcategory } from "@/redux/slices/filterSlice";
 export default function Shopmenu({ meudata, Closeref, closevaribale }) {
   const dispatch = useDispatch();
+
   const handleDispatch = (type, item) => {
+    console.log("type", type, "item", item.subcategories.map((item) => item.name));
     dispatch(toggleSubcategory([]));
-    dispatch(
-      fetchProducts({
-        type,
-        item,
-      })
-    );
+    dispatch(toggleCategory([]));
+    dispatch(toggleCategory(item.name));
+    item.subcategories.forEach((subcategory) => {
+      dispatch(toggleSubcategory(subcategory.name));
+      // dispatch(
+      //   fetchProducts({
+      //     type,
+      //     item: subcategory.name,
+      //   })
+      // );
+    });
   };
+
   return (
     <>
       {!meudata ? (
@@ -27,7 +34,7 @@ export default function Shopmenu({ meudata, Closeref, closevaribale }) {
         >
           {meudata?.map((items, index) => (
             <div
-              className="bg-white p-1   rounded-[7px] transition-all duration-75  border-transparent border lg:hover:border-theme-footer-bg"
+              className="bg-white p-1 rounded-[7px] transition-all duration-75 border-transparent border lg:hover:border-theme-footer-bg"
               key={index}
               onClick={() => Closeref(0)}
             >
@@ -35,10 +42,10 @@ export default function Shopmenu({ meudata, Closeref, closevaribale }) {
                 href={{
                   pathname: `/products`,
                 }}
-                onMouseDown={() => handleDispatch("category", items.name)}
+                onMouseDown={() => handleDispatch("category", items)}
               >
-                <div className="flex items-center gap-x-2  ">
-                  <div className="w-3/12  cursor-pointer   relative   md:h-[70px] h-[50px] overflow-hidden rounded-[7px]">
+                <div className="flex items-center gap-x-2">
+                  <div className="w-3/12 cursor-pointer relative md:h-[70px] h-[50px] overflow-hidden rounded-[7px]">
                     {items.img ? (
                       <Image
                         src={
@@ -61,9 +68,7 @@ export default function Shopmenu({ meudata, Closeref, closevaribale }) {
                   </div>
 
                   <div className="w-9/12">
-                    <p className=" text-lg font-[500] text-center  ">
-                      {items.name}
-                    </p>
+                    <p className="text-lg font-[500] text-center">{items.name}</p>
                   </div>
                 </div>
               </Link>
