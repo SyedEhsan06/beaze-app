@@ -22,17 +22,7 @@ import {
   fetchProducts,
   selectCategoryProduct,
 } from "@/redux/slices/productSlice";
-import {
-  selectColor,
-  selectMaterial,
-  selectSize,
-  selectSleeve,
-  selectSubcategory,
-  toggleColor,
-  toggleMaterial,
-  toggleSize,
-  toggleSleeve,
-} from "@/redux/slices/filterSlice";
+import { selectColor, selectMaterial, selectSize, selectSleeve, selectSubcategory, toggleColor, toggleMaterial, toggleSize, toggleSleeve } from "@/redux/slices/filterSlice";
 import Productcart from "./Productcart";
 import Modal from "react-awesome-modal";
 import Productmodal from "./Productmodal";
@@ -314,42 +304,32 @@ export default function Contentcategories({ params }) {
   const [category, setCategory] = useState([]);
   const [allFilters, setAllFilters] = useState([]);
   let currentCategory = completeData?.map((item) => item.category);
-  let uniqueCategory = [...new Set(currentCategory)];
+let uniqueCategory = [...new Set(currentCategory)];
   useEffect(() => {
-    if (cats && completeData) {
+    if (cats && completeData) { 
       try {
         // Extract unique category names from completeData
         let currentCategory = completeData.map((item) => item.category);
         let uniqueCategory = [...new Set(currentCategory)];
-
+        
         // Filter categories from Redux state that match uniqueCategory
-        const filteredCategories = cats.categories.filter((cat) =>
-          uniqueCategory.includes(cat.name)
-        );
-
+        const filteredCategories = cats.categories.filter(cat => uniqueCategory.includes(cat.name));
+  
         // Extract subfilters and common filters from filteredCategories
-        const allSubfilters = filteredCategories.flatMap((cat) =>
-          cat.subcategories.flatMap((subcat) => subcat.subfilters)
-        );
-        const allCommonFilters = filteredCategories.flatMap(
-          (cat) => cat.commonfilters
-        );
+        const allSubfilters = filteredCategories.flatMap(cat => cat.subcategories.flatMap(subcat => subcat.subfilters));
+        const allCommonFilters = filteredCategories.flatMap(cat => cat.commonfilters);
         const mergedFilters = [...allSubfilters, ...allCommonFilters];
         const uniqueFilters = mergedFilters.reduce((acc, filter) => {
-          const existingFilter = acc.find((f) => f.name === filter.name);
+          const existingFilter = acc.find(f => f.name === filter.name);
           if (existingFilter) {
-            existingFilter.options = [
-              ...new Set([...existingFilter.options, ...filter.options]),
-            ];
+            existingFilter.options = [...new Set([...existingFilter.options, ...filter.options])];
           } else {
-            acc.push({
-              name: filter.name,
-              options: [...new Set(filter.options)],
-            });
+            acc.push({ name: filter.name, options: [...new Set(filter.options)] });
           }
-          return acc;
+          return acc; 
         }, []);
-
+  
+  
         // Update state with the merged filters
         setCategory(filteredCategories);
         setAllFilters(uniqueFilters);
@@ -358,77 +338,48 @@ export default function Contentcategories({ params }) {
       }
     }
   }, [cats, completeData]);
+  
+//handle filter selection
+const colorFilter = useSelector(selectColor);
+const sizeFilter = useSelector(selectSize);
+const materialFilter = useSelector(selectMaterial);
+const sleeveFilter = useSelector(selectSleeve);
+const[filterEmpty, setFilterEmpty] = useState(false);
+const [rightFilteredProducts, setRightFilteredProducts] = useState([]);
+const[allFiltersCount, setAllFiltersCount] = useState([]);
+useEffect(() => {
+  // Filter products when any filter changes
+  if (colorFilter.length === 0 && sizeFilter.length === 0 && materialFilter.length === 0 && sleeveFilter.length === 0) {
+    setCompleteData([...filterData, ...data]);
+    setFilterEmpty(true);
+    setAllFiltersCount([]);
+}
+  if (colorFilter.length > 0 || sizeFilter.length > 0 || materialFilter.length > 0 || sleeveFilter.length > 0) {
+    setFilterEmpty(false);
+    setAllFiltersCount([...colorFilter, ...sizeFilter, ...materialFilter, ...sleeveFilter]);
+   let comdata= [...filterData, ...data];
+    const filtered = comdata.filter(product => {
+      const colorMatch = colorFilter?.length === 0 || colorFilter.some(filter => product.attributes.find(attr => attr.name === 'Colors').value.includes(filter));
+      const sizeMatch = sizeFilter?.length === 0 || sizeFilter.some(filter => product.attributes.find(attr => attr.name === 'Sizes').value.includes(filter));
+      const materialMatch = materialFilter?.length === 0 || materialFilter.some(filter => product.attributes.find(attr => attr.name === 'Material') && product.attributes.find(attr => attr.name === 'Material').value === filter);
+      // const sleeveMatch = sleeveFilter.length === 0 || sleeveFilter.includes(product.attributes.find(attr => attr.name === 'Sleeve')?.value);
 
-  //handle filter selection
-  const colorFilter = useSelector(selectColor);
-  const sizeFilter = useSelector(selectSize);
-  const materialFilter = useSelector(selectMaterial);
-  const sleeveFilter = useSelector(selectSleeve);
-  const [filterEmpty, setFilterEmpty] = useState(false);
-  const [rightFilteredProducts, setRightFilteredProducts] = useState([]);
-  const [allFiltersCount, setAllFiltersCount] = useState([]);
-  useEffect(() => {
-    // Filter products when any filter changes
-    if (
-      colorFilter.length === 0 &&
-      sizeFilter.length === 0 &&
-      materialFilter.length === 0 &&
-      sleeveFilter.length === 0
-    ) {
-      setCompleteData([...filterData, ...data]);
-      setFilterEmpty(true);
-      setAllFiltersCount([]);
-    }
-    if (
-      colorFilter.length > 0 ||
-      sizeFilter.length > 0 ||
-      materialFilter.length > 0 ||
-      sleeveFilter.length > 0
-    ) {
-      setFilterEmpty(false);
-      setAllFiltersCount([
-        ...colorFilter,
-        ...sizeFilter,
-        ...materialFilter,
-        ...sleeveFilter,
-      ]);
-      let comdata = [...filterData, ...data];
-      const filtered = comdata.filter((product) => {
-        const colorMatch =
-          colorFilter?.length === 0 ||
-          colorFilter.some((filter) =>
-            product.attributes
-              .find((attr) => attr.name === "Colors")
-              .value.includes(filter)
-          );
-        const sizeMatch =
-          sizeFilter?.length === 0 ||
-          sizeFilter.some((filter) =>
-            product.attributes
-              .find((attr) => attr.name === "Sizes")
-              .value.includes(filter)
-          );
-        const materialMatch =
-          materialFilter?.length === 0 ||
-          materialFilter.some(
-            (filter) =>
-              product.attributes.find((attr) => attr.name === "Material") &&
-              product.attributes.find((attr) => attr.name === "Material")
-                .value === filter
-          );
-        // const sleeveMatch = sleeveFilter.length === 0 || sleeveFilter.includes(product.attributes.find(attr => attr.name === 'Sleeve')?.value);
+      
 
-        return colorMatch && sizeMatch && materialMatch;
-      });
-
+      return colorMatch && sizeMatch && materialMatch ;
+  });
+  
+    
       if (filtered.length > 0) {
         setRightFilteredProducts(filtered);
-      } else {
+      }
+      else {
         setRightFilteredProducts([]);
       }
+      
     }
-  }, [colorFilter, sizeFilter, materialFilter, sleeveFilter]);
-  const [showCard, setShowCard] = useState(false);
+}, [colorFilter, sizeFilter, materialFilter, sleeveFilter]);
+const [showCard, setShowCard] = useState(false);
   const handleResetfilter = () => {
     setShowCard(false);
     dispatch(toggleColor([]));
@@ -438,13 +389,15 @@ export default function Contentcategories({ params }) {
     setFilterEmpty(true);
     setAllFiltersCount([]);
     setCompleteData([...filterData, ...data]);
-  };
+  }
 
   const handleApplyfilter = () => {
     setShowCard(true);
     setCompleteData(rightFilteredProducts);
-  };
+  }
   const handleRemoveFilter = (item, index) => {
+
+    
     if (colorFilter.includes(item)) {
       dispatch(toggleColor(item));
     }
@@ -459,25 +412,23 @@ export default function Contentcategories({ params }) {
     }
     setCompleteData(rightFilteredProducts);
     handleApplyfilter();
-  };
+  }
+
 
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
         <div className="lg:w-8/12 w-full flex order-2 lg:order-1  gap-2 context text-text-secondary flex-wrap ">
-          {!filterEmpty &&
-            showCard &&
-            allFiltersCount.map((item, index) => (
-              <div className="flex items-center gap-2  px-[6px] bg-button-secondary rounded-sm font-[500] text-sm shadow-sm py-1">
-                <FaXmark
-                  onClick={(e) => {
-                    handleRemoveFilter(item, index);
-                  }}
-                  className=" cursor-pointer text-xs"
-                />
-                {item.length > 10 ? item.slice(0, 15) + "..." : item}
-              </div>
-            ))}
+          { !filterEmpty && showCard && allFiltersCount.map((item, index) => (
+            <div className="flex items-center gap-2  px-[6px] bg-button-secondary rounded-sm font-[500] text-sm shadow-sm py-1">
+              <FaXmark
+              onClick={(e)=>{
+                handleRemoveFilter(item, index);
+              }}
+              className=" cursor-pointer text-xs" />
+              {item.length > 10 ? item.slice(0, 15) + "..." : item}
+            </div>
+          ))}
         </div>
         <div className="lg:w-4/12 lg:order-2 order-1 w-full flex gap-3 context  lg:justify-between relative items-center ">
           <div className="lg:hidden ">
@@ -490,13 +441,14 @@ export default function Contentcategories({ params }) {
             </button>
           </div>
           <div className="ml-auto lg:ml-0">
-            <button
-              className=" cursor-pointer flex items-center gap-x-2 font-semibold rounded-sm border md:px-4 px-2 bg-white text-opacity-[78%]"
-              onClick={() => setisfilterbaropen(3)} // Change 1 to 3
-            >
-              <HiBars3 />
-              <span className="mt-[2px]"> More filters</span>
-            </button>
+           <button
+  className=" cursor-pointer flex items-center gap-x-2 font-semibold rounded-sm border md:px-4 px-2 bg-white text-opacity-[78%]"
+  onClick={() => setisfilterbaropen(1)} // Change 1 to 3
+>
+  <HiBars3 />
+  <span className="mt-[2px]"> More filters</span>
+</button>
+
           </div>
 
           <div>
@@ -541,98 +493,100 @@ export default function Contentcategories({ params }) {
           </div>
         </div>
       </div>
-
-      {filterLoader ? (
-        <ThreeDots
-          color="#F8B43A"
-          radius={20}
-          height={120}
-          width={120}
-          wrapperClass="product"
-        />
-      ) : null}
+      
+{
+          filterLoader ? (
+            <ThreeDots color="#F8B43A" radius={20} height={120} width={120} wrapperClass='product'   />
+          ) : (
+            null
+          )
+       }
       <div className="w-full">
-        {/* Loader */}
-        {loader && completeData.length === 0 && (
-          <div className="flex items-center justify-center absolute top-1/2 left-1/2 h-screen">
-            <Loader />
-          </div>
-        )}
+  {/* Loader */}
+  {loader && completeData.length === 0 && (
+    <div className="flex items-center justify-center absolute top-1/2 left-1/2 h-screen">
+      <Loader />
+    </div>
+  )}
 
-        {/* "No products found" section */}
-        {!loader && !filterLoader && completeData.length === 0 && (
-          <div className="flex items-center justify-center  h-full">
-            <div className="text-center">
-              <img
-                src="/images/web/product/notfound.png"
-                alt="Not Found"
-                className="w-64 h-48 mx-auto mb-4"
-              />
-              <h1 className="text-2xl font-bold text-gray-800 mb-2">
-                No products found
-              </h1>
-              <div className="flex justify-center gap-4">
-                <button
-                  onClick={() => dispatch(fetchProducts("category", "all"))}
-                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-                >
-                  Fetch All Data
-                </button>
-                <Link
-                  href={"/"}
-                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                >
-                  Go to Home
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Grid of products */}
-        {completeData.length > 0 && (
-          <div
-            className={`${
-              filterLoader ? "blur-md transition-all ease-linear " : ""
-            }  grid lg:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context  `}
+  {/* "No products found" section */}
+  {!loader && !filterLoader && completeData.length === 0 && (
+    <div className="flex items-center justify-center  h-full">
+      <div className="text-center">
+        <img
+          src="/images/web/product/notfound.png"
+          alt="Not Found"
+          className="w-64 h-48 mx-auto mb-4"
+        />
+        <h1 className="text-2xl font-bold text-gray-800 mb-2">
+          No products found
+        </h1>
+        <div className="flex justify-center gap-4">
+          <button
+            onClick={() => dispatch(
+              fetchProducts("category", "all")
+            )}
+            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
           >
-            {completeData.map((items, index) => (
-              <div key={index} className=" group relative">
-                <div className=" flex flex-col text-[#03071E]">
-                  <div className="   cursor-pointer  transition-all duration-100 relative rounded-[6px]  lg:group-hover:opacity-50 h-[200px] 2xl:h-[250px] w-full overflow-hidden">
-                    <Image
-                      src={`${items?.images[0]}`}
-                      alt="Your Image"
-                      layout="fill"
-                      objectFit="cover"
-                    />
-                  </div>
-                  <Link href={`/productinfo/${items._id}`}>
-                    <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
-                      {items.title}
-                    </h6>
-                  </Link>
-                  <p className="py-1 text-[1rem] font-[400]">
-                    Rs {items.price}
-                  </p>
-                  <button
-                    className=" transition-all duration-100 w-full md:py-2 py-1 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  lg:hover:bg-opacity-[80%]"
-                    onClick={() => handeladdtocart(items)}
-                  >
-                    Add to Cart
-                  </button>
-                </div>
-                <button
-                  className="w-[70%] transition-all duration-100 cursor-pointer rounded-xl absolute left-[50%] translate-x-[-50%] lg:hidden lg:group-hover:block top-[50%] lg:z-10 z-[1] bg-button-secondary px-5  text-text-secondary text-[1rem]  text-center  lg:hover:shadow-gray-950  hover:shadow"
-                  onClick={() => handelpeoductinfo(items._id)}
-                >
-                  Quick buy
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
+            Fetch All Data
+          </button>
+          <Link
+            href={"/"}
+            className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+          >
+            Go to Home
+          </Link>
+        </div>
       </div>
+    </div>
+  )}
+
+  {/* Grid of products */}
+  {completeData.length > 0 && (
+    <div
+      className={`${
+        filterLoader ? "blur-md transition-all ease-linear " : ""
+      }  grid lg:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context  `}
+    >
+      {completeData.map((items, index) => (
+        <div key={index} className=" group relative">
+          <div className=" flex flex-col text-[#03071E]">
+            <div className="   cursor-pointer  transition-all duration-100 relative rounded-[6px]  lg:group-hover:opacity-50 h-[200px] 2xl:h-[250px] w-full overflow-hidden">
+              <Image
+                src={`${items?.images[0]}`}
+                alt="Your Image"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+            <Link href={`/productinfo/${items._id}`}>
+              <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
+                {items.title}
+              </h6>
+            </Link>
+            <p className="py-1 text-[1rem] font-[400]">
+              Rs {items.price}
+            </p>
+            <button
+              className=" transition-all duration-100 w-full md:py-2 py-1 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  lg:hover:bg-opacity-[80%]"
+              onClick={() => handeladdtocart(items)}
+            >
+              Add to Cart
+            </button>
+          </div>
+          <button
+            className="w-[70%] transition-all duration-100 cursor-pointer rounded-xl absolute left-[50%] translate-x-[-50%] lg:hidden lg:group-hover:block top-[50%] lg:z-10 z-[1] bg-button-secondary px-5  text-text-secondary text-[1rem]  text-center  lg:hover:shadow-gray-950  hover:shadow"
+            onClick={() => handelpeoductinfo(items._id)}
+          >
+            Quick buy
+          </button>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
+
 
       <div
         className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[350px] w-[80%] p-4 top-0 z-30 rounded-tl-[28px] border py-3 px-4  context ${
@@ -680,6 +634,7 @@ export default function Contentcategories({ params }) {
                   showCount={filtercount}
                   indexing={index}
                   Ftitle={items.name}
+
                   refresh={isVisible}
                   onShowMore={() => handelshowmore(index)}
                   onShowLess={() => handelshowless(index)}
@@ -692,15 +647,15 @@ export default function Contentcategories({ params }) {
 
         <div className="w-full flex items-center gap-x-4 py-3">
           <button
-            onClick={handleResetfilter}
-            className="w-4/12 border border-[#000000] text-text-secondary text-lg font-[300] py-1 rounded-[22px]"
-          >
+            onClick={
+              handleResetfilter
+            }
+          className="w-4/12 border border-[#000000] text-text-secondary text-lg font-[300] py-1 rounded-[22px]">
             Reset
           </button>
-          <button
-            onClick={filterEmpty ? handleResetfilter : handleApplyfilter}
-            className="w-8/12 border bg-[#F8B43A] text-text-secondary text-lg font-[500] py-1 rounded-[22px] "
-          >
+          <button onClick={
+           filterEmpty ? handleResetfilter : handleApplyfilter
+          } className="w-8/12 border bg-[#F8B43A] text-text-secondary text-lg font-[500] py-1 rounded-[22px] ">
             Apply filter
           </button>
         </div>
