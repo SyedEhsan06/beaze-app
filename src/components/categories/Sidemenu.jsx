@@ -88,15 +88,11 @@ console.log(categorySelect);
               </div>
               <div className="flex items-center">
                 <button className="text-xl">
-                  {
-                    categorySelect.includes(items.name) ? categorySelect.includes(items.name) && <span className="text-lg
-                    active:rotate-45 
-                    ">⭐</span>:<BiSolidChevronDown
+                <BiSolidChevronDown
                     className={`transition-all duration-75 ${
                       isVisible(index) && "rotate-180"
                     }`}
                   />
-                  }
                 </button>
               </div>
             </div>
