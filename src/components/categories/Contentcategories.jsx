@@ -359,9 +359,9 @@ useEffect(() => {
     setAllFiltersCount([...colorFilter, ...sizeFilter, ...materialFilter, ...sleeveFilter]);
    let comdata= [...filterData, ...data];
     const filtered = comdata.filter(product => {
-      const colorMatch = colorFilter.length === 0 || colorFilter.some(filter => product.attributes.find(attr => attr.name === 'Colors').value.includes(filter));
-      const sizeMatch = sizeFilter.length === 0 || sizeFilter.some(filter => product.attributes.find(attr => attr.name === 'Sizes').value.includes(filter));
-      const materialMatch = materialFilter.length === 0 || materialFilter.some(filter => product.attributes.find(attr => attr.name === 'Material') && product.attributes.find(attr => attr.name === 'Material').value === filter);
+      const colorMatch = colorFilter?.length === 0 || colorFilter.some(filter => product.attributes.find(attr => attr.name === 'Colors').value.includes(filter));
+      const sizeMatch = sizeFilter?.length === 0 || sizeFilter.some(filter => product.attributes.find(attr => attr.name === 'Sizes').value.includes(filter));
+      const materialMatch = materialFilter?.length === 0 || materialFilter.some(filter => product.attributes.find(attr => attr.name === 'Material') && product.attributes.find(attr => attr.name === 'Material').value === filter);
       // const sleeveMatch = sleeveFilter.length === 0 || sleeveFilter.includes(product.attributes.find(attr => attr.name === 'Sleeve')?.value);
 
       
