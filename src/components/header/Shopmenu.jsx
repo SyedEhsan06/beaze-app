@@ -13,6 +13,7 @@ export default function Shopmenu({ meudata, Closeref, closevaribale }) {
     dispatch(toggleCategory([]));
     dispatch(toggleCategory(item.name));
     item.subcategories.forEach((subcategory) => {
+      // console.log("subcategory", subcategory.name);
       dispatch(toggleSubcategory(subcategory.name));
       // dispatch(
       //   fetchProducts({

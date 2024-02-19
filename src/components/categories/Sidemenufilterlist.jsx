@@ -6,7 +6,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { selectCategoryProduct } from "@/redux/slices/productSlice";
 
 export default function Sidemenufilterlist({
+  category,
   subcategory,
+  categorySelect,
   showCount,
   indexing,
   onSubcategorySelect,
@@ -14,6 +16,7 @@ export default function Sidemenufilterlist({
   onShowLess,
 }) {
   const dispatch = useDispatch();
+  console.log(category);
   const selectedSubcategories = useSelector(selectSubcategory);
   console.log(selectedSubcategories);
   const currentData=useSelector(selectCategoryProduct)
@@ -33,8 +36,8 @@ export default function Sidemenufilterlist({
   const router = useRouter();
   useEffect(() => {
     dispatch(toggleSubcategory([])); 
-  }, [usepathname,currentData]);
-  
+  }, [usepathname,selectSubcategory])
+  console.log(categorySelect);
   return (
     <div>
       {/* <div className="flex flex-col my-1">
@@ -52,6 +55,7 @@ export default function Sidemenufilterlist({
           </label>
         </div>
       </div> */}
+    
       {subcategory?.slice(0, showCount).map((item, index) => (
         <div className="flex flex-col my-1" key={index}>
           <div className="flex gap-x-4 items-center pb-2">
@@ -60,7 +64,7 @@ export default function Sidemenufilterlist({
                 type="checkbox"
                 id={item.name + indexing}
                 onChange={() => handleCheckboxChange(item.name)}
-                checked={selectedSubcategories.includes(item.name) || cats.includes(item.name)}
+                checked={selectedSubcategories.includes(item.name) || categorySelect.includes(item.name)}
               />
             </div>
             <label

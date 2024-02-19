@@ -110,9 +110,11 @@ console.log(categorySelect);
           >
             <Sidemenufilterlist
               category={items.name}
+              categorySelect={categorySelect}
               subcategory={items.subcategories}
               showCount={filterCount}
               indexing={index}
+              
               onShowMore={handelshowmore}
               onShowLess={handelshowless}
               onSubcategorySelect={(subcategory) => {
