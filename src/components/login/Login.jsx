@@ -2,6 +2,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Countryinput from '../countryinput/Countryinput'
+import Link from 'next/link'
 
 export default function Login() {
   return (
@@ -43,7 +44,7 @@ export default function Login() {
           <Countryinput/>
 
 
-          <button className='w-[100%] mt-6 py-5  headtext font-[900] text-text-secondary bg-theme-main-color text-3xl rounded-lg'>Submit</button>
+          <button className='w-[100%] mt-7 py-5  headtext font-[900] text-text-secondary bg-theme-main-color text-3xl rounded-lg shadow'>Submit</button>
             </form>
            </div>
 
@@ -51,7 +52,7 @@ export default function Login() {
            <div className=' mt-12'>
            <p className=' text-text-secondary text-center context font-[200] text-lg mt-2 leading-[1rem]'>
            Don’t have an account <br />
-           <span className='font-[700]  underline cursor-pointer' >Create an account here</span>
+           <span className='font-[700]  underline cursor-pointer' ><Link href={'/signup'}>Create an account here</Link></span>
             </p>
            </div>
           </div>

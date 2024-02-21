@@ -104,12 +104,12 @@ export default function Countryinput() {
           </div>
         </div>
         <div className="w-[80%]">
-          <div className="w-full flex border border-text-secondary shadow-lg pl-2 pr-3 py-3 rounded-lg">
+          <div className="w-full flex border border-text-secondary shadow-lg pl-2 pr-3 py-[13px] rounded-lg">
             <div className="w-[95%] ">
               <input
                 type="text"
                 id="phoneno"
-                className="w-full border-none  focus:outline-none transition-all duration-100   relative leading-normal checkout-input"
+                className="w-full border-none  focus:outline-none transition-all duration-100   relative  checkout-input"
                 placeholder="Your Phone Number"
               />
             </div>
