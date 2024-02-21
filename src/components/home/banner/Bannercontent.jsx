@@ -1,9 +1,34 @@
 "use client"
+import { toggleCategory, toggleSubcategory } from "@/redux/slices/filterSlice";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { MdArrowCircleDown } from "react-icons/md";
+import { useDispatch } from "react-redux";
 
-export default function Bannercontent() {
-
-    const handleScrollTo620 = () => {
+export default function Bannercontent({data}) {
+  const [subcategoryState, setSubcategories] = useState([]);
+  const [categoryState, setCategories] = useState([]);
+  useEffect(() => {
+    if(data){
+      console.log(data)
+      const subcategories = data?.categories?.map((item) => item.subcategories).flat().map((item) => item.name)
+      setSubcategories([...subcategories])
+      const categories = data?.categories?.map((item) => item.name)
+      setCategories([...categories])
+    }
+  }, [data]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(toggleSubcategory([]));
+    dispatch(toggleCategory([]));
+      subcategoryState.forEach((subcategory) => {
+        dispatch(toggleSubcategory(subcategory));
+      });
+      categoryState.forEach((category) => {
+        dispatch(toggleCategory(category));
+      });
+  }, [subcategoryState, categoryState]);
+  const handleScrollTo620 = () => {
         window.scrollTo({
           top: 622,
           behavior: 'smooth',
@@ -15,9 +40,13 @@ export default function Bannercontent() {
 
             <div className="">
               <div className="flex justify-center">
-              <button className="bg-theme-main-color rounded-3xl mb-0 headtext font-[800] text-3xl text-gray-950  capitalize    py-2 md:px-28 px-14">
-                    Shop now
-                </button>
+              <Link href="/products">
+              <button
+                
+                className="bg-theme-main-color rounded-3xl mb-0 headtext font-[800] text-3xl text-gray-950  capitalize    py-2 md:px-28 px-14">
+                      Shop now
+                  </button>
+              </Link>
               </div>
                 <p className=" text-[#FFF9B1] context text-center my-2 text-xl">Save up to 50% in our sale from July 25 - 30</p>
             </div>

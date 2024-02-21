@@ -34,7 +34,7 @@ export default function Productcart() {
   let total = tax + data.reduce((a, b) => a + b.price*b.selectedQty, 0);
   return (
     <>
-      <div className="pt-5">
+      <div className="pt-5 z-[99999]">
         <div className=" overflow-y-auto max-h-[405px] border-b">
           <div className="px-3">
             {data.map((items, index) => (

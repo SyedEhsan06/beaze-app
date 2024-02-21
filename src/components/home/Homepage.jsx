@@ -29,7 +29,7 @@ export default function Homepage() {
         <>
           {
             loader ? <Loader/> : <>
-            <Homebanner />
+            <Homebanner data={data} />
             <div className="grid grid-cols-1 mt-10 overflow-x-hidden">
                 <Homemain data={data} />
             </div>
