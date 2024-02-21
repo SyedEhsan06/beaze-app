@@ -63,15 +63,19 @@ console.log(categorySelect);
   const handleSubcategorySelect = (subcategory) => {
     dispatch(toggleSubcategory(subcategory));
   };
+
   let categoryToMap = categories?.filter(
     (item) => item.subcategories.length > 0
   );
+
   let currentCategory = currentData?.response?.products.map(
     (item) => item.category
   );
   // console.log(currentData);
   let category = [...new Set(currentCategory)];
   // console.log(category);
+
+
   return (
     <aside className="w-full py-0 px-5 overflow-y-auto">
       {categoryToMap?.map((items, index) => (

@@ -18,7 +18,7 @@ export default function Productinfo({ pid }) {
   const [productinfo, setproductinfo] = useState([]);
   const [sizeindex, setsizeindex] = useState(1);
   const [showdesc, setshowdesc] = useState(false);
-  const [ismodalopen,setismodalopen] = useState(false)
+  const [ismodalopen, setismodalopen] = useState(false)
   const { slug } = pid;
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function Productinfo({ pid }) {
   };
 
   const closeModal = () => {
-   setismodalopen(false)
+    setismodalopen(false)
   }
 
   return (
@@ -46,6 +46,109 @@ export default function Productinfo({ pid }) {
         <Loader />
       ) : (
         <div>
+        <div className={`w-[100%] mt-[70px]   bg-white p-4 items-center border-[0.3px] border-theme-footer-bg ${showdesc ? 'lg:flex hidden' : 'hidden' }`}>
+                    <div className="w-[25%]">
+                     
+                      <h5 className="context font-semibold  text-xl">
+                        {productinfo.title}
+                      </h5>
+                      <p className="context font-[500]  text-lg">
+                        INR {productinfo.price}
+                      </p>
+
+                    </div>
+
+                    <div className="w-[15%] context  ">
+                        <div className="w-full">
+                        
+                         
+                          <div className="w-[80%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 ">
+                            <button
+                              disabled={quantity === 1 ? true : false}
+                              className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 py-[6px] text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
+                              onClick={() => setquantity(quantity - 1)}
+                            >
+                              <RiSubtractLine size={20} />
+                            </button>
+                            <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 py-[6px]">
+                              {quantity}
+                            </div>
+                            <button
+                              className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 py-[6px] text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
+                              onClick={() => setquantity(quantity + 1)}
+                            >
+                              <IoMdAdd size={20} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="w-[17.5%]">
+                         
+                          <div className="w-[80%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] px-4 py-[6px] flex items-center">
+                            <div className="w-[90%]">
+                              <select
+                                className="w-full border-none focus:outline-none appearance-none bg-transparent cursor-pointer text-[15px] px-2"
+                                id="sizeselect"
+                              >
+                                <option value="">Colour : Off White</option>
+                                {productinfo.attributes &&
+                                  Array.isArray(
+                                    productinfo.attributes[0]?.value
+                                  ) &&
+                                  productinfo.attributes[0].value.map(
+                                    (items, index) => (
+                                      <option value="">{items}</option>
+                                    )
+                                  )}
+                              </select>
+                            </div>
+
+                            <div className="w-[10%]">
+                              <BiSolidChevronDown
+                                size={20}
+                                className=" text-gray-950"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="w-[17.5%]">
+                         
+                         <div className="w-[80%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] px-4 py-[6px] flex items-center">
+                           <div className="w-[90%]">
+                             <select
+                               className="w-full border-none focus:outline-none appearance-none bg-transparent cursor-pointer text-[15px] px-2"
+                               id="sizeselect"
+                             >
+                               <option value="">Size : Medium</option>
+                               {productinfo.attributes &&
+                                 Array.isArray(
+                                   productinfo.attributes[1]?.value
+                                 ) &&
+                                 productinfo.attributes[1].value.map(
+                                   (items, index) => (
+                                     <option value="">{items}</option>
+                                   )
+                                 )}
+                             </select>
+                           </div>
+
+                           <div className="w-[10%]">
+                             <BiSolidChevronDown
+                               size={20}
+                               className=" text-gray-950"
+                             />
+                           </div>
+                         </div>
+                       </div>
+
+                 <div className="w-[25%]">
+                 <button className=" w-[80%]  headtext float-right bg-theme-footer-bg text-white font-[700] text-xl py-[6px] rounded ">
+                       Add to cart
+                      </button>
+                 </div>
+                  </div>
           <div className="w-full bg-gray-100 py-10 md:px-16 px-8 rounded-[11px]  relative">
             <div className="w-full">
               <div className="w-full md:flex md:gap-16 gap-5 grid grid-cols-1">
@@ -53,7 +156,7 @@ export default function Productinfo({ pid }) {
                   <Productcarousel sliderdata={productinfo.images} setopemodal={setismodalopen} />
                 </div>
                 <div className="md:w-[50%] ">
-                  <div className="w-[80%] flex-col justify-between flex">
+                <div className={`w-[80%] flex-col justify-between  ${showdesc ? ' lg:hidden' : 'flex'}`}>
                     <div className="w-full flex flex-col">
                       <p className=" text-[400] context text-sm mb-3 ">
                         Women’s Clothing / Tops & Blouses / Classic Shirts{" "}
@@ -80,11 +183,10 @@ export default function Productinfo({ pid }) {
                               (items, index) => (
                                 <button
                                   key={index}
-                                  className={` transition-all duration-150 font-[400] text-sm border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] px-2 py-1 ${
-                                    sizeindex === index
+                                  className={` transition-all duration-150 font-[400] text-sm border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] px-2 py-1 ${sizeindex === index
                                       ? " bg-theme-footer-bg text-white text-opacity-[100%]"
                                       : "text-opacity-[50%] text-[#00000096]"
-                                  }`}
+                                    }`}
                                   onClick={() => setsizeindex(index)}
                                 >
                                   {items}
@@ -95,69 +197,69 @@ export default function Productinfo({ pid }) {
                       </div>
                     </div>
 
-                   <div className="md:block grid grid-cols-2 gap-3">
-                   <div className=" context mt-3">
-                      <div className="w-full">
-                        <label
-                          htmlFor="sizeselect"
-                          className=" font-[400] text-lg"
-                        >
-                          Select a colour
-                        </label>
-                        <div className="md:w-[40%] w-[100%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] px-4 py-1 flex items-center">
-                          <div className="w-[90%]">
-                            <select
-                              className="w-full border-none focus:outline-none appearance-none bg-transparent cursor-pointer"
-                              id="sizeselect"
+                    <div className="md:block grid grid-cols-2 gap-3">
+                      <div className=" context mt-3">
+                        <div className="w-full">
+                          <label
+                            htmlFor="sizeselect"
+                            className=" font-[400] text-lg"
+                          >
+                            Select a colour
+                          </label>
+                          <div className="md:w-[40%] w-[100%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] px-4 py-1 flex items-center">
+                            <div className="w-[90%]">
+                              <select
+                                className="w-full border-none focus:outline-none appearance-none bg-transparent cursor-pointer"
+                                id="sizeselect"
+                              >
+                                <option value="">Select Colour</option>
+                                {productinfo.attributes &&
+                                  Array.isArray(
+                                    productinfo.attributes[0]?.value
+                                  ) &&
+                                  productinfo.attributes[0].value.map(
+                                    (items, index) => (
+                                      <option value="">{items}</option>
+                                    )
+                                  )}
+                              </select>
+                            </div>
+
+                            <div className="w-[10%]">
+                              <BiSolidChevronDown
+                                size={20}
+                                className=" text-gray-950"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className=" context mt-3 md:mt-6 ">
+                        <div className="w-full">
+                          <p className=" font-[400] text-lg">Select quantity</p>
+                          <div className="md:w-[30%] w-[90%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 ">
+                            <button
+                              disabled={quantity === 1 ? true : false}
+                              className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
+                              onClick={() => setquantity(quantity - 1)}
                             >
-                              <option value="">Select Colour</option>
-                              {productinfo.attributes &&
-                                Array.isArray(
-                                  productinfo.attributes[0]?.value
-                                ) &&
-                                productinfo.attributes[0].value.map(
-                                  (items, index) => (
-                                    <option value="">{items}</option>
-                                  )
-                                )}
-                            </select>
-                          </div>
-
-                          <div className="w-[10%]">
-                            <BiSolidChevronDown
-                              size={20}
-                              className=" text-gray-950"
-                            />
+                              <RiSubtractLine size={20} />
+                            </button>
+                            <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1">
+                              {quantity}
+                            </div>
+                            <button
+                              className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
+                              onClick={() => setquantity(quantity + 1)}
+                            >
+                              <IoMdAdd size={20} />
+                            </button>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className=" context mt-3 md:mt-6 ">
-                      <div className="w-full">
-                        <p className=" font-[400] text-lg">Select quantity</p>
-                        <div className="md:w-[30%] w-[90%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 ">
-                          <button
-                            disabled={quantity === 1 ? true : false}
-                            className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
-                            onClick={() => setquantity(quantity - 1)}
-                          >
-                            <RiSubtractLine size={20} />
-                          </button>
-                          <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1">
-                            {quantity}
-                          </div>
-                          <button
-                            className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
-                            onClick={() => setquantity(quantity + 1)}
-                          >
-                            <IoMdAdd size={20} />
-                          </button>
-                        </div>
-                      </div>
                     </div>
-
-                   </div>
                     <div className=" grid grid-cols-1 gap-y-4 headtext py-2 mt-6">
                       <button className=" w-full bg-theme-footer-bg text-white font-[700] text-xl py-2 rounded ">
                         Checkout
@@ -167,6 +269,8 @@ export default function Productinfo({ pid }) {
                       </button>
                     </div>
 
+                  
+                  </div>
                     <div className="mt-5">
                       <button
                         className="context font-[500] text-2xl md:w-[80%] w-[100%] flex items-center gap-x-5"
@@ -174,18 +278,15 @@ export default function Productinfo({ pid }) {
                       >
                         Description & Details{" "}
                         <BiSolidChevronDown
-                          className={` transition-all duration-150 ${
-                            showdesc ? " rotate-180" : "null"
-                          }`}
+                          className={` transition-all duration-150 ${showdesc ? " rotate-180" : "null"
+                            }`}
                         />
                       </button>
                     </div>
-                  </div>
 
                   <div
-                    className={`w-full   context mt-6 ${
-                      showdesc ? "block" : "hidden"
-                    }`}
+                    className={`w-full   context mt-6 ${showdesc ? "block" : "hidden"
+                      }`}
                   >
                     <div className="w-[80%] mb-10">
                       <div className=" grid grid-cols-3 gap-x-16">
@@ -289,17 +390,17 @@ export default function Productinfo({ pid }) {
         </div>
       )}
 
-      
+
       <Modal
         visible={ismodalopen}
         effect="fadeInDown"
-        width = '90%'
+        width='90%'
         onClickAway={closeModal}
       >
-      <div className="p-8 relative">
-      <button className=" absolute right-1 top-1 bg-black text-white p-2 rounded-full" onClick={() => setismodalopen(false)} ><FaXmark size={16} /></button>
-       <Productmobile sliderdata={productinfo.images} setopemodal={setismodalopen}/>
-      </div>
+        <div className="p-8 relative">
+          <button className=" absolute right-1 top-1 bg-black text-white p-2 rounded-full" onClick={() => setismodalopen(false)} ><FaXmark size={16} /></button>
+          <Productmobile sliderdata={productinfo.images} setopemodal={setismodalopen} />
+        </div>
       </Modal>
     </>
   );

@@ -4,6 +4,7 @@ import Productslider from './Productslider'
 import Offerbanner from './Offerbanner'
 import Teazeslider from './Teazeslider'
 import Ratings from './Ratings'
+import Sociallinks from '@/components/footer/Sociallinks'
 
 export default function Homemain({data}) {
  
@@ -15,6 +16,7 @@ export default function Homemain({data}) {
     <Offerbanner/>
     <Teazeslider  />
     <Ratings/>
+    <Sociallinks/>
   </>
   )
 }

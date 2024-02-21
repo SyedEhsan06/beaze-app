@@ -22,6 +22,8 @@ import { fetchProducts } from "@/redux/slices/productSlice";
 import { closeCart, openCart } from "@/redux/slices/cartOpenSlice";
 import { usePathname, useRouter } from "next/navigation";
 import { toggleCategory, toggleSubcategory } from "@/redux/slices/filterSlice";
+import {selectCartOpen } from "@/redux/slices/cartOpenSlice";
+import Productcart from "../categories/Productcart";
 
 export default function Header() {
   const [scrollLength, setScrollLength] = useState(0);
@@ -42,8 +44,10 @@ export default function Header() {
   const handleScroll = () => {
     setScrollLength(window.scrollY);
   };
+  const cartOpenState = useSelector(selectCartOpen);
   const shopRef = useRef(null);
   const divRef = useRef(null);
+  const cartref = useRef(null)
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (shopRef.current && !shopRef.current.contains(event.target)) {
@@ -157,11 +161,16 @@ export default function Header() {
   const [cartOpen, setCartOpen] = useState(false);
   const handleCartOpen = () => {
     setCartOpen(!cartOpen);
-    dispatch(openCart());
+  }
+  
+  useEffect(() => {
     if (cartOpen) {
+      dispatch(openCart());
+    } else {
       dispatch(closeCart());
     }
-  };
+  }, [cartOpen, dispatch]);
+  
   const [count, setCount] = useState(0);
   // let countData = useSelector((state) => state.cart.cart)
   // if(countData.length >= 1){
@@ -171,6 +180,7 @@ export default function Header() {
   //   let count = unique.length;
   //   setCount(count);
   // }
+  
   const countData = useSelector((state) => state.cart.cart);
   useEffect(() => {
     console.log(countData);
@@ -180,17 +190,52 @@ export default function Header() {
     setCount(count);
   }, [countData]);
 
+  const hideoutsidecart = (e) => {
+    if (cartref.current && !cartref.current.contains(e.target)) {
+     
+      dispatch(closeCart());
+    }
+  };
+
   useEffect(() => {
     document.addEventListener("click", hideoutside, true);
+  
   }, []);
+  useEffect(() => {
+    document.addEventListener('mousedown', hideoutsidecart);
+    return () => {
+      document.removeEventListener('mousedown', hideoutsidecart);
+    };
+  }, [hideoutsidecart]);
 
   const hideoutside = (e) => {
     if (divRef.current && !divRef.current.contains(e.target)) {
       setshowshop(false);
       setshowhide(0);
       setshowsearchmobile(false);
+      
     }
   };
+
+
+
+  useEffect(() => {
+    const header = document.querySelector("header");
+    if (cartOpen) {
+      document.body.classList.add("blurbody");
+      header.classList.remove("absolute");
+      header.classList.add("headerfixed");
+    } else {
+      document.body.classList.remove("blurbody");
+      header.classList.remove("headerfixed");
+      header.classList.add("absolute");
+    }
+
+    // Cleanup the class when the component unmounts
+    return () => {
+      document.body.classList.remove("blurbody");
+    };
+  }, [cartOpen]);
 
   const handelfocuonserch = () => {
     setshowhide(2);
@@ -199,7 +244,7 @@ export default function Header() {
 
   useEffect(() => {
     const header = document.querySelector("header");
-    if (showhide !== 0) {
+    if (showhide !== 0 ) {
       document.body.classList.add("blurbody");
       header?.classList.remove("absolute");
       header?.classList.add("headerfixednotblur");
@@ -220,7 +265,8 @@ const pathname = usePathname();
 
   else{
     return (
-      <header
+     <>
+       <header
         className={`h-[70px] showmenu  z-30 w-full shadow py-2 transition-all duration-150 ${
           scrollLength > 620
             ? "fixed top-0 left-0 bg-white border z-20 "
@@ -393,9 +439,9 @@ const pathname = usePathname();
               <Link href={"/"}>Sign in </Link> |{" "}
               <Link href={"/"}> Create an Account </Link>{" "}
             </li>
-            <li className="context font-semibold px-2">
+            <li className="context font-semibold px-2" onClick={handleCartOpen}>
               <button
-                onClick={handleCartOpen}
+
                 className="  flex gap-3 bg-gray-950 text-white font-semibold items-center py-2 rounded px-4 uppercase"
               >
                 <div className=" relative">
@@ -629,6 +675,24 @@ const pathname = usePathname();
           )}
         </nav>
       </header>
+
+      <div
+        className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[350px] w-[80%]  top-0 z-30 rounded-tl-[28px] border py-3 context ${
+          cartOpenState ? "block" : "hidden"
+        }`}
+        ref={cartref}
+      >
+        <div className="py-3 px-6 w-full flex gap-x-4 border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700]">
+          <FaXmark
+            className=" cursor-pointer"
+            onClick={() => dispatch(closeCart())}
+          />{" "}
+          Cart
+        </div>
+        <Productcart handelCartShow={cartOpenState} />
+      </div>
+
+     </>
     );
   }
 }

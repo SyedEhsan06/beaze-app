@@ -26,7 +26,7 @@ useEffect(() => {
         />
       </div>
       <div className='lg:w-[78%] w-[100%] lg:pt-5 pt-2 pb-9 lg:px-8 px-4 bg-gray-50'>
-        <Contentcategories params={params} />
+        <Contentcategories params={params} categories={categories} />
       </div>
     </div>
   )

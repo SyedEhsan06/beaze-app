@@ -45,7 +45,7 @@ import { closeCart, selectCartOpen } from "@/redux/slices/cartOpenSlice";
 import { selectCategories } from "@/redux/slices/categorySlice";
 import { ThreeDots } from "react-loader-spinner";
 import "./content.css";
-export default function Contentcategories({ params }) {
+export default function Contentcategories({ params , categories}) {
   const [showsort, setshowsort] = useState(false);
   const [selectedfilter, setselectedfilter] = useState(null);
   const [checkedmenus, setcheckedmenus] = useState([]);
@@ -295,7 +295,7 @@ export default function Contentcategories({ params }) {
 
   useEffect(() => {
     const header = document.querySelector("header");
-    if (isfilterbaropen !== 0) {
+    if (isfilterbaropen !== 0 ||  ismodalopen) {
       document.body.classList.add("blurbody");
       header.classList.remove("absolute");
       header.classList.add("headerfixed");
@@ -309,7 +309,7 @@ export default function Contentcategories({ params }) {
     return () => {
       document.body.classList.remove("blurbody");
     };
-  }, [isfilterbaropen]);
+  }, [isfilterbaropen,ismodalopen]);
   const cats = useSelector(selectCategories);
   const [category, setCategory] = useState([]);
   const [allFilters, setAllFilters] = useState([]);
@@ -503,14 +503,12 @@ export default function Contentcategories({ params }) {
             <button
               className=" cursor-pointer flex items-center gap-x-2 font-semibold rounded-sm border md:px-4 px-2 bg-white text-opacity-[78%] "
               onClick={() =>
-                isfilterbaropen === 4
-                  ? setisfilterbaropen(0)
-                  : setisfilterbaropen(4)
+                setshowsort(!showsort)
               }
             >
               <FaAngleDown
                 className={`transition-all duration-75 ${
-                  isfilterbaropen === 4 && "rotate-[180deg]"
+                  showsort && "rotate-[180deg]"
                 }`}
               />{" "}
               Sort
@@ -520,7 +518,7 @@ export default function Contentcategories({ params }) {
           <div
             ref={divRef}
             className={`top-[110%] w-[200px] border  right-0 bg-white shadow rounded-lg absolute z-20 ${
-              isfilterbaropen === 4 ? "block" : "hidden"
+              showsort ? "block" : "hidden"
             }`}
           >
             <ul className="text-sm font-[400] cursor-pointer ">
@@ -706,7 +704,7 @@ export default function Contentcategories({ params }) {
         </div>
       </div>
 
-      <div
+      {/* <div
         className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[350px] w-[80%]  top-0 z-30 rounded-tl-[28px] border py-3 context ${
           cartOpenState ? "block" : "hidden"
         }`}
@@ -719,8 +717,8 @@ export default function Contentcategories({ params }) {
           />{" "}
           Cart
         </div>
-        <Productcart handelCartShow={cartOpenState} c />
-      </div>
+        <Productcart handelCartShow={cartOpenState} />
+      </div> */}
 
       <div
         className={`your-specific-class fixed overflow-y-auto left-0 h-[100vh] bg-white shadow-sm lg:hidden w-[80%] p-4 top-0 z-30 rounded-tr-[28px] border py-3 px-3  context ${
@@ -736,7 +734,7 @@ export default function Contentcategories({ params }) {
             <FaXmark size={20} />
           </button>
         </div>
-        <Sidemenu />
+        <Sidemenu categories={categories} />
       </div>
 
       <Modal
