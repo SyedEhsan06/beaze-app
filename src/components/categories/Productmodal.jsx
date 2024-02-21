@@ -11,7 +11,7 @@ export default function Productmodal({produtdata,modalclose}) {
     const [quantity,setquantity] = useState(1);
     const[sizeindex,setsizeindex] = useState(1);
     const [imageindex, setimageindex] = useState(0);
-    const[showimage,setshowimage] = useState(true)
+    const[showimage,setshowimage] = useState(false)
 
   return (
   <>

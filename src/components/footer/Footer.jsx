@@ -14,7 +14,6 @@ export default function footer() {
   else{
     return (
       <footer>
-       <Sociallinks/>
        <Footermenu/>
        <Copyright/>
       </footer>
