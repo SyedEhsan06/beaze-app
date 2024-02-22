@@ -227,7 +227,7 @@ dispatch(toggleSubcategory([]));
   const hideoutsidecart = (e) => {
     if (cartref.current && !cartref.current.contains(e.target)) {
      
-      dispatch(closeCart());
+      setCartOpen(false)
     }
   };
 
@@ -326,7 +326,7 @@ const pathname = usePathname();
               className={`group context showmenu   px-5 duration-75 transition-all cursor-pointer ${
                 showmenu ? "bg-white  rounded-2xl font-[800]" : "font-semibold"
               }`}
-              onClick={handleshowmenu}
+             
               onMouseEnter={() => setshowmenu(true)}
               onMouseLeave={() => setshowmenu(false)}
             >
