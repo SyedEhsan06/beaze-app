@@ -48,21 +48,23 @@ export default function Otpcomp() {
     }
   };
   return (
-    <div className='h-[100vh] w-[100%] pb-4 pt-8  px-10 relative'>
-      <div className='absolute top-[4%] left-[1%] z-10'>
-        <Image src="/images/logo.png" fill alt="=logo" className='!static !w-[80%]' />
+    <div className='h-[100vh] w-[100%] pb-4 pt-8  lg:px-10 px-2 relative mianconlogins flex items-center lg:block'>
+      <div className='absolute lg:top-[4%] top-[6%] lg:left-[1%]  left-1/2 transform -translate-x-1/2 z-10 lg:transform-none lg:-translate-x-0">'>
+        <Link href={'/'}>
+          <Image src="/images/logo.png" fill alt="=logo" className='!static lg:!w-[80%] !w-[100px]' />
+        </Link>
       </div>
-      <div className=' w-full flex  '>
-        <div className='w-[60%]  h-[90vh] relative optbackground flex items-center'>
+      <div className=' w-full flex  mt-4 lg:mt-0 '>
+        <div className='w-[60%]  h-[90vh] relative optbackground lg:flex items-center hidden'>
 
         </div>
-        <div className='w-[40%] flex items-center  p-14'>
+        <div className='lg:w-[40%] w-[100%] flex items-center  lg:p-14 p-8'>
           <div className='w-full'>
             <div>
-              <h4 className=' text-center context font-[900] text-[2.5rem] text-text-secondary '>
+              <h4 className=' text-center context font-[900] lg:text-[2.5rem] text-[1.7rem]'>
                 Enter OTP
               </h4>
-              <p className=' text-center context font-[300] text-lg mt-2 leading-[1rem]'>
+              <p className=' text-center context font-[300] lg:text-lg text-sm lg:mt-2 mt-1 lg:leading-[1rem]'>
                 Your code is on its way! Give it a moment, and it'll find its path to you.
               </p>
             </div>
@@ -78,7 +80,7 @@ export default function Otpcomp() {
                     </sup>
                   </label>
 
-                  <div className=' grid grid-cols-6 gap-x-3'>
+                  <div className=' grid grid-cols-6 gap-x-3 z-[100]'>
                     {otp.map((digit, index) => (
                       <input
                         key={index}
@@ -88,30 +90,30 @@ export default function Otpcomp() {
                         onKeyDown={(event) => handleKeyDown(index, event)}
                         maxLength={1}
                         ref={inputRefs[index]}
-                        className={`border pt-4 pb-[14px] transition-all duration-150 text-center rounded-[9px] shadow-md  context font-[500] text-xl leading-normal focus:outline-none ${digit ? ' border-[#039C2E]' : 'border-theme-footer-bg '}`}
+                        className={`border lg:pt-4 lg:pb-[14px] pt-3 pb-[10px] transition-all duration-150 text-center rounded-[9px] shadow-input  context font-[500] text-xl leading-normal focus:outline-none ${digit ? ' border-[#039C2E]' : 'border-theme-footer-bg '}`}
                       />
                     ))}
 
                   </div>
 
-                  <div className=' mt-6 flex gap-3'>
+                  <div className=' mt-6 flex gap-3 items-center'>
                      <div>
-                     <p className=' font-[500] text-lg context'>Haven’t received it yet ?</p>
+                     <p className=' font-[500] lg:text-lg text-sm  context'>Haven’t received it yet ?</p>
                      </div>
                      <div>
-                     <button className=' items-center flex gap-3 px-5 py-1 bg-[#DED5D5] context  rounded-[9px]  text-sm font-[500] text-[#717070]  shadow-sm '><FaRegClock/> 12s | Resend </button>
+                     <button className=' items-center flex gap-3 px-5 py-1 bg-[#DED5D5] context  rounded-[9px]  lg:text-sm text-xs font-[500] text-[#717070]  shadow-input '><FaRegClock/> 12s | Resend </button>
                      </div>
                   </div>
                 </div>
 
 
-                <button className='w-[100%] mt-7 py-4  headtext font-[900] text-text-secondary bg-theme-main-color text-3xl rounded-lg shadow'>Submit</button>
+                <button className='w-[100%] mt-7 py-4  headtext font-[900] text-text-secondary bg-[#FFD012] lg:text-3xl text-xl rounded-lg button-shadow'>Submit</button>
               </form>
             </div>
 
 
             <div className=' mt-12'>
-              <p className=' text-text-secondary text-center context font-[200] text-lg mt-2 leading-[1rem]'>
+              <p className='  text-center context font-[200] lg:text-lg  text-sm mt-2 leading-[1rem]'>
                 Want to use a different number ?<br />
                 <span className='font-[700]  underline cursor-pointer' ><Link href={'/signup'}> Change it here</Link></span>
               </p>

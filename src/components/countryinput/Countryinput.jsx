@@ -44,7 +44,7 @@ export default function Countryinput() {
       </label>
       <div className="w-full flex gap-x-2 relative ">
         <div className="w-[20%]">
-          <div className="w-[100%] border border-text-secondary bg-white py-3 cursor-pointer rounded-lg">
+          <div className="w-[100%] border border-text-secondary shadow-input bg-white py-3 cursor-pointer rounded-lg">
             <div className=" w-full">
               <div
                 className=" w-full flex items-center"
@@ -104,13 +104,13 @@ export default function Countryinput() {
           </div>
         </div>
         <div className="w-[80%]">
-          <div className="w-full flex border border-text-secondary shadow-lg pl-2 pr-3 py-[13px] rounded-lg">
+          <div className="w-full flex border border-text-secondary shadow-input pl-2 pr-3 py-[13px] rounded-lg">
             <div className="w-[95%] ">
               <input
                 type="text"
                 id="phoneno"
                 className="w-full border-none  focus:outline-none transition-all duration-100   relative  checkout-input"
-                placeholder="Your Phone Number"
+               
               />
             </div>
             <button className="w-[5%] text-[#039C2EB0]">

@@ -40,7 +40,7 @@ export default function Productmodal({produtdata,modalclose}) {
   <div className="lg:w-[50%] flex flex-col gap-4 lg:gap-0   justify-between">
   <div className="w-full flex flex-col">
               
-              <h5 className="headtext font-semibold md:text-3xl leading-[2.8rem]  text-2xl ">{produtdata.title}</h5>
+              <h5 className="headtext font-semibold md:text-3xl lg:leading-[2.8rem]  text-2xl ">{produtdata.title}</h5>
               <p className="context font-[500] md:text-2xl text-[1.3rem] ">INR {produtdata.price}</p>
 
               <p className="context mt-2 text-[1rem] text-opacity-[50%] font-[300]">

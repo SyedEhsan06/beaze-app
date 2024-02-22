@@ -6,12 +6,14 @@ import Link from 'next/link'
 
 export default function Login() {
   return (
-    <div className='h-[100vh] w-[100%] pb-4 pt-8  px-10 relative'>
-<div className='absolute top-[4%] left-[1%] z-10'>
-<Image src="/images/logo.png" fill  alt="=logo" className='!static !w-[80%]' />
-</div>
-        <div className=' w-full flex  '>
-        <div className='w-[60%]  h-[90vh] relative loginbackground flex items-center'>
+    <div className='h-[100vh] w-[100%] pb-4 pt-8  lg:px-10 px-2 relative mianconlogins flex items-center lg:block'>
+ <div className='absolute lg:top-[4%] top-[10%] lg:left-[1%]  left-1/2 transform -translate-x-1/2 z-10 lg:transform-none lg:-translate-x-0">'>
+        <Link href={'/'}>
+          <Image src="/images/logo.png" fill alt="=logo" className='!static lg:!w-[80%] !w-[100px]' />
+        </Link>
+      </div>
+        <div className= 'w-full lg:flex  lg:mt-0'>
+        <div className='w-[60%]  h-[90vh] relative loginbackground lg:flex hidden items-center'>
         <div className=' relative pl-10 z-20'>
         <Image src="/images/web/login/Rectangle1.png" fill  alt="=logo" className='!static ' />
         </div>
@@ -27,13 +29,13 @@ export default function Login() {
         </div>
         </div>
         </div>
-        <div className='w-[40%] flex items-center  p-14'>
+        <div className='lg:w-[40%] w-[100%] flex items-center  lg:p-14 p-8'>
           <div className='w-full'>
            <div>
-           <h4 className=' text-center headtext font-[900] text-[2.5rem] text-text-secondary '>
+           <h4 className=' text-center headtext font-[900] lg:text-[2.5rem] text-[1.7rem]'>
             Sign In
             </h4>
-            <p className=' text-center context font-[300] text-lg mt-2 leading-[1rem]'>
+            <p className=' text-center context font-[300] lg:text-lg text-sm mt-2 lg:leading-[1rem]'>
             Welcome back, busy bee! Log in now to continue your bee-autiful shopping journey with us
             </p>
            </div>
@@ -44,13 +46,13 @@ export default function Login() {
           <Countryinput/>
 
 
-          <button className='w-[100%] mt-7 py-5  headtext font-[900] text-text-secondary bg-theme-main-color text-3xl rounded-lg shadow'>Submit</button>
+          <button className='w-[100%] mt-7 py-4  headtext font-[900] text-text-secondary bg-[#FFD012] lg:text-3xl text-xl  rounded-lg button-shadow  '>Submit</button>
             </form>
            </div>
 
 
            <div className=' mt-12'>
-           <p className=' text-text-secondary text-center context font-[200] text-lg mt-2 leading-[1rem]'>
+           <p className=' text-text-secondary text-center context font-[200] lg:text-lg text-sm  mt-2 leading-[1rem]'>
            Don’t have an account <br />
            <span className='font-[700]  underline cursor-pointer' ><Link href={'/signup'}>Create an account here</Link></span>
             </p>

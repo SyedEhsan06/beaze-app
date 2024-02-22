@@ -164,6 +164,15 @@ loader */
   overflow: hidden;
 }
 
+.shadow-input {
+  box-shadow: 1px 2px 5px 0px rgba(0, 0, 0, 0.26);
+  
+}
+
+.button-shadow{
+  box-shadow: 1px 2px 5px 0px #00000026;
+
+}
 
 
 .loginbackground::before{
@@ -242,7 +251,20 @@ loader */
   76% { transform:rotate(945deg); opacity: 0; }
   100% { transform:rotate(945deg); opacity: 0; } 
 }
-
+@media (max-width : 1024px){
+  .mianconlogins::before{
+    content: ''; 
+    position: absolute;
+    left: 0; 
+    top: 0; 
+    width: 100%;
+    height: 70%;
+    background-image: url('/images/web/login/bg.png');
+    background-size: cover;
+    opacity: 0.2;
+   
+  }
+}
 
 
 @tailwind base;

@@ -223,6 +223,14 @@ dispatch(toggleSubcategory([]));
     let count = unique.length;
     setCount(count);
   }, [countData]);
+  const hideoutside = (e) => {
+    if (divRef.current && !divRef.current.contains(e.target)) {
+      setshowshop(false);
+      setshowhide(0);
+      setshowsearchmobile(false);
+      
+    }
+  };
 
   const hideoutsidecart = (e) => {
     if (cartref.current && !cartref.current.contains(e.target)) {
@@ -232,9 +240,11 @@ dispatch(toggleSubcategory([]));
   };
 
   useEffect(() => {
-    document.addEventListener("click", hideoutside, true);
-  
-  }, []);
+    document.addEventListener('mousedown', hideoutside);
+    return () => {
+      document.removeEventListener('mousedown', hideoutside);
+    };
+  }, [hideoutside]);
   useEffect(() => {
     document.addEventListener('mousedown', hideoutsidecart);
     return () => {
@@ -242,14 +252,7 @@ dispatch(toggleSubcategory([]));
     };
   }, [hideoutsidecart]);
 
-  const hideoutside = (e) => {
-    if (divRef.current && !divRef.current.contains(e.target)) {
-      setshowshop(false);
-      setshowhide(0);
-      setshowsearchmobile(false);
-      
-    }
-  };
+
 const handleshowmenu = () => {
     showhide === 1 ? setshowhide(0) : setshowhide(1);
     
@@ -270,7 +273,7 @@ const handleshowmenu = () => {
       }
     }
   
-    // Cleanup the class when the component unmounts
+
     return () => {
       document.body.classList.remove("blurbody");
     };
@@ -520,7 +523,7 @@ const pathname = usePathname();
                 />
               </div>
               {showhide === 1 && (
-                <div className="absolute w-[80%] z-40 bg-[#EBE9DB] left-0 top-[100%] h-[92vh] transition-all duration-75  overflow-y-auto">
+                <div className="absolute w-[80%] z-40 bg-[#EBE9DB] left-0 top-[100%] h-[92vh] transition-all duration-75  overflow-y-auto" ref={divRef}>
                   <div className="w-full flex">
                     {showshop && (
                       <button className="text-white text-2xl p-2 bg-gray-950">
@@ -594,9 +597,7 @@ const pathname = usePathname();
                     onClick={handleCartOpen}
                   />
                   {count !== 0 && (
-                    <span className=" absolute right-[-30%] top-[-40%]  bg-[#F8B43A] mb-0 text-sm text-theme-footer-bg rounded-full leading-[10px] pt-[10px]  px-[5px] pb-[8px] font-[700] ">
-                      {count}
-                    </span>
+                   <div class="absolute inline-flex items-center justify-center w-6 h-6  text-xs font-bold  text-text-secondary bg-[#FFB61D] border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">{count}</div>
                   )}
                 </div>
               </button>

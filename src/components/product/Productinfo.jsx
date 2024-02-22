@@ -156,12 +156,12 @@ export default function Productinfo({ pid }) {
                   <Productcarousel sliderdata={productinfo.images} setopemodal={setismodalopen} />
                 </div>
                 <div className="md:w-[50%] ">
-                <div className={`w-[80%] flex-col justify-between  ${showdesc ? ' lg:hidden' : 'flex'}`}>
+                <div className={`lg:w-[80%] w-[100%] flex-col justify-between  ${showdesc ? ' lg:hidden' : 'flex'}`}>
                     <div className="w-full flex flex-col">
                       <p className=" text-[400] context text-sm mb-3 ">
                         Women’s Clothing / Tops & Blouses / Classic Shirts{" "}
                       </p>
-                      <h5 className="headtext font-semibold md:text-3xl text-2xl leading-[2.8rem]">
+                      <h5 className="headtext font-semibold md:text-3xl text-2xl lg:leading-[2.8rem]">
                         {productinfo.title}
                       </h5>
                       <p className="context font-[500] md:text-2xl text-[1.3rem]">
@@ -262,7 +262,7 @@ export default function Productinfo({ pid }) {
                     </div>
                     <div className=" grid grid-cols-1 gap-y-4 headtext py-2 mt-6">
                       <button className=" w-full bg-theme-footer-bg text-white font-[700] text-xl py-2 rounded ">
-                        Checkout
+                      Add to cart
                       </button>
                       <button className=" w-full  text-[#474747] font-[300] text-lg py-2 rounded border-[0.3px] border-[#000000] ">
                         Cancel
