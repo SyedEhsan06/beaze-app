@@ -192,6 +192,7 @@ dispatch(toggleSubcategory([]));
     setCartOpen(!cartOpen);
   }
   const cartState = useSelector(selectCartOpen);
+  console.log(cartState);
   useEffect(() => {
     if (cartOpen) {
       dispatch(openCart());
@@ -725,11 +726,15 @@ const pathname = usePathname();
         <div className="py-3 px-6 w-full flex gap-x-4 border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700]">
           <FaXmark
             className=" cursor-pointer"
-            onClick={() => dispatch(closeCart())}
+            onClick={
+              ()=>setCartOpen(false)
+            }
           />{" "}
           Cart
         </div>
-        <Productcart handelCartShow={cartOpenState} />
+        <Productcart setCartOpen={
+          setCartOpen
+        } />
       </div>
 
      </>

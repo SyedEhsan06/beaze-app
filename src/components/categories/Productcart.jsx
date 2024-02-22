@@ -12,7 +12,9 @@ import {
   selectCart,
 } from "@/redux/slices/cartSlice";
 import { closeCart } from "@/redux/slices/cartOpenSlice";
-export default function Productcart() {
+export default function Productcart({
+  setCartOpen,
+}) {
   const cartData = useSelector(selectCart);
   const [data, setdata] = useState(cartData);
   const [showprice, setshowprice] = useState(false);
@@ -30,7 +32,8 @@ export default function Productcart() {
     dispatch(addToCart({ _id: id }));
   };
 const handleCloseCart = () => {
-  dispatch(closeCart());
+  setCartOpen(false);
+  // dispatch(closeCart());
 };
   let tax= data.reduce((a, b) => a + b.tax*b.selectedQty, 0);
   let total = tax + data.reduce((a, b) => a + b.price*b.selectedQty, 0);
