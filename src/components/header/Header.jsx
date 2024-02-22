@@ -170,6 +170,8 @@ export default function Header() {
       dispatch(closeCart());
     }
   }, [cartOpen, dispatch]);
+
+
   
   const [count, setCount] = useState(0);
   // let countData = useSelector((state) => state.cart.cart)

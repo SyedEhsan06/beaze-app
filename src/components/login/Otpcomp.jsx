@@ -53,7 +53,7 @@ export default function Otpcomp() {
         <Image src="/images/logo.png" fill alt="=logo" className='!static !w-[80%]' />
       </div>
       <div className=' w-full flex  '>
-        <div className='w-[60%]  h-[90vh] relative loginbackground flex items-center'>
+        <div className='w-[60%]  h-[90vh] relative optbackground flex items-center'>
 
         </div>
         <div className='w-[40%] flex items-center  p-14'>
