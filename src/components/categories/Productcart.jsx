@@ -29,7 +29,9 @@ export default function Productcart() {
   const handleAdd = (id) => {
     dispatch(addToCart({ _id: id }));
   };
-
+const handleCloseCart = () => {
+  dispatch(closeCart());
+};
   let tax= data.reduce((a, b) => a + b.tax*b.selectedQty, 0);
   let total = tax + data.reduce((a, b) => a + b.price*b.selectedQty, 0);
   return (
@@ -170,7 +172,9 @@ export default function Productcart() {
 
         <div className="flex w-full headtext gap-3 mb-2">
           <button
-          onClick={()=>dispatch(closeCart())}
+          onClick={
+            handleCloseCart
+          }
           className="w-[35%] bg-transparent rounded-[29px] py-2 border-[1px] border-[#000000] text-xl text-[300] text-text-secondary">
             Cancel
           </button>

@@ -34,6 +34,7 @@ export default function Header() {
   const [searchdata, setsearchdata] = useState([]);
   const [showsearchmobile, setshowsearchmobile] = useState(false);
   const inputRef = useRef(null);
+  const dispatch = useDispatch();
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -73,7 +74,7 @@ export default function Header() {
   const handelshowmenu = () => {
     showhide === 1 ? setshowhide(0) : setshowhide(1);
   };
-  const dispatch = useDispatch();
+
   let selectData = useSelector(selectCategories);
   useEffect(() => {
     if (selectData.length === 0) {
@@ -82,6 +83,34 @@ export default function Header() {
     setshopmenudata(selectData.categories);
   }, [selectData]);
 
+  const [data, setdata] = useState([]);
+useEffect(() => {
+  setdata(selectData)
+}, [selectData]);
+const [categoryState, setCategories] = useState([]);
+const [subcategoryState, setSubcategories] = useState([]);
+useEffect(() => {
+  if (data?.categories?.length > 0) {
+    const subcategories = data?.categories
+      ?.map((item) => item.subcategories)
+      .flat()
+      .map((item) => item.name);
+    setSubcategories([...subcategories]);
+    const categories = data?.categories?.map((item) => item.name);
+    setCategories([...categories]);
+  }
+}, [data]);
+  useEffect(() => {
+dispatch(toggleSubcategory([]));
+  dispatch(toggleCategory([]));
+  subcategoryState.forEach((subcategory) => {
+    dispatch(toggleSubcategory(subcategory));
+  }
+  );
+  categoryState.forEach((category) => {
+    dispatch(toggleCategory(category));
+  });
+}, [subcategoryState, categoryState]);
   const [search, setSearch] = useState("");
   const handelsearch = (val) => {
     if (window.innerWidth < 767) {
@@ -141,9 +170,9 @@ export default function Header() {
     const unique = [...new Set(subcategories)];
     const category = searchdata.map((item) => item.category);
     const uniqueCategory = [...new Set(category)];
-    uniqueCategory.forEach((category) => {
-      dispatch(toggleCategory(category));
-    });
+    // uniqueCategory.forEach((category) => {
+    //   dispatch(toggleCategory(category));
+    // });
     let type = "search";
     if (search.length >= 1) {
       // dispatch(
@@ -162,15 +191,17 @@ export default function Header() {
   const handleCartOpen = () => {
     setCartOpen(!cartOpen);
   }
-  
+  const cartState = useSelector(selectCartOpen);
   useEffect(() => {
     if (cartOpen) {
       dispatch(openCart());
     } else {
       dispatch(closeCart());
     }
+    console.log(cartOpen);
   }, [cartOpen, dispatch]);
   
+  console.log(cartState);
   const [count, setCount] = useState(0);
   // let countData = useSelector((state) => state.cart.cart)
   // if(countData.length >= 1){
@@ -216,7 +247,10 @@ export default function Header() {
       
     }
   };
-
+const handleshowmenu = () => {
+    showhide === 1 ? setshowhide(0) : setshowhide(1);
+    
+  };
 
 
   useEffect(() => {
@@ -281,12 +315,13 @@ const pathname = usePathname();
                 <Image src="/images/logo.png" width={60} height={60} alt="logo" />
               </Link>
             </li>
+            <Link href={"/products"}>
             <li
               ref={shopRef}
               className={`group context showmenu   px-5 duration-75 transition-all cursor-pointer ${
                 showmenu ? "bg-white  rounded-2xl font-[800]" : "font-semibold"
               }`}
-              onClick={() => setshowmenu(!showmenu)}
+              onClick={handleshowmenu}
               onMouseEnter={() => setshowmenu(true)}
               onMouseLeave={() => setshowmenu(false)}
             >
@@ -303,6 +338,7 @@ const pathname = usePathname();
                 </div>
               )}
             </li>
+              </Link>
   
             <li className="context font-semibold px-2">
               <Link href={"/"}>About </Link>{" "}
@@ -436,8 +472,8 @@ const pathname = usePathname();
   
             <li className=" context font-semibold px-2">
               {" "}
-              <Link href={"/"}>Sign in </Link> |{" "}
-              <Link href={"/"}> Create an Account </Link>{" "}
+              <Link href={"/login"}>Sign in </Link> |{" "}
+              <Link href={"/signup"}> Create an Account </Link>{" "}
             </li>
             <li className="context font-semibold px-2" onClick={handleCartOpen}>
               <button

@@ -9,6 +9,7 @@ import {
 import {
   selectCategory,
   selectSubcategory,
+  toggleCategory,
   toggleColor,
   toggleMaterial,
   toggleSize,
@@ -39,7 +40,9 @@ console.log(categorySelect);
     dispatch(toggleSleeve([]));
 
   }, [categorySelect, dispatch, currentData]);
-  const handleCheckboxChange = (index) => {
+  const handleCheckboxChange = (items,index) => {
+    console.log(items.name)
+    dispatch(toggleCategory(items.name));
     const currentIndex = checkedMenus.indexOf(index);
     const newCheckedItems = [...checkedMenus];
     if (currentIndex === -1) {
@@ -74,7 +77,7 @@ console.log(categorySelect);
   // console.log(currentData);
   let category = [...new Set(currentCategory)];
   // console.log(category);
-
+  
 
   return (
     <aside className="w-full py-0 px-5 overflow-y-auto">
@@ -82,7 +85,7 @@ console.log(categorySelect);
         <div className="w-full flex flex-col gap-y-2 my-7 context" key={index}>
           <div
             className="cursor-pointer"
-            onClick={() => handleCheckboxChange(index)}
+            onClick={() => handleCheckboxChange(items,index)}
           >
             <div className="flex gap-x-4 items-center cursor-pointer pl-[1.5rem]">
               <div>
@@ -94,7 +97,8 @@ console.log(categorySelect);
                 <button className="text-xl">
                 <BiSolidChevronDown
                     className={`transition-all duration-75 ${
-                      isVisible(index) && "rotate-180"
+
+                      categorySelect.includes(items.name) ? "transform rotate-180" : ""
                     }`}
                   />
                 </button>
@@ -109,12 +113,12 @@ console.log(categorySelect);
             }`}
           >
             <Sidemenufilterlist
-              category={items.name}
+              category={items}
               categorySelect={categorySelect}
               subcategory={items.subcategories}
               showCount={filterCount}
               indexing={index}
-              
+              currentCategory={items.name}
               onShowMore={handelshowmore}
               onShowLess={handelshowless}
               onSubcategorySelect={(subcategory) => {

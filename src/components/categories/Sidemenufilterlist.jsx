@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectSubcategory, toggleSubcategory } from "@/redux/slices/filterSlice";
 import { usePathname, useRouter } from "next/navigation";
 import { selectCategoryProduct } from "@/redux/slices/productSlice";
+import { selectCategories } from "@/redux/slices/categorySlice";
 
 export default function Sidemenufilterlist({
   category,
@@ -27,17 +28,31 @@ export default function Sidemenufilterlist({
     }
   }
   , [currentData]);
+ const allcategories = useSelector(selectCategories)
+ const allsubcategories = allcategories?.categories?.filter((item) => item.subcategories.length > 0).map((item) => item.name)
   const catsFromData = data?.response?.products.map((item) => item.subcategory);
   const cats = [...new Set(catsFromData)];
   const handleCheckboxChange = (itemName) => {
+    
     dispatch(toggleSubcategory(itemName));
   };
+  useEffect(() => {
+    if(allsubcategories.length <= selectedSubcategories.length){
+      dispatch(toggleSubcategory([]));
+    }
+  }, []);
   const usepathname = usePathname();
   const router = useRouter();
   // useEffect(() => {
   //   dispatch(toggleSubcategory([])); 
   // }, [usepathname,selectSubcategory])
-  console.log(categorySelect);
+  // const viewAllCheckbox = () => {
+  //   if (selectedSubcategories.length === subcategory.length || categorySelect.length === category.length) {
+  //     dispatch(toggleSubcategory([]));
+  //   } else {
+  //     dispatch(toggleSubcategory(subcategory));
+  //   }
+  // }
   return (
     <div>
       {/* <div className="flex flex-col my-1">
@@ -46,8 +61,11 @@ export default function Sidemenufilterlist({
             <input
               type="checkbox"
               id="viewAll"
-              onChange={handleCheckboxChange}
-              checked={selectedSubcategories.length === subcategory.length}
+              onChange={viewAllCheckbox}
+              checked={
+                selectedSubcategories.length === subcategory.length ||
+                categorySelect.length === category.length
+              }
             />
           </div>
           <label htmlFor="viewAll" className="text-lg cursor-pointer">
@@ -64,7 +82,7 @@ export default function Sidemenufilterlist({
                 type="checkbox"
                 id={item.name + indexing}
                 onChange={() => handleCheckboxChange(item.name)}
-                checked={selectedSubcategories.includes(item.name) || categorySelect.includes(item.name)}
+                checked={selectedSubcategories.includes(item.name)  || categorySelect.includes(item.name)}
               />
             </div>
             <label
