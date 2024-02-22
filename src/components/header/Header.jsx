@@ -200,6 +200,8 @@ dispatch(toggleSubcategory([]));
     }
     console.log(cartOpen);
   }, [cartOpen, dispatch]);
+
+
   
   console.log(cartState);
   const [count, setCount] = useState(0);
@@ -252,25 +254,27 @@ const handleshowmenu = () => {
     
   };
 
-
   useEffect(() => {
     const header = document.querySelector("header");
-    if (cartOpen) {
-      document.body.classList.add("blurbody");
-      header.classList.remove("absolute");
-      header.classList.add("headerfixed");
-    } else {
-      document.body.classList.remove("blurbody");
-      header.classList.remove("headerfixed");
-      header.classList.add("absolute");
+  
+    if (header) {
+      if (cartOpen) {
+        document.body.classList.add("blurbody");
+        header.classList.remove("absolute");
+        header.classList.add("headerfixed");
+      } else {
+        document.body.classList.remove("blurbody");
+        header.classList.remove("headerfixed");
+        header.classList.add("absolute");
+      }
     }
-
+  
     // Cleanup the class when the component unmounts
     return () => {
       document.body.classList.remove("blurbody");
     };
   }, [cartOpen]);
-
+  
   const handelfocuonserch = () => {
     setshowhide(2);
     // inputRef.current.focus()
@@ -293,7 +297,7 @@ const handleshowmenu = () => {
     };
   }, [showhide]);
 const pathname = usePathname();
-  if (pathname === "/login" || pathname === "/signup") {
+  if (pathname === "/login" || pathname === "/signup" || pathname === "/otp" ) {
     return null;
   }
 

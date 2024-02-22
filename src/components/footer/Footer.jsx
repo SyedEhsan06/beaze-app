@@ -8,7 +8,7 @@ import Sociallinks from "./Sociallinks";
 export default function footer() {
   const pathname = usePathname();
   console.log(pathname);
-  if (pathname == "/login" || pathname == "/signup") {
+  if (pathname == "/login" || pathname == "/signup" || pathname === "/otp") {
     return null;
   }
   else{

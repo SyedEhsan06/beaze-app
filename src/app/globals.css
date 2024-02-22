@@ -177,6 +177,17 @@ loader */
   background-size: cover;
  
 }
+.optbackground::before{
+  content: ''; 
+  position: absolute;
+  left: 0; 
+  top: 0; 
+  width: 95%;
+  height: 100%;
+  background-image: url('/images/web/otp/bg.png');
+  background-size: cover;
+ 
+}
 .loader {
   position: relative;
  
