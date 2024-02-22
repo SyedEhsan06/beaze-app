@@ -261,7 +261,7 @@ export default function Header() {
     };
   }, [showhide]);
 const pathname = usePathname();
-  if (pathname === "/login" || pathname === "/signup") {
+  if (pathname === "/login" || pathname === "/signup" || pathname === "/otp" ) {
     return null;
   }
 
