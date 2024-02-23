@@ -48,13 +48,13 @@ export default function Otpcomp() {
     }
   };
   return (
-    <div className='h-[100vh] w-[100%] pb-4 pt-8  lg:px-10 px-2 relative mianconlogins flex items-center lg:block'>
+    <div className='h-[100vh] w-[100%] pb-4 pt-8  lg:px-10 px-2 relative  flex items-center lg:block'>
       <div className='absolute lg:top-[4%] top-[6%] lg:left-[1%]  left-1/2 transform -translate-x-1/2 z-10 lg:transform-none lg:-translate-x-0">'>
         <Link href={'/'}>
           <Image src="/images/logo.png" fill alt="=logo" className='!static lg:!w-[80%] !w-[100px]' />
         </Link>
       </div>
-      <div className=' w-full flex  mt-4 lg:mt-0 '>
+      <div className='lg:max-w-full max-w-[500px] mx-auto lg:mx-0 flex  mt-4 lg:mt-0 '>
         <div className='w-[60%]  h-[90vh] relative optbackground lg:flex items-center hidden'>
 
         </div>
@@ -90,7 +90,7 @@ export default function Otpcomp() {
                         onKeyDown={(event) => handleKeyDown(index, event)}
                         maxLength={1}
                         ref={inputRefs[index]}
-                        className={`border lg:pt-4 lg:pb-[14px] pt-3 pb-[10px] transition-all duration-150 text-center rounded-[9px] shadow-input  context font-[500] text-xl leading-normal focus:outline-none ${digit ? ' border-[#039C2E]' : 'border-theme-footer-bg '}`}
+                        className={`border h-[60px]  transition-all duration-150 text-center rounded-[9px] shadow-input  context font-[500] text-xl leading-normal focus:outline-none ${digit ? ' border-[#039C2E]' : 'border-theme-footer-bg '}`}
                       />
                     ))}
 

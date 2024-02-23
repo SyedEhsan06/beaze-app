@@ -12,7 +12,7 @@ export default function Login() {
           <Image src="/images/logo.png" fill alt="=logo" className='!static lg:!w-[80%] !w-[100px]' />
         </Link>
       </div>
-        <div className= 'w-full lg:flex  lg:mt-0'>
+        <div className= 'lg:max-w-full max-w-[500px] mx-auto lg:mx-0  lg:flex  lg:mt-0'>
         <div className='w-[60%]  h-[90vh] relative loginbackground lg:flex hidden items-center'>
         <div className=' relative pl-10 z-20'>
         <Image src="/images/web/login/Rectangle1.png" fill  alt="=logo" className='!static ' />
