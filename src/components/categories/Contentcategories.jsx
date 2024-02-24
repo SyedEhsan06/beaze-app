@@ -19,18 +19,22 @@ import axios from "axios";
 import Sidemenu from "./Sidemenu";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addProduct,
   fetchProducts,
   selectCategoryProduct,
 } from "@/redux/slices/productSlice";
 import {
   addMultiSubcategory,
+  selectCategory,
   selectColor,
+  selectFix,
   selectMaterial,
   selectSize,
   selectSleeve,
   selectSubcategory,
   toggleCategory,
   toggleColor,
+  toggleFix,
   toggleMaterial,
   toggleSize,
   toggleSleeve,
@@ -67,10 +71,6 @@ export default function Contentcategories({ params , categories}) {
   const usepathname = usePathname();
   const subcategorySelect = useSelector(selectSubcategory);
   const cats = useSelector(selectCategories);
-  const allsubcategories = cats?.categories?.filter(
-    (item) => item.subcategories.length > 0
-  ).map((item) => item.subcategories.map((item) => item.name)).flat();
-  console.log(allsubcategories);
   let router = useRouter();
   let debounceTimeoutRef = useRef(null);
   useEffect(() => {
@@ -86,17 +86,9 @@ export default function Contentcategories({ params , categories}) {
       !sessionStorage?.getItem("categoryData")
     ) {
       // Fetch all products if no data is available
-      dispatch(addMultiSubcategory(allsubcategories));
-      dispatch(toggleCategory([]));
+      dispatch(fetchProducts("category", "all"));
     }
   }, [dispatch, selectData]);
-  // useEffect(() => {
-  //   if(subcategorySelect.length === 0){
-  //     dispatch(toggleCategory([]));
-  //     dispatch(addMultiSubcategory(allsubcategories));
-  //   }
-  // }, [subcategorySelect]);
-
   const [filterData, setFilterData] = useState([]);
   useEffect(() => {
     const fetchProductsBySubcategory = async () => {
@@ -474,20 +466,39 @@ export default function Contentcategories({ params , categories}) {
     setCompleteData(rightFilteredProducts);
     handleApplyfilter();
   };
-  console.log("completeData", completeData);
-  console.log("filterData", filterData);
-  console.log("data", data);
-  console.log("subcategories", subcategorySelect);
-  useEffect(() => {
-    if (completeData.length == 0 && subcategorySelect.length == 0) {
-      console.log("i am here");
+  const allsubcategories = cats?.categories?.filter((item) => item.subcategories.length > 0).map((item) => item.subcategories).flat().map((item) => item.name);
+  console.log(allsubcategories);
+  const categoryState = useSelector(selectCategory);
+  const fixSelect = useSelector(selectFix);
+// useEffect(() => {
+// if(subcategorySelect?.length ===0 && completeData?.length === 0 && allsubcategories?.length > 0){
+//   // dispatch(toggleSubcategory([]));
+//   console.log("i am here");
+//   dispatch(addMultiSubcategory(allsubcategories));
+//   // dispatch(addProduct(completeData));
+// }
+// console.log(subcategorySelect);
+// console.log(completeData);
+// }, [subcategorySelect]);
+// useEffect(() => {
+//   if(completeData?.length >12){
+//     localStorage.setItem("categoryData", JSON.stringify(completeData));
+//   }
+//   if(localStorage.getItem("categoryData")){
+//     console.log(localStorage.getItem("categoryData"));
 
-      dispatch(addMultiSubcategory(allsubcategories));
-      
-    }
-  }
-  , [completeData]);
-  console.log("subcategorySelect", subcategorySelect);
+//   }
+// }
+// , [completeData]);
+const handleFetchAllData = () => {
+  // dispatch(toggleSubcategory([]));
+  dispatch(addMultiSubcategory([]));
+
+  dispatch(toggleCategory([]));
+  dispatch(toggleFix([]));
+  dispatch(addMultiSubcategory(allsubcategories));
+  dispatch(toggleFix(allsubcategories));
+};
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
@@ -598,7 +609,9 @@ export default function Contentcategories({ params , categories}) {
               </h1>
               <div className="flex justify-center gap-4">
                 <button
-                  onClick={() => dispatch(fetchProducts("category", "all"))}
+                  onClick={
+                    handleFetchAllData
+                  }
                   className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                 >
                   Fetch All Data

@@ -6,6 +6,7 @@ let initialState = {
   color: [],
   size: [],
   material: [],
+  fix: [],
   sleeve: [],
   status: "idle",
 };
@@ -33,6 +34,9 @@ export const filterSlice = createSlice({
     toggleCategory: (state, action) => {
       toggleFilter(state, action, "category");
     },
+    toggleFix: (state, action) => {
+      toggleFilter(state, action, "fix");
+    }, 
     toggleColor: (state, action) => {
       toggleFilter(state, action, "color");
     },
@@ -64,15 +68,16 @@ export const {
   toggleMaterial,
   toggleSleeve,
   toggleSubcategory,
+  toggleFix,
   addMultiSubcategory,
   addMultiCategory,
 } = filterSlice.actions;
-
 export const selectCategory = (state) => state.filter.category;
 export const selectColor = (state) => state.filter.color;
 export const selectSize = (state) => state.filter.size;
 export const selectMaterial = (state) => state.filter.material;
 export const selectSleeve = (state) => state.filter.sleeve;
 export const selectSubcategory = (state) => state.filter.subcategory;
+export const selectFix = (state) => state.filter.fix;
 
 export default filterSlice.reducer;

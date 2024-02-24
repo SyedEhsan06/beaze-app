@@ -30,7 +30,11 @@ let initialState = {
 export const productSlice = createSlice({
   name: "products",
   initialState,
-  reducers: {},
+  reducers: {
+    addProduct: (state, action) => {
+      state.products.push(action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.pending, (state) => {
@@ -46,6 +50,6 @@ export const productSlice = createSlice({
       });
   },
 });
-
+  export const { addProduct } = productSlice.actions;
 export const selectCategoryProduct = (state) => state.products.products;
 export default productSlice.reducer;

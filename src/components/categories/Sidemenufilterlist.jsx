@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSubcategory, toggleSubcategory } from "@/redux/slices/filterSlice";
+import { addMultiSubcategory, selectCategory, selectFix, selectSubcategory, toggleFix, toggleSubcategory } from "@/redux/slices/filterSlice";
 import { usePathname, useRouter } from "next/navigation";
 import { selectCategoryProduct } from "@/redux/slices/productSlice";
 import { selectCategories } from "@/redux/slices/categorySlice";
@@ -31,22 +31,19 @@ export default function Sidemenufilterlist({
  const allcategories = useSelector(selectCategories)
  const allsubcategories = allcategories?.categories?.filter((item) => item.subcategories.length > 0).map((item) => item.name)
   const catsFromData = data?.response?.products.map((item) => item.subcategory);
+  const categories = useSelector(selectCategory);
   const cats = [...new Set(catsFromData)];
+  const fixSelect = useSelector(selectFix);
   const handleCheckboxChange = (itemName) => {
-    
     dispatch(toggleSubcategory(itemName));
   };
   useEffect(() => {
-    console.log("allsubcategories",allsubcategories)
-
     if(allsubcategories?.length <= selectedSubcategories?.length){
-      console.log("allsubcategories",allsubcategories)
       dispatch(toggleSubcategory([]));
+      dispatch(addMultiSubcategory([]));
+      console.log("i ran")
     }
-  
-  }, [
-    selectedSubcategories,
-  ]);
+  }, [dispatch,fixSelect]);
   const usepathname = usePathname();
   const router = useRouter();
   // useEffect(() => {
@@ -88,7 +85,7 @@ export default function Sidemenufilterlist({
                 type="checkbox"
                 id={item.name + indexing}
                 onChange={() => handleCheckboxChange(item.name)}
-                checked={selectedSubcategories?.includes(item.name)  || categorySelect?.includes(item.name)}
+                checked={selectedSubcategories.includes(item.name)  || categorySelect.includes(item.name)}
               />
             </div>
             <label
