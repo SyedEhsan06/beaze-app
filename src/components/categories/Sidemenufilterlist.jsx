@@ -37,10 +37,16 @@ export default function Sidemenufilterlist({
     dispatch(toggleSubcategory(itemName));
   };
   useEffect(() => {
-    if(allsubcategories.length <= selectedSubcategories.length){
+    console.log("allsubcategories",allsubcategories)
+
+    if(allsubcategories?.length <= selectedSubcategories?.length){
+      console.log("allsubcategories",allsubcategories)
       dispatch(toggleSubcategory([]));
     }
-  }, []);
+  
+  }, [
+    selectedSubcategories,
+  ]);
   const usepathname = usePathname();
   const router = useRouter();
   // useEffect(() => {
@@ -82,7 +88,7 @@ export default function Sidemenufilterlist({
                 type="checkbox"
                 id={item.name + indexing}
                 onChange={() => handleCheckboxChange(item.name)}
-                checked={selectedSubcategories.includes(item.name)  || categorySelect.includes(item.name)}
+                checked={selectedSubcategories?.includes(item.name)  || categorySelect?.includes(item.name)}
               />
             </div>
             <label

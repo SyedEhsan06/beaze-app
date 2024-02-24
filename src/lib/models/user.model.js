@@ -4,27 +4,21 @@ const Schema    = mongoose.Schema;
 const addressSchema = new Schema({
     address: {
         type: String,
-        required: true,
     },
     city: {
         type: String,
-        required: true,
     },
     state: {
         type: String,
-        required: true,
     },
     country: {
         type: String,
-        required: true,
     },
     zip: {
         type: String,
-        required: true,
     },
     phone_number: {
         type: String,
-        required: true,
     },
 });
 const cartSchema = new Schema({
@@ -38,18 +32,22 @@ const cartSchema = new Schema({
     },
     price: {
         type: Number,
-        required: true,
     },
 });
 const userSchema = new Schema({
     phone_number: {
         type: String,
-        required: true,
         unique: true,
     },
-    name: {
+   first_name: {
         type: String,
-        required: true,
+    },
+    isVerified: {
+        type: Boolean,
+        default: false,
+    },
+    last_name: {
+        type: String,
     },
     email: {
         type: String,

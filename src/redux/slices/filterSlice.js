@@ -48,6 +48,12 @@ export const filterSlice = createSlice({
     toggleSubcategory: (state, action) => {
       toggleFilter(state, action, "subcategory");
     },
+    addMultiSubcategory: (state, action) => {
+      state.subcategory = action.payload;
+    },
+    addMultiCategory: (state, action) => {
+      state.category = action.payload;
+    },
   },
 });
 
@@ -58,6 +64,8 @@ export const {
   toggleMaterial,
   toggleSleeve,
   toggleSubcategory,
+  addMultiSubcategory,
+  addMultiCategory,
 } = filterSlice.actions;
 
 export const selectCategory = (state) => state.filter.category;

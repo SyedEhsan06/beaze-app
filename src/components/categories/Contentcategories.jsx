@@ -23,11 +23,13 @@ import {
   selectCategoryProduct,
 } from "@/redux/slices/productSlice";
 import {
+  addMultiSubcategory,
   selectColor,
   selectMaterial,
   selectSize,
   selectSleeve,
   selectSubcategory,
+  toggleCategory,
   toggleColor,
   toggleMaterial,
   toggleSize,
@@ -64,6 +66,11 @@ export default function Contentcategories({ params , categories}) {
   const dispatch = useDispatch();
   const usepathname = usePathname();
   const subcategorySelect = useSelector(selectSubcategory);
+  const cats = useSelector(selectCategories);
+  const allsubcategories = cats?.categories?.filter(
+    (item) => item.subcategories.length > 0
+  ).map((item) => item.subcategories.map((item) => item.name)).flat();
+  console.log(allsubcategories);
   let router = useRouter();
   let debounceTimeoutRef = useRef(null);
   useEffect(() => {
@@ -79,9 +86,17 @@ export default function Contentcategories({ params , categories}) {
       !sessionStorage?.getItem("categoryData")
     ) {
       // Fetch all products if no data is available
-      dispatch(fetchProducts("category", "all"));
+      dispatch(addMultiSubcategory(allsubcategories));
+      dispatch(toggleCategory([]));
     }
   }, [dispatch, selectData]);
+  // useEffect(() => {
+  //   if(subcategorySelect.length === 0){
+  //     dispatch(toggleCategory([]));
+  //     dispatch(addMultiSubcategory(allsubcategories));
+  //   }
+  // }, [subcategorySelect]);
+
   const [filterData, setFilterData] = useState([]);
   useEffect(() => {
     const fetchProductsBySubcategory = async () => {
@@ -310,7 +325,6 @@ export default function Contentcategories({ params , categories}) {
       document.body.classList.remove("blurbody");
     };
   }, [isfilterbaropen,ismodalopen]);
-  const cats = useSelector(selectCategories);
   const [category, setCategory] = useState([]);
   const [allFilters, setAllFilters] = useState([]);
   let currentCategory = completeData?.map((item) => item.category);
@@ -460,7 +474,20 @@ export default function Contentcategories({ params , categories}) {
     setCompleteData(rightFilteredProducts);
     handleApplyfilter();
   };
+  console.log("completeData", completeData);
+  console.log("filterData", filterData);
+  console.log("data", data);
+  console.log("subcategories", subcategorySelect);
+  useEffect(() => {
+    if (completeData.length == 0 && subcategorySelect.length == 0) {
+      console.log("i am here");
 
+      dispatch(addMultiSubcategory(allsubcategories));
+      
+    }
+  }
+  , [completeData]);
+  console.log("subcategorySelect", subcategorySelect);
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
