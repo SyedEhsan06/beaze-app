@@ -13,7 +13,7 @@ export default function Singup() {
           <Image src="/images/logo.png" fill alt="=logo" className='!static lg:!w-[80%] !w-[100px]' />
         </Link>
       </div>
-      <div className=' w-full lg:flex mt-[70px] lg:mt-0'>
+      <div className='lg:max-w-full max-w-[500px] mx-auto lg:mx-0 lg:flex mt-[70px] lg:mt-0'>
         <div className='w-[60%]  h-[90vh] relative loginbackground lg:flex hidden items-center'>
           <div className=' relative pl-10 z-20'>
             <Image src="/images/web/signup/Rectangle1.png" fill alt="=logo" className='!static ' />
@@ -52,12 +52,12 @@ export default function Singup() {
                         *
                       </sup>
                     </label>
-                    <div className="w-full flex border border-text-secondary shadow-input pl-2 pr-3 py-[13px] rounded-lg">
+                    <div className="w-full flex border border-text-secondary shadow-input pl-2 pr-3  rounded-lg">
                       <div className="w-[95%] ">
                         <input
                           type="text"
                           id="fnamesignup"
-                          className="w-full border-none  focus:outline-none transition-all duration-100   relative leading-normal checkout-input"
+                          className="w-full border-none  focus:outline-none transition-all duration-100  h-[52px]  relative leading-normal checkout-input"
 
                         />
                       </div>
@@ -73,12 +73,12 @@ export default function Singup() {
                         *
                       </sup>
                     </label>
-                    <div className="w-full flex border border-text-secondary shadow-input pl-2 pr-3 py-[13px] rounded-lg">
+                    <div className="w-full flex border border-text-secondary shadow-input pl-2 pr-3 rounded-lg">
                       <div className="w-[95%] ">
                         <input
                           type="text"
                           id="lastname"
-                          className="w-full border-none  focus:outline-none transition-all duration-100   relative leading-normal checkout-input"
+                          className="w-full border-none  focus:outline-none transition-all duration-100 h-[52px] relative leading-normal checkout-input"
 
                         />
                       </div>
