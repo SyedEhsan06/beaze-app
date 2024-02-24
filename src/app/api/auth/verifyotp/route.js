@@ -1,26 +1,37 @@
-// verifyOtp.js
-
-
 import { verifyOTP } from "@/utils/verifyOtpUtils";
 import User from "@/lib/models/user.model";
+import jwt from "jsonwebtoken";
+
+const secret = process.env.SECRET;
+const expiresIn = "1d";
+
+function generateToken(user) {
+  return jwt.sign(user, secret, { expiresIn });
+}
 
 export async function POST(req) {
-  const { phone, otp } = await req.json(); // Assuming you need both phone number and OTP for verification
-
+let { phone, otp } = await req.json(); 
+  phone = "+91" + phone;
   try {
     // Verify OTP
     const isOTPVerified = await verifyOTP(phone, otp);
     if (isOTPVerified) {
-      // If OTP is verified, update the user's isVerified status
-        await
-        User.findOneAndUpdate(
-          { phone_number: phone },
-          { isVerified: true },
-          { new: true }
-        );
+      // Update user's verification status
+      await User.findOneAndUpdate(
+        { phone_number: phone },
+        { isVerified: true },
+        { new: true }
+      );
+
+
+      const token = generateToken({ phone });
+
+
+      return Response.json({ token, message: "OTP verified successfully" });
+    } else {
+      // If OTP verification fails, return an error
+      return Response.json({ error: "Invalid OTP" });
     }
-    // Return the result to the client
-    return Response.json({ isOTPVerified });
   } catch (error) {
     console.error("Verify OTP error:", error);
     return Response.json({ error: "Internal Server Error" });

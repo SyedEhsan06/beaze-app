@@ -23,7 +23,7 @@ export async function sendOTP(phone) {
       .verifications.create({ to: phone, channel: "sms" });
 
     console.log(verification.status);
-
+    console.log(verification)
     if (verification.status === "pending") {
       const otp =  Math.floor(100000 + Math.random() * 900000); 
       const expiration = new Date().getTime() + 600000; 

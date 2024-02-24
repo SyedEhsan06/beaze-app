@@ -1,14 +1,20 @@
 "use client"
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef,useEffect } from 'react'
 import Image from 'next/image'
 import Countryinput from '../countryinput/Countryinput'
 import Link from 'next/link'
 import { FaRegClock } from "react-icons/fa";
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 
 export default function Otpcomp() {
   const [otp, setOTP] = useState(['', '', '', '', '', '']);
   const inputRefs = Array.from({ length: 6 }, () => useRef());
+const [token, setToken] = useState('');
+const [error, setError] = useState('');
+const [response, setResponse] = useState('');
+const router= useRouter();
 
   const handleInputChange = (index, event) => {
     const value = event.target.value;
@@ -47,6 +53,29 @@ export default function Otpcomp() {
       }
     }
   };
+  const url = "http://localhost:3000/api/auth/verifyotp";
+  const handleOtpVerify = (e) => {
+    e.preventDefault();
+    const otpValue = otp.join('');
+    axios.post(url, { otp: otpValue,phone:localStorage.getItem('phone') })
+      .then((res) => {
+        console.log(res.data);
+        localStorage.setItem('token', res.data.token);
+        setToken(res.data.token);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+useEffect(() => {
+  if(token){
+    router.push('/');
+  }
+  if(error){
+    router.push('/signup');
+  }
+}
+, [token,error]);
   return (
     <div className='h-[100vh] w-[100%] pb-4 pt-8  lg:px-10 px-2 relative  flex items-center lg:block'>
       <div className='absolute lg:top-[4%] top-[6%] lg:left-[1%]  left-1/2 transform -translate-x-1/2 z-10 lg:transform-none lg:-translate-x-0">'>
@@ -71,7 +100,9 @@ export default function Otpcomp() {
 
 
             <div className=' mt-12'>
-              <form className='w-full'>
+              <form
+                onSubmit={handleOtpVerify}
+              className='w-full'>
                 <div className=' w-full'>
                   <label htmlFor="fnamesignup" className="mb-2 font-[500] context">
                     Your OTP
