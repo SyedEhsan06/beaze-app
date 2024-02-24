@@ -22,12 +22,11 @@ export async function sendOTP(phone) {
       .v2.services(twilioConfig.verifySid)
       .verifications.create({ to: phone, channel: "sms" });
 
-    console.log(verification.status); // Log verification status
+    console.log(verification.status);
 
-    // Return true if OTP is sent successfully
     if (verification.status === "pending") {
-      const otp =  Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit OTP
-      const expiration = new Date().getTime() + 600000; // Set expiration to 10 minutes from now
+      const otp =  Math.floor(100000 + Math.random() * 900000); 
+      const expiration = new Date().getTime() + 600000; 
       console.log("OTP sent successfully:", otp, expiration);
 
       return { isOTPSent: true, otp, expiration };

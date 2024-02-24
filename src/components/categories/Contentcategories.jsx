@@ -9,7 +9,7 @@ import {
   sortsData,
 } from "@/utils/dummydata";
 import { BiSolidChevronDown } from "react-icons/bi";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Filterdatalist from "./Filterdatalist";
 import Image from "next/image";
 import { fetchData } from "@/utils/apicall";
@@ -404,15 +404,15 @@ export default function Contentcategories({ params , categories}) {
           colorFilter?.length === 0 ||
           colorFilter.some((filter) =>
             product.attributes
-              .find((attr) => attr.name === "Colors")
-              .value.includes(filter)
+              ?.find((attr) => attr.name === "Colors")
+              ?.value.includes(filter)
           );
         const sizeMatch =
           sizeFilter?.length === 0 ||
           sizeFilter.some((filter) =>
             product.attributes
-              .find((attr) => attr.name === "Sizes")
-              .value.includes(filter)
+              ?.find((attr) => attr.name === "Sizes")
+              ?.value.includes(filter)
           );
         const materialMatch =
           materialFilter?.length === 0 ||
@@ -450,7 +450,7 @@ export default function Contentcategories({ params , categories}) {
     setShowCard(true);
     setCompleteData(rightFilteredProducts);
   };
-  const handleRemoveFilter = (item, index) => {
+  const handleRemoveFilter = useCallback((item, index) => {
     if (colorFilter.includes(item)) {
       dispatch(toggleColor(item));
     }
@@ -463,11 +463,11 @@ export default function Contentcategories({ params , categories}) {
     if (sleeveFilter.includes(item)) {
       dispatch(toggleSleeve(item));
     }
-    setCompleteData(rightFilteredProducts);
+    // setCompleteData(rightFilteredProducts);
     handleApplyfilter();
-  };
+  }, [colorFilter, sizeFilter, materialFilter, sleeveFilter, dispatch, handleApplyfilter]);
   const allsubcategories = cats?.categories?.filter((item) => item.subcategories.length > 0).map((item) => item.subcategories).flat().map((item) => item.name);
-  console.log(allsubcategories);
+  // console.log(allsubcategories);
   const categoryState = useSelector(selectCategory);
   const fixSelect = useSelector(selectFix);
 // useEffect(() => {
@@ -493,12 +493,19 @@ export default function Contentcategories({ params , categories}) {
 const handleFetchAllData = () => {
   // dispatch(toggleSubcategory([]));
   dispatch(addMultiSubcategory([]));
-
+  
   dispatch(toggleCategory([]));
   dispatch(toggleFix([]));
   dispatch(addMultiSubcategory(allsubcategories));
   dispatch(toggleFix(allsubcategories));
 };
+console.log(completeData);
+const [allData, setAllData] = useState([]);
+// useEffect(() => {
+  //   if (categoryState?.length === 0 && completeData?.length === 0 && allsubcategories?.length > 0 && fixSelect?.length === 0) {
+  //     handleFetchAllData();
+  //   }
+  // }, [categoryState, completeData, allsubcategories, fixSelect]);
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">

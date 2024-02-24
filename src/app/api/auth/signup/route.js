@@ -1,6 +1,4 @@
-// signup.js
 
-// Import necessary modules
 import { sendOTP } from "@/utils/verifyOtpUtils";
 import User from "@/lib/models/user.model";
 import { connectToDb } from "@/lib/utils";
