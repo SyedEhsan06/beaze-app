@@ -479,10 +479,9 @@ export default function Contentcategories({ params , categories}) {
   console.log("data", data);
   console.log("subcategories", subcategorySelect);
   useEffect(() => {
-    if (completeData.length == 0 && subcategorySelect.length == 0) {
+    if (completeData.length > 0 && subcategorySelect.length > 0) {
       console.log("i am here");
-
-      dispatch(addMultiSubcategory(allsubcategories));
+      dispatch(addMultiSubcategory(subcategorySelect));
       
     }
   }
