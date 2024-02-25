@@ -832,3 +832,49 @@ const checkouttabs = [
         title : 'Shipping Fees'
     }
 ]
+
+export const accounttabs= [
+    {
+        title : 'Account Details'
+    },
+    {
+        title : 'Addresses'
+    },
+    {
+        title : 'Orders'
+    }
+]
+
+
+
+export const Addressdetails = [
+    {
+        id : 1,
+        title : 'Home',
+    },
+    {
+        id : 2,
+        title : 'Work',
+    }
+]
+
+
+export const orderdetailsdummy = [
+    {
+        id : 1,
+        date : 'July 29th, 2023',
+    },
+    {
+        id : 2,
+        date : 'June 10th, 2023',
+    },
+    {
+        id : 3,
+        date : 'May 5th, 2023',
+    },
+    {
+        id : 4,
+        date : 'April 23rd, 2023',
+    },
+    
+]
