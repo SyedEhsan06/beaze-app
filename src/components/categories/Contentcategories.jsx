@@ -76,6 +76,8 @@ export default function Contentcategories({ params , categories}) {
   const allsubcategories = cats?.categories?.filter((item) => item.subcategories.length > 0).map((item) => item.subcategories).flat().map((item) => item.name);
   const categoryCall = useSelector(selectCategoryCall);
   const [catsState, setCatsState] = useState('');
+  const fixSelect = useSelector(selectFix);
+
   const [subcategorySelect, setSubcategorySelect] = useState([]);
   useEffect(() => {
     setSubcategorySelect(selectReduxSubcategory);
@@ -85,23 +87,27 @@ export default function Contentcategories({ params , categories}) {
     setCatsState(categoryCall);
     console.log(catsState);
     // setLoader(true);
+    setLoader(true);
+    setFilterLoader(true);
     if (categoryCall  !=='' && catsState.length > 0) {
-      setLoader(true);
       // axios.get(`http://localhost:3000/api/products?category=${catsState}`).then((res) => {
       //   setData(res.data.products);
       //   console.log(res.data.products);
       //   setLoader(false);
       fetchData(`products?category=${catsState}`).then((res) => {
+        setData([])
+        setCompleteData([]);
+        setFilterData([]);
         setData(res.products);
-    
         console.log(res.products); 
-        setLoader(false);
+    setFilterLoader(false);
+    setLoader(false);
       });
     }
     else{
       setData([]);
     }
-  }, [categoryCall, catsState,subcategorySelect]);
+  }, [categoryCall, catsState,fixSelect]);
   let router = useRouter();
   let debounceTimeoutRef = useRef(null);
   useEffect(() => {
@@ -175,7 +181,7 @@ export default function Contentcategories({ params , categories}) {
       // dispatch(addMultiSubcategory(allsubcategories))
       
     }
-  }, [subcategorySelect, dispatch,catsState,categoryCall]);
+  }, [subcategorySelect, dispatch,catsState,categoryCall,fixSelect]);
   // useEffect(() => {
   //   if(subcategorySelect?.length === 0 && catsState.length == 0){
   //     dispatch(addMultiSubcategory(allsubcategories));
@@ -507,7 +513,6 @@ export default function Contentcategories({ params , categories}) {
   }, [colorFilter, sizeFilter, materialFilter, sleeveFilter, dispatch, handleApplyfilter]);
   // console.log(allsubcategories);
   const categoryState = useSelector(selectCategory);
-  const fixSelect = useSelector(selectFix);
 // useEffect(() => {
 // if(subcategorySelect?.length ===0 && completeData?.length === 0 && allsubcategories?.length > 0){
 //   // dispatch(toggleSubcategory([]));

@@ -116,7 +116,7 @@ export default function Header() {
       dispatch(toggleCategory([]));
       dispatch(toggleFix([]));
       dispatch(addMultiSubcategory(subcategoryState));
-      dispatch(toggleFix(categoryState));
+      // dispatch(toggleFix(categoryState));
       // dispatch(addMultiCategory(categoryState));
     }
   };
@@ -186,6 +186,7 @@ export default function Header() {
     const unique = [...new Set(subcategories)];
     const category = searchdata.map((item) => item.category);
     const uniqueCategory = [...new Set(category)];
+    dispatch(toggleFix(subcategories));
     // uniqueCategory.forEach((category) => {
     //   dispatch(toggleCategory(category));
     // });
@@ -310,12 +311,13 @@ export default function Header() {
   }, [showhide]);
   const [userData, setUserData] = useState(null);
   const path = usePathname();
-  let url = "http://localhost:3000/api/auth/profile";
+  
+  let url = process.env.NEXT_PUBLIC_BASE_URL + "/api/auth/profile";
   const fetchDataProfile = async () => {
     try {
       const token = localStorage.getItem("token");
       if (token) {
-        const res = await axios.get("http://localhost:3000/api/auth/profile", {
+        const res = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
