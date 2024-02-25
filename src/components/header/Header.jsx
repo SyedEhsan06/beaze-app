@@ -110,7 +110,6 @@ export default function Header() {
   const handleShopClick = (e) => {
     // e.preventDefault();
     if (e.target.classList.contains("menu-text")) {
-      console.log("re");
       setshowmenu(true);
       dispatch(toggleSubcategory([]));
       dispatch(toggleCategory([]));
@@ -136,7 +135,7 @@ export default function Header() {
     }
 
     setSearch(val);
-
+    console.log(val);
     if (val.length === 0) {
       setshowhide(0);
       setshowsearchmobile(false);
@@ -144,19 +143,25 @@ export default function Header() {
   };
 
   useEffect(() => {
-    const fetchdata = async () => {
+    const fetchdataSearch = async () => {
       try {
         const cachedData = sessionStorage.getItem("cachedData");
         const cachedSearchText = sessionStorage.getItem("cachedSearchText");
 
         if (search !== cachedSearchText) {
-          const response = await fetchData(`products?search=${search}`);
+          console.log("fetching data");
+          console.log(search);
+          const response = await axios.get(
+            "http://localhost:3000/api/products?search=" + search
+          );
+          console.log(response);
           sessionStorage.setItem(
             "cachedData",
-            JSON.stringify(response.products)
+            JSON.stringify(response?.data?.products)
           );
           sessionStorage.setItem("cachedSearchText", search);
-          setsearchdata(response.products);
+          console.log(response?.data?.products);
+          setsearchdata(response?.data?.products);
         } else {
           if (cachedData) {
             setsearchdata(JSON.parse(cachedData));
@@ -169,12 +174,13 @@ export default function Header() {
 
     const timeoutId = setTimeout(() => {
       if (search.length >= 1) {
-        fetchdata();
+        fetchdataSearch();
+        console.log(searchdata);
       }
-    }, 400);
+    }, 200);
 
     return () => clearTimeout(timeoutId);
-  }, [search]);
+  }, [search, dispatch]);
   const handleDispatch = () => {
     dispatch(toggleSubcategory([]));
     dispatch(toggleCategory([]));
@@ -335,7 +341,6 @@ export default function Header() {
     fetchData();
   }, [path, setUserData, typeof window !== 'undefined' ? localStorage.getItem("token") : null]);
   
-
   const handleLogout = () => {
     localStorage.removeItem("token");
     setUserData(null);

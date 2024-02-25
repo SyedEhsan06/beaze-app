@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "@/redux/slices/productSlice";
 import Link from "next/link";
-import { toggleCategory, toggleSubcategory } from "@/redux/slices/filterSlice";
+import { toggleCategory, toggleCategoryCall, toggleSubcategory } from "@/redux/slices/filterSlice";
 
 export default function Productslider({ data }) {
   const [best, setBest] = useState([]);
@@ -66,10 +66,11 @@ export default function Productslider({ data }) {
       //     item,
       //   })
       // );
-      dispatch(toggleCategory(item));
-      params.subcategories.forEach((subcategory) => {
-        dispatch(toggleSubcategory(subcategory.name));
-      });
+      // dispatch(toggleCategory(item));
+      dispatch(toggleCategoryCall(item));
+      // params.subcategories.forEach((subcategory) => {
+      //   dispatch(toggleSubcategory(subcategory.name));
+      // });
     }
   };
   return (

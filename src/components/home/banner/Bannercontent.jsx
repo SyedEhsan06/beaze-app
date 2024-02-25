@@ -23,7 +23,10 @@ export default function Bannercontent({ data }) {
   useEffect(() => {
     dispatch(toggleSubcategory([]));
     dispatch(toggleCategory([]));
-   dispatch(addMultiSubcategory(subcategoryState));
+  //  dispatch(addMultiSubcategory(subcategoryState));
+    dispatch(addMultiCategory(categoryState));
+    // dispatch(toggleSubcategory(subcategoryState));
+    //
    dispatch(toggleFix(categoryState));
     // categoryState.forEach((category) => {
     //   dispatch(toggleCategory(category));

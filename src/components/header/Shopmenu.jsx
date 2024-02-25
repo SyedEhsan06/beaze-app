@@ -3,7 +3,7 @@ import Image from "next/image";
 import Loader from "../loader/Loader";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "@/redux/slices/productSlice";
-import { toggleCategory, toggleColor, toggleSubcategory } from "@/redux/slices/filterSlice";
+import { toggleCategory, toggleCategoryCall, toggleColor, toggleSubcategory } from "@/redux/slices/filterSlice";
 export default function Shopmenu({ meudata, Closeref, closevaribale }) {
   const dispatch = useDispatch();
 
@@ -11,17 +11,19 @@ export default function Shopmenu({ meudata, Closeref, closevaribale }) {
     console.log("type", type, "item", item.subcategories.map((item) => item.name));
     dispatch(toggleSubcategory([]));
     dispatch(toggleCategory([]));
+    dispatch(toggleCategoryCall([]));
     dispatch(toggleCategory(item.name));
-    item.subcategories.forEach((subcategory) => {
-      // console.log("subcategory", subcategory.name);
-      dispatch(toggleSubcategory(subcategory.name));
-      // dispatch(
-      //   fetchProducts({
-      //     type,
-      //     item: subcategory.name,
-      //   })
-      // );
-    });
+    dispatch(toggleCategoryCall(item.name));
+    // item.subcategories.forEach((subcategory) => {
+    //   // console.log("subcategory", subcategory.name);
+    //   dispatch(toggleSubcategory(subcategory.name));
+    //   // dispatch(
+    //   //   fetchProducts({
+    //   //     type,
+    //   //     item: subcategory.name,
+    //   //   })
+    //   // );
+    // });
   };
 
   return (
