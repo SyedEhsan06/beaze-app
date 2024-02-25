@@ -23,6 +23,7 @@ import { closeCart, openCart } from "@/redux/slices/cartOpenSlice";
 import { usePathname, useRouter } from "next/navigation";
 import {
   addMultiCategory,
+  toggleCategoryCall,
   addMultiSubcategory,
   toggleCategory,
   toggleFix,
@@ -143,25 +144,19 @@ export default function Header() {
   };
 
   useEffect(() => {
-    const fetchdataSearch = async () => {
+    const fetchdata = async () => {
       try {
         const cachedData = sessionStorage.getItem("cachedData");
         const cachedSearchText = sessionStorage.getItem("cachedSearchText");
 
         if (search !== cachedSearchText) {
-          console.log("fetching data");
-          console.log(search);
-          const response = await axios.get(
-            "http://localhost:3000/api/products?search=" + search
-          );
-          console.log(response);
+          const response = await fetchData(`products?search=${search}`);
           sessionStorage.setItem(
             "cachedData",
-            JSON.stringify(response?.data?.products)
+            JSON.stringify(response.products)
           );
           sessionStorage.setItem("cachedSearchText", search);
-          console.log(response?.data?.products);
-          setsearchdata(response?.data?.products);
+          setsearchdata(response.products);
         } else {
           if (cachedData) {
             setsearchdata(JSON.parse(cachedData));
@@ -174,16 +169,16 @@ export default function Header() {
 
     const timeoutId = setTimeout(() => {
       if (search.length >= 1) {
-        fetchdataSearch();
-        console.log(searchdata);
+        fetchdata();
       }
-    }, 200);
+    }, 400);
 
     return () => clearTimeout(timeoutId);
-  }, [search, dispatch]);
+  }, [search]);
   const handleDispatch = () => {
     dispatch(toggleSubcategory([]));
     dispatch(toggleCategory([]));
+    dispatch(toggleCategoryCall([]));
     setshowhide(0);
     console.log(searchdata);
     const subcategories = searchdata.map((item) => item.subcategory);
@@ -316,7 +311,7 @@ export default function Header() {
   const [userData, setUserData] = useState(null);
   const path = usePathname();
   let url = "http://localhost:3000/api/auth/profile";
-  const fetchData = async () => {
+  const fetchDataProfile = async () => {
     try {
       const token = localStorage.getItem("token");
       if (token) {
@@ -334,7 +329,7 @@ export default function Header() {
   };
   console.log(userData);
   useEffect(() => {
-    fetchData();
+    fetchDataProfile();
   }, [
     path,
     setUserData,

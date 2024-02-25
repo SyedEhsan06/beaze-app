@@ -85,11 +85,16 @@ export default function Contentcategories({ params , categories}) {
     setCatsState(categoryCall);
     console.log(catsState);
     // setLoader(true);
-    if (categoryCall  !=='' && catsState !== '') {
+    if (categoryCall  !=='' && catsState.length > 0) {
       setLoader(true);
-      axios.get(`http://localhost:3000/api/products?category=${catsState}`).then((res) => {
-        setData(res.data.products);
-        console.log(res.data.products);
+      // axios.get(`http://localhost:3000/api/products?category=${catsState}`).then((res) => {
+      //   setData(res.data.products);
+      //   console.log(res.data.products);
+      //   setLoader(false);
+      fetchData(`products?category=${catsState}`).then((res) => {
+        setData(res.products);
+    
+        console.log(res.products); 
         setLoader(false);
       });
     }
