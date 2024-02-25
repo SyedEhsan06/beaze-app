@@ -558,11 +558,11 @@ const handleFetchAllData = () => {
 //   }
 // }
 // , [completeData,subcategorySelect]);
-useEffect(() => {
-  if(!loader && !filterLoader && completeData.length === 0){
-    handleFetchAllData();
-  }
-}, [completeData]);
+// useEffect(() => {
+//   if(!loader && !filterLoader && completeData.length === 0 && catsState.length == 0){
+//     handleFetchAllData();
+//   }
+// }, [completeData]);
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
