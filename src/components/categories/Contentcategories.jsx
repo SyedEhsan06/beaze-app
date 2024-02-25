@@ -559,12 +559,12 @@ const handleFetchAllData = () => {
 // }
 // , [completeData,subcategorySelect]);
 useEffect(() => {
-  if(!loader && !filterLoader && completeData.length === 0 && catsState.length == 0){
+  if(!loader && !filterLoader && completeData?.length === 0 && catsState?.length == 0 && categoryCall.length<1){
     setLoader(true);
     handleFetchAllData();
   }
 }, [
-  loader,subcategorySelect.length==0,completeData.length==0
+  loader,subcategorySelect?.length==0,completeData?.length==0
 ]);
   return (
     <div className="w-full">
