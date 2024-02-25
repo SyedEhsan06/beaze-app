@@ -871,7 +871,7 @@ const handleFetchAllData = () => {
         width="80%"
         onClickAway={closeModal}
       >
-        <Productmodal produtdata={productdata} modalclose={closeModal} />
+        <Productmodal produtdata={productdata} modalclose={closeModal} ismodalopen={ismodalopen} />
       </Modal>
       <ToastContainer />
     </div>

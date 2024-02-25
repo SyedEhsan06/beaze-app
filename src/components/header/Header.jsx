@@ -327,7 +327,11 @@ export default function Header() {
       console.error("Error fetching user data:", error);
     }
   };
-  console.log(userData);
+// console.log(userData?.first_name)
+  // useEffect(() => {
+  //   fetchData();
+  // }, [path, setUserData, window ? localStorage.getItem("token") : null]);
+
   useEffect(() => {
     fetchDataProfile();
   }, [
@@ -679,7 +683,7 @@ export default function Header() {
                       onClick={handleCartOpen}
                     />
                     {count !== 0 && (
-                      <div class="absolute inline-flex items-center justify-center w-6 h-6  text-xs font-bold  text-text-secondary bg-[#FFB61D] border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
+                      <div className="absolute inline-flex items-center justify-center w-6 h-6  text-xs font-bold  text-text-secondary bg-[#FFB61D] border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
                         {count}
                       </div>
                     )}
