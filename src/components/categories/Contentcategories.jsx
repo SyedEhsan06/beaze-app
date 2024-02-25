@@ -50,6 +50,7 @@ import { addToCart, selectCart } from "@/redux/slices/cartSlice";
 import { closeCart, selectCartOpen } from "@/redux/slices/cartOpenSlice";
 import { selectCategories } from "@/redux/slices/categorySlice";
 import { ThreeDots } from "react-loader-spinner";
+
 import "./content.css";
 export default function Contentcategories({ params , categories}) {
   const [showsort, setshowsort] = useState(false);
@@ -71,6 +72,8 @@ export default function Contentcategories({ params , categories}) {
   const usepathname = usePathname();
   const subcategorySelect = useSelector(selectSubcategory);
   const cats = useSelector(selectCategories);
+  const allsubcategories = cats?.categories?.filter((item) => item.subcategories.length > 0).map((item) => item.subcategories).flat().map((item) => item.name);
+
   let router = useRouter();
   let debounceTimeoutRef = useRef(null);
   useEffect(() => {
@@ -141,6 +144,8 @@ export default function Contentcategories({ params , categories}) {
     } else {
       setFilterData([]); // Reset filterData when no subcategories selected
       setLoader(false);
+      // dispatch(addMultiSubcategory(allsubcategories))
+      
     }
   }, [subcategorySelect, dispatch]);
 
@@ -466,7 +471,6 @@ export default function Contentcategories({ params , categories}) {
     // setCompleteData(rightFilteredProducts);
     handleApplyfilter();
   }, [colorFilter, sizeFilter, materialFilter, sleeveFilter, dispatch, handleApplyfilter]);
-  const allsubcategories = cats?.categories?.filter((item) => item.subcategories.length > 0).map((item) => item.subcategories).flat().map((item) => item.name);
   // console.log(allsubcategories);
   const categoryState = useSelector(selectCategory);
   const fixSelect = useSelector(selectFix);
@@ -499,13 +503,27 @@ const handleFetchAllData = () => {
   dispatch(addMultiSubcategory(allsubcategories));
   dispatch(toggleFix(allsubcategories));
 };
-console.log(completeData);
-const [allData, setAllData] = useState([]);
+
 // useEffect(() => {
-  //   if (categoryState?.length === 0 && completeData?.length === 0 && allsubcategories?.length > 0 && fixSelect?.length === 0) {
-  //     handleFetchAllData();
-  //   }
-  // }, [categoryState, completeData, allsubcategories, fixSelect]);
+//     if(subcategorySelect?.length===0){
+      
+//     }
+// }, [])
+
+// const [allData, setAllData] = useState([]);
+
+// useEffect(() => {
+//   if (!dataFetched && subcategorySelect?.length === 0 && completeData?.length === 0 && allsubcategories?.length > 0) {
+//     handleFetchAllData();
+//     setDataFetched(true);
+//   }
+// }, [completeData, subcategorySelect, dataFetched]);
+
+// useEffect(() => {
+//     if ( completeData?.length === 0 && allsubcategories?.length > 0) {
+//       handleFetchAllData();
+//     }
+//   }, [completeData,subcategorySelect]);
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">

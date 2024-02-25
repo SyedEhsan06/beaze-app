@@ -6,7 +6,8 @@ import Link from 'next/link'
 import { FaRegClock } from "react-icons/fa";
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-
+import {toast,ToastContainer} from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Otpcomp() {
   const [otp, setOTP] = useState(['', '', '', '', '', '']);
@@ -69,10 +70,34 @@ const router= useRouter();
   };
 useEffect(() => {
   if(token){
-    router.push('/');
+    toast.success('OTP Verified Successfully',{
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    
+    setTimeout(() => {
+      router.push('/');
+    }, 1000);
   }
   if(error){
-    router.push('/signup');
+    toast.error('Invalid OTP',{
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    setTimeout(() => {
+      setOTP(['', '', '', '', '', '']);
+    }
+    , 1000);
   }
 }
 , [token,error]);
@@ -152,6 +177,7 @@ useEffect(() => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   )
 }

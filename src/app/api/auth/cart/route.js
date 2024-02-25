@@ -1,14 +1,13 @@
-// cart
+//cart
 import User from "@/lib/models/user.model";
 
-// Add product to cart
 export async function POST(req) {
     const {
         userId,
         productId,
         quantity,
         price,
-    } = await req.json();
+    }= await req.json();
     try {
         let user = await User.findOne({ _id: userId });
         if (!user) {
@@ -28,14 +27,15 @@ export async function POST(req) {
     }
 }
 
-// Delete product from cart
+// delete product from cart
 export async function DELETE(req) {
     const {
         userId,
         productId,
-    } = await req.json();
+    }= await req.json();
     try {
-        let user = await User.findOne({ _id: userId });
+        let user
+        user = await User.findOne({ _id: userId });
         if (!user) {
             return Response.json({ message: "User not found" });
         } else {
@@ -43,38 +43,13 @@ export async function DELETE(req) {
             await user.save();
             return Response.json({ message: "Product removed from cart" });
         }
-    } catch (error) {
+    } 
+    catch (error) {
         console.error("Cart error:", error);
         return Response.json({ error: "Internal Server Error" });
     }
 }
-
-// Update product quantity in cart
-export async function PUT(req) {
-    const {
-        userId,
-        productId,
-        quantity,
-    } = await req.json();
-    try {
-        let user = await User.findOne({ _id: userId });
-        if (!user) {
-            return Response.json({ message: "User not found" });
-        } else {
-            const cartItem = user.cart.find(item => item.productId === productId);
-            if (!cartItem) {
-                return Response.json({ message: "Product not found in cart" });
-            }
-            cartItem.quantity = quantity;
-            await user.save();
-            return Response.json({ message: "Product quantity updated in cart" });
-        }
-    } catch (error) {
-        console.error("Cart error:", error);
-        return Response.json({ error: "Internal Server Error" });
-    }
-}
-
+//update product quantity in cart
 // Clear user's cart
 export async function DELETE(req) {
     const { userId } = await req.json();
@@ -92,8 +67,7 @@ export async function DELETE(req) {
         return Response.json({ error: "Internal Server Error" });
     }
 }
-
-// Get user's cart
+// get user's cart
 export async function GET(req) {
     const { userId } = await req.json();
     try {

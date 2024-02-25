@@ -35,13 +35,20 @@ export default function Sidemenufilterlist({
   const cats = [...new Set(catsFromData)];
   const fixSelect = useSelector(selectFix);
   const handleCheckboxChange = (itemName) => {
-    dispatch(toggleSubcategory(itemName));
+    setTimeout(() => {
+      dispatch(toggleSubcategory(itemName));
+    }, 300);
   };
+  
   useEffect(() => {
     if(allsubcategories?.length <= selectedSubcategories?.length){
       dispatch(toggleSubcategory([]));
       dispatch(addMultiSubcategory([]));
       console.log("i ran")
+    }
+    if(selectedSubcategories.length===0){
+      dispatch(addMultiSubcategory(allsubcategories));
+      
     }
   }, [dispatch,fixSelect]);
   const usepathname = usePathname();
@@ -85,7 +92,7 @@ export default function Sidemenufilterlist({
                 type="checkbox"
                 id={item.name + indexing}
                 onChange={() => handleCheckboxChange(item.name)}
-                checked={selectedSubcategories.includes(item.name)  || categorySelect.includes(item.name)}
+                checked={selectedSubcategories?.includes(item.name)  || categorySelect?.includes(item.name)}
               />
             </div>
             <label

@@ -29,11 +29,8 @@ export async function POST(req) {
 
       await user.save();
     } else {
-      const { otp, expiration } = await sendOTP(phone);
-
-      user.otp = { code: otp.toString(), expiration };
-      user.isVerified = false;
-      await user.save();
+  return Response.json({ message: "User already exists" });
+          
     }
 
     // const token = generateToken({ phone });

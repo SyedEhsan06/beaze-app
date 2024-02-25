@@ -1,12 +1,76 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Countryinput from "../countryinput/Countryinput";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
+  const [phone, setPhone] = useState('');
+  const [country, setCountry] = useState('');
+  const [error, setError] = useState('');
+  const [response, setResponse] = useState('');
+  const router = useRouter();
+  console.log(
+    phone,
+    country
+  )
+  const url = "http://localhost:3000/api/auth/login";
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    localStorage?.setItem('phone', phone);
+    try {
+      const response = await axios.post(url, {
+        phone,
+      });
+      console.log(response);
+      setResponse(response);
+    } catch (error) {
+      console.log(error);
+      setError(error); 
+    }
+  };
+  useEffect(() => {
+    if (response?.data?.message === "OTP sent for verification") {
+      toast.success("OTP sent for verification", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      router.push("/otp");
+    }
+    if (response?.data?.message === "User not found") {
+      toast.error("User not found. Please create an account.",{
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+    }
+    if (error) {
+      console.log(error);
+    }
+  }, [response, router]);
+  const handlePhoneChange = (number) => {
+    setPhone(number);
+  }
+  const handleCountryChange = (code) => {
+    setCountry(code);
+  }
+
   return (
     <div className="h-[100vh] w-[100%] pb-4 pt-8  lg:px-10 px-2 relative mianconlogins flex items-center lg:block">
+      {/* <ToastContainer /> */}
       <div className='absolute lg:top-[4%] top-[10%] lg:left-[1%]  left-1/2 transform -translate-x-1/2 z-10 lg:transform-none lg:-translate-x-0">'>
         <Link href={"/"}>
           <Image
@@ -62,8 +126,10 @@ export default function Login() {
             </div>
 
             <div className=" mt-12">
-              <form className="w-full">
-                <Countryinput />
+              <form className="w-full"
+                onSubmit={handleSubmit}
+              >
+              <Countryinput onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} />
 
                 <button className="w-[100%] mt-7 py-4  headtext font-[900] text-text-secondary bg-[#FFD012] lg:text-3xl text-xl  rounded-lg button-shadow  ">
                   Submit
@@ -82,6 +148,8 @@ export default function Login() {
           </div>
         </div>
       </div>
+      <ToastContainer />
+
     </div>
   );
 }

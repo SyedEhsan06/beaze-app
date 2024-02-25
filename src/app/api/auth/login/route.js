@@ -10,18 +10,22 @@ function generateToken(user) {
 }
 
 export async function POST(req) {
-  const { phone } = await req.json();
+  let { phone } = await req.json();
+  console.log(phone);
     phone = "+91" + phone;  
+    if (!phone) {
+    return Response.json({ error: "Phone number is required" });
+    }
   try {
     let user = await User.findOne({ phone_number: phone });
     if (!user) {
-      return Response.json({ message: "User not found" });
+      return Response.json({ message: "User not found" })
     } else {
       const { otp, expiration } = await sendOTP(phone);
       user.otp = { code: otp.toString(), expiration };
       await user.save();
-      const token = generateToken({ phone });
-      return Response.json({ token, message: "OTP sent for verification" });
+    //   const token = generateToken({ phone });
+      return Response.json({ message: "OTP sent for verification" });
     }
   } catch (error) {
     console.error("Login error:", error);
