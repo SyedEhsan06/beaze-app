@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addMultiSubcategory, selectCategory, selectFix, selectSubcategory, toggleFix, toggleSubcategory } from "@/redux/slices/filterSlice";
+import { addMultiSubcategory, selectCategory, selectFix, selectSubcategory, toggleCategoryCall, toggleFix, toggleSubcategory } from "@/redux/slices/filterSlice";
 import { usePathname, useRouter } from "next/navigation";
 import { selectCategoryProduct } from "@/redux/slices/productSlice";
 import { selectCategories } from "@/redux/slices/categorySlice";
@@ -36,6 +36,7 @@ export default function Sidemenufilterlist({
   const fixSelect = useSelector(selectFix);
   const handleCheckboxChange = (itemName) => {
     setTimeout(() => {
+      dispatch(toggleCategoryCall(''));
       dispatch(toggleSubcategory(itemName));
     }, 300);
   };

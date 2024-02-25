@@ -4,6 +4,7 @@ let initialState = {
   category: [],
   subcategory: [],
   color: [],
+  categoryCall: '',
   size: [],
   material: [],
   fix: [],
@@ -58,6 +59,9 @@ export const filterSlice = createSlice({
     addMultiCategory: (state, action) => {
       state.category = action.payload;
     },
+    toggleCategoryCall: (state, action) => {
+      state.categoryCall = action.payload;
+    },
   },
 });
 
@@ -71,6 +75,7 @@ export const {
   toggleFix,
   addMultiSubcategory,
   addMultiCategory,
+  toggleCategoryCall,
 } = filterSlice.actions;
 export const selectCategory = (state) => state.filter.category;
 export const selectColor = (state) => state.filter.color;
@@ -79,5 +84,5 @@ export const selectMaterial = (state) => state.filter.material;
 export const selectSleeve = (state) => state.filter.sleeve;
 export const selectSubcategory = (state) => state.filter.subcategory;
 export const selectFix = (state) => state.filter.fix;
-
+export const selectCategoryCall = (state) => state.filter.categoryCall;
 export default filterSlice.reducer;

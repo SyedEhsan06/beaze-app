@@ -26,6 +26,7 @@ import {
 import {
   addMultiSubcategory,
   selectCategory,
+  selectCategoryCall,
   selectColor,
   selectFix,
   selectMaterial,
@@ -73,7 +74,24 @@ export default function Contentcategories({ params , categories}) {
   const subcategorySelect = useSelector(selectSubcategory);
   const cats = useSelector(selectCategories);
   const allsubcategories = cats?.categories?.filter((item) => item.subcategories.length > 0).map((item) => item.subcategories).flat().map((item) => item.name);
-
+  const categoryCall = useSelector(selectCategoryCall);
+  const [catsState, setCatsState] = useState('');
+  console.log(categoryCall);
+  useEffect(() => {
+    setCatsState(categoryCall);
+    console.log(catsState);
+    setLoader(true);
+    if (categoryCall) {
+      axios.get(`http://localhost:3000/api/products?category=${catsState}`).then((res) => {
+        setData(res.data.products);
+        console.log(res.data.products);
+        setLoader(false);
+      });
+    }
+    else{
+      setData([]);
+    }
+  }, [categoryCall, catsState,subcategorySelect]);
   let router = useRouter();
   let debounceTimeoutRef = useRef(null);
   useEffect(() => {
@@ -96,9 +114,9 @@ export default function Contentcategories({ params , categories}) {
   useEffect(() => {
     const fetchProductsBySubcategory = async () => {
       try {
+        console.log("Fetching products by subcategory...");
         // Set filterLoader to true at the beginning of the fetch operation
         setFilterLoader(true);
-
         // Filter out empty arrays from subcategorySelect
         const nonEmptySubcategories = subcategorySelect.filter(
           (subcategory) => subcategory.length > 0
@@ -147,8 +165,14 @@ export default function Contentcategories({ params , categories}) {
       // dispatch(addMultiSubcategory(allsubcategories))
       
     }
-  }, [subcategorySelect, dispatch]);
-
+  }, [subcategorySelect, dispatch,catsState,categoryCall]);
+  // useEffect(() => {
+  //   if(subcategorySelect?.length === 0 && catsState.length == 0){
+  //     dispatch(addMultiSubcategory(allsubcategories));
+  //     dispatch(toggleCategory([]));
+  //     dispatch(toggleFix([]));
+  //   }
+  // }, [subcategorySelect,dispatch]);
   const [completeData, setCompleteData] = useState([]);
   useEffect(() => {
     const mergedData = [...data, ...filterData];
@@ -494,6 +518,10 @@ export default function Contentcategories({ params , categories}) {
 //   }
 // }
 // , [completeData]);
+console.log(completeData);
+console.log(subcategorySelect);
+console.log(data);
+console.log(filterData);
 const handleFetchAllData = () => {
   // dispatch(toggleSubcategory([]));
   dispatch(addMultiSubcategory([]));
@@ -524,6 +552,12 @@ const handleFetchAllData = () => {
 //       handleFetchAllData();
 //     }
 //   }, [completeData,subcategorySelect]);
+// useEffect(() => {
+//   if (subcategorySelect?.length === 0 && completeData?.length === 0 && allsubcategories?.length > 0) {
+//     axios.get(`http://localhost:3000/api/products``
+//   }
+// }
+// , [completeData,subcategorySelect]);
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
