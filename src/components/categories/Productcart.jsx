@@ -37,6 +37,7 @@ const handleCloseCart = () => {
 };
   let tax= data.reduce((a, b) => a + b.tax*b.selectedQty, 0);
   let total = tax + data.reduce((a, b) => a + b.price*b.selectedQty, 0);
+  console.log(data)
   return (
     <>
       <div className="pt-5 z-[99999]">
@@ -47,10 +48,11 @@ const handleCloseCart = () => {
                 <div className="w-[35%]">
                   <div className="w-full h-[110px] relative mb-3 rounded-[7px]">
                     <Image
-                      src={`${items?.images[0]}`}
+                      src={`${items?.images?.[0] || '/images/product/notfound.png'}`}
                       layout="fill"
                       objectFit="cover"
                       className="rounded-[7px] transition-all duration-300"
+                      alt="productimage"
                     />
                   </div>
                 </div>

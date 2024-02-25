@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ModalImageSlider from "./Modalimageslider";
 import { FaXmark, FaChevronLeft } from "react-icons/fa6";
 import { BiSolidChevronDown } from "react-icons/bi";
@@ -10,16 +10,58 @@ import { addToCart, selectCart } from "@/redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function Productmodal({ produtdata, modalclose }) {
+
+export default function Productmodal({ produtdata, modalclose,ismodalopen }) {
   const [quantity, setquantity] = useState(1);
   const [sizeindex, setsizeindex] = useState(1);
   const [imageindex, setimageindex] = useState(0);
   const [showimage, setshowimage] = useState(false);
   const selectedCartData = useSelector(selectCart);
+  const [pdata,setpdata] = useState({
+    _id : '',
+    productId : '',
+    title : '',
+    image : [],
+    quantity : null,
+    color : '',
+    size : '',
+    price : null
+  })
+
+
+useEffect(() => {
+  setpdata({
+    ...pdata,
+       _id : produtdata._id,
+       productId : produtdata.productId,
+       title : produtdata.title,
+       image : produtdata.images && Array.isArray(produtdata.images) && produtdata.images,
+       quantity : 1,
+       color : produtdata.attributes && Array.isArray(produtdata.attributes[0]?.value) && produtdata.attributes[0].value[1],
+       size : produtdata.attributes && Array.isArray(produtdata.attributes[1]?.value) && produtdata.attributes[1].value[1],
+       price : produtdata.price,
+    
+  })
+  setsizeindex(1)
+},[produtdata,ismodalopen])
+
+
   const dispatch = useDispatch();
-  // console.log(selectedCartData);
-  const handeladdtocart = (obj) => {
-    console.log(obj);
+  console.log(selectedCartData);
+  const handeladdtocart = () => {
+    const obj = {
+      _id : pdata._id,
+      productId : pdata.productId,
+      title : pdata.title,
+      image : pdata.image,
+      quantity : pdata.quantity,
+      color : pdata.color,
+      size : pdata.size,
+      price : pdata.price * pdata.quantity
+
+    }
+
+
     dispatch(addToCart(obj));
     if (selectedCartData.some((item) => item._id === obj._id)) {
       toast.success("Added same product again", {
@@ -44,6 +86,62 @@ export default function Productmodal({ produtdata, modalclose }) {
     }
     localStorage.setItem("cart", JSON.stringify(selectedCartData));
   };
+
+
+
+
+
+
+
+
+  const handelsetselectedsize = (index) => {
+    setsizeindex(index);
+    setpdata({
+      ...pdata,
+      size :  produtdata.attributes && Array.isArray(produtdata.attributes[1]?.value) && produtdata.attributes[1].value[index]
+    })
+  }
+
+
+  const handelsetcolr = (val) => {
+    setpdata({
+      ...pdata,
+      color : val
+    })
+  }
+
+
+
+const handelincreaseqty = () => {
+  if (pdata.quantity + 1 > produtdata.quantity) {
+    toast.error(`You can't add more Quantity than ${produtdata.quantity}`, {
+      position: "bottom-left",
+      autoClose: 500,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  } else {
+    setpdata({
+      ...pdata,
+      quantity: pdata.quantity + 1,
+    });
+  }
+};
+
+
+  const handeldecreseqty = () => {
+    if(pdata.quantity != 1){
+      setpdata({
+        ...pdata,
+        quantity : pdata.quantity-1,
+       
+      })
+    }
+  }
+  
   return (
     <>
       {showimage ? (
@@ -120,7 +218,7 @@ export default function Productmodal({ produtdata, modalclose }) {
                               ? " bg-theme-footer-bg text-white text-opacity-[100%]"
                               : "text-opacity-[50%] text-[#00000096]"
                           }`}
-                          onClick={() => setsizeindex(index)}
+                          onClick={() => handelsetselectedsize(index)}
                         >
                           {items}
                         </button>
@@ -139,14 +237,14 @@ export default function Productmodal({ produtdata, modalclose }) {
                       <div className="w-[90%]">
                         <select
                           className="w-full border-none focus:outline-none appearance-none bg-transparent cursor-pointer"
-                          id="sizeselect"
+                          id="sizeselect" value={pdata.color} onChange={(e) => handelsetcolr(e.target.value)}
                         >
                           <option value="">Select Colour</option>
                           {produtdata.attributes &&
                             Array.isArray(produtdata.attributes[0]?.value) &&
                             produtdata.attributes[0].value.map(
                               (items, index) => (
-                                <option value="" key={index}>
+                                <option value={items} key={index}>
                                   {items}
                                 </option>
                               )
@@ -169,18 +267,19 @@ export default function Productmodal({ produtdata, modalclose }) {
                     <p className=" font-[400] text-lg">Select quantity</p>
                     <div className="md:w-[30%] w-[60%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 ">
                       <button
-                        disabled={quantity === 1 ? true : false}
+                        disabled={pdata.quantity == 1 ? true : false}
                         className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
-                        onClick={() => setquantity(quantity - 1)}
+                        onClick={handeldecreseqty}
+                        
                       >
                         <RiSubtractLine size={20} />
                       </button>
                       <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1">
-                        {quantity}
+                        {pdata.quantity}
                       </div>
                       <button
                         className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
-                        onClick={() => setquantity(quantity + 1)}
+                        onClick={handelincreaseqty}
                       >
                         <IoMdAdd size={20} />
                       </button>
