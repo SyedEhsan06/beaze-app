@@ -559,9 +559,9 @@ const handleFetchAllData = () => {
 // }
 // , [completeData,subcategorySelect]);
 useEffect(() => {
-  if(!loader && !filterLoader && completeData?.length === 0 && catsState?.length == 0 && categoryCall.length<1){
+  if(!loader && !filterLoader && filterData.length==0 && completeData?.length === 0 && catsState?.length == 0 && subcategorySelect?.length==0 && categoryCall=='' ){
     setLoader(true);
-    handleFetchAllData();
+      handleFetchAllData();
   }
 }, [
   loader,subcategorySelect?.length==0,completeData?.length==0
