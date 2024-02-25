@@ -327,9 +327,18 @@ export default function Header() {
     }
   };
 // console.log(userData?.first_name)
+  // useEffect(() => {
+  //   fetchData();
+  // }, [path, setUserData, window ? localStorage.getItem("token") : null]);
+
   useEffect(() => {
-    fetchData();
-  }, [path, setUserData, window ? localStorage.getItem("token") : null]);
+  
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem("token");
+      fetchData();
+    }
+  }, [path, setUserData]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
