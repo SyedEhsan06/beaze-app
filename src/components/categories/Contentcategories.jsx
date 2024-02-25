@@ -71,17 +71,22 @@ export default function Contentcategories({ params , categories}) {
   const selectData = useSelector(selectCategoryProduct);
   const dispatch = useDispatch();
   const usepathname = usePathname();
-  const subcategorySelect = useSelector(selectSubcategory);
+  const selectReduxSubcategory = useSelector(selectSubcategory);
   const cats = useSelector(selectCategories);
   const allsubcategories = cats?.categories?.filter((item) => item.subcategories.length > 0).map((item) => item.subcategories).flat().map((item) => item.name);
   const categoryCall = useSelector(selectCategoryCall);
   const [catsState, setCatsState] = useState('');
+  const [subcategorySelect, setSubcategorySelect] = useState([]);
+  useEffect(() => {
+    setSubcategorySelect(selectReduxSubcategory);
+  }, [selectReduxSubcategory]);
   console.log(categoryCall);
   useEffect(() => {
     setCatsState(categoryCall);
     console.log(catsState);
-    setLoader(true);
-    if (categoryCall) {
+    // setLoader(true);
+    if (categoryCall  !=='' && catsState !== '') {
+      setLoader(true);
       axios.get(`http://localhost:3000/api/products?category=${catsState}`).then((res) => {
         setData(res.data.products);
         console.log(res.data.products);
@@ -101,14 +106,14 @@ export default function Contentcategories({ params , categories}) {
       setData(rawData.products);
     }
 
-    if (
-      !data.length &&
-      !selectData &&
-      !sessionStorage?.getItem("categoryData")
-    ) {
-      // Fetch all products if no data is available
-      dispatch(fetchProducts("category", "all"));
-    }
+    // if (
+    //   !data.length &&
+    //   !selectData &&
+    //   !sessionStorage?.getItem("categoryData")
+    // ) {
+    //   // Fetch all products if no data is available
+      
+    // }
   }, [dispatch, selectData]);
   const [filterData, setFilterData] = useState([]);
   useEffect(() => {
@@ -558,14 +563,25 @@ const handleFetchAllData = () => {
 //   }
 // }
 // , [completeData,subcategorySelect]);
-useEffect(() => {
-  if(!loader && !filterLoader && filterData.length==0 && completeData?.length === 0 && catsState?.length == 0 && subcategorySelect?.length==0 && categoryCall=='' ){
-    setLoader(true);
-      handleFetchAllData();
-  }
-}, [
-  loader,subcategorySelect?.length==0,completeData?.length==0
-]);
+// useEffect(() => {
+//   if(!filterLoader && filterData.length==0 && completeData?.length === 0 && subcategorySelect.length==0 && catsState?.length == 0  && categoryCall=='' ){
+//     console.log("i am here");
+    
+//       handleFetchAllData();
+//   }
+//   console.log(
+//     loader,
+//     filterLoader,
+//     filterData.length,
+//     completeData?.length,
+//     catsState?.length,
+//     subcategorySelect,
+//     subcategorySelect?.length,
+//     categoryCall
+//   )
+// }, [
+//   loader,subcategorySelect?.length==0,completeData?.length==0
+// ]);
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">

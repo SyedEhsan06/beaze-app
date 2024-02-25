@@ -39,7 +39,7 @@ console.log(categorySelect);
     dispatch(toggleSize([]));
     dispatch(toggleSleeve([]));
 
-  }, [categorySelect, dispatch, currentData]);
+  }, [categorySelect, dispatch, currentData]); 
   const handleCheckboxChange = (items,index) => {
     console.log(items.name)
     dispatch(toggleCategory(items.name));
