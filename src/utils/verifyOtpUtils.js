@@ -7,6 +7,7 @@ const twilioConfig = {
   accountSid: process.env.TWILIO_ACCOUNT_SID,
   authToken: process.env.TWILIO_AUTH_TOKEN,
   verifySid: process.env.TWILIO_VERIFIED_SID, // Verify Service SID
+  number : process.env.TWILIO_NUMBER
 };
 
 const client = twilio(twilioConfig.accountSid, twilioConfig.authToken);

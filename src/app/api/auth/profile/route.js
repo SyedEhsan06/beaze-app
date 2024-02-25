@@ -10,7 +10,7 @@ export async function GET(req) {
   let authHeader = req.headers.get("authorization");
   if (!authHeader) {
     return Response.json({ error: "Authorization token not provided" }, { status: 401 });
-  }
+  } 
   const token = authHeader.replace("Bearer ", "");
   if (!token) {
     return Response.json({ error: "Authorization token not provided" }, { status: 401 });

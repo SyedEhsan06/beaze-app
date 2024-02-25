@@ -327,18 +327,9 @@ export default function Header() {
     }
   };
 // console.log(userData?.first_name)
-  // useEffect(() => {
-  //   fetchData();
-  // }, [path, setUserData, window ? localStorage.getItem("token") : null]);
-
   useEffect(() => {
-  
-
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem("token");
-      fetchData();
-    }
-  }, [path, setUserData]);
+    fetchData();
+  }, [path, setUserData, window ? localStorage.getItem("token") : null]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -532,7 +523,7 @@ export default function Header() {
 
               <li className=" context font-semibold px-2">
                 {" "}
-                {userData ? (
+                {userData?.first_name ? (
                   <>
                     <Link href={""} onClick={handleLogout}>
                       {userData.first_name}

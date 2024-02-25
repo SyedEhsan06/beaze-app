@@ -61,6 +61,9 @@ const router= useRouter();
     axios.post(url, { otp: otpValue,phone:localStorage.getItem('phone') })
       .then((res) => {
         console.log(res.data);
+        if(res.data.error){
+          setError(res.data.error);
+        }
         localStorage.setItem('token', res.data.token);
         setToken(res.data.token);
       })
