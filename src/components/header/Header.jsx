@@ -326,10 +326,10 @@ export default function Header() {
       console.error("Error fetching user data:", error);
     }
   };
-// console.log(userData?.first_name)
+console.log(userData)
   useEffect(() => {
     fetchData();
-  }, [path, setUserData, window ? localStorage.getItem("token") : null]);
+  }, [path, setUserData, typeof window !== "undefined" && window.localStorage?localStorage.getItem("token"):null]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -523,7 +523,7 @@ export default function Header() {
 
               <li className=" context font-semibold px-2">
                 {" "}
-                {userData ? (
+                {userData?.first_name ? (
                   <>
                     <Link href={""} onClick={handleLogout}>
                       {userData.first_name}

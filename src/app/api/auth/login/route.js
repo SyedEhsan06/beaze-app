@@ -1,7 +1,7 @@
 import User from "@/lib/models/user.model";
 import { sendOTP, verifyOTP } from "@/utils/verifyOtpUtils";
 import jwt from "jsonwebtoken";
-
+import {connectToDb} from "@/lib/utils";
 const secret = process.env.SECRET;
 const expiresIn = "1d";
 
@@ -10,6 +10,7 @@ function generateToken(user) {
 }
 
 export async function POST(req) {
+  await connectToDb(); 
   let { phone } = await req.json();
   console.log(phone);
     phone = "+91" + phone;  

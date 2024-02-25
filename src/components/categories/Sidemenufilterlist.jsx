@@ -46,7 +46,7 @@ export default function Sidemenufilterlist({
       dispatch(addMultiSubcategory([]));
       console.log("i ran")
     }
-    if(selectedSubcategories.length===0){
+    if(selectedSubcategories?.length===0){
       dispatch(addMultiSubcategory(allsubcategories));
       
     }

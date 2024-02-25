@@ -34,6 +34,17 @@ export default function Login() {
     }
   };
   useEffect(() => {
+    if(response?.data?.error === "Internal Server Error"){
+      toast.error("Try agin later", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+    }
     if (response?.data?.message === "OTP sent for verification") {
       toast.success("OTP sent for verification", {
         position: "top-right",
@@ -44,7 +55,9 @@ export default function Login() {
         draggable: true,
         progress: undefined,
       })
+     setTimeout(() => {
       router.push("/otp");
+     }, 1000);
     }
     if (response?.data?.message === "User not found") {
       toast.error("User not found. Please create an account.",{
