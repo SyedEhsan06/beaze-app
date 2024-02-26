@@ -12,8 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 
 export default function Productmodal({ produtdata, modalclose,ismodalopen }) {
-  const [quantity, setquantity] = useState(1);
-  const [sizeindex, setsizeindex] = useState(1);
+  const [sizeindex, setsizeindex] = useState(0);
   const [imageindex, setimageindex] = useState(0);
   const [showimage, setshowimage] = useState(false);
   const selectedCartData = useSelector(selectCart);
@@ -21,8 +20,9 @@ export default function Productmodal({ produtdata, modalclose,ismodalopen }) {
     _id : '',
     productId : '',
     title : '',
-    image : [],
+    images : [],
     quantity : null,
+    pquantity : null,
     color : '',
     size : '',
     price : null
@@ -35,29 +35,31 @@ useEffect(() => {
        _id : produtdata._id,
        productId : produtdata.productId,
        title : produtdata.title,
-       image : produtdata.images && Array.isArray(produtdata.images) && produtdata.images,
-       quantity : 1,
-       color : produtdata.attributes && Array.isArray(produtdata.attributes[0]?.value) && produtdata.attributes[0].value[1],
-       size : produtdata.attributes && Array.isArray(produtdata.attributes[1]?.value) && produtdata.attributes[1].value[1],
+       images : produtdata.images && Array.isArray(produtdata.images) && produtdata.images,
+       pquantity : 1,
+       quantity : produtdata.quantity,
+       color : produtdata.attributes && Array.isArray(produtdata.attributes[0]?.value) && produtdata.attributes[0].value[0],
+       size : produtdata.attributes && Array.isArray(produtdata.attributes[1]?.value) && produtdata.attributes[1].value[0],
        price : produtdata.price,
     
   })
-  setsizeindex(1)
+  setsizeindex(0)
 },[produtdata,ismodalopen])
 
 
   const dispatch = useDispatch();
-  console.log(selectedCartData);
+
   const handeladdtocart = () => {
     const obj = {
       _id : pdata._id,
       productId : pdata.productId,
       title : pdata.title,
-      image : pdata.image,
+      images : pdata.images,
       quantity : pdata.quantity,
+      pquantity : pdata.pquantity,
       color : pdata.color,
       size : pdata.size,
-      price : pdata.price * pdata.quantity
+      price : pdata.price * pdata.pquantity
 
     }
 
@@ -113,8 +115,8 @@ useEffect(() => {
 
 
 const handelincreaseqty = () => {
-  if (pdata.quantity + 1 > produtdata.quantity) {
-    toast.error(`You can't add more Quantity than ${produtdata.quantity}`, {
+  if (pdata.pquantity + 1 > produtdata.quantity) {
+    toast.error(`You can't add more quantity than ${produtdata.quantity}`, {
       position: "bottom-left",
       autoClose: 500,
       hideProgressBar: true,
@@ -126,17 +128,17 @@ const handelincreaseqty = () => {
   } else {
     setpdata({
       ...pdata,
-      quantity: pdata.quantity + 1,
+      pquantity: pdata.pquantity + 1,
     });
   }
 };
 
 
   const handeldecreseqty = () => {
-    if(pdata.quantity != 1){
+    if(pdata.pquantity != 1){
       setpdata({
         ...pdata,
-        quantity : pdata.quantity-1,
+        pquantity : pdata.pquantity-1,
        
       })
     }
@@ -267,7 +269,7 @@ const handelincreaseqty = () => {
                     <p className=" font-[400] text-lg">Select quantity</p>
                     <div className="md:w-[30%] w-[60%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 ">
                       <button
-                        disabled={pdata.quantity == 1 ? true : false}
+                        disabled={pdata.pquantity == 1 ? true : false}
                         className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
                         onClick={handeldecreseqty}
                         
@@ -275,7 +277,7 @@ const handelincreaseqty = () => {
                         <RiSubtractLine size={20} />
                       </button>
                       <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1">
-                        {pdata.quantity}
+                        {pdata.pquantity}
                       </div>
                       <button
                         className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
