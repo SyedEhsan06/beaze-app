@@ -67,7 +67,7 @@ export default function Addressdeatils({ data }) {
             state: State,
             pincode: Pincode,
             operation: "add",
-            addressId: Date.now()*random(1000,9999)+Date.now(),
+            addressId: Date.now()*Pincode.length+Date.now(),
             address_type: "home",
           },
         },
