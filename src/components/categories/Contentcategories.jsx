@@ -793,21 +793,37 @@ useEffect(() => {
 
       {/* Show "No products found" when no completeData and subcategorySelect length > 0 */}
       {!loader && !filterLoader && completeData?.length === 0 && subcategorySelect?.length > 0 && (
-        <div className="flex items-center justify-center h-full">
-          <div className="text-center">
-            <img
-              src="/images/web/product/notfound.png"
-              alt="Not Found"
-              className="w-64 h-48 mx-auto mb-4"
-            />
-            <h1 className="text-2xl font-bold text-gray-800 mb-2">
-              No products found
-            </h1>
+        <div className="flex items-center justify-center  h-full">
+        <div className="text-center">
+          <img
+            src="/images/web/product/notfound.png"
+            alt="Not Found"
+            className="w-64 h-48 mx-auto mb-4"
+          />
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">
+            No products found
+          </h1>
+          <div className="flex justify-center gap-4">
+            <button
+              onClick={
+                handleFetchAllData
+              }
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            >
+              Fetch All Data
+            </button>
+            <Link
+              href={"/"}
+              className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+            >
+              Go to Home
+            </Link>
           </div>
         </div>
+      </div>
       )}
       {/* Render allData */}
-      {completeData?.length==0 &&!loader &&!filterLoader && allData?.length > 0 && (
+      {completeData?.length==0 &&!loader &&!filterLoader && allData?.length > 0 &&subcategorySelect.length==0 &&(
         <div
           className={`${
             filterLoader ? "blur-md transition-all ease-linear" : ""
