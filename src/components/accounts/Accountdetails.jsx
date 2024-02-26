@@ -4,6 +4,7 @@ import axios from "axios";
 import Countryinput from "../countryinput/Countryinput";
 import { FaXmark } from "react-icons/fa6";
 import Modal from "react-awesome-modal";
+import Otpinput from "../otp/Otpinput";
 
 export default function Accountdetails({ data }) {
   const [ismodalopen, setismodalopen] = useState(false);
@@ -130,16 +131,16 @@ const candleBtn = () => {
           </div>
           <Countryinput onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} />
         </div>
-        <div className="mt-14">
+        <div className="mt-14 grid grid-cols-2 gap-x-4">
           {!isEditabel ? <><button
-            className="w-[50%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg text-[1.4rem] rounded-[21.5px]"
+            className="w-[100%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg text-[1.4rem] rounded-[21.5px]"
             onClick={
               editDetails
             }
           >
             Edit Details
           </button></>: <><button
-            className="w-[50%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg text-[1.4rem] rounded-[21.5px]"
+            className="w-[100%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg text-[1.4rem] rounded-[21.5px]"
             onClick={
               candleBtn
             }
@@ -147,13 +148,15 @@ const candleBtn = () => {
             Cancel
           </button></>
           }
-        </div>
-        <div>
+
           <button
           onClick={handleUpdateWithoutOtp}
-          className="w-[50%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg text-[1.4rem] rounded-[21.5px]">
+          className="w-[100%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg text-[1.4rem] rounded-[21.5px]">
             Save
           </button>
+        </div>
+        <div>
+         
 
         </div>
       </div>
@@ -165,16 +168,20 @@ const candleBtn = () => {
             </button>
           </div>
           <div className="my-4">
-            <h6 className="context font-[900] text-[2.5rem] text-center">
+            <h6 className="context font-[900] text-[2.5rem] text-center mb-10">
               Enter OTP
             </h6>
-            <input
+            <div className="w-full grid grid-cols-1 gap-y-3 justify-items-center">
+              <Otpinput/>
+              {error && <p className="text-red-500 text-left context py-2">{error}</p>}
+            </div>
+            {/* <input
               type="text"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               className="w-full border-none focus:outline-none transition-all duration-100 h-[52px] relative leading-normal checkout-input"
-            />
-            {error && <p className="text-red-500">{error}</p>}
+            /> */}
+         
           </div>
           <div className="grid grid-cols-2 gap-x-4 headtext py-2 mt-6">
             {!isOtpSent ? (
