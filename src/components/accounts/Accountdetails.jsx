@@ -41,6 +41,7 @@ export default function Accountdetails({ data }) {
   }, [typeof window !== "undefined" && localStorage.getItem("token")]);
   const handleUpdateWithoutOtp = async () => {
     setismodalopen(true);
+    console.log(token)
     console.log("Updating user details without OTP");
     try {
       await axios.put(
@@ -49,7 +50,7 @@ export default function Accountdetails({ data }) {
           first_name: newFirstName,
           last_name: newLastName,
           // country_code: countryCode,
-          phone_number: `+91${phoneNumber}`,
+          phone_number: phoneNumber,
         },
         {
           headers: {
@@ -74,7 +75,7 @@ export default function Accountdetails({ data }) {
           first_name: newFirstName,
           last_name: newLastName,
           // country_code: countryCode,
-          phone_number: `+91${phoneNumber}`,
+          phone_number: phoneNumber,
           otp,
         },
         {
