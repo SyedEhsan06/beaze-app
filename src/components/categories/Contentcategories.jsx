@@ -318,7 +318,19 @@ export default function Contentcategories({ params , categories}) {
   };
   const selectedCartData = useSelector(selectCart);
 
-  const handeladdtocart = (obj) => {
+  const handeladdtocart = (pdata) => {
+    const obj = {
+      _id : pdata._id,
+      productId : pdata.productId,
+      title : pdata.title,
+      images : pdata.images,
+      quantity : pdata.quantity,
+      pquantity : 1,
+      color : pdata.attributes && Array.isArray(pdata.attributes[0]?.value) && pdata.attributes[0].value[0],
+      size : pdata.attributes && Array.isArray(pdata.attributes[1]?.value) && pdata.attributes[1].value[0],
+      price : pdata.price
+    }
+
     dispatch(addToCart(obj));
     if (selectedCartData.some((item) => item._id === obj._id)) {
       toast.success("Added same product again", {

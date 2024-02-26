@@ -37,7 +37,13 @@ const handleCloseCart = () => {
 };
   let tax= data.reduce((a, b) => a + b.tax*b.selectedQty, 0);
   let total = tax + data.reduce((a, b) => a + b.price*b.selectedQty, 0);
-  console.log(data)
+
+
+  const totalPrice = data.reduce((acc, item) => {
+    const itemPrice = parseFloat(item.price);
+    return !isNaN(itemPrice) ? acc + itemPrice : acc;
+  }, 0);
+  console.log({'cadat' : cartData})
   return (
     <>
       <div className="pt-5 z-[99999]">
@@ -61,16 +67,17 @@ const handleCloseCart = () => {
                     {items.title}
                   </h5>
                   <p className=" text-[1rem] text-text-secondary font-[300]">
-                    Size : M | Colour : Black
+                    Size : {items.size} | Colour : {items.color}
                   </p>
                   <div className="mt-1 flex items-center border-[0.5px] w-[60%] justify-between rounded">
                     <button
                       onClick={() => handleRemove(items._id)}
+                      disabled={items.pquantity == 1 ? true : false}
                       className="py-1 px-2 border-r-[0.5px]"
                     >
                       <RiSubtractFill className="font-[800]" />
                     </button>
-                    <div className="py-1 px-2 ">{items.selectedQty}</div>
+                    <div className="py-1 px-2 ">{items.pquantity}</div>
                     <button
                       onClick={() => handleAdd(items._id)}
                       className="py-1 px-2 border-l-[0.5px]"
@@ -120,7 +127,7 @@ const handleCloseCart = () => {
 
                 <div className="w-[50%] flex">
                   <p className="ml-auto text-[1rem] font-[500]">{
-                Math.floor(data.reduce((a, b) => a + b.price*b.selectedQty, 0))
+                    totalPrice.toFixed(2)
               }</p>
                 </div>
               </div>
@@ -169,7 +176,7 @@ const handleCloseCart = () => {
 
             <div className="w-[50%] flex">
               <p className="ml-auto text-[1rem] font-[500]">{
-             total.toFixed(2)
+                totalPrice.toFixed(2)
               }</p>
             </div>
           </div>
