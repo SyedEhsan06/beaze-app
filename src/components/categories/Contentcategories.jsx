@@ -604,6 +604,11 @@ const handleFetchAllData = () => {
 // }, [
 //   loader,subcategorySelect?.length==0,completeData?.length==0
 // ]);
+useEffect(() => {
+  fetchData(`products`).then((res) => {
+    localStorage.setItem("categoryData", JSON.stringify(res.data.products));
+  });
+}, []);
 const[allData,setAllData] = useState([]);
 useEffect(() => {
   if(completeData?.length > 0 &&subcategorySelect?.length === 0){
