@@ -2,7 +2,10 @@ const mongoose  = require('mongoose');
 const Schema    = mongoose.Schema;
 
 const addressSchema = new Schema({
-    address: {
+    address_line1: {
+        type: String,
+    },
+    address_line2: {
         type: String,
     },
     city: {
@@ -11,13 +14,15 @@ const addressSchema = new Schema({
     state: {
         type: String,
     },
-    country: {
+    pincode: {
         type: String,
     },
-    zip: {
+    address_type: {
         type: String,
+        enum: ["home", "work", "other"],
+        default: "home",
     },
-    phone_number: {
+    addressId: {
         type: String,
     },
 });
@@ -74,7 +79,33 @@ const userSchema = new Schema({
         enum: ["user", "admin"],
         default: "user",
     },
-    address: [addressSchema], 
+    address: [
+        {
+            address_line1: {
+                type: String,
+            },
+            address_line2: {
+                type: String,
+            },
+            city: {
+                type: String,
+            },
+            state: {
+                type: String,
+            },
+            pincode: {
+                type: String,
+            },
+            address_type: {
+                type: String,
+                enum: ["home", "work", "other"],
+                default: "home",
+            },
+            addressId: {
+                type: String,
+            },
+        }
+    ], 
     cart: [cartSchema],
 });
 

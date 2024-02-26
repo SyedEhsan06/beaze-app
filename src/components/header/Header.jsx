@@ -187,17 +187,8 @@ export default function Header() {
     const category = searchdata.map((item) => item.category);
     const uniqueCategory = [...new Set(category)];
     dispatch(toggleFix(subcategories));
-    // uniqueCategory.forEach((category) => {
-    //   dispatch(toggleCategory(category));
-    // });
     let type = "search";
     if (search.length >= 1) {
-      // dispatch(
-      //   fetchProducts({
-      //     type,
-      //     item: search,
-      //   })
-      // );
       unique.forEach((subcategory) => {
         dispatch(toggleSubcategory(subcategory));
       });
@@ -311,10 +302,13 @@ export default function Header() {
   }, [showhide]);
   const [userData, setUserData] = useState(null);
   const path = usePathname();
-  
-  let url = process.env.NEXT_PUBLIC_BASE_URL + "/api/auth/profile";
+    console.log(process.env.NEXT_PUBLIC_API_URL)
+  let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`
   const fetchDataProfile = async () => {
+    console.log("fetching user data");
+    console.log(localStorage.getItem("token"));
     try {
+      console.log(url)
       const token = localStorage.getItem("token");
       if (token) {
         const res = await axios.get(url, {
@@ -322,6 +316,7 @@ export default function Header() {
             Authorization: `Bearer ${token}`,
           },
         });
+        console.log(res.data);
         setUserData(res.data.user);
       }
       setLoading(false);
@@ -329,7 +324,7 @@ export default function Header() {
       console.error("Error fetching user data:", error);
     }
   };
-// console.log(userData?.first_name)
+console.log(userData?.first_name)
   // useEffect(() => {
   //   fetchData();
   // }, [path, setUserData, window ? localStorage.getItem("token") : null]);
@@ -339,9 +334,7 @@ export default function Header() {
   }, [
     path,
     setUserData,
-    typeof window !== "undefined" && window.localStorage
-      ? localStorage.getItem("token")
-      : null,
+    typeof window !== "undefined" ? localStorage.getItem("token") : null,
   ]);
 
   const handleLogout = () => {
@@ -538,9 +531,12 @@ export default function Header() {
                 {" "}
                 {userData?.first_name ? (
                   <>
-                    <Link href={""} onClick={handleLogout}>
+                    <Link href={"/account"}>
                       {userData.first_name}
-                    </Link>
+                    </Link>|{" "}
+                    <Link href={"/"} onClick={handleLogout}>
+                      Logout
+                    </Link>{" "}  
                   </>
                 ) : (
                   <>
