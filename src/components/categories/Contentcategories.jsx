@@ -800,7 +800,7 @@ useEffect(() => {
       )}
 
       {/* Render allData */}
-      {completeData.length==0 &&!loader &&!filterLoader && allData.length > 0 && (
+      {completeData?.length==0 &&!loader &&!filterLoader && allData?.length > 0 && (
         <div
           className={`${
             filterLoader ? "blur-md transition-all ease-linear" : ""

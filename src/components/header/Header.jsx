@@ -320,7 +320,7 @@ export default function Header() {
         console.log(res.data);
         setUserData(res.data.user);
       }
-      setLoading(false);
+      // setLoading(false);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
