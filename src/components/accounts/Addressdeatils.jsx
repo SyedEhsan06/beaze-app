@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-awesome-modal";
 import { FaXmark } from "react-icons/fa6";
 
+
 export default function Addressdeatils({ data }) {
   const [bars, setbars] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
@@ -15,10 +16,6 @@ export default function Addressdeatils({ data }) {
   const [Pincode, setPincode] = useState("");
   const [phone, setphone] = useState("");
   const [ismodalopen, setismodalopen] = useState(false);
-
-  const closeModal = () => {
-    setismodalopen(false);
-  };
   useEffect(() => {
     if (data) {
       setAddressLine1(data?.address?.address_line1);
@@ -45,6 +42,7 @@ export default function Addressdeatils({ data }) {
   };
   const handleSubmit = async() => {
     console.log("submit");
+    
     const address = {
       address_line1: AddressLine1,
       address_line2: AddressLine2,
@@ -52,6 +50,8 @@ export default function Addressdeatils({ data }) {
       state: State,
       pincode: Pincode,
       operation: "edit",
+      addressId: Date.now()*random(1000,9999)+Date.now(),
+      address_type: "home",
     };
     await axios.put(url, { address }, config).then((res) => {
       console.log(res);
@@ -69,6 +69,8 @@ export default function Addressdeatils({ data }) {
             state: State,
             pincode: Pincode,
             operation: "add",
+            addressId: Date.now()*Pincode.length+Date.now(),
+            address_type: "home",
           },
         },
         config
@@ -76,6 +78,11 @@ export default function Addressdeatils({ data }) {
       .then((res) => {
         console.log(res);
       });
+  };
+
+  const closeModal = () => {
+    setismodalopen(false);
+   
   };
   return (
     <>

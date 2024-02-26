@@ -63,7 +63,7 @@ export async function PUT(req) {
       address_type,
       otp,
     } = await req.json();
-
+    console.log({first_name,last_name,phone_number})
     if (phone_number) {
       const { isOTPSent, sentOTP, otpExpiration } = await sendOTP(phone_number);
 
@@ -87,18 +87,10 @@ export async function PUT(req) {
       addressId,
       address_type,
     };
-console.log('address',address)
+// console.log('address',address)
     switch (operation) {
       case "add":
-      await  user.address.push({
-        address_line1: address_line1,
-        address_line2: address_line2,
-        city: city,
-        state: state,
-        pincode: pincode,
-        addressId : addressId,
-        address_type: address_type,
-      });
+      await  user.address.push(address);
         break;
       case "edit":
         const editedAddressIndex = user.address.findIndex(

@@ -21,16 +21,15 @@ export default function Bannercontent({ data }) {
   }, [data]);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(toggleSubcategory([]));
-    dispatch(toggleCategory([]));
-  //  dispatch(addMultiSubcategory(subcategoryState));
-    dispatch(addMultiCategory(categoryState));
-    // dispatch(toggleSubcategory(subcategoryState));
-    //
-   dispatch(toggleFix(categoryState));
-    // categoryState.forEach((category) => {
-    //   dispatch(toggleCategory(category));
-    // });
+
+
+        dispatch(toggleSubcategory([]));
+        dispatch(toggleCategory([]));
+        dispatch(toggleFix([]));
+        dispatch(addMultiSubcategory(subcategoryState));
+
+
+    
   }, [subcategoryState, categoryState]);
   const handleScrollTo620 = () => {
     window.scrollTo({

@@ -3,13 +3,19 @@ import { FaSearch } from "react-icons/fa";
 import { countrylist } from "@/utils/countrylist";
 import { FaChevronDown, FaCheck } from "react-icons/fa";
 
-export default function Countryinput({ onCountryChange, onPhoneChange }) {
+export default function Countryinput({ onCountryChange, onPhoneChange ,userdata,editable}) {
   const [country, setCountry] = useState("+91");
-  const [phone, setPhone] = useState(''); // Define phone state
+
+  const [phone, setPhone] = useState(
+    userdata?.phone_number?.replace("+91", "") || ""
+  ); // Define phone state
+  useEffect(() => {
+    setPhone(userdata?.phone_number?.replace("+91", "") || "");
+  }, [userdata]);
   const [data, setData] = useState(countrylist);
   const [showMenu, setShowMenu] = useState(false);
   const divRef = useRef();
-
+console.log(userdata)
   const handleFilterCountry = (val) => {
     if (val) {
       const lowerCaseSearch = val.toLowerCase();
@@ -126,6 +132,8 @@ export default function Countryinput({ onCountryChange, onPhoneChange }) {
                   setPhone(e.target.value); // Update phone state
                   onPhoneChange(e.target.value); // Invoke callback
                 }}
+                value={phone}
+                disabled={!editable}
               />
             </div>
             <button className="w-[5%] text-[#039C2EB0]">
