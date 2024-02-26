@@ -38,6 +38,24 @@ const cartSchema = new Schema({
     price: {
         type: Number,
     },
+    attributes: {
+        size: {
+            type: String,
+        },
+        color: {
+            type: String,
+        },
+    },
+    total: {
+        type: Number,
+    },
+    cartId: {
+        type: String,
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+    },
 });
 const userSchema = new Schema({
     phone_number: {
@@ -61,10 +79,6 @@ const userSchema = new Schema({
     password: {
         type: String,
     },
-    isVerified: {
-        type: Boolean,
-        default: false,
-    },
     otp: {
         code: {
             type: String,
@@ -79,33 +93,7 @@ const userSchema = new Schema({
         enum: ["user", "admin"],
         default: "user",
     },
-    address: [
-        {
-            address_line1: {
-                type: String,
-            },
-            address_line2: {
-                type: String,
-            },
-            city: {
-                type: String,
-            },
-            state: {
-                type: String,
-            },
-            pincode: {
-                type: String,
-            },
-            address_type: {
-                type: String,
-                enum: ["home", "work", "other"],
-                default: "home",
-            },
-            addressId: {
-                type: String,
-            },
-        }
-    ], 
+    address: [addressSchema], 
     cart: [cartSchema],
 });
 
