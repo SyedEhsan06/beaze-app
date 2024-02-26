@@ -142,7 +142,7 @@ export default function Login() {
               <form className="w-full"
                 onSubmit={handleSubmit}
               >
-              <Countryinput onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} />
+              <Countryinput editable={true} onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} />
 
                 <button className="w-[100%] mt-7 py-4  headtext font-[900] text-text-secondary bg-[#FFD012] lg:text-3xl text-xl  rounded-lg button-shadow  ">
                   Submit

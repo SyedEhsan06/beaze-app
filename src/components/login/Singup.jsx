@@ -130,7 +130,7 @@ export default function Signup() {
                       </button>
                     </div>
                   </div>
-                  <Countryinput onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} />
+                  <Countryinput editabl={true} onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} />
                 </div>
                 <button type="submit" className='w-[100%] lg:mt-5 mt-10 py-4 headtext font-[900] text-text-secondary bg-[#FFD012] lg:text-3xl text-xl rounded-lg button-shadow'>Submit</button>
               </form>
