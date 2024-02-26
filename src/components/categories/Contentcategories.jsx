@@ -709,7 +709,7 @@ useEffect(() => {
       )}
 
       {/* "No products found" section */}
-      {!loader && !filterLoader && completeData.length === 0 && allData.length === 0 && (
+      {!loader && !filterLoader && completeData?.length === 0 && allData?.length === 0 && (
         <div className="flex items-center justify-center h-full">
           <div className="text-center">
             <img
@@ -739,7 +739,7 @@ useEffect(() => {
       )}
 
       {/* Grid of products */}
-      {(completeData.length > 0 || subcategorySelect.length > 0) && (
+      {(completeData?.length > 0 || subcategorySelect?.length > 0) && (
         <div
           className={`${
             filterLoader ? "blur-md transition-all ease-linear" : ""
@@ -784,7 +784,7 @@ useEffect(() => {
       )}
 
       {/* Show "No products found" when no completeData and subcategorySelect length > 0 */}
-      {!loader && !filterLoader && completeData.length === 0 && subcategorySelect.length > 0 && (
+      {!loader && !filterLoader && completeData?.length === 0 && subcategorySelect?.length > 0 && (
         <div className="flex items-center justify-center h-full">
           <div className="text-center">
             <img
