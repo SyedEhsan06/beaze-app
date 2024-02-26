@@ -2,6 +2,7 @@
 import { Addressdetails } from "@/utils/dummydata";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 export default function Addressdeatils({ data }) {
   const [bars, setbars] = useState(0);
@@ -12,6 +13,7 @@ export default function Addressdeatils({ data }) {
   const [State, setState] = useState("");
   const [Pincode, setPincode] = useState("");
   const [phone, setphone] = useState("");
+  const dispatch = useDispatch();
   useEffect(() => {
     if (data) {
       setAddressLine1(data?.address?.address_line1);
@@ -38,6 +40,7 @@ export default function Addressdeatils({ data }) {
   };
   const handleSubmit = async() => {
     console.log("submit");
+    
     const address = {
       address_line1: AddressLine1,
       address_line2: AddressLine2,
@@ -45,6 +48,8 @@ export default function Addressdeatils({ data }) {
       state: State,
       pincode: Pincode,
       operation: "edit",
+      addressId: Date.now()*random(1000,9999)+Date.now(),
+      address_type: "home",
     };
     await axios.put(url, { address }, config).then((res) => {
       console.log(res);
@@ -62,6 +67,8 @@ export default function Addressdeatils({ data }) {
             state: State,
             pincode: Pincode,
             operation: "add",
+            addressId: Date.now()*random(1000,9999)+Date.now(),
+            address_type: "home",
           },
         },
         config

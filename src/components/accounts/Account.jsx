@@ -36,7 +36,7 @@ export default function Account() {
   useEffect(() => {
     fetchDataProfile();
   }, [
-    
+    typeof window !== "undefined" && localStorage.getItem("token"),
   ]);
 
   const [tabs, settabs] = useState(0);

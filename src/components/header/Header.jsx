@@ -32,6 +32,7 @@ import {
 import { selectCartOpen } from "@/redux/slices/cartOpenSlice";
 import Productcart from "../categories/Productcart";
 import axios from "axios";
+import { selectUser } from "@/redux/slices/userData.slice";
 
 export default function Header() {
   const [scrollLength, setScrollLength] = useState(0);
@@ -328,12 +329,13 @@ console.log(userData?.first_name)
   // useEffect(() => {
   //   fetchData();
   // }, [path, setUserData, window ? localStorage.getItem("token") : null]);
-
+const selectDataOfUser = useSelector(selectUser)
   useEffect(() => {
     fetchDataProfile();
   }, [
     path,
     setUserData,
+    selectDataOfUser,
     typeof window !== "undefined" ? localStorage.getItem("token") : null,
   ]);
 

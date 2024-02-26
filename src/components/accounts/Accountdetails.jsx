@@ -1,22 +1,35 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Countryinput from "../countryinput/Countryinput";
 import { FaXmark } from "react-icons/fa6";
 import Modal from "react-awesome-modal";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/slices/userData.slice";
 
 export default function Accountdetails({ data }) {
+  const [initalData, setInitalData] = useState(data);
+  useEffect(() => {
+    setInitalData(data);
+  }, [data]);
+  console.log(initalData);
   const [ismodalopen, setismodalopen] = useState(false);
-  const [newFirstName, setNewFirstName] = useState(data?.first_name);
-  const [newLastName, setNewLastName] = useState(data?.last_name);
-  const [countryCode, setCountryCode] = useState(data?.country_code);
-  const [phoneNumber, setPhoneNumber] = useState(data?.phone_number);
+  const [newFirstName, setNewFirstName] = useState(initalData?.first_name);
+  const [newLastName, setNewLastName] = useState(initalData?.last_name);
+  const [countryCode, setCountryCode] = useState("+91");
+  const [phoneNumber, setPhoneNumber] = useState(initalData?.phone_number);
+  useEffect(() => {
+    setNewFirstName(initalData?.first_name);
+    setNewLastName(initalData?.last_name);
+    setCountryCode("+91");
+    setPhoneNumber(initalData?.phone_number);
+  }, [initalData]);
   const [otp, setOtp] = useState("");
   const [isEditabel, setIsEditabel] = useState(false);
   const [error, setError] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
+  const dispatch = useDispatch();
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
-console.log(data)
   const [token, setToken] = useState("");
   const closeModal = () => {
     setismodalopen(false);
@@ -25,23 +38,24 @@ console.log(data)
   };
   useEffect(() => {
     setToken(localStorage.getItem("token"));
-  }, [
-    typeof window !== "undefined" && localStorage.getItem("token"),
-  ]);
+  }, [typeof window !== "undefined" && localStorage.getItem("token")]);
   const handleUpdateWithoutOtp = async () => {
     setismodalopen(true);
     console.log("Updating user details without OTP");
     try {
-      await axios.put(url,{
-        first_name: newFirstName,
-        last_name: newLastName,
-        country_code: countryCode,
-        phone_number: `+91${phoneNumber}`,  
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      await axios.put(
+        url,
+        {
+          first_name: newFirstName,
+          last_name: newLastName,
+          // country_code: countryCode,
+          phone_number: `+91${phoneNumber}`,
         },
-      }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setIsOtpSent(true);
       // console.log("Updated user:", updatedUser);
@@ -51,23 +65,27 @@ console.log(data)
       setError("Failed to update account details. Please try again.");
     }
   };
-console.log(otp)
+  console.log(phoneNumber);
   const handleUpdateWithOtp = async () => {
     try {
-      const response = await axios.put(url, {
-        first_name: newFirstName,
-        last_name: newLastName,
-        country_code: countryCode,
-        phone_number: `+91${phoneNumber}`,
-        otp,
-      },{
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await axios.put(
+        url,
+        {
+          first_name: newFirstName,
+          last_name: newLastName,
+          // country_code: countryCode,
+          phone_number: `+91${phoneNumber}`,
+          otp,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      }
       );
       const updatedUser = response.data.user;
       console.log("Updated user:", updatedUser);
+        dispatch(setUser(updatedUser));
       setismodalopen(false);
       setError("");
     } catch (error) {
@@ -83,13 +101,13 @@ console.log(otp)
   const handlePhoneChange = (number) => {
     setPhoneNumber(number);
   };
-const editDetails = () => {
-  setIsEditabel(true);
-  // setismodalopen(true);
-}
-const candleBtn = () => {
-  setIsEditabel(false);
-}
+  const editDetails = () => {
+    setIsEditabel(true);
+    // setismodalopen(true);
+  };
+  const candleBtn = () => {
+    setIsEditabel(false);
+  };
   return (
     <div className="w-full bg-white rounded-[13px] px-10 py-8 shadow">
       <div className="w-full">
@@ -128,33 +146,41 @@ const candleBtn = () => {
               </div>
             </div>
           </div>
-          <Countryinput onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} />
+          <Countryinput
+            userdata={data}
+            editable={isEditabel}
+            onCountryChange={handleCountryChange}
+            onPhoneChange={handlePhoneChange}
+          />
         </div>
         <div className="mt-14">
-          {!isEditabel ? <><button
-            className="w-[50%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg text-[1.4rem] rounded-[21.5px]"
-            onClick={
-              editDetails
-            }
-          >
-            Edit Details
-          </button></>: <><button
-            className="w-[50%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg text-[1.4rem] rounded-[21.5px]"
-            onClick={
-              candleBtn
-            }
-          >
-            Cancel
-          </button></>
-          }
+          {!isEditabel ? (
+            <>
+              <button
+                className="w-[50%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg text-[1.4rem] rounded-[21.5px]"
+                onClick={editDetails}
+              >
+                Edit Details
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className="w-[50%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg text-[1.4rem] rounded-[21.5px]"
+                onClick={candleBtn}
+              >
+                Cancel
+              </button>
+            </>
+          )}
         </div>
         <div>
           <button
-          onClick={handleUpdateWithoutOtp}
-          className="w-[50%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg text-[1.4rem] rounded-[21.5px]">
+            onClick={handleUpdateWithoutOtp}
+            className="w-[50%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg text-[1.4rem] rounded-[21.5px]"
+          >
             Save
           </button>
-
         </div>
       </div>
       <Modal visible={ismodalopen} effect="fadeInDown" onClickAway={closeModal}>
@@ -180,9 +206,7 @@ const candleBtn = () => {
             {!isOtpSent ? (
               <button
                 className="w-full text-[#474747] font-[300] text-lg py-2 rounded border-[0.3px] border-[#000000] "
-                onClick={
-                  handleUpdateWithOtp
-                }
+                onClick={handleUpdateWithOtp}
               >
                 Update Details
               </button>
