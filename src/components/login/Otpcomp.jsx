@@ -54,7 +54,7 @@ const router= useRouter();
       }
     }
   };
-  const url = "http://localhost:3000/api/auth/verifyotp";
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/verifyotp`;
   const handleOtpVerify = (e) => {
     e.preventDefault();
     const otpValue = otp.join('');

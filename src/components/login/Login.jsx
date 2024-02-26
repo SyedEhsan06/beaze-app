@@ -18,7 +18,7 @@ export default function Login() {
     phone,
     country
   )
-  const url = "http://localhost:3000/api/auth/login";
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`;
   const handleSubmit = async (e) => {
     e.preventDefault();
     localStorage?.setItem('phone', phone);

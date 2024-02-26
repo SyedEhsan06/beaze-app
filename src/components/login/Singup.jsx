@@ -14,7 +14,7 @@ export default function Signup() {
   const [country, setCountry] = useState('');
   const [error, setError] = useState('');
   const [response, setResponse] = useState('');
-  const url = "http://localhost:3000/api/auth/signup";
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup`
     // console.log(firstname, lastname, phone, country)
   const handleSubmit = async (e) => {
     e.preventDefault();
