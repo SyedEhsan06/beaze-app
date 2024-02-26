@@ -382,7 +382,7 @@ export default function Contentcategories({ params , categories}) {
     if (cats && completeData) {
       try {
         // Extract unique category names from completeData
-        let currentCategory = completeData.map((item) => item.category);
+        let currentCategory = completeData.map((item) => item.category)
         let uniqueCategory = [...new Set(currentCategory)];
 
         // Filter categories from Redux state that match uniqueCategory
@@ -798,7 +798,6 @@ useEffect(() => {
           </div>
         </div>
       )}
-
       {/* Render allData */}
       {completeData?.length==0 &&!loader &&!filterLoader && allData?.length > 0 && (
         <div
