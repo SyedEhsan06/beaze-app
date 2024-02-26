@@ -733,7 +733,7 @@ useEffect(() => {
                 onClick={handleFetchAllData}
                 className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
               >
-                Fetch All Data
+               Show All Products
               </button>
               <Link
                 href={"/"}
@@ -810,7 +810,7 @@ useEffect(() => {
               }
               className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             >
-              Fetch All Data
+              Show All Products
             </button>
             <Link
               href={"/"}
