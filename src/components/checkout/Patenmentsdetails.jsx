@@ -6,6 +6,7 @@ import { FaCheck } from "react-icons/fa";
 import Countryinput from "../countryinput/Countryinput";
 import Modal from "react-awesome-modal";
 import { FaXmark } from "react-icons/fa6";
+import Otpinput from "../otp/Otpinput";
 
 export default function Patenmentsdetails() {
   const [selectedCountry, setSelectedCountry] = useState();
@@ -395,26 +396,28 @@ export default function Patenmentsdetails() {
       </div>
 
       <Modal visible={ismodalopen} effect="fadeInDown" onClickAway={closeModal}>
-        <div className="w-[700px] px-5 pt-3 pb-5">
+        <div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5">
           <div className=" flex ">
             <button className="ml-auto" onClick={() => setismodalopen(false)}>
               <FaXmark size={40} />
             </button>
           </div>
 
-          <div className="my-4">
-            <h6 className="context font-[900] text-[2.5rem] text-center">
+          <div className="lg:my-4 md:my-2 my-1">
+            <h6 className="context font-[900] lg:text-[2.5rem] md:text-[2rem] text-2xl text-center lg:mb-10 md:mb-7 mb-4">
               Enter OTP
             </h6>
 
-            <div>{/* otp box comes here */}</div>
+            <div className="w-full flex justify-center lg:mt-7 md:mt-4 mt-3">
+            <Otpinput/>
+            </div>
           </div>
 
           <div className=" grid grid-cols-2 gap-x-4 headtext py-2 mt-6">
-            <button className=" w-full  text-[#474747] font-[300] text-lg py-2 rounded border-[0.3px] border-[#000000] ">
+            <button className=" w-full  text-[#474747] font-[300]lg:text-xl md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] ">
               Change Number
             </button>
-            <button className=" w-full bg-theme-footer-bg text-white font-[700] text-xl py-2 rounded ">
+            <button className=" w-full bg-theme-footer-bg text-white font-[700] py-2 rounded lg:text-xl md:text-lg text-[1rem] ">
               Confirm OTP
             </button>
           </div>

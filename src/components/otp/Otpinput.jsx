@@ -106,6 +106,12 @@ export default function Otpinput() {
         , [token, error]);
     return (
         <div className='lg:w-[60%] md:w-[80%] w-[90%] '>
+          <label htmlFor="fnamesignup" className="mb-2 context font-[500] md:text-lg text-[1rem]">
+                    Your OTP
+                      <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
+                        *
+                      </sup>
+                      </label>
             <div className=' grid grid-cols-6 gap-x-3 z-[100]'>
                 {otp.map((digit, index) => (
                     <input
@@ -124,10 +130,10 @@ export default function Otpinput() {
 
             <div className=' mt-6 flex gap-3 items-center'>
                 <div>
-                    <p className=' font-[500] lg:text-lg text-sm  context'>Haven’t received it yet ?</p>
+                    <p className=' font-[500] lg:text-lg md:text-sm text-xs  context'>Haven’t received it yet ?</p>
                 </div>
                 <div>
-                    <button className=' items-center flex gap-3 px-5 py-1 bg-[#DED5D5] context  rounded-[9px]  lg:text-sm text-xs font-[500] text-[#717070]  shadow-input '><FaRegClock /> 12s | Resend </button>
+                    <button className=' items-center flex gap-3 px-5 py-1 bg-[#DED5D5] context  rounded-[9px]  lg:text-sm text-xs  font-[500] text-[#717070]  shadow-input '><FaRegClock /> 12s | Resend </button>
                 </div>
             </div>
         </div>
