@@ -51,7 +51,6 @@ export async function POST(req) {
         await newUser.save();
       }
     }
-
     // Step 4: Create new order
     const newOrder = new Order({
       phone,
@@ -64,12 +63,22 @@ export async function POST(req) {
       paymentStatus,
       status,
     });
-
+    let orderToReturn ={
+      phone,
+      first_name,
+      last_name,
+      address,
+      cart,
+      total,
+      payment,
+      paymentStatus,
+      status,
+    }
     await newOrder.save();
     console.log(newOrder);
     return Response.json({
       message: "Order created successfully",
-      order: newOrder,
+      order: orderToReturn,
     });
   } catch (error) {
     console.error("Error creating order:", error);
