@@ -3,10 +3,10 @@ import { NextResponse } from 'next/server'
 export function middleware(request) {
     console.log("Request",request.cookies)
     console.log("Request",request.url)
-    const token = cookies().get('token').value
+    const token = cookies().get('token')?.value
     // console.log("Token",)
     console.log("Token",token)
-   if(token===''){
+   if(token&&token===''){
     return   NextResponse.redirect(new URL('/login', request.url))
     
    }
