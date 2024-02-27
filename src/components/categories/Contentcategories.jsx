@@ -710,7 +710,7 @@ useEffect(() => {
       ) : null}
        <div className="w-full">
       {/* Loader */}
-      {loader && completeData.length === 0 && (
+      {allData?.length===0 &&loader && completeData?.length === 0 && (
         <div className="flex items-center justify-center absolute top-1/2 left-1/2 h-screen">
           <Loader />
         </div>

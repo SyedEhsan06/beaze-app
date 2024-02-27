@@ -8,7 +8,7 @@ export default function Checkout() {
 <div className='lg:w-[60%] w-[100%]'>
   <Patenmentsdetails/>
 </div>
-<div className='lg:w-[40%]'>
+<div className='lg:w-[40%] lg:mt-0 mt-6'>
   <Productshow/>
 </div>
   </div>

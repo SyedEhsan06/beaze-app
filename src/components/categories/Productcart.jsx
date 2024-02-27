@@ -12,12 +12,15 @@ import {
   selectCart,
 } from "@/redux/slices/cartSlice";
 import { closeCart } from "@/redux/slices/cartOpenSlice";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 export default function Productcart({
   setCartOpen,
 }) {
   const cartData = useSelector(selectCart);
   const [data, setdata] = useState(cartData);
   const [showprice, setshowprice] = useState(false);
+  const router = useRouter();
   const dispatch = useDispatch();
   useEffect(() => {
     setdata(cartData);
@@ -190,9 +193,13 @@ const handleCloseCart = () => {
           className="w-[35%] bg-transparent rounded-[29px] py-2 border-[1px] border-[#000000] text-xl text-[300] text-text-secondary">
             Cancel
           </button>
-          <button className="w-[65%] bg-theme-footer-bg  py-2 text-xl text-white font-[700] rounded-[29px]">
-            Checkout
-          </button>
+          <Link href="/checkout">
+          <button
+           
+           className="w-[65%] bg-theme-footer-bg  py-2 text-xl text-white font-[700] rounded-[29px]">
+             Checkout
+           </button>
+            </Link>
         </div>
       </div>
     </>

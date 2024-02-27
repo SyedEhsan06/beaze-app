@@ -20,36 +20,39 @@ export async function POST(req) {
       otp,
       createmyaccount,
     } = await req.json();
-    let user = await User.findOne({ phone_number: phone });
-        console.log("user", user);
-        console.log(phone, first_name, last_name, address, cart, total, payment, paymentStatus, status, createmyaccount);  
-    const { isOTPSent, sentOTP, otpExpiration } = await sendOTP(phone);
     
+    console.log(phone, first_name, last_name, address, cart, total, payment, paymentStatus, status, createmyaccount);  
+
+    // Step 1: Send OTP
+    const { isOTPSent, sentOTP, otpExpiration } = await sendOTP(phone);
+
     if (!isOTPSent) {
       return Response.json({ error: "Error sending OTP" }, { status: 500 });
     }
-    
-    
-    if (phone){
-      const isOTPSuccess = await verifyOTP(phone, otp);
-      if (!isOTPSuccess) {
-        return Response.json({ error: "Invalid OTP" }, { status: 400 });
+
+    // Step 2: Verify OTP
+    const isOTPSuccess = await verifyOTP(phone, otp);
+    if (!isOTPSuccess) {
+      return Response.json({ error: "Invalid OTP" }, { status: 400 });
+    }
+
+    // Step 3: Create user if needed
+    let user = null;
+    if (createmyaccount) {
+      user = await User.findOne({ phone_number: phone });
+      if (!user) {
+        const newUser = new User({
+          phone_number: phone,
+          first_name,
+          last_name,
+          address,
+          cart,
+        });
+        await newUser.save();
       }
     }
 
-    // Create user if needed
-    if (createmyaccount && !user) {
-      const newUser = new User({
-        phone_number: phone,
-        first_name,
-        last_name,
-        address,
-        cart,
-      });
-      await newUser.save();
-    }
-
-    // Create new order
+    // Step 4: Create new order
     const newOrder = new Order({
       phone,
       first_name,
@@ -63,7 +66,7 @@ export async function POST(req) {
     });
 
     await newOrder.save();
-
+    console.log(newOrder);
     return Response.json({
       message: "Order created successfully",
       order: newOrder,
