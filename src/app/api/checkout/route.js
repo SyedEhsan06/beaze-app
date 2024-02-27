@@ -2,26 +2,24 @@ import Order from "@/lib/models/order";
 import { connectToDb } from "@/lib/utils";
 import User from "@/lib/models/user.model";
 import { sendOTP, verifyOTP } from "@/utils/verifyOtpUtils";
-import { Response } from "next";
+
 
 export async function POST(req) {
   try {
+  if (!req) {
+    return Response.json({ error: "Request is undefined" }, 400);
+  }
+
+
     await connectToDb();
     const {
       phone,
       first_name,
       last_name,
-      address,
-      cart,
-      total,
-      payment,
-      paymentStatus,
-      status,
       otp,
       createmyaccount,
     } = await req.json();
     
-    console.log(phone, first_name, last_name, address, cart, total, payment, paymentStatus, status, createmyaccount);  
 
     // Step 1: Send OTP
     const { isOTPSent, sentOTP, otpExpiration } = await sendOTP(phone);
@@ -45,8 +43,6 @@ export async function POST(req) {
           phone_number: phone,
           first_name,
           last_name,
-          address,
-          cart,
         });
         await newUser.save();
       }
@@ -56,32 +52,54 @@ export async function POST(req) {
       phone,
       first_name,
       last_name,
-      address,
-      cart,
-      total,
-      payment,
-      paymentStatus,
-      status,
     });
     let orderToReturn ={
       phone,
       first_name,
       last_name,
-      address,
-      cart,
-      total,
-      payment,
-      paymentStatus,
-      status,
+      otp,
+      _id: newOrder._id,
     }
     await newOrder.save();
     console.log(newOrder);
-    return Response.json({
-      message: "Order created successfully",
-      order: orderToReturn,
-    });
+    return Response.json({ orderToReturn });
   } catch (error) {
     console.error("Error creating order:", error);
     return Response.json({ error: "Internal server error" }, { status: 500 });
   }
+}
+
+export async function PUT(req){
+    try{
+      await connectToDb();
+      const { 
+        phone,
+        address,
+        total,
+        payment,
+        paymentStatus,
+        status,
+        orderId
+      } = await req.json();
+
+      const order = await Order.findOne({ _id: orderId });
+      if (!order) {
+        return Response.json({ error: "Order not found" }, { status: 404 });
+      }
+      order.phone = phone;
+      order.address = address;
+      order.total = total;
+      order.payment = payment;
+      order.paymentStatus = paymentStatus;
+      order.status = status;
+      await order.save();
+      return Response.json({
+        message: "Order updated successfully",
+        order,
+      });
+    }
+    catch(error){
+      console.error("Error updating order:", error);
+      return Response.json({ error: "Internal server error" }, { status: 500 });
+    }
 }
