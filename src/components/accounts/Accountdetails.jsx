@@ -12,7 +12,7 @@ export default function Accountdetails({ data }) {
   useEffect(() => {
     setInitalData(data);
   }, [data]);
-  console.log(initalData);
+  // console.log(initalData);
   const [ismodalopen, setismodalopen] = useState(false);
   const [newFirstName, setNewFirstName] = useState(initalData?.first_name);
   const [newLastName, setNewLastName] = useState(initalData?.last_name);
@@ -41,7 +41,7 @@ export default function Accountdetails({ data }) {
   }, [typeof window !== "undefined" && localStorage.getItem("token")]);
   const handleUpdateWithoutOtp = async () => {
     setismodalopen(true);
-    console.log(token)
+    // console.log(token)
     console.log("Updating user details without OTP");
     try {
       await axios.put(
@@ -66,7 +66,7 @@ export default function Accountdetails({ data }) {
       setError("Failed to update account details. Please try again.");
     }
   };
-  console.log(phoneNumber);
+  // console.log(phoneNumber);
   const handleUpdateWithOtp = async () => {
     try {
       const response = await axios.put(
@@ -85,7 +85,7 @@ export default function Accountdetails({ data }) {
         }
       );
       const updatedUser = response.data.user;
-      console.log("Updated user:", updatedUser);
+      // console.log("Updated user:", updatedUser);
         dispatch(setUser(updatedUser));
       setismodalopen(false);
       setError("");

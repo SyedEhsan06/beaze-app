@@ -5,26 +5,27 @@ import Accountdetails from "./Accountdetails";
 import Addressdeatils from "./Addressdeatils";
 import Orderdeatails from "./Orderdeatails";
 import axios from "axios";
-
+import { useSelector } from "react-redux";
+import { selectUser } from "@/redux/slices/userData.slice";
+import cookieCutter from "cookie-cutter";
 
 export default function Account() {
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
-
+  const selectDataOfUser = useSelector(selectUser)
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
   const fetchDataProfile = async () => {
-    console.log("fetching user data");
-    console.log(localStorage.getItem("token"));
+    // console.log("fetching user data");
+    const token = cookieCutter.get("token");
     try {
-      console.log(url);
-      const token = localStorage.getItem("token");
+      // console.log(url);
       if (token) {
         const res = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(res)
+        // console.log(res)
         setUserData(res.data.user);
         setLoading(false); 
       }
@@ -37,7 +38,7 @@ export default function Account() {
   useEffect(() => {
     fetchDataProfile();
   }, [
-    typeof window !== "undefined" && localStorage.getItem("token"),
+     
   ]);
 
   const [tabs, settabs] = useState(0);

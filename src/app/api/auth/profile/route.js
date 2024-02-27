@@ -63,7 +63,6 @@ export async function PUT(req) {
       address_type,
       otp,
     } = await req.json();
-    console.log({first_name,last_name,phone_number})
     if (phone_number) {
       const { isOTPSent, sentOTP, otpExpiration } = await sendOTP(phone_number);
 

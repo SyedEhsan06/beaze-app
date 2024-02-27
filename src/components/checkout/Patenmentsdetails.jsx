@@ -6,11 +6,110 @@ import { FaCheck } from "react-icons/fa";
 import Countryinput from "../countryinput/Countryinput";
 import Modal from "react-awesome-modal";
 import { FaXmark } from "react-icons/fa6";
+import axios from "axios";
 
 export default function Patenmentsdetails() {
   const [selectedCountry, setSelectedCountry] = useState();
   const [tabs, settabs] = useState(0);
   const [ismodalopen, setismodalopen] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [country, setCountry] = useState("");
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [otp, setOtp] = useState("");
+  const [isOtpSent, setIsOtpSent] = useState(false);
+  const [address_line1, setAddressLine1] = useState("");
+  const [address_line2, setAddressLine2] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [isBillingSame, setIsBillingSame] = useState(false);
+  const [isAccountCreated, setIsAccountCreated] = useState(false);
+  const [isNewsLetter, setIsNewsLetter] = useState(false);
+  const [cartData, setCartData] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState("");
+  const [orderStatus, setOrderStatus] = useState("");
+  const [isOrderPlaced, setIsOrderPlaced] = useState(false);
+  const [orderData, setOrderData] = useState({});
+  //api1
+  const handleOtpSend = async () => {
+    setismodalopen(true);
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/checkout`,
+        {
+          phone: phone,
+          first_name: first_name,
+          last_name: last_name,
+          address: {
+            address_line1: address_line1,
+            address_line2: address_line2,
+            city: city,
+            state: state,
+            pincode: pincode,
+          },
+          cart: cartData,
+          total: totalPrice,
+          payment: paymentMethod,
+          paymentStatus: paymentStatus,
+          status: orderStatus,
+          createmyaccount: isAccountCreated,
+        }
+      );
+      console.log(response.data);
+      setIsOtpSent(true);
+
+      // Handle response data as needed
+    } catch (error) {
+      console.error("Error sending OTP request:", error);
+      // Handle error
+    }
+  };
+  const handleOrderPlace = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/checkout`,
+        {
+          phone: phone,
+          first_name: first_name,
+          last_name: last_name,
+          address: {
+            address_line1: address_line1,
+            address_line2: address_line2,
+            city: city,
+            state: state,
+            pincode: pincode,
+          },
+          cart: cartData,
+          total: totalPrice,
+          payment: paymentMethod,
+          paymentStatus: paymentStatus,
+          status: orderStatus,
+          createmyaccount: isAccountCreated,
+          otp: otp,
+        }
+      );
+      console.log(response.data);
+      setIsOrderPlaced(true);
+      setOrderData(response.data);
+      // Handle response data as needed
+    } catch (error) {
+      console.error("Error placing order:", error);
+      // Handle error
+    }
+  };
+  const handleOtpChange = (otp) => {
+    setOtp(otp);
+  };
+
+  const handleCountryChange = (country) => {
+    setSelectedCountry(country);
+  };
+  const handlePhoneChange = (phone) => {
+    setPhone(phone);
+  };
 
   const closeModal = () => {
     setismodalopen(false);
@@ -51,17 +150,23 @@ export default function Patenmentsdetails() {
           </div>
         </div>
         <div>
-          <button className="text-[#998F8F] lg:text-2xl text-xl">Payment</button>
+          <button className="text-[#998F8F] lg:text-2xl text-xl">
+            Payment
+          </button>
         </div>
       </div>
 
       <div className=" grid grid-cols-1 gap-y-5 mt-4">
         <div className="w-full">
           <div
-            className={`w-full bg-white p-5 shadow-sm border flex ${tabs === 0 ? "hidden" : "block"
-              }`}
+            className={`w-full bg-white p-5 shadow-sm border flex ${
+              tabs === 0 ? "hidden" : "block"
+            }`}
           >
-            <h6 className="headtext font-extrabold lg:text-[1.5rem] text-xl text-text-secondary cursor-pointer" onClick={() => settabs(0)}>
+            <h6
+              className="headtext font-extrabold lg:text-[1.5rem] text-xl text-text-secondary cursor-pointer"
+              onClick={() => settabs(0)}
+            >
               Welcome Sherlock
             </h6>
             <button
@@ -72,8 +177,9 @@ export default function Patenmentsdetails() {
             </button>
           </div>
           <div
-            className={` bg-white p-4 shadow-sm ${tabs === 0 ? "block" : "hidden"
-              }`}
+            className={` bg-white p-4 shadow-sm ${
+              tabs === 0 ? "block" : "hidden"
+            }`}
           >
             <div>
               <h6 className=" headtext text-text-secondary font-[700] lg:text-[1rem] text-xs">
@@ -97,6 +203,8 @@ export default function Patenmentsdetails() {
                         id="firstname"
                         className="w-full border-none  focus:outline-none transition-all duration-100   relative leading-normal h-[52px] checkout-input"
                         placeholder="Your First name"
+                        value={first_name}
+                        onChange={(e) => setFirstName(e.target.value)}
                       />
                     </div>
                     <button className="w-[5%] text-[#039C2EB0]">
@@ -118,6 +226,8 @@ export default function Patenmentsdetails() {
                         id="lastname"
                         className="w-full border-none  focus:outline-none transition-all duration-100   relative leading-normal checkout-input h-[52px]"
                         placeholder="Your Last name"
+                        value={last_name}
+                        onChange={(e) => setLastName(e.target.value)}
                       />
                     </div>
                     <button className="w-[5%] text-[#039C2EB0]">
@@ -125,7 +235,11 @@ export default function Patenmentsdetails() {
                     </button>
                   </div>
                 </div>
-                <Countryinput />
+                <Countryinput
+                  editable={true}
+                  onCountryChange={handleCountryChange}
+                  onPhoneChange={handlePhoneChange}
+                />
               </div>
               <div className=" w-full my-6 context">
                 <div className=" flex gap-2 lg:gap-0 items-center">
@@ -135,6 +249,8 @@ export default function Patenmentsdetails() {
                         type="checkbox"
                         id="accout"
                         className=" !top-[-9px] "
+                        value={isAccountCreated}
+                        onChange={(e) => setIsAccountCreated(e.target.checked)}
                       />
                     </div>
                   </div>
@@ -156,6 +272,7 @@ export default function Patenmentsdetails() {
                         type="checkbox"
                         id="news"
                         className=" !top-[-9px] "
+                        value={isNewsLetter}
                       />
                     </div>
                   </div>
@@ -174,7 +291,7 @@ export default function Patenmentsdetails() {
               <div className="w-full flex justify-center">
                 <button
                   className="headtext font-[800]  lg:text-[1.4rem] text-lg py-3 lg:w-[40%] w-[60%] rounded bg-theme-footer-bg text-white"
-                  onClick={() => setismodalopen(true)}
+                  onClick={handleOtpSend}
                 >
                   Send OTP
                 </button>
@@ -185,10 +302,14 @@ export default function Patenmentsdetails() {
 
         <div className="w-full">
           <div
-            className={`w-full bg-white p-5 shadow-sm border flex ${tabs === 1 ? "hidden" : "block"
-              }`}
+            className={`w-full bg-white p-5 shadow-sm border flex ${
+              tabs === 1 ? "hidden" : "block"
+            }`}
           >
-            <h6 className="headtext font-extrabold lg:text-[1.5rem] text-xl text-text-secondary cursor-pointer " onClick={() => settabs(1)}>
+            <h6
+              className="headtext font-extrabold lg:text-[1.5rem] text-xl text-text-secondary cursor-pointer "
+              onClick={() => settabs(1)}
+            >
               Shipping Details
             </h6>
             <button
@@ -199,8 +320,9 @@ export default function Patenmentsdetails() {
             </button>
           </div>
           <div
-            className={` bg-white p-4 shadow-sm ${tabs === 1 ? "block" : "hidden"
-              }`}
+            className={` bg-white p-4 shadow-sm ${
+              tabs === 1 ? "block" : "hidden"
+            }`}
           >
             <div className=" flex flex-col lg:flex-row ">
               <h6 className=" headtext text-text-secondary font-[700] lg:text-[1rem] text-sm">
@@ -243,6 +365,8 @@ export default function Patenmentsdetails() {
                     id="add1"
                     className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
                     placeholder="Flat, House, Building and other details"
+                    value={address_line1}
+                    onChange={(e) => setAddressLine1(e.target.value)}
                   />
                 </div>
                 <div className=" w-full context">
@@ -258,6 +382,8 @@ export default function Patenmentsdetails() {
                     id="add2"
                     className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
                     placeholder="Lane, Street & Landmark"
+                    value={address_line2}
+                    onChange={(e) => setAddressLine2(e.target.value)}
                   />
                 </div>
 
@@ -274,6 +400,8 @@ export default function Patenmentsdetails() {
                       type="text"
                       id="City"
                       className="w-full border border-text-secondary shadow-sm px-4 h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
                     />
                   </div>
 
@@ -289,7 +417,9 @@ export default function Patenmentsdetails() {
                       type="text"
                       id="State"
                       className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                    />
+                      value={state}
+                      onChange={(e) => setState(e.target.value)}
+                 />
                   </div>
 
                   <div className=" w-full context">
@@ -304,7 +434,9 @@ export default function Patenmentsdetails() {
                       type="text"
                       id="Pincode"
                       className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                    />
+                      value={pincode}
+                      onChange={(e) => setPincode(e.target.value)}
+                   />
                   </div>
                 </div>
               </div>
@@ -317,6 +449,8 @@ export default function Patenmentsdetails() {
                         type="checkbox"
                         id="billing"
                         className=" !top-[-8px] "
+                        value={isBillingSame}
+                        onChange={(e) => setIsBillingSame(e.target.checked)}
                       />
                     </div>
                   </div>
@@ -343,10 +477,14 @@ export default function Patenmentsdetails() {
 
         <div className="w-full">
           <div
-            className={`w-full bg-white p-5 shadow-sm border flex ${tabs === 2 ? "hidden" : "block"
-              }`}
+            className={`w-full bg-white p-5 shadow-sm border flex ${
+              tabs === 2 ? "hidden" : "block"
+            }`}
           >
-            <h6 className="headtext font-extrabold lg:text-[1.5rem] text-xl text-text-secondary cursor-pointer " onClick={() => settabs(2)}>
+            <h6
+              className="headtext font-extrabold lg:text-[1.5rem] text-xl text-text-secondary cursor-pointer "
+              onClick={() => settabs(2)}
+            >
               Shipping Fees
             </h6>
             <button
@@ -357,8 +495,9 @@ export default function Patenmentsdetails() {
             </button>
           </div>
           <div
-            className={` bg-white p-4 shadow-sm ${tabs === 2 ? "block" : "hidden"
-              }`}
+            className={` bg-white p-4 shadow-sm ${
+              tabs === 2 ? "block" : "hidden"
+            }`}
           >
             <div>
               <h6 className=" headtext text-text-secondary font-[700] lg:text-[1rem] text-sm">
@@ -369,7 +508,9 @@ export default function Patenmentsdetails() {
             <div className="mt-4 context ">
               <div className="p-4  border  rounded-lg">
                 <div className="w-full flex">
-                  <span className="font-[400] lg:text-xl text-[1rem]">Shipping Fees</span>
+                  <span className="font-[400] lg:text-xl text-[1rem]">
+                    Shipping Fees
+                  </span>
                   <span className="ml-auto lg:text-lg text-sm text-[#039C2E] font-[500]">
                     Free
                   </span>

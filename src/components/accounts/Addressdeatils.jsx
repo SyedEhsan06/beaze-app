@@ -1,14 +1,20 @@
 "use client";
+import { setUser, updateUser } from "@/redux/slices/userData.slice";
 import { Addressdetails } from "@/utils/dummydata";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Modal from "react-awesome-modal";
 import { FaXmark } from "react-icons/fa6";
+import { useDispatch } from "react-redux";
 
 
 export default function Addressdeatils({ data }) {
   const [bars, setbars] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
+  const[userAddress,setUserAddress]=useState([]);
+  useEffect(() => {
+    setUserAddress(data?.address);
+  }, [data]);
   const [AddressLine1, setAddressLine1] = useState("");
   const [AddressLine2, setAddressLine2] = useState("");
   const [City, setCity] = useState("");
@@ -29,7 +35,7 @@ export default function Addressdeatils({ data }) {
   const handelopenadddeatis = (id) => {
     bars === id ? setbars(0) : setbars(id);
   };
-  console.log(data);
+  // console.log(data);
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
   const [token, setToken] = useState("");
   useEffect(() => {
@@ -50,33 +56,37 @@ export default function Addressdeatils({ data }) {
       state: State,
       pincode: Pincode,
       operation: "edit",
-      addressId: Date.now()*random(1000,9999)+Date.now(),
-      address_type: "home",
+      addressId: (Date.now() * Math.random(1000, 9999) + Date.now()).toString().slice(0, 10),
+      address_type: "other",
     };
     await axios.put(url, { address }, config).then((res) => {
       console.log(res);
     });
   };
+  const dispatch = useDispatch();
   const handleAddAddress =  async() => {
     console.log("add");
+    console.log(AddressLine1, AddressLine2, City, State, Pincode);
     await axios.put(
         url,
         {
-          address: {
+  
             address_line1: AddressLine1,
             address_line2: AddressLine2,
             city: City,
             state: State,
             pincode: Pincode,
             operation: "add",
-            addressId: Date.now()*Pincode.length+Date.now(),
-            address_type: "home",
-          },
+            addressId: (Date.now() * Math.random(1000, 9999) + Date.now()).toString().slice(0, 10),
+            address_type: "home"
+          
         },
         config
       )
       .then((res) => {
+        dispatch(updateUser(res.data));
         console.log(res);
+        setUserAddress(res.data.address);
       });
   };
 
@@ -84,21 +94,24 @@ export default function Addressdeatils({ data }) {
     setismodalopen(false);
    
   };
+  console.log(data?.address)
   return (
     <>
       <div className="w-full">
       <div className=" grid grid-cols-1 gap-y-4 text-lg font-[500]">
-        {Addressdetails.map((items, index) => (
+        {userAddress?.map((items, index) => (
           <div
             className={`w-full bg-white cursor-pointer shadow-sm  lg:px-10 md:px-8 px-5 lg:py-5 md:py-4 py-3 rounded-[13px] transition-all duration-150 `}
-            key={index}
+            key={
+              items?._id
+            }
           >
             <div
               className="w-full flex items-center"
-              onClick={() => handelopenadddeatis(items.id)}
+              onClick={() => handelopenadddeatis(items._id)}
             >
               <h5 className=" font-[600] md:text-xl text-lg headtext text-text-secondary ">
-                {items.title}
+                {items.address_type}
               </h5>
 
               <div className="ml-auto">
@@ -114,7 +127,7 @@ export default function Addressdeatils({ data }) {
               </div>
             </div>
 
-            <div className={`${items.id === bars ? "block" : "hidden"}`}>
+            <div className={`${items._id === bars ? "block" : "hidden"}`}>
               <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
                 <div className=" w-full context">
                   <label htmlFor="add1" className="mb-2">
@@ -129,7 +142,9 @@ export default function Addressdeatils({ data }) {
                     id="add1"
                     className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
                     placeholder="Flat, House, Building and other details"
-                    value={AddressLine1}
+                    value={
+                      items?.address_line1
+                    }
                     onChange={(e) => setAddressLine1(e.target.value)}
                     disabled={!isEdit}
                   />
@@ -147,8 +162,10 @@ export default function Addressdeatils({ data }) {
                     id="add2"
                     className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
                     placeholder="Lane, Street & Landmark"
-                    value={AddressLine2}
-                    onChange={(e) => setAddressLine2(e.target.value)}
+                    value={
+                      items?.address_line2
+                    }
+                    // onChange={(e) => setAddressLine2(e.target.value)}
                     disabled={!isEdit}
                   />
                 </div>
@@ -166,7 +183,9 @@ export default function Addressdeatils({ data }) {
                       type="text"
                       id="City"
                       className="w-full border border-text-secondary shadow-sm px-4 h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                      value={City}
+                      value={
+                        items?.city
+                      }
                       onChange={(e) => setCity(e.target.value)}
                       disabled={!isEdit}
                     />
@@ -184,7 +203,9 @@ export default function Addressdeatils({ data }) {
                       type="text"
                       id="State"
                       className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                      value={State}
+                      value={
+                        items?.state
+                      }
                       onChange={(e) => setState(e.target.value)}
                       disabled={!isEdit}
                     />
@@ -202,7 +223,9 @@ export default function Addressdeatils({ data }) {
                       type="text"
                       id="Pincode"
                       className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                      value={Pincode}
+                      value={
+                        items?.pincode
+                      }
                       onChange={(e) => setPincode(e.target.value)}
                       disabled={!isEdit}
                     />
@@ -266,7 +289,8 @@ export default function Addressdeatils({ data }) {
                     id="add1"
                     className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
                     placeholder="Flat, House, Building and other details"
-                   
+                    value={AddressLine1}
+                    onChange={(e) => setAddressLine1(e.target.value)}
                   />
                 </div>
                 <div className=" w-full context">
@@ -282,7 +306,8 @@ export default function Addressdeatils({ data }) {
                     id="add2"
                     className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
                     placeholder="Lane, Street & Landmark"
-                    
+                    value={AddressLine2}
+                    onChange={(e) => setAddressLine2(e.target.value)}
                   />
                 </div>
 
@@ -299,7 +324,8 @@ export default function Addressdeatils({ data }) {
                       type="text"
                       id="City"
                       className="w-full border border-text-secondary shadow-sm px-4 h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                      
+                      value={City}
+                      onChange={(e) => setCity(e.target.value)}
                     />
                   </div>
 
@@ -315,7 +341,8 @@ export default function Addressdeatils({ data }) {
                       type="text"
                       id="State"
                       className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                      
+                      value={State}
+                      onChange={(e) => setState(e.target.value)}
                     />
                   </div>
 
@@ -331,7 +358,8 @@ export default function Addressdeatils({ data }) {
                       type="text"
                       id="Pincode"
                       className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                     
+                      value={Pincode}
+                      onChange={(e) => setPincode(e.target.value)}
                     />
                   </div>
                 </div>
@@ -342,7 +370,9 @@ export default function Addressdeatils({ data }) {
             <button className=" w-full  text-[#474747] font-[300] md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] " onClick={closeModal}>
              cancel
             </button>
-            <button className=" w-full bg-theme-footer-bg text-white font-[700] md:text-lg text-[1rem] py-2 rounded ">
+            <button
+            onClick={handleAddAddress}
+            className=" w-full bg-theme-footer-bg text-white font-[700] md:text-lg text-[1rem] py-2 rounded ">
              Save Details
             </button>
           </div>

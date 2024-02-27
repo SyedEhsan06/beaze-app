@@ -13,6 +13,7 @@ import {
   recentsearch,
   searchdatadummy,
 } from "@/utils/dummydata";
+import cookieCutter from "cookie-cutter";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCategories,
@@ -32,7 +33,7 @@ import {
 import { selectCartOpen } from "@/redux/slices/cartOpenSlice";
 import Productcart from "../categories/Productcart";
 import axios from "axios";
-import { selectUser } from "@/redux/slices/userData.slice";
+import { selectUser, setUser } from "@/redux/slices/userData.slice";
 
 export default function Header() {
   const [scrollLength, setScrollLength] = useState(0);
@@ -200,17 +201,17 @@ export default function Header() {
     setCartOpen(!cartOpen);
   };
   const cartState = useSelector(selectCartOpen);
-  console.log(cartState);
+  // console.log(cartState);
   useEffect(() => {
     if (cartOpen) {
       dispatch(openCart());
     } else {
       dispatch(closeCart());
     }
-    console.log(cartOpen);
+    // console.log(cartOpen);
   }, [cartOpen, dispatch]);
 
-  console.log(cartState);
+  // console.log(cartState);
   const [count, setCount] = useState(0);
   // let countData = useSelector((state) => state.cart.cart)
   // if(countData.length >= 1){
@@ -307,25 +308,28 @@ export default function Header() {
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`
   const fetchDataProfile = async () => {
     console.log("fetching user data");
-    console.log(localStorage.getItem("token"));
+    // console.log(localStorage.getItem("token"));
     try {
       console.log(url)
-      const token = localStorage.getItem("token");
+      // const token = localStorage.getItem("token");
+      const token = cookieCutter.get("token");
+      console.log(token);
       if (token) {
         const res = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(res.data);
+        // console.log(res.data);
         setUserData(res.data.user);
+        dispatch(setUser(res.data.user));
       }
       // setLoading(false);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   };
-console.log(userData?.first_name)
+// console.log(userData?.first_name)
   // useEffect(() => {
   //   fetchData();
   // }, [path, setUserData, window ? localStorage.getItem("token") : null]);
@@ -334,15 +338,13 @@ const selectDataOfUser = useSelector(selectUser)
     fetchDataProfile();
   }, [
     path,
-    setUserData,
-    selectDataOfUser,
+    // setUserData,
+    dispatch,
+    // selectDataOfUser,
     typeof window !== "undefined" ? localStorage.getItem("token") : null,
   ]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setUserData(null);
-  };
+
 
   const pathname = usePathname();
   if (pathname === "/login" || pathname === "/signup" || pathname === "/otp") {
@@ -535,10 +537,7 @@ const selectDataOfUser = useSelector(selectUser)
                   <>
                     <Link href={"/account"}>
                       {userData.first_name}
-                    </Link>|{" "}
-                    <Link href={"/"} onClick={handleLogout}>
-                      Logout
-                    </Link>{" "}  
+                    </Link>
                   </>
                 ) : (
                   <>
