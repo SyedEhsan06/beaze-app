@@ -1,7 +1,7 @@
 import React from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import cookieCutter from "cookie-cutter";
-import Accounthead from "./accounthead";
+import Accounthead from "./Accounthead";
 // import { useRouter } from "next/navigation";
 export default function layout({ children }) {
 

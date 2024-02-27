@@ -39,7 +39,7 @@ export default function Productshow() {
             ))}
   </div>
 
-  <button className='w-full lg:sticky fixed  bottom-0 left-0 headtext text-white font-extrabold text-[1.5rem] py-2 bg-[#A5A0A8] '>Continue to Payment</button>
+  <button  className='w-full lg:sticky fixed  bottom-0 left-0 headtext text-white font-extrabold text-[1.5rem] py-2 bg-[#A5A0A8] '>Continue to Payment</button>
     </div>
   )
 }
