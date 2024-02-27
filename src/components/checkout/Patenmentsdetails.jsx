@@ -18,7 +18,7 @@ export default function Patenmentsdetails() {
 
   return (
     <div className=" w-full">
-      <div className=" flex lg:gap-x-10 gap-x-3  headtext font-[600]  items-center px-4 mt-4 ">
+      <div className=" flex lg:gap-x-10 gap-x-3  headtext font-[600]  items-center md:px-4 mt-4 ">
         <div>
           <button className=" font-[800] lg:text-3xl text-2xl text-[#039C2EB0] text-opacity-[69%] flex items-center">
             <IoIosCheckmarkCircle size={20} />
@@ -55,7 +55,7 @@ export default function Patenmentsdetails() {
         </div>
       </div>
 
-      <div className=" grid grid-cols-1 gap-y-5 mt-4">
+      <div className=" grid grid-cols-1 lg:gap-y-5 gap-y-3 mt-4">
         <div className="w-full">
           <div
             className={`w-full bg-white p-5 shadow-sm border flex ${tabs === 0 ? "hidden" : "block"
