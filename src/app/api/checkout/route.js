@@ -79,10 +79,10 @@ export async function PUT(req){
         payment,
         paymentStatus,
         status,
-        orderId
+        _id
       } = await req.json();
 
-      const order = await Order.findOne({ _id: orderId });
+      const order = await Order.findOne({ _id});
       if (!order) {
         return Response.json({ error: "Order not found" }, { status: 404 });
       }

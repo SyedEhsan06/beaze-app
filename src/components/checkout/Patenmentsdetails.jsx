@@ -77,12 +77,10 @@ export default function Patenmentsdetails() {
   };
   const handleOrderPlace = async () => {
     try {
-      const response = await axios.post(
+      const response = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/api/checkout`,
         {
           phone: `+91${phone}`,
-          first_name: first_name,
-          last_name: last_name,
           address: {
             address_line1: address_line1,
             address_line2: address_line2,
@@ -95,8 +93,7 @@ export default function Patenmentsdetails() {
           payment: paymentMethod,
           paymentStatus: paymentStatus,
           status: orderStatus,
-          createmyaccount: isAccountCreated,
-          otp: otp,
+          _id: orderData._id,
         }
       );
       console.log(response.data);
@@ -569,7 +566,7 @@ export default function Patenmentsdetails() {
               Change Number
             </button>
             <button 
-            onClick={handleOrderPlace}  
+            // onClick={handleOrderPlace}  
             className=" w-full bg-theme-footer-bg text-white font-[700] py-2 rounded lg:text-xl md:text-lg text-[1rem] ">
               Confirm OTP
             </button>
