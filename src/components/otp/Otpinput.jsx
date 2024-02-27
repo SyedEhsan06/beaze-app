@@ -105,7 +105,7 @@ export default function Otpinput() {
     }
         , [token, error]);
     return (
-        <div className='w-[60%]'>
+        <div className='lg:w-[60%] md:w-[80%] w-[90%] '>
             <div className=' grid grid-cols-6 gap-x-3 z-[100]'>
                 {otp.map((digit, index) => (
                     <input
@@ -116,7 +116,7 @@ export default function Otpinput() {
                         onKeyDown={(event) => handleKeyDown(index, event)}
                         maxLength={1}
                         ref={inputRefs[index]}
-                        className={`border h-[60px]  transition-all duration-150 text-center rounded-[9px] shadow-input  context font-[500] text-xl leading-normal focus:outline-none ${digit ? ' border-[#039C2E]' : 'border-theme-footer-bg '}`}
+                        className={`border md:h-[60px] h-[40px]  transition-all duration-150 text-center rounded-[9px] shadow-input  context font-[500] text-xl leading-normal focus:outline-none ${digit ? ' border-[#039C2E]' : 'border-theme-footer-bg '}`}
                     />
                 ))}
 

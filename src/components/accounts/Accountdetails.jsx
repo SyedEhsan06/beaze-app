@@ -110,9 +110,9 @@ export default function Accountdetails({ data }) {
     setIsEditabel(false);
   };
   return (
-    <div className="w-full bg-white rounded-[13px] px-10 py-8 shadow">
+    <div className="w-full bg-white rounded-[13px] lg:px-10 md:px-8 px-5 lg:py-8 md:py-7 py-6 shadow">
       <div className="w-full">
-        <div className="grid grid-cols-1 gap-y-4 text-lg font-[500]">
+        <div className="grid grid-cols-1 gap-y-4 md:text-lg text-[1rem] font-[500]">
           <div className="w-full context">
             <label htmlFor="fnamesignup" className="mb-2">
               Your First Name
@@ -154,16 +154,16 @@ export default function Accountdetails({ data }) {
             onPhoneChange={handlePhoneChange}
           />
         </div>
-        <div className="mt-14 grid grid-cols-2 gap-5">
+        <div className="lg:mt-14 md:mt-10 mt-6 grid grid-cols-2 gap-5">
           {!isEditabel ? <><button
-            className="w-[100%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg text-[1.4rem] rounded-[21.5px]"
+            className="w-[100%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg lg:text-[1.4rem] md:text-xl text-[1rem] rounded-[21.5px]"
             onClick={
               editDetails
             }
           >
             Edit Details
           </button></>: <><button
-            className="w-[100%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg text-[1.4rem] rounded-[21.5px]"
+            className="w-[100%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg lg:text-[1.4rem] md:text-xl text-[1rem] rounded-[21.5px]"
             onClick={
               candleBtn
             }
@@ -174,7 +174,7 @@ export default function Accountdetails({ data }) {
 
           <button
           onClick={handleUpdateWithoutOtp}
-          className="w-[100%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg text-[1.4rem] rounded-[21.5px]">
+          className="w-[100%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg lg:text-[1.4rem] md:text-xl text-[1rem] rounded-[21.5px]">
             Save
           </button>
         </div>
@@ -184,19 +184,19 @@ export default function Accountdetails({ data }) {
         </div>
       </div>
       <Modal visible={ismodalopen} effect="fadeInDown" onClickAway={closeModal}>
-        <div className="w-[700px] px-5 pt-3 pb-5">
+        <div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5">
           <div className="flex ">
             <button className="ml-auto" onClick={closeModal}>
               <FaXmark size={40} />
             </button>
           </div>
           <div className="my-4">
-            <h6 className="context font-[900] text-[2.5rem] text-center mb-10">
+            <h6 className="context font-[900] lg:text-[2.5rem] md:text-[2rem] text-2xl text-center lg:mb-10 md:mb-7 mb-4">
               Enter OTP
             </h6>
             <div className="w-full grid grid-cols-1 gap-y-3 justify-items-center">
               <Otpinput/>
-              {error && <p className="text-red-500 text-left context py-2">{error}</p>}
+              {error && <p className="text-red-500 text-left context py-2 md:text-[1rem] text-sm ">{error}</p>}
             </div>
             {/* <input
               type="text"
@@ -209,7 +209,7 @@ export default function Accountdetails({ data }) {
           <div className="grid grid-cols-2 gap-x-4 headtext py-2 mt-6">
             {!isOtpSent ? (
               <button
-                className="w-full text-[#474747] font-[300] text-lg py-2 rounded border-[0.3px] border-[#000000] "
+                className="w-full text-[#474747] font-[300]  md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] "
                 onClick={handleUpdateWithOtp}
               >
                 Update Details
@@ -217,13 +217,13 @@ export default function Accountdetails({ data }) {
             ) : (
               <>
                 <button
-                  className="w-full text-[#474747] font-[300] text-lg py-2 rounded border-[0.3px] border-[#000000] "
+                  className="w-full text-[#474747] font-[300] md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] "
                   onClick={closeModal}
                 >
                   Change Number
                 </button>
                 <button
-                  className="w-full bg-theme-footer-bg text-white font-[700] text-xl py-2 rounded "
+                  className="w-full bg-theme-footer-bg text-white font-[700] lg:text-xl md:text-lg text-[1rem] py-2 rounded "
                   onClick={handleUpdateWithOtp}
                 >
                   Confirm OTP

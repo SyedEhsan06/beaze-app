@@ -90,14 +90,14 @@ export default function Addressdeatils({ data }) {
       <div className=" grid grid-cols-1 gap-y-4 text-lg font-[500]">
         {Addressdetails.map((items, index) => (
           <div
-            className={`w-full bg-white cursor-pointer shadow-sm  px-10 py-5 rounded-[13px] transition-all duration-150 `}
+            className={`w-full bg-white cursor-pointer shadow-sm  lg:px-10 md:px-8 px-5 lg:py-5 md:py-4 py-3 rounded-[13px] transition-all duration-150 `}
             key={index}
           >
             <div
               className="w-full flex items-center"
               onClick={() => handelopenadddeatis(items.id)}
             >
-              <h5 className=" font-[600] text-xl headtext text-text-secondary ">
+              <h5 className=" font-[600] md:text-xl text-lg headtext text-text-secondary ">
                 {items.title}
               </h5>
 
@@ -210,16 +210,16 @@ export default function Addressdeatils({ data }) {
                 </div>
               </div>
 
-              <div className="mt-12 flex gap-x-10">
+              <div className="lg:mt-12 md:mt-10 mt-8 flex gap-x-10">
                 <button
-                  className=" border border-theme-footer-bg w-[50%]  font-[600] text-xl headtext rounded-[21.5px] text-theme-footer-bg py-2  text-center"
+                  className=" border border-theme-footer-bg w-[50%]  font-[600] lg:text-xl md:text-lg text-[1rem] headtext rounded-[21.5px] text-theme-footer-bg py-2  text-center"
                   onClick={() => setbars(0)}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSubmit}
-                  className=" bg-[#F8B43A] w-[50%]  font-[600] text-xl headtext rounded-[21.5px] text-theme-footer-bg py-2  text-center border border-transparent"
+                  className=" bg-[#F8B43A] w-[50%]  font-[600] lg:text-xl md:text-lg text-[1rem] headtext rounded-[21.5px] text-theme-footer-bg py-2  text-center border border-transparent"
                 >
                   Save Details
                 </button>
@@ -229,11 +229,11 @@ export default function Addressdeatils({ data }) {
         ))}
       </div>
 
-      <div className="mt-10">
+      <div className="lg:mt-10 md:mt-8 mt-6 ">
         <button
           // onClick={handleAddAddress}
           onClick={() => setismodalopen(true)}
-          className=" bg-[#F8B43A] w-[40%]  font-[600] text-xl headtext rounded-[21.5px] text-theme-footer-bg py-2  text-center"
+          className=" bg-[#F8B43A] w-[40%]  font-[600] g:text-xl md:text-lg text-[1rem] headtext rounded-[21.5px] text-theme-footer-bg py-2  text-center"
         >
           Add another
         </button>
@@ -241,13 +241,13 @@ export default function Addressdeatils({ data }) {
     </div>
 
     <Modal visible={ismodalopen} effect="fadeInDown" onClickAway={closeModal}>
-        <div className="w-[800px] px-5 pt-3 pb-5">
+        <div className="lg:w-[800px] md:w-[600px] w-[340px] px-5 pt-3 pb-5">
           <div className="flex">
             <button className="ml-auto" onClick={closeModal}>
               <FaXmark size={40} />
             </button>
           </div>
-          <h6 className="context font-[900] text-[2.5rem] text-center mb-4">
+          <h6 className="context font-[900] lg:text-[2.5rem] md:text-[2rem] text-2xl text-center mb-4">
               Edit Address
             </h6>
 
@@ -339,10 +339,10 @@ export default function Addressdeatils({ data }) {
          </div>
 
          <div className=" grid grid-cols-2 gap-x-4 headtext py-2 mt-6">
-            <button className=" w-full  text-[#474747] font-[300] text-lg py-2 rounded border-[0.3px] border-[#000000] " onClick={closeModal}>
+            <button className=" w-full  text-[#474747] font-[300] md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] " onClick={closeModal}>
              cancel
             </button>
-            <button className=" w-full bg-theme-footer-bg text-white font-[700] text-xl py-2 rounded ">
+            <button className=" w-full bg-theme-footer-bg text-white font-[700] md:text-lg text-[1rem] py-2 rounded ">
              Save Details
             </button>
           </div>

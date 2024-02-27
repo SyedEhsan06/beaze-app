@@ -67,7 +67,7 @@ console.log(userdata)
                   <input
                     type="text"
                     value={country}
-                    className="pl-2 font-[500] text-xl w-[100%] outline-none border-none focus:outline-none cursor-pointer"
+                    className="pl-2 font-[500] lg:text-xl text-[1rem] w-[100%] outline-none border-none focus:outline-none cursor-pointer"
                     onChange={(e) => {
                       setCountry(e.target.value);
                       onCountryChange(e.target.value); // Invoke callback
