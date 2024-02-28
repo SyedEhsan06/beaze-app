@@ -77,6 +77,7 @@ export default function Contentcategories({ params , categories}) {
   const categoryCall = useSelector(selectCategoryCall);
   const [catsState, setCatsState] = useState('');
   const fixSelect = useSelector(selectFix);
+  const[allData,setAllData] = useState([]);
 
   const [subcategorySelect, setSubcategorySelect] = useState([]);
   useEffect(() => {
@@ -379,10 +380,12 @@ export default function Contentcategories({ params , categories}) {
   let currentCategory = completeData?.map((item) => item.category);
   let uniqueCategory = [...new Set(currentCategory)];
   useEffect(() => {
-    if (cats && completeData) {
+    // if(!completeData && ){ 
+
+    if (cats && completeData || allData?.length > 0) {
       try {
         // Extract unique category names from completeData
-        let currentCategory = completeData.map((item) => item.category)
+        let currentCategory = completeData.map((item) => item.category)|| allData.map((item) => item.category);
         let uniqueCategory = [...new Set(currentCategory)];
 
         // Filter categories from Redux state that match uniqueCategory
@@ -609,13 +612,13 @@ useEffect(() => {
     localStorage.setItem("categoryData", JSON.stringify(res?.products));
     console.log(res?.products);
     setAllData(res?.products);
+    setCompleteData(res?.products);
     setLoader(false);
     setFilterLoader(false);
   });
 }, [
   typeof window !== "undefined" && localStorage.getItem("categoryData"),
 ]);
-const[allData,setAllData] = useState([]);
 useEffect(() => {
   if(completeData?.length > 0 &&subcategorySelect?.length === 0){
     console.log(localStorage.getItem("categoryData"));    
