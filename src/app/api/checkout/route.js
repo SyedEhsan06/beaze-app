@@ -108,9 +108,12 @@ export async function PUT(req){
 export async function GET(req) {
   try {
     await connectToDb();
+    ///////
     const token = req.headers.get("authorization")?.replace("Bearer ", "");
     const decodedToken = jwt.verify(token, secret);
     const { phone } = decodedToken;
+    ///////
+    // const phone = "+918340263940"
     const query = req.url.split("?")[1];
     const params = new URLSearchParams(query);
     const orderId = params.get("orderId");
