@@ -612,7 +612,7 @@ useEffect(() => {
     localStorage.setItem("categoryData", JSON.stringify(res?.products));
     console.log(res?.products);
     setAllData(res?.products);
-    setCompleteData(res?.products);
+    // setCompleteData(res?.products);
     setLoader(false);
     setFilterLoader(false);
   });
