@@ -105,22 +105,34 @@ export async function PUT(req){
       return Response.json({ error: "Internal server error" }, { status: 500 });
     }
 }
-export async function GET(req){
-  try{
+export async function GET(req) {
+  try {
     await connectToDb();
     const token = req.headers.get("authorization")?.replace("Bearer ", "");
     const decodedToken = jwt.verify(token, secret);
     const { phone } = decodedToken;
+    const query = req.url.split("?")[1];
+    const params = new URLSearchParams(query);
+    const orderId = params.get("orderId");
+
     const user = await User.findOne({ phone_number: phone });
     if (!user) {
       return Response.json({ error: "User not found" }, { status: 404 });
     }
-    const orders = await Order.find({
-      phone,
-    });
+
+    let orders;
+    if (orderId) {
+      const order = await Order.findOne({ _id: orderId, phone });
+      if (!order) {
+        return Response.json({ error: "Order not found" }, { status: 404 });
+      }
+      orders = [order]; 
+    } else {
+      orders = await Order.find({ phone });
+    }
+
     return Response.json({ orders });
-  }
-  catch(error){
+  } catch (error) {
     console.error("Error retrieving orders:", error);
     return Response.json({ error: "Internal server error" }, { status: 500 });
   }
