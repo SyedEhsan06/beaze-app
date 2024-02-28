@@ -4,40 +4,42 @@ import User from "@/lib/models/user.model";
 import { sendOTP, verifyOTP } from "@/utils/verifyOtpUtils";
 
   const secret = process.env.SECRET;
-export async function POST(req) {
-  try {
-  if (!req) {
-    return Response.json({ error: "Request is undefined" }, 400);
-  }
-
-
-    await connectToDb();
-    const {
-      phone,
-      first_name,
-      last_name,
-      otp,
-      createmyaccount,
-    } = await req.json();
-    
-
-    // Step 1: Send OTP
-    const { isOTPSent, sentOTP, otpExpiration } = await sendOTP(phone);
-
-    if (!isOTPSent) {
-      return Response.json({ error: "Error sending OTP" }, { status: 500 });
-    }
-
-    // Step 2: Verify OTP
-    const isOTPSuccess = await verifyOTP(phone, otp);
-    if (!isOTPSuccess) {
-      return Response.json({ error: "Invalid OTP" }, { status: 400 });
-    }
-
-    // Step 3: Create user if needed
-    let user = null;
-    if (createmyaccount) {
-      user = await User.findOne({ phone_number: phone });
+  export async function POST(req) {
+    try {
+      if (!req) {
+        return Response.json({ error: "Request is undefined" }, 400);
+      }
+  
+      await connectToDb();
+      const {
+        phone,
+        first_name,
+        last_name,
+        otp
+      } = await req.json();
+      
+      let isOTPSent, sentOTP, otpExpiration; // Declare variables outside the block
+  
+      // Step 1: Send OTP
+      if (!otp) {
+        const otpData = await sendOTP(phone);
+        isOTPSent = otpData.isOTPSent;
+        sentOTP = otpData.sentOTP;
+        otpExpiration = otpData.otpExpiration;
+      }
+  
+      if (!isOTPSent) {
+        return Response.json({ error: "Error sending OTP" }, { status: 500 });
+      }
+  
+      // Step 2: Verify OTP
+      const isOTPSuccess = await verifyOTP(phone, otp);
+      if (!isOTPSuccess) {
+        return Response.json({ error: "Invalid OTP" }, { status: 400 });
+      }
+  
+      // Step 3: Create user if needed
+      let user = await User.findOne({ phone_number: phone });
       if (!user) {
         const newUser = new User({
           phone_number: phone,
@@ -46,35 +48,36 @@ export async function POST(req) {
         });
         await newUser.save();
       }
+  
+      // Step 4: Create new order
+      const newOrder = new Order({
+        phone,
+        first_name,
+        last_name,
+      });
+      let orderToReturn ={
+        phone,
+        first_name,
+        last_name,
+        otp,
+        _id: newOrder._id,
+      }
+      await newOrder.save();
+      console.log(newOrder);
+      return Response.json({ orderToReturn });
+    } catch (error) {
+      console.error("Error creating order:", error);
+      return Response.json({ error: "Internal server error" }, { status: 500 });
     }
-    // Step 4: Create new order
-    const newOrder = new Order({
-      phone,
-      first_name,
-      last_name,
-    });
-    let orderToReturn ={
-      phone,
-      first_name,
-      last_name,
-      otp,
-      _id: newOrder._id,
-    }
-    await newOrder.save();
-    console.log(newOrder);
-    return Response.json({ orderToReturn });
-  } catch (error) {
-    console.error("Error creating order:", error);
-    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
-}
 
 export async function PUT(req){
     try{
       await connectToDb();
       const { 
         phone,
-        address,
+        shipping_address,
+        billing_address,
         total,
         cart,
         payment,
@@ -88,7 +91,8 @@ export async function PUT(req){
         return Response.json({ error: "Order not found" }, { status: 404 });
       }
       order.phone = phone;
-      order.address = address;
+      order.shipping_address = shipping_address;
+      order.billing_address = billing_address;
       order.total = total;
       order.cart = cart;
       order.payment = payment;

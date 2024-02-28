@@ -508,6 +508,8 @@ export default function Contentcategories({ params , categories}) {
     setCompleteData(rightFilteredProducts);
   };
   const handleRemoveFilter = useCallback((item, index) => {
+    handleApplyfilter();
+
     if (colorFilter.includes(item)) {
       dispatch(toggleColor(item));
     }
@@ -520,8 +522,7 @@ export default function Contentcategories({ params , categories}) {
     if (sleeveFilter.includes(item)) {
       dispatch(toggleSleeve(item));
     }
-    // setCompleteData(rightFilteredProducts);
-    handleApplyfilter();
+    setCompleteData(rightFilteredProducts);
   }, [colorFilter, sizeFilter, materialFilter, sleeveFilter, dispatch, handleApplyfilter]);
   // console.log(allsubcategories);
   const categoryState = useSelector(selectCategory);

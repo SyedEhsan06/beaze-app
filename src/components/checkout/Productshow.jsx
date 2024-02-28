@@ -35,7 +35,7 @@ export default function Productshow({ buttonevent, cartData }) {
                 Qty : {items.selectedQty}
               </p>
 
-              <p className=" text-[1rem] font-[500] mt-1">INR {items.price}</p>
+              <p className=" text-[1rem] font-[500] mt-1">INR {items.price*items.selectedQty}</p>
             </div>
           </div>
         ))}
