@@ -751,13 +751,13 @@ useEffect(() => {
         <div
           className={`${
             filterLoader ? "blur-md transition-all ease-linear" : ""
-          } grid lg:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context`}
+          } grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-8 gap-4 context`}
         >
           {completeData.map((items, index) => (
             <div key={index} className="group relative">
               {/* Product content */}
               <div className=" flex flex-col text-[#03071E]">
-                <div className="   cursor-pointer  transition-all duration-100 relative rounded-[6px]  lg:group-hover:opacity-50 h-[200px] 2xl:h-[250px] w-full overflow-hidden">
+                <div className="   cursor-pointer  transition-all duration-100 relative rounded-[6px]  lg:group-hover:opacity-50 md:h-[220px] lg:h-[200px] h-[200px] 2xl:h-[250px] w-full overflow-hidden">
                   <Image
                     src={`${items?.images[0]}`}
                     alt="Your Image"
