@@ -71,6 +71,7 @@ export default function Patenmentsdetails() {
     }
   };
   const handleOtpSendWithOtp = async () => {
+    console.log("otp", otp);
     setismodalopen(true);
     try {
       const response = await axios.post(
@@ -272,7 +273,7 @@ export default function Patenmentsdetails() {
                       onPhoneChange={handlePhoneChange}
                     />
                   </div>
-                  <div className=" w-full my-6 context">
+                  {/* <div className=" w-full my-6 context">
                     <div className=" flex gap-2 lg:gap-0 items-center">
                       <div className="w-[5%]">
                         <div className=" relative">
@@ -320,9 +321,9 @@ export default function Patenmentsdetails() {
                         </label>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
-                  <div className="w-full flex justify-center">
+                  <div className="w-full flex justify-center my-6">
                     <button
                       className="headtext font-[800]  lg:text-[1.4rem] text-lg py-3 lg:w-[40%] w-[60%] rounded bg-theme-footer-bg text-white"
                       onClick={handleOtpSend}

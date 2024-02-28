@@ -18,22 +18,19 @@ import { sendOTP, verifyOTP } from "@/utils/verifyOtpUtils";
         otp
       } = await req.json();
       
-      let isOTPSent, sentOTP, otpExpiration; // Declare variables outside the block
   
       // Step 1: Send OTP
-      if (!otp) {
-        const otpData = await sendOTP(phone);
-        isOTPSent = otpData.isOTPSent;
-        sentOTP = otpData.sentOTP;
-        otpExpiration = otpData.otpExpiration;
-      }
-  
+      const { isOTPSent, sentOTP, otpExpiration } = await sendOTP(phone);
+      
       if (!isOTPSent) {
         return Response.json({ error: "Error sending OTP" }, { status: 500 });
-      }
-  
+      } 
+      
       // Step 2: Verify OTP
-      const isOTPSuccess = await verifyOTP(phone, otp);
+      let isOTPSuccess;
+    if (otp) {
+      isOTPSuccess = await verifyOTP(phone, otp);
+    }
       if (!isOTPSuccess) {
         return Response.json({ error: "Invalid OTP" }, { status: 400 });
       }

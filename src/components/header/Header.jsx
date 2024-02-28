@@ -304,16 +304,16 @@ export default function Header() {
   }, [showhide]);
   const [userData, setUserData] = useState(null);
   const path = usePathname();
-    console.log(process.env.NEXT_PUBLIC_API_URL)
+    // console.log(process.env.NEXT_PUBLIC_API_URL)
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`
   const fetchDataProfile = async () => {
-    console.log("fetching user data");
+    // console.log("fetching user data");
     // console.log(localStorage.getItem("token"));
     try {
       console.log(url)
       // const token = localStorage.getItem("token");
       const token = cookieCutter.get("token");
-      console.log(token);
+      // console.log(token);/
       if (token) {
         const res = await axios.get(url, {
           headers: {
@@ -341,7 +341,7 @@ const selectDataOfUser = useSelector(selectUser)
     // setUserData,
     dispatch,
     // selectDataOfUser,
-    typeof window !== "undefined" ? localStorage.getItem("token") : null,
+    // typeof window !== "undefined" ? localStorage.getItem("token") : null,
   ]);
 
 
