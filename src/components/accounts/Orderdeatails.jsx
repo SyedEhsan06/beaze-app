@@ -1,9 +1,13 @@
+"use client";
 import { Addressdetails, orderdetailsdummy } from '@/utils/dummydata'
 import React, { useState } from 'react'
 
 export default function Orderdeatails() {
   const [bars, setbars] = useState(0)
-
+  const [data, setdata] = useState()
+  useEffect(() => {
+    setdata(orderdetailsdummy)
+  }, [])
 
   const handelopenadddeatis = (id) => {
     bars === id ? setbars(0) : setbars(id)

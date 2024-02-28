@@ -105,3 +105,18 @@ export async function PUT(req){
       return Response.json({ error: "Internal server error" }, { status: 500 });
     }
 }
+export async function GET(req){
+  try{
+    await connectToDb();
+    const  phone = req.url.split("?")[1];
+    console.log(phone);
+    const orders = await Order.find({
+      phone,
+    });
+    return Response.json({ orders });
+  }
+  catch(error){
+    console.error("Error retrieving orders:", error);
+    return Response.json({ error: "Internal server error" }, { status: 500 });
+  }
+}
