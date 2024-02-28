@@ -227,11 +227,11 @@ export default function Productinfo({ pid }) {
                     onChange={(e) => handelsetcolr(e.target.value)}
                   >
                     <option value="">Select colour</option>
-                    {productinfo.attributes &&
+                    {productinfo?.attributes &&
                       Array.isArray(
-                        productinfo.attributes[0]?.value
+                        productinfo?.attributes[0]?.value
                       ) &&
-                      productinfo.attributes[0].value.map(
+                      productinfo?.attributes[0].value.map(
                         (items, index) => (
                           <option value={items}>{items}</option>
                         )
@@ -259,11 +259,11 @@ export default function Productinfo({ pid }) {
                     onChange={(e) => handelselectsize(e.target.value)}
                   >
                     <option value="">Size : Medium</option>
-                    {productinfo.attributes &&
+                    {productinfo?.attributes &&
                       Array.isArray(
-                        productinfo.attributes[1]?.value
+                        productinfo?.attributes[1]?.value
                       ) &&
-                      productinfo.attributes[1].value.map(
+                      productinfo?.attributes[1].value.map(
                         (items, index) => (
                           <option value={items}>{items}</option>
                         )
@@ -290,7 +290,7 @@ export default function Productinfo({ pid }) {
             <div className="w-full">
               <div className="w-full md:flex md:gap-16 gap-5 grid grid-cols-1">
                 <div className="md:w-[50%]">
-                  <Productcarousel sliderdata={productinfo.images} setopemodal={setismodalopen} />
+                  <Productcarousel sliderdata={productinfo?.images} setopemodal={setismodalopen} />
                 </div>
                 <div className="md:w-[50%] ">
                   <div className={`lg:w-[80%] w-[100%] flex-col justify-between  ${showdesc ? ' lg:hidden' : 'flex'}`}>
@@ -299,10 +299,10 @@ export default function Productinfo({ pid }) {
                         Women’s Clothing / Tops & Blouses / Classic Shirts{" "}
                       </p>
                       <h5 className="headtext font-semibold md:text-3xl text-2xl lg:leading-[2.8rem]">
-                        {productinfo.title}
+                        {productinfo?.title}
                       </h5>
                       <p className="context font-[500] md:text-2xl text-[1.3rem]">
-                        INR {productinfo.price}
+                        INR {productinfo?.price}
                       </p>
 
                       {/* <p className="context mt-2 text-[1rem] text-opacity-[50%] font-[300]">
@@ -314,9 +314,9 @@ export default function Productinfo({ pid }) {
                       <div className="w-full">
                         <p className=" font-[400] text-lg">Select a size</p>
                         <div className="flex mt-1 gap-2 flex-wrap">
-                          {productinfo.attributes &&
-                            Array.isArray(productinfo.attributes[1]?.value) &&
-                            productinfo.attributes[1].value.map(
+                          {productinfo?.attributes &&
+                            Array.isArray(productinfo?.attributes[1]?.value) &&
+                            productinfo?.attributes[1].value.map(
                               (items, index) => (
                                 <button
                                   key={index}
@@ -352,11 +352,11 @@ export default function Productinfo({ pid }) {
                                 onChange={(e) => handelsetcolr(e.target.value)}
                               >
                                 <option value="">Select Colour</option>
-                                {productinfo.attributes &&
+                                {productinfo?.attributes &&
                                   Array.isArray(
-                                    productinfo.attributes[0]?.value
+                                    productinfo?.attributes[0]?.value
                                   ) &&
-                                  productinfo.attributes[0].value.map(
+                                  productinfo?.attributes[0].value.map(
                                     (items, index) => (
                                       <option value={items}>{items}</option>
                                     )
@@ -379,14 +379,14 @@ export default function Productinfo({ pid }) {
                           <p className=" font-[400] text-lg">Select quantity</p>
                           <div className="md:w-[30%] w-[90%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 ">
                             <button
-                              disabled={pdata.pquantity === 1 ? true : false}
+                              disabled={pdata?.pquantity === 1 ? true : false}
                               className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
                               onClick={handeldecreseqty}
                             >
                               <RiSubtractLine size={20} />
                             </button>
                             <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1">
-                              {pdata.pquantity}
+                              {pdata?.pquantity}
                             </div>
                             <button
                               className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
@@ -539,7 +539,7 @@ export default function Productinfo({ pid }) {
       >
         <div className="p-8 relative">
           <button className=" absolute right-1 top-1 bg-black text-white p-2 rounded-full" onClick={() => setismodalopen(false)} ><FaXmark size={16} /></button>
-          <Productmobile sliderdata={productinfo.images} setopemodal={setismodalopen} />
+          <Productmobile sliderdata={productinfo?.images} setopemodal={setismodalopen} />
         </div>
       </Modal>
    
