@@ -51,8 +51,8 @@ export default function Signup() {
   };
 
   return (
-    <div className='h-[100vh] w-[100%] pb-4 pt-8 lg:px-10 px-2 relative mainconlogins'>
-      <div className='absolute top-[4%] lg:left-[1%] left-1/2 transform -translate-x-1/2 z-10 lg:transform-none lg:-translate-x-0'>
+    <div className='h-[100vh] w-[100%] pb-4 pt-8 lg:px-10 px-2 relative mianconlogins flex  lg:block'>
+      <div className='absolute top-[4%] lg:left-[1%] left-1/2 transform -translate-x-1/2  lg:transform-none lg:-translate-x-0'>
         <Link href={'/'}>
           <Image src="/images/logo.png" fill alt="logo" className='!static lg:!w-[80%] !w-[100px]' />
         </Link>

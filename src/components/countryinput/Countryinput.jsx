@@ -57,7 +57,7 @@ console.log(userdata)
       </label>
       <div className="w-full flex gap-x-2 relative">
         <div className="w-[20%]">
-          <div className="w-[100%] border border-text-secondary shadow-input bg-white py-3 cursor-pointer rounded-lg">
+          <div className="w-[100%] border border-text-secondary shadow-input bg-white h-[52px] cursor-pointer rounded-lg flex items-center">
             <div className="w-full">
               <div
                 className="w-full flex items-center"

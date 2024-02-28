@@ -101,7 +101,7 @@ export default function Otpcomp() {
     }
   }, [token, error]);
   return (
-    <div className="h-[100vh] w-[100%] pb-4 pt-8  lg:px-10 px-2 relative  flex items-center lg:block">
+    <div className="h-[100vh] w-[100%] pb-4 pt-8  lg:px-10 px-2 relative  flex items-center lg:block mianconlogins ">
       <div className='absolute lg:top-[4%] top-[6%] lg:left-[1%]  left-1/2 transform -translate-x-1/2 z-10 lg:transform-none lg:-translate-x-0">'>
         <Link href={"/"}>
           <Image
@@ -149,7 +149,7 @@ export default function Otpcomp() {
                         onKeyDown={(event) => handleKeyDown(index, event)}
                         maxLength={1}
                         ref={inputRefs[index]}
-                        className={`border h-[60px]  transition-all duration-150 text-center rounded-[9px] shadow-input  context font-[500] text-xl leading-normal focus:outline-none ${
+                        className={`border lg:h-[60px] md:h-[50px] h-[40px]  transition-all duration-150 text-center rounded-[9px] shadow-input  context font-[500] text-xl leading-normal focus:outline-none ${
                           digit
                             ? " border-[#039C2E]"
                             : "border-theme-footer-bg "
