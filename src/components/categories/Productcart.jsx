@@ -5,6 +5,7 @@ import { IoMdAdd } from "react-icons/io";
 import { RiSubtractFill } from "react-icons/ri";
 import { FaTrashAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { TbFaceIdError } from "react-icons/tb";
 import {
   addToCart,
   removeFromCart,
@@ -48,7 +49,9 @@ const handleCloseCart = () => {
   }, 0);
   console.log({'cadat' : cartData})
   return (
-    <>
+   <>
+    {
+      data.length >= 1 ?  <>
       <div className="pt-5 z-[99999]">
         <div className=" overflow-y-auto max-h-[405px] border-b">
           <div className="px-3">
@@ -193,15 +196,18 @@ const handleCloseCart = () => {
           className="w-[35%] bg-transparent rounded-[29px] py-2 border-[1px] border-[#000000] text-xl text-[300] text-text-secondary">
             Cancel
           </button>
-          <Link href="/checkout" className="w-[65%]">
           <button
            
-           className=" bg-theme-footer-bg  py-2 text-xl text-white font-[700] rounded-[29px]">
-             Checkout
+           className=" w-[65%] bg-theme-footer-bg  py-2 text-xl text-white font-[700] rounded-[29px]">
+            <Link href='/checkout'> Checkout</Link>
            </button>
-            </Link>
         </div>
       </div>
-    </>
+    </> : <div className="w-full h-[100%] flex items-center justify-center flex-col">
+    <TbFaceIdError className="lg:text-[4rem] md:text-[3rem] text-[2rem]"/>
+      <p className="md:text-lg text-[1rem] font-semibold headtext ">Oops Look like your cart is empty</p>
+    </div>
+    }
+   </>
   );
 }

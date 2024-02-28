@@ -982,7 +982,7 @@ useEffect(() => {
         width="80%"
         onClickAway={closeModal}
       >
-        <Productmodal produtdata={productdata} modalclose={closeModal} ismodalopen={ismodalopen} />
+        <Productmodal produtdata={productdata} modalclose={closeModal} ismodalopen={ismodalopen} setismodaloprn={setismodalopen} />
       </Modal>
       <ToastContainer />
     </div>

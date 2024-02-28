@@ -25,6 +25,7 @@ export default function Productmobile({ sliderdata,setopemodal }) {
           src={sliderdata?.[imageindex]}
           layout="fill"
           objectFit="cover"
+          alt="mobilesiderimage"
           className="rounded-[8px] transition-all duration-300"
         />
       </div>
