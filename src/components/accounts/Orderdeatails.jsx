@@ -1,12 +1,25 @@
 "use client";
 import { Addressdetails, orderdetailsdummy } from '@/utils/dummydata'
+import axios from 'axios';
 import React, { useState } from 'react'
-
+import cookieCutter from 'cookie-cutter'
 export default function Orderdeatails() {
   const [bars, setbars] = useState(0)
   const [data, setdata] = useState()
+  const token = cookieCutter.get('token')
   useEffect(() => {
-    setdata(orderdetailsdummy)
+  const fetchdata = async () => {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/checkout`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(res => {
+      setdata(res.data)
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+  fetchdata()
   }, [])
 
   const handelopenadddeatis = (id) => {
