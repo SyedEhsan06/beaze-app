@@ -55,7 +55,7 @@ import { ThreeDots } from "react-loader-spinner";
 import "./content.css";
 export default function Contentcategories({ params , categories}) {
   const [showsort, setshowsort] = useState(false);
-  const [selectedfilter, setselectedfilter] = useState(null);
+  const [selectedfilter, setselectedfilter] = useState(2);
   const [checkedmenus, setcheckedmenus] = useState([]);
   const [filtercount, setfiltercount] = useState(5);
   const [filtertypes, setfiltertypes] = useState(filtertypesdata);
@@ -263,9 +263,6 @@ export default function Contentcategories({ params , categories}) {
 
   const handleSortSelection = (items, index) => {
     setselectedfilter(index);
-    if (selectedfilter === index) {
-      setselectedfilter(null);
-    }
     switch (items.val) {
       case "hightolow":
         setCompleteData(completeData.sort((a, b) => b.price - a.price));
