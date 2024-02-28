@@ -1,17 +1,27 @@
 import React from 'react'
 import { searchdatadummy } from '@/utils/dummydata'
 import Image from 'next/image'
+import {useSelector} from 'react-redux'
+import { selectCart } from "@/redux/slices/cartSlice";
 
-export default function Productshow({buttonevent}) {
+export default function Productshow({buttonevent,cartData}) {
+  const cart = useSelector(selectCart);
+  console.log(cart)
+const totalPrice = cart.reduce((acc, item) => {
+  const itemPrice = parseFloat(item.price);
+  return !isNaN(itemPrice) ? acc + itemPrice : acc;
+}
+, 0);
   return (
+
     <div className='h-[80vh] overflow-y-auto w-full bg-white shadow-sm border lg:relative '>
   <div className=' grid grid-cols-1 gap-y-3  px-10 py-8'>
-  {searchdatadummy.map((items, index) => (
+  {cart.map((items, index) => (
               <div className="w-full flex gap-3 " key={index}>
                 <div className="w-[35%]">
                   <div className="w-full h-[130px] relative mb-3 rounded-[7px]">
                     <Image
-                      src={items.img}
+                      src={items.images[0]}
                       layout="fill"
                       objectFit="cover"
                       className="rounded-[7px] transition-all duration-300"
@@ -20,13 +30,13 @@ export default function Productshow({buttonevent}) {
                 </div>
                 <div className="w-[60%] context flex flex-col pb-3 mt-3  ">
                   <h5 className="text-lg font-[500] leading-4">
-                    {items.ptitle}
+                    {items.title}
                   </h5>
                   <p className=" text-[1rem] text-text-secondary font-[300]">
-                    Size : M | Colour : Black
+                    Size : {items.size} | Colour : {items.color}
                   </p>
                   <p className=" text-[1rem] text-text-secondary font-[300]">
-                  Quantity : 1
+                    Qty : {items.selectedQty}
                   </p>
               
 

@@ -588,7 +588,7 @@ export default function Patenmentsdetails() {
     </div>
 </div>
 <div className='lg:w-[40%] lg:mt-0 mt-6'>
-  <Productshow buttonevent={handleOrderPlace}/>
+  <Productshow cartdata={cartData} buttonevent={handleOrderPlace}/>
 </div>
   </div>
   );
