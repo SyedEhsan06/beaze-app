@@ -10,11 +10,13 @@ import axios from "axios";
 import Otpinput from "../otp/Otpinput";
 import { selectCart } from "@/redux/slices/cartSlice";
 import { useSelector } from "react-redux";
+import Productshow from './Productshow'
 export default function Patenmentsdetails() {
   
   const [selectedCountry, setSelectedCountry] = useState();
   const [tabs, settabs] = useState(0);
   const [ismodalopen, setismodalopen] = useState(false);
+  
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("");
   const [first_name, setFirstName] = useState("");
@@ -129,7 +131,9 @@ export default function Patenmentsdetails() {
   };
 
   return (
-    <div className=" w-full">
+    <div className=' w-full lg:flex gap-x-5'>
+<div className='lg:w-[60%] w-[100%]'>
+<div className=" w-full">
       <div className=" flex lg:gap-x-10 gap-x-3  headtext font-[600]  items-center md:px-4 mt-4 ">
         <div>
           <button className=" font-[800] lg:text-3xl text-2xl text-[#039C2EB0] text-opacity-[69%] flex items-center">
@@ -582,6 +586,11 @@ export default function Patenmentsdetails() {
         </div>
       </Modal>
     </div>
+</div>
+<div className='lg:w-[40%] lg:mt-0 mt-6'>
+  <Productshow buttonevent={handleOrderPlace}/>
+</div>
+  </div>
   );
 }
 // Path: src/components/checkout/Productshow.jsx
