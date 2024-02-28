@@ -52,15 +52,15 @@ export default function Productinfo({ pid }) {
       setproductinfo(resdata);
       setpdata({
         ...pdata,
-           _id : resdata._id,
-           productId : resdata.productId,
-           title : resdata.title,
-           images : resdata.images && Array.isArray(resdata.images) && resdata.images,
+           _id : resdata?._id,
+           productId : resdata?.productId,
+           title : resdata?.title,
+           images : resdata?.images && Array.isArray(resdata?.images) && resdata?.images,
            pquantity : 1,
-           quantity : resdata.quantity,
-           color : resdata.attributes && Array.isArray(resdata.attributes[0]?.value) && resdata.attributes[0].value[0],
-           size : resdata.attributes && Array.isArray(resdata.attributes[1]?.value) && resdata.attributes[1].value[0],
-           price : resdata.price,
+           quantity : resdata?.quantity,
+           color : resdata?.attributes && Array.isArray(resdata?.attributes[0]?.value) && resdata?.attributes[0].value[0],
+           size : resdata?.attributes && Array.isArray(resdata?.attributes[1]?.value) && resdata?.attributes[1].value[0],
+           price : resdata?.price,
         
       })
       setloader(false);
@@ -135,15 +135,15 @@ export default function Productinfo({ pid }) {
 
   const handeladdtocart = () => {
     const obj = {
-      _id : pdata._id,
-      productId : pdata.productId,
-      title : pdata.title,
-      images : pdata.images,
-      quantity : pdata.quantity,
-      pquantity : pdata.pquantity,
-      color : pdata.color,
-      size : pdata.size,
-      price : pdata.price * pdata.pquantity
+      _id : pdata?._id,
+      productId : pdata?.productId,
+      title : pdata?.title,
+      images : pdata?.images,
+      quantity : pdata?.quantity,
+      pquantity : pdata?.pquantity,
+      color : pdata?.color,
+      size : pdata?.size,
+      price : pdata?.price * pdata?.pquantity
 
     }
 
@@ -183,10 +183,10 @@ export default function Productinfo({ pid }) {
             <div className="w-[25%]">
 
               <h5 className="context font-semibold  text-xl">
-                {productinfo.title}
+                {productinfo?.title}
               </h5>
               <p className="context font-[500]  text-lg">
-                INR {productinfo.price}
+                INR {productinfo?.price}
               </p>
 
             </div>
@@ -197,14 +197,14 @@ export default function Productinfo({ pid }) {
 
                 <div className="w-[80%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 ">
                   <button
-                    disabled={pdata.pquantity === 1 ? true : false}
+                    disabled={pdata?.selectedqty === 1 ? true : false}
                     className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 py-[6px] text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
                     onClick={handeldecreseqty}
                   >
                     <RiSubtractLine size={20} />
                   </button>
                   <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 py-[6px]">
-                    {pdata.pquantity}
+                    {pdata?.selectedqty}
                   </div>
                   <button
                     className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 py-[6px] text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
