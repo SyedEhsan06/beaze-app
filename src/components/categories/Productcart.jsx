@@ -75,7 +75,7 @@ const handleCloseCart = () => {
                   <div className="mt-1 flex items-center border-[0.5px] w-[60%] justify-between rounded">
                     <button
                       onClick={() => handleRemove(items._id)}
-                      disabled={items.pquantity == 1 ? true : false}
+                      disabled={items.selectedQty == 1 ? true : false}
                       className="py-1 px-2 border-r-[0.5px]"
                     >
                       <RiSubtractFill className="font-[800]" />
