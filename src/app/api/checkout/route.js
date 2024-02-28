@@ -76,6 +76,7 @@ export async function PUT(req){
         phone,
         address,
         total,
+        cart,
         payment,
         paymentStatus,
         status,
@@ -89,6 +90,7 @@ export async function PUT(req){
       order.phone = phone;
       order.address = address;
       order.total = total;
+      order.cart = cart;
       order.payment = payment;
       order.paymentStatus = paymentStatus;
       order.status = status;
