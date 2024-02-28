@@ -40,7 +40,7 @@ const handleCloseCart = () => {
 };
   let tax= data.reduce((a, b) => a + b.tax*b.selectedQty, 0);
   let total = tax + data.reduce((a, b) => a + b.price*b.selectedQty, 0);
-
+  
 
   const totalPrice = data.reduce((acc, item) => {
     const itemPrice = parseFloat(item.price);
@@ -80,7 +80,7 @@ const handleCloseCart = () => {
                     >
                       <RiSubtractFill className="font-[800]" />
                     </button>
-                    <div className="py-1 px-2 ">{items.pquantity}</div>
+                    <div className="py-1 px-2 ">{items.selectedQty}</div>
                     <button
                       onClick={() => handleAdd(items._id)}
                       className="py-1 px-2 border-l-[0.5px]"

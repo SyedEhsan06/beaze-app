@@ -608,6 +608,9 @@ useEffect(() => {
   fetchData(`products`).then((res) => {
     localStorage.setItem("categoryData", JSON.stringify(res?.products));
     console.log(res?.products);
+    setAllData(res?.products);
+    setLoader(false);
+    setFilterLoader(false);
   });
 }, [
   typeof window !== "undefined" && localStorage.getItem("categoryData"),
