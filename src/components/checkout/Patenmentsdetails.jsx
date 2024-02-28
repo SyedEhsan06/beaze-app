@@ -51,19 +51,27 @@ export default function Patenmentsdetails() {
           phone: `+91${phone}`,
           first_name: first_name,
           last_name: last_name,
-          address: {
-            address_line1: address_line1,
-            address_line2: address_line2,
-            city: city,
-            state: state,
-            pincode: pincode,
-          },
-          cart: cartData,
-          total: totalPrice,
-          payment: paymentMethod,
-          paymentStatus: paymentStatus,
-          status: orderStatus,
-          createmyaccount: isAccountCreated,
+        }
+      );
+      console.log(response.data);
+      setIsOtpSent(true);
+
+      // Handle response data as needed
+    } catch (error) {
+      console.error("Error sending OTP request:", error);
+      // Handle error
+    }
+  };
+  const handleOtpSendWithOtp = async () => {
+    setismodalopen(true);
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/checkout`,
+        {
+          phone: `+91${phone}`,
+          first_name: first_name,
+          last_name: last_name,
+          otp: otp,
         }
       );
       console.log(response.data);
@@ -566,7 +574,7 @@ export default function Patenmentsdetails() {
               Change Number
             </button>
             <button 
-            // onClick={handleOrderPlace}  
+            onClick={handleOtpSendWithOtp}  
             className=" w-full bg-theme-footer-bg text-white font-[700] py-2 rounded lg:text-xl md:text-lg text-[1rem] ">
               Confirm OTP
             </button>
