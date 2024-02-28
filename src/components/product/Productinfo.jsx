@@ -101,30 +101,21 @@ export default function Productinfo({ pid }) {
 
 
   const handelincreaseqty = () => {
-    if (pdata.pquantity + 1 > productinfo.quantity) {
-      toast.error(`You can't add more quantity than ${productinfo.quantity}`, {
-        position: "bottom-left",
-        autoClose: 500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    } else {
-      setpdata({
-        ...pdata,
-        pquantity: pdata.pquantity + 1,
-      });
+      if(pdata.selectedqty != pdata.quantity){
+        setpdata({
+          ...pdata,
+          selectedqty : pdata.selectedqty+1,
+         
+        })
     }
   };
   
   
     const handeldecreseqty = () => {
-      if(pdata.pquantity != 1){
+      if(pdata.selectedqty != 1){
         setpdata({
           ...pdata,
-          pquantity : pdata.pquantity-1,
+          selectedqty : pdata.selectedqty-1,
          
         })
       }
