@@ -44,6 +44,29 @@ export default function Productinfo({ pid }) {
   useEffect(() => {
     handelproductinfo();
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      // Adjust the scroll threshold as needed
+      const scrollThreshold = 150;
+
+      if (scrollY > scrollThreshold) {
+        setshowdesc(true)
+      } else {
+        setshowdesc(false)
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+
+
   const handelproductinfo = async () => {
     setloader(true);
     try {

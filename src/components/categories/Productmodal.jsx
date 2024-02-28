@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 
 
-export default function Productmodal({ produtdata, modalclose,ismodalopen }) {
+export default function Productmodal({ produtdata, modalclose,ismodalopen,setismodaloprn }) {
   const [sizeindex, setsizeindex] = useState(0);
   const [imageindex, setimageindex] = useState(0);
   const [showimage, setshowimage] = useState(false);
@@ -75,6 +75,7 @@ useEffect(() => {
         draggable: true,
         progress: undefined,
       });
+     
     } else {
       toast.success("Added to cart", {
         position: "bottom-left",
@@ -87,6 +88,7 @@ useEffect(() => {
       });
     }
     localStorage.setItem("cart", JSON.stringify(selectedCartData));
+    setismodaloprn(false)
   };
 
 
