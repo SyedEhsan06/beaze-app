@@ -16,6 +16,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { addToCart, selectCart } from "@/redux/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Link from "next/link";
+
 
 
 export default function Productinfo({ pid }) {
@@ -39,33 +41,14 @@ export default function Productinfo({ pid }) {
     price : null
   })
 
-  const router = useRouter()
+
 
   useEffect(() => {
     handelproductinfo();
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      // Adjust the scroll threshold as needed
-      const scrollThreshold = 150;
-
-      if (scrollY > scrollThreshold) {
-        setshowdesc(true)
-      } else {
-        setshowdesc(false)
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-
+  
+const router = useRouter() 
 
   const handelproductinfo = async () => {
     setloader(true);
@@ -187,6 +170,16 @@ export default function Productinfo({ pid }) {
     localStorage.setItem("cart", JSON.stringify(selectedCartData));
   };
 
+  const handleScroll = (event) => {
+    const currentPosition = event.target.scrollTop;
+if(currentPosition > 0 ){
+  setshowdesc(true)
+}else{
+  setshowdesc(false)
+}
+  };
+
+
   return (
     <>
       {loader ? (
@@ -306,11 +299,11 @@ export default function Productinfo({ pid }) {
                 <div className="md:w-[50%]">
                   <Productcarousel sliderdata={productinfo?.images} setopemodal={setismodalopen} />
                 </div>
-                <div className="md:w-[50%] ">
+                <div className="md:w-[50%] lg:h-[80vh] lg:overflow-y-auto "  onScroll={handleScroll}>
                   <div className={`lg:w-[80%] w-[100%] flex-col justify-between  ${showdesc ? ' lg:hidden' : 'flex'}`}>
                     <div className="w-full flex flex-col">
-                      <p className=" text-[400] context text-sm mb-3 ">
-                        Women’s Clothing / Tops & Blouses / Classic Shirts{" "}
+                      <p className=" text-[400] context text-sm mb-3   ">
+                      <span><Link href='/'>Home</Link></span> /  <span className="cursor-pointer" onClick={() => router.back()}>Categories</span> / Product
                       </p>
                       <h5 className="headtext font-semibold md:text-3xl text-2xl lg:leading-[2.8rem]">
                         {productinfo?.title}
@@ -438,7 +431,7 @@ export default function Productinfo({ pid }) {
                   </div>
 
                   <div
-                    className={`w-full   context mt-6 ${showdesc ? "block" : "hidden"
+                    className={`w-full   context mt-6 ${showdesc ? "block" : " lg:block hidden"
                       }`}
                   >
                     <div className="w-[80%] mb-10">
@@ -449,6 +442,7 @@ export default function Productinfo({ pid }) {
                               src={"/images/web/Illustrations/drop.png"}
                               layout="fill"
                               objectFit="cover"
+                              alt="sliderimage"
                             />
                           </div>
                           <p className="  text-[1rem] font-[500] text-text-secondary leading-[1rem] text-center">

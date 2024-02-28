@@ -197,6 +197,23 @@ loader */
   background-size: cover;
  
 }
+
+.swiper-wrapper{
+  padding-bottom: 30px !important;
+}
+
+.swiper-scrollbar{
+  height: 5px !important;
+  background-color: #E9E6E0CC !important;
+  opacity: 80% !important;
+  cursor: pointer !important;
+}
+
+.swiper-scrollbar-drag{
+background-color: #FFB61DCC !important;
+opacity: 80% !important;
+cursor: pointer !important;
+}
 .loader {
   position: relative;
  
