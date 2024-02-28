@@ -3,7 +3,7 @@ import { connectToDb } from "@/lib/utils";
 import User from "@/lib/models/user.model";
 import { sendOTP, verifyOTP } from "@/utils/verifyOtpUtils";
 
-
+  const secret = process.env.SECRET;
 export async function POST(req) {
   try {
   if (!req) {
@@ -108,8 +108,13 @@ export async function PUT(req){
 export async function GET(req){
   try{
     await connectToDb();
-    const  phone = req.url.split("?")[1];
-    console.log(phone);
+    const token = req.headers.get("authorization")?.replace("Bearer ", "");
+    const decodedToken = jwt.verify(token, secret);
+    const { phone } = decodedToken;
+    const user = await User.findOne({ phone_number: phone });
+    if (!user) {
+      return Response.json({ error: "User not found" }, { status: 404 });
+    }
     const orders = await Order.find({
       phone,
     });
