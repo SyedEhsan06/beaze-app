@@ -1,9 +1,9 @@
 "use client";
 import { Addressdetails, orderdetailsdummy } from '@/utils/dummydata'
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import cookieCutter from 'cookie-cutter'
-export default function Orderdeatails() {
+export default function Orderdeatails({userData}) {
   const [bars, setbars] = useState(0)
   const [data, setdata] = useState()
   const token = cookieCutter.get('token')
@@ -25,6 +25,10 @@ export default function Orderdeatails() {
   const handelopenadddeatis = (id) => {
     bars === id ? setbars(0) : setbars(id)
   }
+
+
+  console.log({'userData' : userData})
+  console.log({'data' : data})
   return (
     <div className='w-full'>
     <div className=' grid grid-cols-1 gap-y-4 text-lg font-[500]'>

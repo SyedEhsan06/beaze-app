@@ -262,6 +262,7 @@ loader */
     background-image: url('/images/web/login/bg.png');
     background-size: cover;
     opacity: 0.2;
+    z-index: -1;
    
   }
 }
