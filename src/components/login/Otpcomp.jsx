@@ -83,7 +83,7 @@ export default function Otpcomp() {
         draggable: true,
         progress: undefined,
       });
-
+      
       setTimeout(() => {
         router.push("/");
       }, 1000);

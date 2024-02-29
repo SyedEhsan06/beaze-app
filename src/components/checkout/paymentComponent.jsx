@@ -57,8 +57,7 @@ export default function PaymentComponent({
         });
         const absoluteUrl =`${process.env.NEXT_PUBLIC_API_URL}/invoice?orderId=${orderId}`;
 
-        // Redirect using the absolute URL
-        return NextResponse.redirect(absoluteUrl);
+          window.location.href = absoluteUrl
       },    
 
       prefill: {
