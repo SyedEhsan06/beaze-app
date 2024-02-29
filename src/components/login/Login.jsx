@@ -13,7 +13,9 @@ export default function Login() {
   const [country, setCountry] = useState('');
   const [error, setError] = useState('');
   const [response, setResponse] = useState('');
+  const[checknum,setchecknum] = useState(false)
   const router = useRouter();
+  
   console.log(
     phone,
     country
@@ -21,6 +23,8 @@ export default function Login() {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`;
   const handleSubmit = async (e) => {
     e.preventDefault();
+   if(phone.length === 10){
+    setchecknum(false)
     localStorage?.setItem('phone', phone);
     try {
       const response = await axios.post(url, {
@@ -32,6 +36,9 @@ export default function Login() {
       console.log(error);
       setError(error); 
     }
+   }else{
+    setchecknum(true)
+   }
   };
   useEffect(() => {
     if(response?.data?.error === "Internal Server Error"){
@@ -142,8 +149,12 @@ export default function Login() {
               <form className="w-full"
                 onSubmit={handleSubmit}
               >
-              <Countryinput editable={true} onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} />
+              <Countryinput editable={true} onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} checknumtendigit={checknum} />
 
+              <div className={`context w-full leading-3 mt-5 ${checknum ? 'block' : ' hidden'}`}>
+                  <p className=' text-center lg:text-[1rem] text-xs text-[#760000] font-[500]'>🤔 Uh Oh, That number does not seem right.</p>
+                  <p className=' text-center lg:text-[1rem] text-xs underline font-[700]'>We’d love for you to check it again</p>
+                 </div>
                 <button className="w-[100%] mt-7 py-4  headtext font-[900] text-text-secondary bg-[#FFD012] lg:text-3xl text-xl  rounded-lg button-shadow  ">
                   Submit
                 </button>
