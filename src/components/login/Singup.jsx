@@ -21,7 +21,7 @@ export default function Signup() {
     localStorage?.setItem('phone', phone);
     try {
       const response = await axios.post(url, {
-        phone,
+        phone:`+91${phone}`,
         firstName,
         lastName,
       });
