@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { FaSearch } from "react-icons/fa";
 import { countrylist } from "@/utils/countrylist";
 import { FaChevronDown, FaCheck } from "react-icons/fa";
+import { FaXmark } from "react-icons/fa6";
 
-export default function Countryinput({ onCountryChange, onPhoneChange ,userdata,editable}) {
+export default function Countryinput({ onCountryChange, onPhoneChange ,userdata,editable,alreadyresgiter,checknumtendigit}) {
   const [country, setCountry] = useState("+91");
 
   const [phone, setPhone] = useState(
@@ -14,6 +15,7 @@ export default function Countryinput({ onCountryChange, onPhoneChange ,userdata,
   }, [userdata]);
   const [data, setData] = useState(countrylist);
   const [showMenu, setShowMenu] = useState(false);
+  const[localvalidation,setlocalvalidation] = useState(0)
   const divRef = useRef();
 console.log(userdata)
   const handleFilterCountry = (val) => {
@@ -48,6 +50,7 @@ console.log(userdata)
       setShowMenu(false);
     }
   };
+
 
   return (
     <div className="w-full context">
@@ -122,7 +125,7 @@ console.log(userdata)
           </div>
         </div>
         <div className="w-[80%]">
-          <div className="w-full flex border border-text-secondary shadow-input pl-2 pr-3 rounded-lg">
+          <div className={`w-full flex border  shadow-input pl-2 pr-3 rounded-lg ${alreadyresgiter ? ' border-[#FF0000]' : 'border-text-secondary'}`}>
             <div className="w-[95%] ">
               <input
                 type="text"
@@ -131,13 +134,22 @@ console.log(userdata)
                 onChange={(e) => {
                   setPhone(e.target.value); // Update phone state
                   onPhoneChange(e.target.value); // Invoke callback
+               
                 }}
                 value={phone}
                 disabled={!editable}
               />
             </div>
-            <button className="w-[5%] text-[#039C2EB0]">
-              <FaCheck size={14} />
+            <button className="w-[5%] ">
+            {alreadyresgiter ? (
+    <></>
+  ) : (
+    checknumtendigit ? (
+      <FaXmark size={14} className="text-[#D00000]" />
+    ) : (
+      <FaCheck size={14} className="text-[#039C2EB0]" />
+    )
+  )}
             </button>
           </div>
         </div>

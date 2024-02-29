@@ -14,23 +14,37 @@ export default function Signup() {
   const [country, setCountry] = useState('');
   const [error, setError] = useState('');
   const [response, setResponse] = useState('');
+  const[validationerr,setvalidationerr] = useState(false);
+  const[checknum,setchecknum] = useState(false)
+
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup`
     // console.log(firstname, lastname, phone, country)
   const handleSubmit = async (e) => {
     e.preventDefault();
+   if(phone.length === 10){
     localStorage?.setItem('phone', phone);
+    setchecknum(false)
     try {
       const response = await axios.post(url, {
         phone:`+91${phone}`,
         firstName,
         lastName,
       });
-      console.log(response);
-      setResponse(response); // Update response state
+      if(response.data.message == 'User already exists'){
+        setvalidationerr(true)
+      }else{
+        setvalidationerr(false)
+        setResponse(response); // Update response state
+      }
+      
     } catch (error) {
       console.log(error);
       setError(error); // Update error state
     }
+   }else{
+  
+    setchecknum(true)
+   }
   };
 
   const route = useRouter();
@@ -130,8 +144,16 @@ export default function Signup() {
                       </button>
                     </div>
                   </div>
-                  <Countryinput editable={true} onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} />
+                  <Countryinput editable={true} onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} alreadyresgiter={validationerr} checknumtendigit={checknum} />
+                 <div className={`context w-full leading-3 mt-3 ${validationerr ? 'block' : ' hidden'}`}>
+                  <p className=' text-center lg:text-[1rem] text-xs text-[#760000] font-[500]'>😩 Oops, Looks like this number is already registered</p>
+                  <p className=' text-center lg:text-[1rem] text-xs underline font-[700]'><Link href='/login'>Try signing in instead</Link></p>
+                 </div>
 
+                 <div className={`context w-full leading-3 mt-3 ${checknum ? 'block' : ' hidden'}`}>
+                  <p className=' text-center lg:text-[1rem] text-xs text-[#760000] font-[500]'>🤔 Uh Oh, That number does not seem right.</p>
+                  <p className=' text-center lg:text-[1rem] text-xs underline font-[700]'>We’d love for you to check it again</p>
+                 </div>
                 </div>
                 <button type="submit" className='w-[100%] lg:mt-5 mt-10 py-4 headtext font-[900] text-text-secondary bg-[#FFD012] lg:text-3xl text-xl rounded-lg button-shadow'>Submit</button>
               </form>
