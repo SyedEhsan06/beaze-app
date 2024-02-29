@@ -10,6 +10,7 @@ import axios from "axios";
 import Otpinput from "../otp/Otpinput";
 import { selectCart } from "@/redux/slices/cartSlice";
 import { useSelector } from "react-redux";
+import cookieCutter from "cookie-cutter";
 import Productshow from "./Productshow";
 export default function Patenmentsdetails() {
   const [selectedCountry, setSelectedCountry] = useState();
@@ -43,6 +44,13 @@ export default function Patenmentsdetails() {
   const [state_billing, setStateBilling] = useState("");
   const [pincode_billing, setPincodeBilling] = useState("");
   const [isBillingSame, setIsBillingSame] = useState(false);
+  const [token, setToken] = useState("")
+  useEffect(() => {
+  let cookieToken = cookieCutter.get("token");
+  if (cookieToken) {
+    setToken(cookieToken);
+  }
+}, []);
 
   //api1
   const dataFromStore = useSelector(selectCart);
@@ -54,7 +62,7 @@ export default function Patenmentsdetails() {
     setismodalopen(true);
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/checkout`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup`,
         {
           phone: `+91${phone}`,
           first_name: first_name,
@@ -75,7 +83,7 @@ export default function Patenmentsdetails() {
     setismodalopen(true);
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/checkout`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/verifyotp`,
         {
           phone: `+91${phone}`,
           first_name: first_name,
@@ -85,7 +93,7 @@ export default function Patenmentsdetails() {
       );
       console.log(response.data);
       setIsOtpSent(true);
-
+      setToken(response.data.token)
       // Handle response data as needed
     } catch (error) {
       console.error("Error sending OTP request:", error);
@@ -94,9 +102,11 @@ export default function Patenmentsdetails() {
   };
   const handleOrderPlace = async () => {
     try {
-      const response = await axios.put(
+      const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/checkout`,
         {
+          first_name: first_name,
+          last_name: last_name,
           phone: `+91${phone}`,
           shipping_address: {
             address_line1: address_line1,
@@ -119,6 +129,11 @@ export default function Patenmentsdetails() {
           paymentStatus: paymentStatus,
           status: orderStatus,
           _id: orderData._id,
+        }
+        , {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
         }
       );
       console.log(response.data);

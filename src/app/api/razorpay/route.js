@@ -5,12 +5,13 @@ import { connectToDb } from '@/lib/utils';
 
 export async function POST(req) {
     await connectToDb();
+    const { amount, currency, receipt, notes } = await req.json();
+    console.log(amount, currency, receipt, notes);
     try {
         if (!req) {
             return Response.json({ error: "Request is undefined" }, 400);
         }   
-        const { amount, currency, receipt, notes } = await req.json();
-        console.log(amount, currency, receipt, notes);
+        // const { amount, currency, receipt, notes } = await req.json();
 
         const instance = new Razorpay({
             key_id: process.env.RAZORPAY_KEY_ID,

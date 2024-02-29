@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import { selectCart } from "@/redux/slices/cartSlice";
 import PaymentComponent from "./paymentComponent";
+// import PaymentComponent from "./paymentComponent";
 
 export default function Productshow({ buttonevent, cartData }) {
   const [showPayment, setShowPayment] = useState(false); // State to control visibility of PaymentComponent

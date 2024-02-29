@@ -53,9 +53,9 @@ import { selectCategories } from "@/redux/slices/categorySlice";
 import { ThreeDots } from "react-loader-spinner";
 
 import "./content.css";
-export default function Contentcategories({ params , categories}) {
+export default function Contentcategories({ params, categories }) {
   const [showsort, setshowsort] = useState(false);
-  const [selectedfilter, setselectedfilter] = useState(2);
+  const [selectedfilter, setselectedfilter] = useState(null);
   const [checkedmenus, setcheckedmenus] = useState([]);
   const [filtercount, setfiltercount] = useState(5);
   const [filtertypes, setfiltertypes] = useState(filtertypesdata);
@@ -73,42 +73,44 @@ export default function Contentcategories({ params , categories}) {
   const usepathname = usePathname();
   const selectReduxSubcategory = useSelector(selectSubcategory);
   const cats = useSelector(selectCategories);
-  const allsubcategories = cats?.categories?.filter((item) => item.subcategories.length > 0).map((item) => item.subcategories).flat().map((item) => item.name);
+  const allsubcategories = cats?.categories
+    ?.filter((item) => item.subcategories.length > 0)
+    .map((item) => item.subcategories)
+    .flat()
+    .map((item) => item.name);
   const categoryCall = useSelector(selectCategoryCall);
-  const [catsState, setCatsState] = useState('');
+  const [catsState, setCatsState] = useState("");
   const fixSelect = useSelector(selectFix);
-  const[allData,setAllData] = useState([]);
+  const [allData, setAllData] = useState([]);
 
   const [subcategorySelect, setSubcategorySelect] = useState([]);
   useEffect(() => {
     setSubcategorySelect(selectReduxSubcategory);
   }, [selectReduxSubcategory]);
-  console.log(categoryCall);
   useEffect(() => {
     setCatsState(categoryCall);
     console.log(catsState);
     // setLoader(true);
     setLoader(true);
     setFilterLoader(true);
-    if (categoryCall  !=='' && catsState.length > 0) {
+    if (categoryCall !== "" && catsState.length > 0) {
       // axios.get(`http://localhost:3000/api/products?category=${catsState}`).then((res) => {
       //   setData(res.data.products);
       //   console.log(res.data.products);
       //   setLoader(false);
       fetchData(`products?category=${catsState}`).then((res) => {
-        setData([])
+        setData([]);
         setCompleteData([]);
         setFilterData([]);
         setData(res.products);
-        console.log(res.products); 
-    setFilterLoader(false);
-    setLoader(false);
+        console.log(res.products);
+        setFilterLoader(false);
+        setLoader(false);
       });
-    }
-    else{
+    } else {
       setData([]);
     }
-  }, [categoryCall, catsState,fixSelect]);
+  }, [categoryCall, catsState, fixSelect]);
   let router = useRouter();
   let debounceTimeoutRef = useRef(null);
   useEffect(() => {
@@ -124,7 +126,7 @@ export default function Contentcategories({ params , categories}) {
     //   !sessionStorage?.getItem("categoryData")
     // ) {
     //   // Fetch all products if no data is available
-      
+
     // }
   }, [dispatch, selectData]);
   const [filterData, setFilterData] = useState([]);
@@ -180,9 +182,8 @@ export default function Contentcategories({ params , categories}) {
       setFilterData([]); // Reset filterData when no subcategories selected
       setLoader(false);
       // dispatch(addMultiSubcategory(allsubcategories))
-      
     }
-  }, [subcategorySelect, dispatch,catsState,categoryCall,fixSelect]);
+  }, [subcategorySelect, dispatch, catsState, categoryCall, fixSelect]);
   // useEffect(() => {
   //   if(subcategorySelect?.length === 0 && catsState.length == 0){
   //     dispatch(addMultiSubcategory(allsubcategories));
@@ -318,16 +319,22 @@ export default function Contentcategories({ params , categories}) {
 
   const handeladdtocart = (pdata) => {
     const obj = {
-      _id : pdata._id,
-      productId : pdata.productId,
-      title : pdata.title,
-      images : pdata.images,
-      quantity : pdata.quantity,
-      pquantity : 1,
-      color : pdata.attributes && Array.isArray(pdata.attributes[0]?.value) && pdata.attributes[0].value[0],
-      size : pdata.attributes && Array.isArray(pdata.attributes[1]?.value) && pdata.attributes[1].value[0],
-      price : pdata.price
-    }
+      _id: pdata._id,
+      productId: pdata.productId,
+      title: pdata.title,
+      images: pdata.images,
+      quantity: pdata.quantity,
+      pquantity: 1,
+      color:
+        pdata.attributes &&
+        Array.isArray(pdata.attributes[0]?.value) &&
+        pdata.attributes[0].value[0],
+      size:
+        pdata.attributes &&
+        Array.isArray(pdata.attributes[1]?.value) &&
+        pdata.attributes[1].value[0],
+      price: pdata.price,
+    };
 
     dispatch(addToCart(obj));
     if (selectedCartData.some((item) => item._id === obj._id)) {
@@ -357,7 +364,7 @@ export default function Contentcategories({ params , categories}) {
 
   useEffect(() => {
     const header = document.querySelector("header");
-    if (isfilterbaropen !== 0 ||  ismodalopen) {
+    if (isfilterbaropen !== 0 || ismodalopen) {
       document.body.classList.add("blurbody");
       header.classList.remove("absolute");
       header.classList.add("headerfixed");
@@ -371,18 +378,20 @@ export default function Contentcategories({ params , categories}) {
     return () => {
       document.body.classList.remove("blurbody");
     };
-  }, [isfilterbaropen,ismodalopen]);
+  }, [isfilterbaropen, ismodalopen]);
   const [category, setCategory] = useState([]);
   const [allFilters, setAllFilters] = useState([]);
   let currentCategory = completeData?.map((item) => item.category);
   let uniqueCategory = [...new Set(currentCategory)];
   useEffect(() => {
-    // if(!completeData && ){ 
+    // if(!completeData && ){
 
-    if (cats && completeData || allData?.length > 0) {
+    if ((cats && completeData) || allData?.length > 0) {
       try {
         // Extract unique category names from completeData
-        let currentCategory = completeData.map((item) => item.category)|| allData.map((item) => item.category);
+        let currentCategory =
+          completeData.map((item) => item.category) ||
+          allData.map((item) => item.category);
         let uniqueCategory = [...new Set(currentCategory)];
 
         // Filter categories from Redux state that match uniqueCategory
@@ -430,7 +439,29 @@ export default function Contentcategories({ params , categories}) {
   const [filterEmpty, setFilterEmpty] = useState(false);
   const [rightFilteredProducts, setRightFilteredProducts] = useState([]);
   const [allFiltersCount, setAllFiltersCount] = useState([]);
+  const handleApplyfilter = () => {
+    setShowCard(true);
+    setCompleteData(rightFilteredProducts);
+    console.log(rightFilteredProducts.length)
+  };
+  const handleRemoveFilter = (item) => {
+    if (colorFilter.includes(item)) {
+      dispatch(toggleColor(item));
+    }
+    if (sizeFilter.includes(item)) {
+      dispatch(toggleSize(item));
+    }
+    if (materialFilter.includes(item)) {
+      dispatch(toggleMaterial(item));
+    }
+    if (sleeveFilter.includes(item)) {
+      dispatch(toggleSleeve(item));
+    }
+    setShowCard(true);
+  handleApplyfilter();
+  };
   useEffect(() => {
+    // console.log(colorFilter, sizeFilter, materialFilter, sleeveFilter);
     // Filter products when any filter changes
     if (
       colorFilter.length === 0 &&
@@ -490,7 +521,7 @@ export default function Contentcategories({ params , categories}) {
         setRightFilteredProducts([]);
       }
     }
-  }, [colorFilter, sizeFilter, materialFilter, sleeveFilter]);
+  }, [colorFilter, sizeFilter, materialFilter, sleeveFilter,dispatch]);
   const [showCard, setShowCard] = useState(false);
   const handleResetfilter = () => {
     setShowCard(false);
@@ -502,128 +533,117 @@ export default function Contentcategories({ params , categories}) {
     setAllFiltersCount([]);
     setCompleteData([...filterData, ...data]);
   };
-
-  const handleApplyfilter = () => {
-    setShowCard(true);
-    setCompleteData(rightFilteredProducts);
-  };
-  const handleRemoveFilter = useCallback((item, index) => {
-    handleApplyfilter();
-
-    if (colorFilter.includes(item)) {
-      dispatch(toggleColor(item));
-    }
-    if (sizeFilter.includes(item)) {
-      dispatch(toggleSize(item));
-    }
-    if (materialFilter.includes(item)) {
-      dispatch(toggleMaterial(item));
-    }
-    if (sleeveFilter.includes(item)) {
-      dispatch(toggleSleeve(item));
-    }
-    setCompleteData(rightFilteredProducts);
-  }, [colorFilter, sizeFilter, materialFilter, sleeveFilter, dispatch, handleApplyfilter]);
+ 
   // console.log(allsubcategories);
   const categoryState = useSelector(selectCategory);
-// useEffect(() => {
-// if(subcategorySelect?.length ===0 && completeData?.length === 0 && allsubcategories?.length > 0){
-//   // dispatch(toggleSubcategory([]));
-//   console.log("i am here");
-//   dispatch(addMultiSubcategory(allsubcategories));
-//   // dispatch(addProduct(completeData));
-// }
-// console.log(subcategorySelect);
-// console.log(completeData);
-// }, [subcategorySelect]);
-// useEffect(() => {
-//   if(completeData?.length >12){
-//     localStorage.setItem("categoryData", JSON.stringify(completeData));
-//   }
-//   if(localStorage.getItem("categoryData")){
-//     console.log(localStorage.getItem("categoryData"));
+  // useEffect(() => {
+  // if(subcategorySelect?.length ===0 && completeData?.length === 0 && allsubcategories?.length > 0){
+  //   // dispatch(toggleSubcategory([]));
+  //   console.log("i am here");
+  //   dispatch(addMultiSubcategory(allsubcategories));
+  //   // dispatch(addProduct(completeData));
+  // }
+  // console.log(subcategorySelect);
+  // console.log(completeData);
+  // }, [subcategorySelect]);
+  // useEffect(() => {
+  //   if(completeData?.length >12){
+  //     localStorage.setItem("categoryData", JSON.stringify(completeData));
+  //   }
+  //   if(localStorage.getItem("categoryData")){
+  //     console.log(localStorage.getItem("categoryData"));
 
-//   }
-// }
-// , [completeData]);
-console.log(completeData);
-console.log(subcategorySelect);
-console.log(data);
-console.log(filterData);
-const handleFetchAllData = () => {
-  // dispatch(toggleSubcategory([]));
-  dispatch(addMultiSubcategory([]));
-  
-  dispatch(toggleCategory([]));
-  dispatch(toggleFix([]));
-  dispatch(addMultiSubcategory(allsubcategories));
-  dispatch(toggleFix(allsubcategories));
-};
+  //   }
+  // }
+  // , [completeData]);
+  // console.log(completeData);
+  // console.log(subcategorySelect);
+  console.log(data);
+  // console.log(filterData);
+  const handleFetchAllData = () => {
+    // dispatch(toggleSubcategory([]));
+    dispatch(addMultiSubcategory([]));
 
-// useEffect(() => {
-//     if(subcategorySelect?.length===0){
-      
-//     }
-// }, [])
+    dispatch(toggleCategory([]));
+    dispatch(toggleFix([]));
+    dispatch(addMultiSubcategory(allsubcategories));
+    dispatch(toggleFix(allsubcategories));
+  };
 
-// const [allData, setAllData] = useState([]);
+  // useEffect(() => {
+  //     if(subcategorySelect?.length===0){
 
-// useEffect(() => {
-//   if (!dataFetched && subcategorySelect?.length === 0 && completeData?.length === 0 && allsubcategories?.length > 0) {
-//     handleFetchAllData();
-//     setDataFetched(true);
-//   }
-// }, [completeData, subcategorySelect, dataFetched]);
+  //     }
+  // }, [])
 
-// useEffect(() => {
-//     if ( completeData?.length === 0 && allsubcategories?.length > 0) {
-//       handleFetchAllData();
-//     }
-//   }, [completeData,subcategorySelect]);
-// useEffect(() => {
-//   if (subcategorySelect?.length === 0 && completeData?.length === 0 && allsubcategories?.length > 0) {
-//     axios.get(`http://localhost:3000/api/products``
-//   }
-// }
-// , [completeData,subcategorySelect]);
-// useEffect(() => {
-//   if(!filterLoader && filterData.length==0 && completeData?.length === 0 && subcategorySelect.length==0 && catsState?.length == 0  && categoryCall=='' ){
-//     console.log("i am here");
-    
-//       handleFetchAllData();
-//   }
-//   console.log(
-//     loader,
-//     filterLoader,
-//     filterData.length,
-//     completeData?.length,
-//     catsState?.length,
-//     subcategorySelect,
-//     subcategorySelect?.length,
-//     categoryCall
-//   )
-// }, [
-//   loader,subcategorySelect?.length==0,completeData?.length==0
-// ]);
-useEffect(() => {
-  fetchData(`products`).then((res) => {
-    localStorage.setItem("categoryData", JSON.stringify(res?.products));
-    console.log(res?.products);
-    setAllData(res?.products);
-    // setCompleteData(res?.products);
-    setLoader(false);
-    setFilterLoader(false);
-  });
-}, [
-  typeof window !== "undefined" && localStorage.getItem("categoryData"),
-]);
-useEffect(() => {
-  if(completeData?.length > 0 &&subcategorySelect?.length === 0){
-    console.log(localStorage.getItem("categoryData"));    
-    setAllData(JSON.parse(localStorage.getItem("categoryData")));
-  }
-}
-, [completeData,subcategorySelect]);
+  // const [allData, setAllData] = useState([]);
+
+  // useEffect(() => {
+  //   if (!dataFetched && subcategorySelect?.length === 0 && completeData?.length === 0 && allsubcategories?.length > 0) {
+  //     handleFetchAllData();
+  //     setDataFetched(true);
+  //   }
+  // }, [completeData, subcategorySelect, dataFetched]);
+
+  // useEffect(() => {
+  //     if ( completeData?.length === 0 && allsubcategories?.length > 0) {
+  //       handleFetchAllData();
+  //     }
+  //   }, [completeData,subcategorySelect]);
+  // useEffect(() => {
+  //   if (subcategorySelect?.length === 0 && completeData?.length === 0 && allsubcategories?.length > 0) {
+  //     axios.get(`http://localhost:3000/api/products``
+  //   }
+  // }
+  // , [completeData,subcategorySelect]);
+  // useEffect(() => {
+  //   if(!filterLoader && filterData.length==0 && completeData?.length === 0 && subcategorySelect.length==0 && catsState?.length == 0  && categoryCall=='' ){
+  //     console.log("i am here");
+
+  //       handleFetchAllData();
+  //   }
+  //   console.log(
+  //     loader,
+  //     filterLoader,
+  //     filterData.length,
+  //     completeData?.length,
+  //     catsState?.length,
+  //     subcategorySelect,
+  //     subcategorySelect?.length,
+  //     categoryCall
+  //   )
+  // }, [
+  //   loader,subcategorySelect?.length==0,completeData?.length==0
+  // ]);
+  useEffect(() => {
+    fetchData(`products`).then((res) => {
+      localStorage.setItem("categoryData", JSON.stringify(res?.products));
+      console.log(res?.products);
+      setAllData(res?.products);
+      // setCompleteData(res?.products);
+      setLoader(false);
+      setFilterLoader(false);
+    });
+  }, [typeof window !== "undefined" && localStorage.getItem("categoryData")]);
+  useEffect(() => {
+    if (completeData?.length > 0 && subcategorySelect?.length === 0) {
+      console.log(localStorage.getItem("categoryData"));
+      setAllData(JSON.parse(localStorage.getItem("categoryData")));
+    }
+  }, [subcategorySelect]);
+  const handleMoreFitlersClick = () => {
+    // setShowCard(false);
+    if (completeData?.length < 1) {
+      handleFetchAllData();
+    }
+    setisfilterbaropen(1);
+  };
+  const sortClickHandler = () => {
+    setshowsort(!showsort);
+    if (completeData?.length < 1) {
+      handleFetchAllData();
+    }
+  };
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
@@ -655,7 +675,7 @@ useEffect(() => {
           <div className="ml-auto lg:ml-0">
             <button
               className=" cursor-pointer flex items-center gap-x-2 font-semibold rounded-sm border md:px-4 px-2 bg-white text-opacity-[78%]"
-              onClick={() => setisfilterbaropen(1)}
+              onClick={handleMoreFitlersClick}
             >
               <HiBars3 />
               <span className="mt-[2px]"> More filters</span>
@@ -665,9 +685,7 @@ useEffect(() => {
           <div>
             <button
               className=" cursor-pointer flex items-center gap-x-2 font-semibold rounded-sm border md:px-4 px-2 bg-white text-opacity-[78%] "
-              onClick={() =>
-                setshowsort(!showsort)
-              }
+              onClick={sortClickHandler}
             >
               <FaAngleDown
                 className={`transition-all duration-75 ${
@@ -712,165 +730,173 @@ useEffect(() => {
           wrapperClass="product"
         />
       ) : null}
-       <div className="w-full">
-      {/* Loader */}
-      {allData?.length===0 &&loader && completeData?.length === 0 && (
-        <div className="flex items-center justify-center absolute top-1/2 left-1/2 h-screen">
-          <Loader />
-        </div>
-      )}
-
-      {/* "No products found" section */}
-      {!loader && !filterLoader && completeData?.length === 0 && allData?.length === 0 && (
-        <div className="flex items-center justify-center h-full">
-          <div className="text-center">
-            <img
-              src="/images/web/product/notfound.png"
-              alt="Not Found"
-              className="w-64 h-48 mx-auto mb-4"
-            />
-            <h1 className="text-2xl font-bold text-gray-800 mb-2">
-              No products found
-            </h1>
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={handleFetchAllData}
-                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-              >
-               Show All Products
-              </button>
-              <Link
-                href={"/"}
-                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-              >
-                Go to Home
-              </Link>
-            </div>
+      <div className="w-full">
+        {/* Loader */}
+        {allData?.length === 0 && loader && completeData?.length === 0 && (
+          <div className="flex items-center justify-center absolute top-1/2 left-1/2 h-screen">
+            <Loader />
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Grid of products */}
-      {(completeData?.length > 0 || subcategorySelect?.length > 0) && (
-        <div
-          className={`${
-            filterLoader ? "blur-md transition-all ease-linear" : ""
-          } grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-8 gap-4 context`}
-        >
-          {completeData.map((items, index) => (
-            <div key={index} className="group relative">
-              {/* Product content */}
-              <div className=" flex flex-col text-[#03071E]">
-                <div className="   cursor-pointer  transition-all duration-100 relative rounded-[6px]  lg:group-hover:opacity-50 md:h-[220px] lg:h-[200px] h-[200px] 2xl:h-[250px] w-full overflow-hidden">
-                  <Image
-                    src={`${items?.images[0]}`}
-                    alt="Your Image"
-                    layout="fill"
-                    objectFit="cover"
-                  />
+        {/* "No products found" section */}
+        {!loader &&
+          !filterLoader &&
+          completeData?.length === 0 &&
+          allData?.length === 0 && (
+            <div className="flex items-center justify-center h-full">
+              <div className="text-center">
+                <img
+                  src="/images/web/product/notfound.png"
+                  alt="Not Found"
+                  className="w-64 h-48 mx-auto mb-4"
+                />
+                <h1 className="text-2xl font-bold text-gray-800 mb-2">
+                  No products found
+                </h1>
+                <div className="flex justify-center gap-4">
+                  <button
+                    onClick={handleFetchAllData}
+                    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                  >
+                    Show All Products
+                  </button>
+                  <Link
+                    href={"/"}
+                    className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                  >
+                    Go to Home
+                  </Link>
                 </div>
-                <Link href={`/productinfo/${items._id}`}>
-                  <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
-                    {items.title}
-                  </h6>
-                </Link>
-                <p className="py-1 text-[1rem] font-[400]">
-                  Rs {items.price}
-                </p>
+              </div>
+            </div>
+          )}
+
+        {/* Grid of products */}
+        {(completeData?.length > 0 || subcategorySelect?.length > 0) && (
+          <div
+            className={`${
+              filterLoader ? "blur-md transition-all ease-linear" : ""
+            } grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-8 gap-4 context`}
+          >
+            {completeData.map((items, index) => (
+              <div key={index} className="group relative">
+                {/* Product content */}
+                <div className=" flex flex-col text-[#03071E]">
+                  <div className="   cursor-pointer  transition-all duration-100 relative rounded-[6px]  lg:group-hover:opacity-50 md:h-[220px] lg:h-[200px] h-[200px] 2xl:h-[250px] w-full overflow-hidden">
+                    <Image
+                      src={`${items?.images[0]}`}
+                      alt="Your Image"
+                      layout="fill"
+                      objectFit="cover"
+                    />
+                  </div>
+                  <Link href={`/productinfo/${items._id}`}>
+                    <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
+                      {items.title}
+                    </h6>
+                  </Link>
+                  <p className="py-1 text-[1rem] font-[400]">
+                    Rs {items.price}
+                  </p>
+                  <button
+                    className=" transition-all duration-100 w-full md:py-2 py-1 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  lg:hover:bg-opacity-[80%]"
+                    onClick={() => handeladdtocart(items)}
+                  >
+                    Add to Cart
+                  </button>
+                </div>
                 <button
-                  className=" transition-all duration-100 w-full md:py-2 py-1 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  lg:hover:bg-opacity-[80%]"
-                  onClick={() => handeladdtocart(items)}
+                  className="w-[70%] transition-all duration-100 cursor-pointer rounded-xl absolute left-[50%] translate-x-[-50%] lg:hidden lg:group-hover:block top-[50%] lg:z-10 z-[1] bg-button-secondary px-5  text-text-secondary text-[1rem]  text-center  lg:hover:shadow-gray-950  hover:shadow"
+                  onClick={() => handelpeoductinfo(items._id)}
                 >
-                  Add to Cart
+                  Quick buy
                 </button>
               </div>
-              <button
-                className="w-[70%] transition-all duration-100 cursor-pointer rounded-xl absolute left-[50%] translate-x-[-50%] lg:hidden lg:group-hover:block top-[50%] lg:z-10 z-[1] bg-button-secondary px-5  text-text-secondary text-[1rem]  text-center  lg:hover:shadow-gray-950  hover:shadow"
-                onClick={() => handelpeoductinfo(items._id)}
-              >
-                Quick buy
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Show "No products found" when no completeData and subcategorySelect length > 0 */}
-      {!loader && !filterLoader && completeData?.length === 0 && subcategorySelect?.length > 0 && (
-        <div className="flex items-center justify-center  h-full">
-        <div className="text-center">
-          <img
-            src="/images/web/product/notfound.png"
-            alt="Not Found"
-            className="w-64 h-48 mx-auto mb-4"
-          />
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">
-            No products found
-          </h1>
-          <div className="flex justify-center gap-4">
-            <button
-              onClick={
-                handleFetchAllData
-              }
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            >
-              Show All Products
-            </button>
-            <Link
-              href={"/"}
-              className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-            >
-              Go to Home
-            </Link>
+            ))}
           </div>
-        </div>
+        )}
+
+        {/* Show "No products found" when no completeData and subcategorySelect length > 0 */}
+        {!loader &&
+          !filterLoader &&
+          completeData?.length === 0 &&
+          subcategorySelect?.length > 0 && (
+            <div className="flex items-center justify-center  h-full">
+              <div className="text-center">
+                <img
+                  src="/images/web/product/notfound.png"
+                  alt="Not Found"
+                  className="w-64 h-48 mx-auto mb-4"
+                />
+                <h1 className="text-2xl font-bold text-gray-800 mb-2">
+                  No products found
+                </h1>
+                <div className="flex justify-center gap-4">
+                  <button
+                    onClick={handleFetchAllData}
+                    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                  >
+                    Show All Products
+                  </button>
+                  <Link
+                    href={"/"}
+                    className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                  >
+                    Go to Home
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+        {/* Render allData */}
+        {completeData?.length == 0 &&
+          !loader &&
+          !filterLoader &&
+          allData?.length > 0 &&
+          subcategorySelect.length == 0 && (
+            <div
+              className={`${
+                filterLoader ? "blur-md transition-all ease-linear" : ""
+              } grid lg:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context`}
+            >
+              {allData.map((items, index) => (
+                <div key={index} className="group relative">
+                  {/* Product content */}
+                  <div className=" flex flex-col text-[#03071E]">
+                    <div className="   cursor-pointer  transition-all duration-100 relative rounded-[6px]  lg:group-hover:opacity-50 h-[200px] 2xl:h-[250px] w-full overflow-hidden">
+                      <Image
+                        src={`${items?.images[0]}`}
+                        alt="Your Image"
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                    </div>
+                    <Link href={`/productinfo/${items._id}`}>
+                      <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
+                        {items.title}
+                      </h6>
+                    </Link>
+                    <p className="py-1 text-[1rem] font-[400]">
+                      Rs {items.price}
+                    </p>
+                    <button
+                      className=" transition-all duration-100 w-full md:py-2 py-1 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  lg:hover:bg-opacity-[80%]"
+                      onClick={() => handeladdtocart(items)}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                  <button
+                    className="w-[70%] transition-all duration-100 cursor-pointer rounded-xl absolute left-[50%] translate-x-[-50%] lg:hidden lg:group-hover:block top-[50%] lg:z-10 z-[1] bg-button-secondary px-5  text-text-secondary text-[1rem]  text-center  lg:hover:shadow-gray-950  hover:shadow"
+                    onClick={() => handelpeoductinfo(items._id)}
+                  >
+                    Quick buy
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
       </div>
-      )}
-      {/* Render allData */}
-      {completeData?.length==0 &&!loader &&!filterLoader && allData?.length > 0 &&subcategorySelect.length==0 &&(
-        <div
-          className={`${
-            filterLoader ? "blur-md transition-all ease-linear" : ""
-          } grid lg:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context`}
-        >
-          {allData.map((items, index) => (
-            <div key={index} className="group relative">
-              {/* Product content */}
-              <div className=" flex flex-col text-[#03071E]">
-                <div className="   cursor-pointer  transition-all duration-100 relative rounded-[6px]  lg:group-hover:opacity-50 h-[200px] 2xl:h-[250px] w-full overflow-hidden">
-                  <Image
-                    src={`${items?.images[0]}`}
-                    alt="Your Image"
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </div>
-                <Link href={`/productinfo/${items._id}`}>
-                  <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
-                    {items.title}
-                  </h6>
-                </Link>
-                <p className="py-1 text-[1rem] font-[400]">
-                  Rs {items.price}
-                </p>
-                <button
-                  className=" transition-all duration-100 w-full md:py-2 py-1 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  lg:hover:bg-opacity-[80%]"
-                  onClick={() => handeladdtocart(items)}
-                >
-                  Add to Cart
-                </button>
-              </div>
-              <button
-                className="w-[70%] transition-all duration-100 cursor-pointer rounded-xl absolute left-[50%] translate-x-[-50%] lg:hidden lg:group-hover:block top-[50%] lg:z-10 z-[1] bg-button-secondary px-5  text-text-secondary text-[1rem]  text-center  lg:hover:shadow-gray-950  hover:shadow"
-                onClick={() => handelpeoductinfo(items._id)}
-              >
-                Quick buy
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
 
       <div
         className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[350px] w-[80%] p-4 top-0 z-30 rounded-tl-[28px] border py-3 px-4  context ${
@@ -983,7 +1009,11 @@ useEffect(() => {
         width="80%"
         onClickAway={closeModal}
       >
-        <Productmodal produtdata={productdata} modalclose={closeModal} ismodalopen={ismodalopen} setismodaloprn={setismodalopen} />
+        <Productmodal
+          produtdata={productdata}
+          modalclose={closeModal}
+          ismodalopen={ismodalopen}
+        />
       </Modal>
       <ToastContainer />
     </div>
