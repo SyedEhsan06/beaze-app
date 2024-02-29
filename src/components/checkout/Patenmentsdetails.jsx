@@ -191,15 +191,16 @@ console.log(orderData)
 
   const closeModal = () => {
     setismodalopen(false);
+    setIsAccountCreated(false)
   };
 
-  useEffect(() => {
-if(isBillingSame){
-  setismodalopen(false)
-}else{
-  setismodalopen(true)
-}
-  },[isBillingSame])
+useEffect(() => {
+  if(isAccountCreated){
+    setismodalopen(true)
+  }else{
+    setismodalopen(false)
+  }
+},[isAccountCreated])
 
   return (
     <div className=" w-full lg:flex gap-x-5">
@@ -563,124 +564,11 @@ if(isBillingSame){
                     </div>
                   </div>
 
-                  <div className="w-full flex justify-center mt-6">
-                    <button
-                    onClick={
-                      handleOrderPlace
-                    }
-                     className="headtext font-[800]  lg:text-[1.4rem] text-xl py-3 lg:w-[50%] w-[85%] rounded bg-theme-footer-bg text-white">
-                      Continue to Shipping
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-
-            <div className="w-full">
-              <div
-                className={`w-full bg-white p-5 shadow-sm border flex ${
-                  tabs === 2 ? "hidden" : "block"
-                }`}
-              >
-                <h6
-                  className="headtext font-extrabold lg:text-[1.5rem] text-xl text-text-secondary cursor-pointer "
-                  onClick={() => settabs(2)}
-                >
-                  Shipping Fees
-                </h6>
-                <button
-                  className="ml-auto underline context  text-text-secondary  font-[400] lg:text-lg text-sm"
-                  onClick={() => settabs(2)}
-                >
-                  Edit
-                </button>
-              </div>
-              <div
-                className={` bg-white p-4 shadow-sm ${
-                  tabs === 2 ? "block" : "hidden"
-                }`}
-              >
-                <div>
-                  <h6 className=" headtext text-text-secondary font-[700] lg:text-[1rem] text-sm">
-                    Calculated Shipping Fees
-                  </h6>
-                </div>
-
-                <div className="mt-4 context ">
-                  <div className="p-4  border  rounded-lg">
-                    <div className="w-full flex">
-                      <span className="font-[400] lg:text-xl text-[1rem]">
-                        Shipping Fees
-                      </span>
-                      <span className="ml-auto lg:text-lg text-sm text-[#039C2E] font-[500]">
-                        Free
-                      </span>
-                    </div>
-
-                    <div className="w-full flex mt-2">
-                      <span className="font-[400] lg:text-xl text-[1rem]">
-                        Estimated Delivery Date
-                      </span>
-                      <span className="ml-auto lg:text-lg text-sm text-right lg:text-left font-[500]">
-                        10th August, Wednesday
-                      </span>
-                    </div>
-                  </div>
-
-                  <p className="mt-8 text-center lg:text-lg text-[1rem] font-[400] leading-normal">
-                    Congrats, You’re all set.<br></br> You can continue to
-                    payment now
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <Modal
-            visible={ismodalopen}
-            effect="fadeInDown"
-            onClickAway={closeModal}
-           
-          >
-            <div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5">
-              <div className=" flex ">
-                <button
-                  className="ml-auto"
-                  onClick={() => setismodalopen(false)}
-                >
-                  <FaXmark size={40} />
-                </button>
-              </div>
-
-         {
-           isBillingSame ?    <div className="optsection">
-            <div className="lg:my-4 md:my-2 my-1">
-                <h6 className="context font-[900] lg:text-[2.5rem] md:text-[2rem] text-2xl text-center lg:mb-10 md:mb-7 mb-4">
-                  Enter OTP
-                </h6>
-
-                <div className="w-full flex justify-center lg:mt-7 md:mt-4 mt-3">
-                  <Otpinput onOtpInput={handleOtpChange} />
-                </div>
-              </div>
-
-              <div className=" grid grid-cols-2 gap-x-4 headtext py-2 mt-6">
-                <button className=" w-full  text-[#474747] font-[300]lg:text-xl md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] ">
-                  Change Number
-                </button>
-                <button
-                  onClick={handleOtpSendWithOtp}
-                  className=" w-full bg-theme-footer-bg text-white font-[700] py-2 rounded lg:text-xl md:text-lg text-[1rem] "
-                >
-                  Confirm OTP
-                </button>
-              </div>
-            </div> : <div> 
+                  <div className={`mt-4 ${isBillingSame ? 'hidden' : 'block'}`}> 
             <h5 className="w-full  headtext lg:text-[2rem] md:text-[1.8rem] text-xl font-[800]"> Your billing address</h5>
 
-            <div className="w-full">
-            <form>
-                  <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
+          <div>
+          <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
                     <div className=" w-full context">
                       <label htmlFor="add1" className="mb-2">
                         Address Line 1{" "}
@@ -770,7 +658,8 @@ if(isBillingSame){
                     </div>
                   </div>
 
-                
+          </div>
+            </div>
 
                   <div className="w-full flex justify-center mt-6">
                     <button
@@ -782,9 +671,121 @@ if(isBillingSame){
                     </button>
                   </div>
                 </form>
+              </div>
             </div>
+
+            <div className="w-full">
+              <div
+                className={`w-full bg-white p-5 shadow-sm border flex ${
+                  tabs === 2 ? "hidden" : "block"
+                }`}
+              >
+                <h6
+                  className="headtext font-extrabold lg:text-[1.5rem] text-xl text-text-secondary cursor-pointer "
+                  onClick={() => settabs(2)}
+                >
+                  Shipping Fees
+                </h6>
+                <button
+                  className="ml-auto underline context  text-text-secondary  font-[400] lg:text-lg text-sm"
+                  onClick={() => settabs(2)}
+                >
+                  Edit
+                </button>
+              </div>
+              <div
+                className={` bg-white p-4 shadow-sm ${
+                  tabs === 2 ? "block" : "hidden"
+                }`}
+              >
+                <div>
+                  <h6 className=" headtext text-text-secondary font-[700] lg:text-[1rem] text-sm">
+                    Calculated Shipping Fees
+                  </h6>
+                </div>
+
+                <div className="mt-4 context ">
+                  <div className="p-4  border  rounded-lg">
+                    <div className="w-full flex">
+                      <span className="font-[400] lg:text-xl text-[1rem]">
+                        Shipping Fees
+                      </span>
+                      <span className="ml-auto lg:text-lg text-sm text-[#039C2E] font-[500]">
+                        Free
+                      </span>
+                    </div>
+
+                    <div className="w-full flex mt-2">
+                      <span className="font-[400] lg:text-xl text-[1rem]">
+                        Estimated Delivery Date
+                      </span>
+                      <span className="ml-auto lg:text-lg text-sm text-right lg:text-left font-[500]">
+                        10th August, Wednesday
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="mt-8 text-center lg:text-lg text-[1rem] font-[400] leading-normal">
+                    Congrats, You’re all set.<br></br> You can continue to
+                    payment now
+                  </p>
+                </div>
+              </div>
             </div>
-         }
+          </div>
+
+          <Modal
+            visible={ismodalopen}
+            effect="fadeInDown"
+            onClickAway={closeModal}
+           
+          >
+            <div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5">
+            <div className=" flex ">
+                <button
+                  className="ml-auto"
+                  onClick={() => setismodalopen(false)}
+                >
+                  <FaXmark size={40} />
+                </button>
+              </div>
+
+           {
+            isAccountCreated ? <div>
+
+            <h5 className="w-full  headtext lg:text-[2rem] md:text-[1.8rem] text-xl font-[800]"> Your Saved address</h5>
+
+            <div className="w-full grid grid-cols-3 gap-3 mt-5">
+              <div className="w-full p-2 shadow-sm border flex rounded ">
+              Home
+              </div>
+            </div>
+
+
+            </div> :    <div className="optsection">
+            <div className="lg:my-4 md:my-2 my-1">
+                <h6 className="context font-[900] lg:text-[2.5rem] md:text-[2rem] text-2xl text-center lg:mb-10 md:mb-7 mb-4">
+                  Enter OTP
+                </h6>
+
+                <div className="w-full flex justify-center lg:mt-7 md:mt-4 mt-3">
+                  <Otpinput onOtpInput={handleOtpChange} />
+                </div>
+              </div>
+
+              <div className=" grid grid-cols-2 gap-x-4 headtext py-2 mt-6">
+                <button className=" w-full  text-[#474747] font-[300]lg:text-xl md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] ">
+                  Change Number
+                </button>
+                <button
+                  onClick={handleOtpSendWithOtp}
+                  className=" w-full bg-theme-footer-bg text-white font-[700] py-2 rounded lg:text-xl md:text-lg text-[1rem] "
+                >
+                  Confirm OTP
+                </button>
+              </div>
+            </div> 
+           }
             </div>
           </Modal>
         </div>
