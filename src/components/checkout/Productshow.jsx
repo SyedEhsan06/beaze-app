@@ -6,7 +6,7 @@ import { selectCart } from "@/redux/slices/cartSlice";
 import PaymentComponent from "./paymentComponent";
 // import PaymentComponent from "./paymentComponent";
 
-export default function Productshow({ buttonevent, cartData,orderId }) {
+export default function Productshow({ buttonevent, cartData,orderId,ischeckoutset }) {
   const [showPayment, setShowPayment] = useState(false); // State to control visibility of PaymentComponent
   const cart = useSelector(selectCart);
   console.log(cart);
@@ -57,8 +57,8 @@ export default function Productshow({ buttonevent, cartData,orderId }) {
       orderId = {orderId}
       />}
 
-      <button
-        className="w-full lg:absolute fixed bottom-0 left-0 headtext text-white font-extrabold text-[1.5rem] py-2 bg-[#A5A0A8]"
+      <button disabled= {ischeckoutset ? false  : true}
+        className={`w-full lg:absolute fixed bottom-0 left-0 headtext text-white font-extrabold text-[1.5rem] py-2  ${ischeckoutset ? ' bg-theme-footer-bg' : 'bg-[#A5A0A8]'}`}
         onClick={makePayment}
       >
         Continue to Payment

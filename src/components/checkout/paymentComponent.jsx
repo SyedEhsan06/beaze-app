@@ -1,6 +1,7 @@
 import Script from "next/script";
 import cookieCutter from "cookie-cutter";
 import { NextResponse } from 'next/server'
+import { useEffect } from "react";
 export default function PaymentComponent({
   makePaymentClick,
   data,
@@ -83,6 +84,11 @@ export default function PaymentComponent({
       updateFailedOrder();
     });
   };
+
+
+  useEffect(() => {
+    makePayment({ productId: "Beaze" });
+  },[])
   return (
     <>
       <Script
@@ -90,13 +96,13 @@ export default function PaymentComponent({
         src="https://checkout.razorpay.com/v1/checkout.js"
       />
 
-      <button
+      {/* <button
         onClick={() => {
           makePayment({ productId: "Beaze" });
         }}
       >
         Buy
-      </button>
+      </button> */}
     </>
   );
 }
