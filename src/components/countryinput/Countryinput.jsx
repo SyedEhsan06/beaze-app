@@ -4,7 +4,7 @@ import { countrylist } from "@/utils/countrylist";
 import { FaChevronDown, FaCheck } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
 
-export default function Countryinput({ onCountryChange, onPhoneChange,defaultValue ,userdata,editable,alreadyresgiter,checknumtendigit}) {
+export default function Countryinput({ onCountryChange, onPhoneChange,defaultValue ,userdata,editable,alreadyresgiter,checknumtendigit,iconshow}) {
   const [country, setCountry] = useState("+91");
 
   const [phone, setPhone] = useState(
@@ -141,7 +141,8 @@ console.log(userdata)
                 disabled={!editable}
               />
             </div>
-            <button className="w-[5%] ">
+         {
+          iconshow &&    <button className="w-[5%] ">
             {alreadyresgiter ? (
     <></>
   ) : (
@@ -152,6 +153,7 @@ console.log(userdata)
     )
   )}
             </button>
+         }
           </div>
         </div>
       </div>
