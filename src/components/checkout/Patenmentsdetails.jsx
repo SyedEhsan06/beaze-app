@@ -52,8 +52,7 @@ export default function Patenmentsdetails() {
     setToken(cookieToken);
   }
 }, []);
-console.log(token)
-console.log(orderData)
+// console.log(orderData)
   useEffect(() => {
     if(token){
       const fetchProfile = async () => {
@@ -66,7 +65,8 @@ console.log(orderData)
           console.log(response.data);
           setFirstName(response.data.user.first_name);
           setLastName(response.data.user.last_name);
-          setPhone(response.data.user.phone);
+          setPhone(response.data.user.phone_number);
+
           settabs(1);
         } catch (error) {
           console.error("Error fetching profile:", error);
@@ -124,12 +124,9 @@ console.log(orderData)
       // Handle error
     }
   };
+  const [loader,setLoader]=useState(false)
   const handleOrderPlace = async (e) => {
-    console.log("order placed");
-    console.log(first_name);
-    console.log(last_name);
-    console.log("cartData", cartData);
-    console.log(token)
+    setLoader(true)
     setTotalPrice(
       cartData.reduce((a, b) => a + b.price*b.selectedQty, 0)
     )
@@ -169,6 +166,7 @@ console.log(orderData)
       );
       console.log(response.data);
       setIsOrderPlaced(true);
+      setLoader(false)
       setOrderData(response.data);
       settabs(2)
       setcheckoutgreen(true)
@@ -328,6 +326,7 @@ useEffect(() => {
                       editable={true}
                       onCountryChange={handleCountryChange}
                       onPhoneChange={handlePhoneChange}
+                      defaultValue={phone}
                     />
                   </div>
                   {/* <div className=" w-full my-6 context">
@@ -383,6 +382,7 @@ useEffect(() => {
                   <div className="w-full flex justify-center my-6">
                     <button
                     disabled={!phone || !first_name || !last_name}
+                    
                       className="headtext font-[800]  lg:text-[1.4rem] text-lg py-3 lg:w-[40%] w-[60%] rounded bg-theme-footer-bg text-white"
                       onClick={handleOtpSend}
                     >
@@ -582,8 +582,8 @@ useEffect(() => {
                         id="add1"
                         className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
                         placeholder="Flat, House, Building and other details"
-                        value={address_line1}
-                        onChange={(e) => setAddressLine1(e.target.value)}
+                        value={address_line1_billing}
+                        onChange={(e) => setAddressLine1Billing(e.target.value)}
                       />
                     </div>
                     <div className=" w-full context">
@@ -599,8 +599,8 @@ useEffect(() => {
                         id="add2"
                         className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
                         placeholder="Lane, Street & Landmark"
-                        value={address_line2}
-                        onChange={(e) => setAddressLine2(e.target.value)}
+                        value={address_line2_billing}
+                        onChange={(e) => setAddressLine2Billing(e.target.value)}
                       />
                     </div>
 
@@ -617,8 +617,9 @@ useEffect(() => {
                           type="text"
                           id="City"
                           className="w-full border border-text-secondary shadow-sm px-4 h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                          value={city}
-                          onChange={(e) => setCity(e.target.value)}
+                          value={city_billing}
+                          onChange={(e) => setCityBilling(e.target.value)}
+
                         />
                       </div>
 
@@ -634,8 +635,8 @@ useEffect(() => {
                           type="text"
                           id="State"
                           className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                          value={state}
-                          onChange={(e) => setState(e.target.value)}
+                          value={state_billing}
+                          onChange={(e) => setStateBilling(e.target.value)}
                         />
                       </div>
 
@@ -651,8 +652,8 @@ useEffect(() => {
                           type="text"
                           id="Pincode"
                           className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                          value={pincode}
-                          onChange={(e) => setPincode(e.target.value)}
+                          value={pincode_billing}
+                          onChange={(e) => setPincodeBilling(e.target.value)}
                         />
                       </div>
                     </div>

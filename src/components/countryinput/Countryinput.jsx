@@ -4,15 +4,16 @@ import { countrylist } from "@/utils/countrylist";
 import { FaChevronDown, FaCheck } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
 
-export default function Countryinput({ onCountryChange, onPhoneChange ,userdata,editable,alreadyresgiter,checknumtendigit}) {
+export default function Countryinput({ onCountryChange, onPhoneChange,defaultValue ,userdata,editable,alreadyresgiter,checknumtendigit}) {
   const [country, setCountry] = useState("+91");
 
   const [phone, setPhone] = useState(
     userdata?.phone_number?.replace("+91", "") || ""
   ); // Define phone state
   useEffect(() => {
-    setPhone(userdata?.phone_number?.replace("+91", "") || "");
-  }, [userdata]);
+    setPhone(userdata?.phone_number?.replace("+91", "") || ""); // Set phone state to default value
+  }, [userdata,defaultValue]);
+  // console.log(defaultValue)
   const [data, setData] = useState(countrylist);
   const [showMenu, setShowMenu] = useState(false);
   const[localvalidation,setlocalvalidation] = useState(0)
