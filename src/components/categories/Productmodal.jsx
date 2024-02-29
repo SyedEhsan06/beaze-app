@@ -23,6 +23,7 @@ export default function Productmodal({ produtdata, modalclose,ismodalopen,setism
     images : [],
     quantity : null,
     pquantity : null,
+    selectedQty : null,
     color : '',
     size : '',
     price : null
@@ -37,6 +38,7 @@ useEffect(() => {
        title : produtdata.title,
        images : produtdata.images && Array.isArray(produtdata.images) && produtdata.images,
        pquantity : 1,
+       selectedQty  : 1,
        quantity : produtdata.quantity,
        color : produtdata.attributes && Array.isArray(produtdata.attributes[0]?.value) && produtdata.attributes[0].value[0],
        size : produtdata.attributes && Array.isArray(produtdata.attributes[1]?.value) && produtdata.attributes[1].value[0],
@@ -57,9 +59,10 @@ useEffect(() => {
       images : pdata.images,
       quantity : pdata.quantity,
       pquantity : pdata.pquantity,
+      selectedQty : pdata?.selectedQty,
       color : pdata.color,
       size : pdata.size,
-      price : pdata.price * pdata.pquantity
+      price : pdata.price * pdata.selectedQty
 
     }
 
@@ -117,7 +120,7 @@ useEffect(() => {
 
 
 const handelincreaseqty = () => {
-  if (pdata.pquantity + 1 > produtdata.quantity) {
+  if (pdata.selectedQty + 1 > produtdata.quantity) {
     toast.error(`You can't add more quantity than ${produtdata.quantity}`, {
       position: "bottom-left",
       autoClose: 500,
@@ -130,21 +133,24 @@ const handelincreaseqty = () => {
   } else {
     setpdata({
       ...pdata,
-      pquantity: pdata.pquantity + 1,
+      selectedQty: pdata.selectedQty + 1,
     });
   }
 };
 
 
   const handeldecreseqty = () => {
-    if(pdata.pquantity != 1){
+    if(pdata.selectedQty != 1){
       setpdata({
         ...pdata,
-        pquantity : pdata.pquantity-1,
+        selectedQty : pdata.selectedQty-1,
        
       })
     }
   }
+
+
+ console.log(pdata)
   
   return (
     <>
@@ -269,9 +275,9 @@ const handelincreaseqty = () => {
                 <div className=" context md:mt-3">
                   <div className="w-full">
                     <p className=" font-[400] text-lg">Select quantity</p>
-                    <div className="md:w-[30%] w-[60%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 ">
+                    <div className="md:w-[30%] w-[100%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 ">
                       <button
-                        disabled={pdata.pquantity == 1 ? true : false}
+                        disabled={pdata.selectedQty == 1 ? true : false}
                         className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
                         onClick={handeldecreseqty}
                         
@@ -279,7 +285,7 @@ const handelincreaseqty = () => {
                         <RiSubtractLine size={20} />
                       </button>
                       <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1">
-                        {pdata.pquantity}
+                        {pdata.selectedQty}
                       </div>
                       <button
                         className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"

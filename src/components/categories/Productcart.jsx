@@ -117,7 +117,7 @@ const handleCloseCart = () => {
               className="w-full focus:outline-none border-[1px] border-bg-[#00000066] border-opacity-[40%] p-2 rounded-lg  focus:border-opacity-[100%] transition-all duration-150"
             />
           </div>
-          <button className="w-[35%] bg-[#FFB61D] rounded-lg px-2 text-xs md:text-[1rem]">
+          <button className="w-[35%] bg-[#FFB61D] opacity-[50%] rounded-lg px-2 text-xs md:text-[1rem]" disabled>
             Apply Coupon
           </button>
         </div>
@@ -159,7 +159,7 @@ const handleCloseCart = () => {
 
                 <div className="w-[50%] flex">
                   <p className="ml-auto text-[1rem] font-[500]">{
-                  data.reduce((a, b) => a + b.tax*b.selectedQty, 0)
+                0
                   }</p>
                 </div>
               </div>

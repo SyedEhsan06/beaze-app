@@ -34,6 +34,7 @@ export default function Productinfo({ pid }) {
     productId : '',
     title : '',
     images : [],
+    selectedQty : null,
     pquantity : null,
     quantity : null,
     color : '',
@@ -63,6 +64,7 @@ const router = useRouter()
            title : resdata?.title,
            images : resdata?.images && Array.isArray(resdata?.images) && resdata?.images,
            pquantity : 1,
+           selectedQty : 1,
            quantity : resdata?.quantity,
            color : resdata?.attributes && Array.isArray(resdata?.attributes[0]?.value) && resdata?.attributes[0].value[0],
            size : resdata?.attributes && Array.isArray(resdata?.attributes[1]?.value) && resdata?.attributes[1].value[0],
@@ -107,10 +109,10 @@ const router = useRouter()
 
 
   const handelincreaseqty = () => {
-      if(pdata.selectedqty != pdata.quantity){
+      if(pdata.selectedQty != pdata.quantity){
         setpdata({
           ...pdata,
-          selectedqty : pdata.selectedqty+1,
+          selectedQty : pdata.selectedQty+1,
          
         })
     }
@@ -118,10 +120,10 @@ const router = useRouter()
   
   
     const handeldecreseqty = () => {
-      if(pdata.selectedqty != 1){
+      if(pdata.selectedQty != 1){
         setpdata({
           ...pdata,
-          selectedqty : pdata.selectedqty-1,
+          selectedQty : pdata.selectedQty-1,
          
         })
       }
@@ -136,11 +138,12 @@ const router = useRouter()
       productId : pdata?.productId,
       title : pdata?.title,
       images : pdata?.images,
+      selectedQty : pdata?.selectedQty,
       quantity : pdata?.quantity,
       pquantity : pdata?.pquantity,
       color : pdata?.color,
       size : pdata?.size,
-      price : pdata?.price * pdata?.pquantity
+      price : pdata?.price * pdata?.selectedQty
 
     }
 
@@ -204,14 +207,14 @@ if(currentPosition > 0 ){
 
                 <div className="w-[80%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 ">
                   <button
-                    disabled={pdata?.selectedqty === 1 ? true : false}
+                    disabled={pdata?.selectedQty === 1 ? true : false}
                     className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 py-[6px] text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
                     onClick={handeldecreseqty}
                   >
                     <RiSubtractLine size={20} />
                   </button>
                   <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 py-[6px]">
-                    {pdata?.selectedqty}
+                    {pdata?.selectedQty}
                   </div>
                   <button
                     className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 py-[6px] text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
@@ -350,7 +353,7 @@ if(currentPosition > 0 ){
                           >
                             Select a colour
                           </label>
-                          <div className="md:w-[40%] w-[100%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] px-4 py-1 flex items-center">
+                          <div className="md:w-[40%] w-[100%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] px-4 h-[40px] flex items-center">
                             <div className="w-[90%]">
                               <select
                                 className="w-full border-none focus:outline-none appearance-none bg-transparent cursor-pointer"
@@ -384,19 +387,19 @@ if(currentPosition > 0 ){
                       <div className=" context mt-3 md:mt-6 ">
                         <div className="w-full">
                           <p className=" font-[400] text-lg">Select quantity</p>
-                          <div className="md:w-[30%] w-[90%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 ">
+                          <div className="md:w-[30%] w-[90%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 items-center ">
                             <button
-                              disabled={pdata?.pquantity === 1 ? true : false}
-                              className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
+                              disabled={pdata?.selectedQty === 1 ? true : false}
+                              className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 h-[40px] text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
                               onClick={handeldecreseqty}
                             >
                               <RiSubtractLine size={20} />
                             </button>
-                            <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1">
-                              {pdata?.pquantity}
+                            <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 h-[40px] flex items-center justify-center">
+                              {pdata?.selectedQty}
                             </div>
                             <button
-                              className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
+                              className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 h-[40px] text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
                               onClick={handelincreaseqty}
                             >
                               <IoMdAdd size={20} />

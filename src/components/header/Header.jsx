@@ -812,7 +812,7 @@ const selectDataOfUser = useSelector(selectUser)
         </header>
 
         <div
-          className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[350px] w-[80%]  top-0 z-30 rounded-tl-[28px] border py-3 context ${
+          className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[425px] md:w-[400px] w-[80%]  top-0 z-30 rounded-tl-[28px] border py-3 context ${
             cartOpenState ? "block" : "hidden"
           }`}
           ref={cartref}
