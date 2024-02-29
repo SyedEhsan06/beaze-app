@@ -62,7 +62,11 @@ export default function Otpcomp() {
           setError(res.data.error);
         }
         localStorage.setItem("token", res.data.token);
-        cookieCutter.set("token", res.data.token);
+        cookieCutter.set({
+          key: "token",
+          value: res.data.token,
+          expires: new Date(new Date().getTime() + 60 * 60 * 24 * 1000),
+        });
         setToken(res.data.token);
       })
       .catch((err) => {

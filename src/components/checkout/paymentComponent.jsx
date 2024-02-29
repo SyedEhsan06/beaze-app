@@ -1,16 +1,25 @@
 import Script from "next/script";
 import cookieCutter from "cookie-cutter";
 
-export default function PaymentComponent(params) {
+export default function PaymentComponent({
+  makePaymentClick,
+  data,
+  amount,
+  orderId,
+}) {
+  console.log("data", data);
+  console.log("amount", amount);
+  console.log("orderId", orderId);
   const makePayment = async ({ productId = "example_ebook" }) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/razorpay`, {
       method: "POST",
       body: JSON.stringify({
-        amount: 500,
+        amount,
         currency: "INR",
         receipt: "receipt#1",
         notes: {
           productId,
+          orderId,
         },
       }),
     }).then((t) => t.json());
@@ -24,20 +33,29 @@ export default function PaymentComponent(params) {
       theme: {
         color: "#ffa347",
       },
-      callback_url: "http://localhost:3000/api/paymentstatus",
+      // callback_url: "http://localhost:3000/api/paymentstatus",
       handler: async function (response) {
-        await console.log("Payment successful", response);
+         console.log("Payment successful", response);
         const updateOrder = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/paymentstatus`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/checkout`,
           {
-            method: "POST",
+            method: "put",
             body: JSON.stringify({
               paymentStatus: "success",
-              orderId:params.order_id,
+              _id:orderId,
             }),
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${cookieCutter.get("token")}`,
+            },
           }
         ).then((t) => t.json());
+        console.log("updateOrder", updateOrder);
+        cookieCutter.set("paymentStatus", "success", {
+          expires: new Date(new Date().getTime() + 60 * 60 * 1000),
+        });
       },
+
       prefill: {
         name: "Beaze",
         email: "beaze@gmail.com",

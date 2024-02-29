@@ -2,7 +2,7 @@ import Order from "@/lib/models/order";
 import { connectToDb } from "@/lib/utils";
 import User from "@/lib/models/user.model";
 import { sendOTP, verifyOTP } from "@/utils/verifyOtpUtils";
-
+import jwt from "jsonwebtoken";
 const secret = process.env.SECRET;
 export async function POST(req) {
   try {
@@ -29,6 +29,7 @@ export async function POST(req) {
     if (!user) {
       return Response.json({ error: "User not found" }, { status: 404 });
     }
+    console.log(first_name, last_name, phone, cart, total, payment, paymentStatus, status, shipping_address, billing_address)
     const order = new Order({
       first_name,
       last_name,
@@ -69,14 +70,17 @@ export async function PUT(req) {
     if (!order) {
       return Response.json({ error: "Order not found" }, { status: 404 });
     }
-    order.phone = phone;
-    order.shipping_address = shipping_address;
-    order.billing_address = billing_address;
-    order.total = total;
-    order.cart = cart;
-    order.payment = payment;
-    order.paymentStatus = paymentStatus;
-    order.status = status;
+    if (first_name) order.first_name = first_name;
+    if (last_name) order.last_name = last_name;
+    if (phone) order.phone = phone;
+    if (shipping_address) order.shipping_address = shipping_address;
+    if (billing_address) order.billing_address = billing_address;
+    if (total) order.total = total;
+    if (cart) order.cart = cart;
+    if (payment) order.payment = payment;
+    if (paymentStatus) order.paymentStatus = paymentStatus;
+    if (status) order.status = status;
+    
     await order.save();
     return Response.json({
       message: "Order updated successfully",

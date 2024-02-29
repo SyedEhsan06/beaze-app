@@ -51,12 +51,37 @@ export default function Patenmentsdetails() {
     setToken(cookieToken);
   }
 }, []);
+console.log(token)
+console.log(orderData)
+  useEffect(() => {
+    if(token){
+      const fetchProfile = async () => {
+        try {
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          console.log(response.data);
+          setFirstName(response.data.user.first_name);
+          setLastName(response.data.user.last_name);
+          setPhone(response.data.user.phone);
+          settabs(1);
+        } catch (error) {
+          console.error("Error fetching profile:", error);
+        }
+      };
+      fetchProfile();
+    }
+  }, [token]);
 
   //api1
   const dataFromStore = useSelector(selectCart);
-  console.log(dataFromStore);
   useEffect(() => {
     setCartData(dataFromStore);
+    setTotalPrice(
+       dataFromStore.reduce((a, b) => a + b.price*b.selectedQty, 0)
+    )
   }, []);
   const handleOtpSend = async () => {
     setismodalopen(true);
@@ -100,14 +125,23 @@ export default function Patenmentsdetails() {
       // Handle error
     }
   };
-  const handleOrderPlace = async () => {
+  const handleOrderPlace = async (e) => {
+    console.log("order placed");
+    console.log(first_name);
+    console.log(last_name);
+    console.log("cartData", cartData);
+    console.log(token)
+    setTotalPrice(
+      cartData.reduce((a, b) => a + b.price*b.selectedQty, 0)
+    )
+    console.log(e)
+    e.preventDefault();
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/checkout`,
         {
           first_name: first_name,
           last_name: last_name,
-          phone: `+91${phone}`,
           shipping_address: {
             address_line1: address_line1,
             address_line2: address_line2,
@@ -125,10 +159,9 @@ export default function Patenmentsdetails() {
 
           cart: cartData,
           total: totalPrice,
-          payment: paymentMethod,
-          paymentStatus: paymentStatus,
-          status: orderStatus,
-          _id: orderData._id,
+          payment: "razorpay",
+          paymentStatus: "pending",
+          status: "pending",
         }
         , {
           headers: {
@@ -340,6 +373,7 @@ export default function Patenmentsdetails() {
 
                   <div className="w-full flex justify-center my-6">
                     <button
+                    disabled={!phone || !first_name || !last_name}
                       className="headtext font-[800]  lg:text-[1.4rem] text-lg py-3 lg:w-[40%] w-[60%] rounded bg-theme-footer-bg text-white"
                       onClick={handleOtpSend}
                     >
@@ -521,7 +555,11 @@ export default function Patenmentsdetails() {
                   </div>
 
                   <div className="w-full flex justify-center mt-6">
-                    <button className="headtext font-[800]  lg:text-[1.4rem] text-xl py-3 lg:w-[50%] w-[85%] rounded bg-theme-footer-bg text-white">
+                    <button
+                    onClick={
+                      handleOrderPlace
+                    }
+                     className="headtext font-[800]  lg:text-[1.4rem] text-xl py-3 lg:w-[50%] w-[85%] rounded bg-theme-footer-bg text-white">
                       Continue to Shipping
                     </button>
                   </div>
@@ -630,7 +668,10 @@ export default function Patenmentsdetails() {
         </div>
       </div>
       <div className="lg:w-[40%] lg:mt-0 mt-6">
-        <Productshow cartdata={cartData} buttonevent={handleOrderPlace} />
+        <Productshow cartdata={cartData}  orderId={
+          orderData?.order?._id
+
+        } />
       </div>
     </div>
   );

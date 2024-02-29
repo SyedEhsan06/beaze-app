@@ -43,10 +43,7 @@ const handleCloseCart = () => {
   let total = tax + data.reduce((a, b) => a + b.price*b.selectedQty, 0);
   
 
-  const totalPrice = data.reduce((acc, item) => {
-    const itemPrice = parseFloat(item.price);
-    return !isNaN(itemPrice) ? acc + itemPrice : acc;
-  }, 0);
+  const totalPrice =  data.reduce((a, b) => a + b.price*b.selectedQty, 0);
   console.log({'cadat' : cartData})
   return (
    <>

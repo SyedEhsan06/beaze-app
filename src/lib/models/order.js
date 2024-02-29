@@ -21,7 +21,7 @@ const cartSchema = new Schema({
     type: String,
   },
   size: {
-    type: Number,
+    type: String,
   },
   price: {
     type: Number,
@@ -30,6 +30,7 @@ const cartSchema = new Schema({
     type: Number,
   },
 });
+ 
 
 const addressSchema = new Schema({
   address_line1: String,
@@ -39,17 +40,13 @@ const addressSchema = new Schema({
   pincode: String,
   address_type: {
     type: String,
-    enum: ["home", "work", "other"],
     default: "home",
   },
   addressId: String,
 });
 
 const orderSchema = new Schema({
-  phone: {
-    type: String,
-    required: true,
-  },
+  phone: String,
   first_name: String,
   last_name: String,
   shipping_address: addressSchema,
@@ -59,12 +56,10 @@ const orderSchema = new Schema({
   payment: String,
   paymentStatus: {
     type: String,
-    enum: ["pending", "success", "failed"],
     default: "pending",
   },
   status: {
     type: String,
-    enum: ["pending", "processing", "shipped", "delivered", "cancelled"],
     default: "pending",
   },
   date: {

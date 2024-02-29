@@ -6,14 +6,12 @@ import { selectCart } from "@/redux/slices/cartSlice";
 import PaymentComponent from "./paymentComponent";
 // import PaymentComponent from "./paymentComponent";
 
-export default function Productshow({ buttonevent, cartData }) {
+export default function Productshow({ buttonevent, cartData,orderId }) {
   const [showPayment, setShowPayment] = useState(false); // State to control visibility of PaymentComponent
   const cart = useSelector(selectCart);
   console.log(cart);
-  const totalPrice = cart.reduce((acc, item) => {
-    const itemPrice = parseFloat(item.price);
-    return !isNaN(itemPrice) ? acc + itemPrice : acc;
-  }, 0);
+  const totalPrice =cart.reduce((a, b) => a + b.price*b.selectedQty, 0);
+
 
   const makePayment = () => {
     setShowPayment(true); // Show PaymentComponent when button is clicked
@@ -51,7 +49,13 @@ export default function Productshow({ buttonevent, cartData }) {
       </div>
 
       {/* Render PaymentComponent conditionally */}
-      {showPayment && <PaymentComponent />}
+      {showPayment && <PaymentComponent makePaymentClick={
+        makePayment
+      }
+      data={cart}
+      amount = {totalPrice}
+      orderId = {orderId}
+      />}
 
       <button
         className="w-full lg:absolute fixed bottom-0 left-0 headtext text-white font-extrabold text-[1.5rem] py-2 bg-[#A5A0A8]"
