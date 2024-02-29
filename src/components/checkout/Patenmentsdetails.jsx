@@ -132,7 +132,6 @@ console.log(orderData)
     setTotalPrice(
       cartData.reduce((a, b) => a + b.price*b.selectedQty, 0)
     )
-    console.log(e)
     e.preventDefault();
     try {
       const response = await axios.post(

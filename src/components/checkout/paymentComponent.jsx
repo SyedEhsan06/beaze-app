@@ -54,7 +54,10 @@ export default function PaymentComponent({
         cookieCutter.set("paymentStatus", "success", {
           expires: new Date(new Date().getTime() + 60 * 60 * 1000),
         });
-        NextResponse.redirect("/invoice?orderId=" + orderId);
+        const absoluteUrl =`${process.env.NEXT_PUBLIC_API_URL}/invoice?orderId=${orderId}`;
+
+        // Redirect using the absolute URL
+        return NextResponse.redirect(absoluteUrl);
       },    
 
       prefill: {
