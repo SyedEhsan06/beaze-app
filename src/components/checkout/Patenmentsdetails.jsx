@@ -43,8 +43,9 @@ export default function Patenmentsdetails() {
   const [city_billing, setCityBilling] = useState("");
   const [state_billing, setStateBilling] = useState("");
   const [pincode_billing, setPincodeBilling] = useState("");
-  const [isBillingSame, setIsBillingSame] = useState(false);
-  const [token, setToken] = useState("")
+  const [isBillingSame, setIsBillingSame] = useState(true);
+  const [token, setToken] = useState("");
+  const[checkoutgreen,setcheckoutgreen] = useState(false)
   useEffect(() => {
   let cookieToken = cookieCutter.get("token");
   if (cookieToken) {
@@ -169,6 +170,8 @@ console.log(orderData)
       console.log(response.data);
       setIsOrderPlaced(true);
       setOrderData(response.data);
+      settabs(2)
+      setcheckoutgreen(true)
       // Handle response data as needed
     } catch (error) {
       console.error("Error placing order:", error);
@@ -189,6 +192,14 @@ console.log(orderData)
   const closeModal = () => {
     setismodalopen(false);
   };
+
+  useEffect(() => {
+if(isBillingSame){
+  setismodalopen(false)
+}else{
+  setismodalopen(true)
+}
+  },[isBillingSame])
 
   return (
     <div className=" w-full lg:flex gap-x-5">
@@ -213,7 +224,7 @@ console.log(orderData)
               </div>
             </div>
             <div>
-              <button className="lg:text-2xl text-xl">Checkout</button>
+              <button className={`lg:text-2xl text-xl ${checkoutgreen ? ' text-[#039C2EB0]' : 'text-black'}`}>Checkout</button>
             </div>
             <div>
               <div className=" relative min-w-[20px]  max-w-[150px] ">
@@ -536,6 +547,7 @@ console.log(orderData)
                             className=" !top-[-8px] "
                             value={isBillingSame}
                             onChange={() => setIsBillingSame(!isBillingSame)}
+                            checked = {isBillingSame}
                           />
                         </div>
                       </div>
@@ -628,6 +640,7 @@ console.log(orderData)
             visible={ismodalopen}
             effect="fadeInDown"
             onClickAway={closeModal}
+           
           >
             <div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5">
               <div className=" flex ">
@@ -639,7 +652,9 @@ console.log(orderData)
                 </button>
               </div>
 
-              <div className="lg:my-4 md:my-2 my-1">
+         {
+           isBillingSame ?    <div className="optsection">
+            <div className="lg:my-4 md:my-2 my-1">
                 <h6 className="context font-[900] lg:text-[2.5rem] md:text-[2rem] text-2xl text-center lg:mb-10 md:mb-7 mb-4">
                   Enter OTP
                 </h6>
@@ -660,6 +675,116 @@ console.log(orderData)
                   Confirm OTP
                 </button>
               </div>
+            </div> : <div> 
+            <h5 className="w-full  headtext lg:text-[2rem] md:text-[1.8rem] text-xl font-[800]"> Your billing address</h5>
+
+            <div className="w-full">
+            <form>
+                  <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
+                    <div className=" w-full context">
+                      <label htmlFor="add1" className="mb-2">
+                        Address Line 1{" "}
+                        <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
+                          *
+                        </sup>{" "}
+                      </label>
+
+                      <input
+                        type="text"
+                        id="add1"
+                        className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
+                        placeholder="Flat, House, Building and other details"
+                        value={address_line1}
+                        onChange={(e) => setAddressLine1(e.target.value)}
+                      />
+                    </div>
+                    <div className=" w-full context">
+                      <label htmlFor="add2" className="mb-2">
+                        Address Line 2{" "}
+                        <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
+                          *
+                        </sup>{" "}
+                      </label>
+
+                      <input
+                        type="text"
+                        id="add2"
+                        className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
+                        placeholder="Lane, Street & Landmark"
+                        value={address_line2}
+                        onChange={(e) => setAddressLine2(e.target.value)}
+                      />
+                    </div>
+
+                    <div className=" w-full grid lg:grid-cols-3 grid-cols-2 gap-y-2 lg:gap-y-0 gap-x-3">
+                      <div className=" w-full context">
+                        <label htmlFor="City" className="mb-2">
+                          City{" "}
+                          <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
+                            *
+                          </sup>{" "}
+                        </label>
+
+                        <input
+                          type="text"
+                          id="City"
+                          className="w-full border border-text-secondary shadow-sm px-4 h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
+                        />
+                      </div>
+
+                      <div className=" w-full context">
+                        <label htmlFor="State" className="mb-2">
+                          State{" "}
+                          <sup className="text-[#FF2A2A] !top-[5px] text-[24px] ">
+                            *
+                          </sup>{" "}
+                        </label>
+
+                        <input
+                          type="text"
+                          id="State"
+                          className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
+                          value={state}
+                          onChange={(e) => setState(e.target.value)}
+                        />
+                      </div>
+
+                      <div className=" w-full context">
+                        <label htmlFor="Pincode" className="mb-2">
+                          Pincode{" "}
+                          <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
+                            *
+                          </sup>{" "}
+                        </label>
+
+                        <input
+                          type="text"
+                          id="Pincode"
+                          className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
+                          value={pincode}
+                          onChange={(e) => setPincode(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                
+
+                  <div className="w-full flex justify-center mt-6">
+                    <button
+                    onClick={
+                      handleOrderPlace
+                    }
+                     className="headtext font-[800]  lg:text-[1.4rem] text-xl py-3 lg:w-[50%] w-[85%] rounded bg-theme-footer-bg text-white">
+                      Continue to Shipping
+                    </button>
+                  </div>
+                </form>
+            </div>
+            </div>
+         }
             </div>
           </Modal>
         </div>
@@ -668,7 +793,7 @@ console.log(orderData)
         <Productshow cartdata={cartData}  orderId={
           orderData?.order?._id
 
-        } />
+        } ischeckoutset={checkoutgreen} />
       </div>
     </div>
   );
