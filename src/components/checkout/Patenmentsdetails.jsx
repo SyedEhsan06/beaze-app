@@ -90,8 +90,8 @@ console.log(orderData)
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup`,
         {
           phone: `+91${phone}`,
-          first_name: first_name,
-          last_name: last_name,
+          firstName: first_name,
+          lastName: last_name,
         }
       );
       console.log(response.data);
@@ -111,8 +111,6 @@ console.log(orderData)
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/verifyotp`,
         {
           phone: `+91${phone}`,
-          first_name: first_name,
-          last_name: last_name,
           otp: otp,
         }
       );

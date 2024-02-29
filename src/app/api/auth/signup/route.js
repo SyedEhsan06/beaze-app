@@ -12,7 +12,6 @@ import User from "@/lib/models/user.model";
 export async function POST(req) {
   let { phone, firstName, lastName } = await req.json();
   console.log(phone, firstName, lastName)
-  phone = "+91" + phone;
   try {
     let user = await User.findOne({ phone_number: phone });
 
@@ -29,6 +28,8 @@ export async function POST(req) {
 
       await user.save();
     } else {
+      const { otp, expiration } = await sendOTP(phone);
+
   return Response.json({ message: "User already exists" });
           
     }

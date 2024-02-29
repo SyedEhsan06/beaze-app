@@ -11,7 +11,6 @@ function generateToken(user) {
 
 export async function POST(req) {
 let { phone, otp } = await req.json(); 
-  phone = "+91" + phone;
   try {
     // Verify OTP
     const isOTPVerified = await verifyOTP(phone, otp);
