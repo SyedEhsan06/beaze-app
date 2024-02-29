@@ -16,6 +16,7 @@ export default function Signup() {
   const [response, setResponse] = useState('');
   const[validationerr,setvalidationerr] = useState(false);
   const[checknum,setchecknum] = useState(false)
+  const [showicon,setshowicon] = useState(false)
 
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup`
     // console.log(firstname, lastname, phone, country)
@@ -60,7 +61,12 @@ export default function Signup() {
   };
 
   const handlePhoneChange = (enteredPhone) => {
-    console.log(enteredPhone);
+    if(enteredPhone.length >= 1){
+      setshowicon(true)
+     }else{
+      setshowicon(false)
+     }
+
     setPhone(enteredPhone);
   };
 
@@ -117,9 +123,11 @@ export default function Signup() {
                           onChange={(e) => setFirstname(e.target.value)}
                         />
                       </div>
-                      <button className="w-[5%] text-[#039C2EB0]">
+                    {
+                      firstName &&   <button className="w-[5%] text-[#039C2EB0]">
                         <FaCheck size={14} />
                       </button>
+                    }
                     </div>
                   </div>
                   <div className="w-full context">
@@ -139,12 +147,14 @@ export default function Signup() {
                           onChange={(e) => setLastname(e.target.value)}
                         />
                       </div>
-                      <button  className="w-[5%] text-[#039C2EB0]">
+                     {
+                      lastName &&  <button  className="w-[5%] text-[#039C2EB0]">
                         <FaCheck size={14} />
                       </button>
+                     }
                     </div>
                   </div>
-                  <Countryinput editable={true} onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} alreadyresgiter={validationerr} checknumtendigit={checknum} />
+                  <Countryinput editable={true} onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} alreadyresgiter={validationerr} checknumtendigit={checknum} iconshow = {showicon} />
                  <div className={`context w-full leading-3 mt-3 ${validationerr ? 'block' : ' hidden'}`}>
                   <p className=' text-center lg:text-[1rem] text-xs text-[#760000] font-[500]'>😩 Oops, Looks like this number is already registered</p>
                   <p className=' text-center lg:text-[1rem] text-xs underline font-[700]'><Link href='/login'>Try signing in instead</Link></p>

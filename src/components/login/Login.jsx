@@ -15,6 +15,7 @@ export default function Login() {
   const [response, setResponse] = useState('');
   const[checknum,setchecknum] = useState(false)
   const router = useRouter();
+  const[showicon,setshowicon] = useState(false)
   
   console.log(
     phone,
@@ -82,7 +83,13 @@ export default function Login() {
     }
   }, [response, router]);
   const handlePhoneChange = (number) => {
-    setPhone(number);
+   if(number.length >= 1){
+    setshowicon(true)
+   }else{
+    setshowicon(false)
+   }
+
+   setPhone(number);
   }
   const handleCountryChange = (code) => {
     setCountry(code);
@@ -149,7 +156,7 @@ export default function Login() {
               <form className="w-full"
                 onSubmit={handleSubmit}
               >
-              <Countryinput editable={true} onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} checknumtendigit={checknum} />
+              <Countryinput editable={true} onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} checknumtendigit={checknum} iconshow={showicon} />
 
               <div className={`context w-full leading-3 mt-5 ${checknum ? 'block' : ' hidden'}`}>
                   <p className=' text-center lg:text-[1rem] text-xs text-[#760000] font-[500]'>🤔 Uh Oh, That number does not seem right.</p>
