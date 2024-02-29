@@ -1,15 +1,15 @@
 import Script from "next/script";
 import cookieCutter from "cookie-cutter";
-
+import { NextResponse } from 'next/server'
 export default function PaymentComponent({
   makePaymentClick,
   data,
   amount,
   orderId,
 }) {
-  console.log("data", data);
-  console.log("amount", amount);
-  console.log("orderId", orderId);
+  // console.log("data", data);
+  // console.log("amount", amount);
+  // console.log("orderId", orderId);
   const makePayment = async ({ productId = "example_ebook" }) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/razorpay`, {
       method: "POST",
@@ -54,7 +54,8 @@ export default function PaymentComponent({
         cookieCutter.set("paymentStatus", "success", {
           expires: new Date(new Date().getTime() + 60 * 60 * 1000),
         });
-      },
+        NextResponse.redirect("/invoice?orderId=" + orderId);
+      },    
 
       prefill: {
         name: "Beaze",
@@ -64,6 +65,23 @@ export default function PaymentComponent({
     };
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
+    paymentObject.on("payment.failed", function (response) {
+      console.log("Payment failed", response.error.code);
+      const updateFailedOrder = async()=>{
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/checkout`, {
+          method: "put",
+          body: JSON.stringify({
+            paymentStatus: "failed",
+            _id:orderId,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${cookieCutter.get("token")}`,
+          },
+        }).then((t) => t.json());
+      }
+      updateFailedOrder();
+    });
   };
   return (
     <>

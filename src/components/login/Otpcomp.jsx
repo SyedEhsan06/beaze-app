@@ -53,16 +53,19 @@ export default function Otpcomp() {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/verifyotp`;
   const handleOtpVerify = (e) => {
     e.preventDefault();
+    let phone = localStorage.getItem("phone");
+    phone = `+91${phone}`;
+
     const otpValue = otp.join("");
     axios
-      .post(url, { otp: otpValue, phone: localStorage.getItem("phone") })
+      .post(url, { otp: otpValue, phone: phone })
       .then((res) => {
         console.log(res.data);
         if (res.data.error) {
           setError(res.data.error);
         }
         localStorage.setItem("token", res.data.token);
-        cookieCutter.set("token", res.data.token);
+        cookieCutter.set("token", token)
         setToken(res.data.token);
       })
       .catch((err) => {
