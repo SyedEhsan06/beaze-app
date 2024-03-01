@@ -228,8 +228,8 @@ if(currentPosition > 0 ){
 
             <div className="w-[17.5%]">
 
-              <div className="w-[80%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] px-4 py-[6px] flex items-center">
-                <div className="w-[90%]">
+              <div className="w-[80%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] pl-4 py-[6px] flex items-center relative">
+                <div className="w-[100%]">
                   <select
                     className="w-full border-none focus:outline-none appearance-none bg-transparent cursor-pointer text-[15px] px-2"
                     id="sizeselect"
@@ -249,7 +249,7 @@ if(currentPosition > 0 ){
                   </select>
                 </div>
 
-                <div className="w-[10%]">
+                <div className=" absolute top-[10px] right-1">
                   <BiSolidChevronDown
                     size={20}
                     className=" text-gray-950"
@@ -260,8 +260,8 @@ if(currentPosition > 0 ){
 
             <div className="w-[17.5%]">
 
-              <div className="w-[80%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] px-4 py-[6px] flex items-center">
-                <div className="w-[90%]">
+              <div className="w-[80%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] pl-4 py-[6px] flex items-center relative">
+                <div className="w-[100%]">
                   <select
                     className="w-full border-none focus:outline-none appearance-none bg-transparent cursor-pointer text-[15px] px-2"
                     id="sizeselect"
@@ -281,7 +281,7 @@ if(currentPosition > 0 ){
                   </select>
                 </div>
 
-                <div className="w-[10%]">
+                <div className=" absolute right-1 top-[10px]">
                   <BiSolidChevronDown
                     size={20}
                     className=" text-gray-950"
@@ -353,8 +353,8 @@ if(currentPosition > 0 ){
                           >
                             Select a colour
                           </label>
-                          <div className="md:w-[40%] w-[100%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] px-4 h-[40px] flex items-center">
-                            <div className="w-[90%]">
+                          <div className="md:w-[40%] w-[100%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] pl-4 h-[40px] flex items-center relative">
+                            <div className="w-[100%]">
                               <select
                                 className="w-full border-none focus:outline-none appearance-none bg-transparent cursor-pointer"
                                 id="sizeselect"
@@ -374,7 +374,7 @@ if(currentPosition > 0 ){
                               </select>
                             </div>
 
-                            <div className="w-[10%]">
+                            <div className=" absolute right-1 top-[10px]">
                               <BiSolidChevronDown
                                 size={20}
                                 className=" text-gray-950"

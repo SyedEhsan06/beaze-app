@@ -243,8 +243,8 @@ const handelincreaseqty = () => {
                     <label htmlFor="sizeselect" className=" font-[400] text-lg">
                       Select a colour
                     </label>
-                    <div className="md:w-[40%] w-[100%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] px-4 py-1 flex items-center">
-                      <div className="w-[90%]">
+                    <div className="md:w-[40%] w-[100%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] pl-4 py-1 flex items-center relative">
+                      <div className="w-[100%]">
                         <select
                           className="w-full border-none focus:outline-none appearance-none bg-transparent cursor-pointer"
                           id="sizeselect" value={pdata.color} onChange={(e) => handelsetcolr(e.target.value)}
@@ -262,7 +262,7 @@ const handelincreaseqty = () => {
                         </select>
                       </div>
 
-                      <div className="w-[10%]">
+                      <div className=" absolute right-1 top-[5px]">
                         <BiSolidChevronDown
                           size={20}
                           className=" text-gray-950"
