@@ -44,7 +44,12 @@ const handleCloseCart = () => {
   
 
   const totalPrice =  data.reduce((a, b) => a + b.price*b.selectedQty, 0);
-  console.log({'cadat' : cartData})
+ 
+
+  const handelsendtocheckout = () => {
+    router.push("/checkout")
+    setCartOpen(false)
+  }
   return (
    <>
     {
@@ -195,8 +200,8 @@ const handleCloseCart = () => {
           </button>
           <button
            
-           className=" w-[65%] bg-theme-footer-bg  py-2 text-xl text-white font-[700] rounded-[29px]">
-            <Link href='/checkout'> Checkout</Link>
+           className=" w-[65%] bg-theme-footer-bg  py-2 text-xl text-white font-[700] rounded-[29px]" onClick={handelsendtocheckout}>
+            Checkout
            </button>
         </div>
       </div>

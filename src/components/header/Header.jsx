@@ -613,7 +613,7 @@ const selectDataOfUser = useSelector(selectUser)
                     </div>
                     <div className=" py-5 px-3" ref={divRef}>
                       {showshop ? (
-                        <div className="w-full">
+                        <div className="w-full mb-14">
                           <Shopmenu
                             meudata={shopmenudata}
                             Closeref={setshowhide}
