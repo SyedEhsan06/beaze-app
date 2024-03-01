@@ -294,9 +294,11 @@ useEffect(() => {
                             onChange={(e) => setFirstName(e.target.value)}
                           />
                         </div>
-                        <button className="w-[5%] text-[#039C2EB0]">
+                       {
+                        first_name &&  <button className="w-[5%] text-[#039C2EB0]">
                           <FaCheck size={14} />
                         </button>
+                       }
                       </div>
                     </div>
                     <div className=" w-full context">
@@ -317,9 +319,11 @@ useEffect(() => {
                             onChange={(e) => setLastName(e.target.value)}
                           />
                         </div>
-                        <button className="w-[5%] text-[#039C2EB0]">
+                      {
+                        last_name &&   <button className="w-[5%] text-[#039C2EB0]">
                           <FaCheck size={14} />
                         </button>
+                      }
                       </div>
                     </div>
                     <Countryinput
