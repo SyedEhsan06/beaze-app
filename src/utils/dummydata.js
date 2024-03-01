@@ -149,10 +149,137 @@ export const footerlinsk = [
     logo : '/images/logo.png'
 },
 
-
-
 ]
 
+export const footerlinkresgister = [
+    {
+        heading : 'Register with us',
+        menus  : [
+            {
+                name : 'Create an account',
+                link : '/'
+            },
+            {
+                name : 'Sign in to your account',
+                link : '/'
+            },
+            {
+                name : 'See your past orders',
+                link : '/'
+            },
+            {
+                name : 'Sign up with us for discounts',
+                link : '/'
+            }
+        ],
+        secondmenu  : [
+            {
+                heading : 'Contact Us',
+                menus  : [
+                    {
+                        name : 'Send us an email',
+                        link : '/'
+                    },
+                    {
+                        name : 'Call us',
+                        link : '/'
+                    },
+                    {
+                        name : 'Request a callback',
+                        link : '/'
+                    },
+                    {
+                        name : 'Give us feedback ',
+                        link : '/'
+                    }
+                ]
+            },
+            
+        ]
+        
+    },
+]
+
+
+export const footerlinkshop = [
+    {
+        heading : 'Shop',
+        menus  : [
+            {
+                name : 'Men’s Clothes',
+                link : '/'
+            },
+            {
+                name : 'Women’s Clothes',
+                link : '/'
+            },
+            {
+                name : 'Shoes',
+                link : '/'
+            },
+            {
+                name : 'Accessories',
+                link : '/'
+            },
+            {
+                name : 'Formals',
+                link : '/'
+            },
+            {
+                name : 'Sunglasses',
+                link : '/'
+            },
+            {
+                name : 'Lingerie',
+                link : '/'
+            },
+            {
+                name : 'Tshirts',
+                link : '/'
+            },
+            {
+                name : 'Curated Collections',
+                link : '/'
+            }
+        ]
+    },
+]
+
+
+
+export const foooterlinkabout = [
+    {
+        heading : 'About & Help',
+        menus  : [
+            {
+                name : 'About us',
+                link : '/'
+            },
+            {
+                name : 'Reviews',
+                link : '/'
+            },
+            {
+                name : 'Terms and Conditions',
+                link : '/'
+            },
+            {
+                name : 'Privacy Policy',
+                link : '/'
+            },
+            {
+                name : 'Track your order',
+                link : '/'
+            },
+            {
+                name : 'Register a grievance',
+                link : '/'
+            }
+        ],
+    
+        logo : '/images/logo.png'
+    },
+]
 //home
 
 export const featuresdata = [
