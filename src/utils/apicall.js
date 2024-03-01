@@ -7,7 +7,8 @@ const axiosWithToken = () => {
   
   const instance = axios.create({
     headers: {
-      Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
+      Authorization: `Bearer +918340263940`,
+      Phone : '+918340263940',
       'Content-Type': 'application/json',
     },
   });

@@ -126,7 +126,7 @@ console.log(userdata)
           </div>
         </div>
         <div className="w-[80%]">
-          <div className={`w-full flex border  shadow-input pl-2 pr-3 rounded-lg ${alreadyresgiter ? ' border-[#FF0000]' : 'border-text-secondary'}`}>
+          <div className={`w-full flex border items-center  shadow-input pl-2 pr-3 rounded-lg ${alreadyresgiter ? ' border-[#FF0000]' : 'border-text-secondary'}`}>
             <div className="w-[95%] ">
               <input
                 type="text"
@@ -142,7 +142,7 @@ console.log(userdata)
               />
             </div>
          {
-          iconshow &&    <button className="w-[5%] ">
+          iconshow &&    <span className="w-[5%] ">
             {alreadyresgiter ? (
     <></>
   ) : (
@@ -152,7 +152,7 @@ console.log(userdata)
       <FaCheck size={14} className="text-[#039C2EB0]" />
     )
   )}
-            </button>
+            </span>
          }
           </div>
         </div>

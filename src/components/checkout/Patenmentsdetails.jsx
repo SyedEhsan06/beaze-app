@@ -12,6 +12,7 @@ import { selectCart } from "@/redux/slices/cartSlice";
 import { useSelector } from "react-redux";
 import cookieCutter from "cookie-cutter";
 import Productshow from "./Productshow";
+import { fetchData } from "@/utils/apicall";
 export default function Patenmentsdetails() {
   const [selectedCountry, setSelectedCountry] = useState();
   const [tabs, settabs] = useState(0);
@@ -37,6 +38,7 @@ export default function Patenmentsdetails() {
   const [orderStatus, setOrderStatus] = useState("");
   const [isOrderPlaced, setIsOrderPlaced] = useState(false);
   const [orderData, setOrderData] = useState({});
+  const [savedaddres,setsavedaddres] = useState([])
   // billing address
   const [address_line1_billing, setAddressLine1Billing] = useState("");
   const [address_line2_billing, setAddressLine2Billing] = useState("");
@@ -195,6 +197,7 @@ export default function Patenmentsdetails() {
 useEffect(() => {
   if(isAccountCreated){
     setismodalopen(true)
+    handelgetsavedaddress()
   }else{
     setismodalopen(false)
   }
@@ -205,6 +208,27 @@ useEffect(() => {
     setIsAccountCreated(false)
   }
 },[ismodalopen])
+
+
+
+
+const handelgetsavedaddress = async() => {
+try{
+const response = await fetchData('/auth/profile')
+console.log(response)
+setsavedaddres(response.user.address)
+}catch(err){
+console.log(err)
+}
+}
+const handelbinsavedaddress = (items) =>{
+setAddressLine1(items.address_line1);
+setAddressLine2(items.address_line2);
+setState(items.state);
+setCity(items.city);
+setPincode(items.pincode)
+setismodalopen(false)
+}
 
   return (
     <div className=" w-full lg:flex gap-x-5">
@@ -289,7 +313,7 @@ useEffect(() => {
                           *
                         </sup>{" "}
                       </label>
-                      <div className="w-full flex border border-text-secondary shadow-lg pl-2 pr-3  rounded-lg">
+                      <div className="w-full flex border items-center border-text-secondary shadow-lg pl-2 pr-3  rounded-lg">
                         <div className="w-[95%] ">
                           <input
                             type="text"
@@ -301,9 +325,9 @@ useEffect(() => {
                           />
                         </div>
                        {
-                        first_name &&  <button className="w-[5%] text-[#039C2EB0]">
+                        first_name &&  <span className="w-[5%] text-[#039C2EB0]">
                           <FaCheck size={14} />
-                        </button>
+                        </span>
                        }
                       </div>
                     </div>
@@ -314,7 +338,7 @@ useEffect(() => {
                           *
                         </sup>{" "}
                       </label>
-                      <div className="w-full flex border border-text-secondary shadow-lg pl-2 pr-3  rounded-lg">
+                      <div className="w-full flex items-center border border-text-secondary shadow-lg pl-2 pr-3  rounded-lg">
                         <div className="w-[95%] ">
                           <input
                             type="text"
@@ -326,9 +350,9 @@ useEffect(() => {
                           />
                         </div>
                       {
-                        last_name &&   <button className="w-[5%] text-[#039C2EB0]">
+                        last_name &&   <span className="w-[5%] text-[#039C2EB0]">
                           <FaCheck size={14} />
-                        </button>
+                        </span>
                       }
                       </div>
                     </div>
@@ -769,9 +793,16 @@ useEffect(() => {
             <h5 className="w-full  headtext lg:text-[2rem] md:text-[1.8rem] text-xl font-[800]"> Your Saved address</h5>
 
             <div className="w-full grid grid-cols-3 gap-3 mt-7">
-              <button className="w-full h-[40px] shadow-sm border border-theme-footer-bg   rounded flex items-center justify-center text-xl font-[500]  text-text-secondary   ">
-              Home
+             {
+              savedaddres.map((items,index) => (
+                <button className="w-full h-[40px] shadow-sm border border-theme-footer-bg   rounded flex items-center  text-xl font-[700]   px-3 " key={index} onClick={() => handelbinsavedaddress(items)}>
+            <p className="w-[90%] text-left capitalize headtext"> {items.address_type}</p>
+          <div className="w-[10%]">
+          <img src= "/images/web/addicon.png" className="w-[80%]" alt="" />
+          </div>
               </button>
+              ))
+             }
             </div>
 
 

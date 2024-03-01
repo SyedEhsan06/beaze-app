@@ -72,9 +72,9 @@ export default function Signup() {
 
   return (
     <div className='h-[100vh] w-[100%] pb-4 pt-8 lg:px-10 px-2 relative mianconlogins flex  lg:block'>
-      <div className='absolute top-[4%] lg:left-[1%] left-1/2 transform -translate-x-1/2  lg:transform-none lg:-translate-x-0'>
+      <div className='absolute top-[4%] lg:left-[1%] left-1/2 transform -translate-x-1/2 z-10  lg:transform-none lg:-translate-x-0'>
         <Link href={'/'}>
-          <Image src="/images/logo.png" fill alt="logo" className='!static lg:!w-[80%] !w-[100px]' />
+          <Image src="/images/logo.png" fill alt="logo" className='!static lg:!w-[80%] !w-[100px] ' />
         </Link>
       </div>
       <div className='lg:max-w-full max-w-[500px] mx-auto lg:mx-0 lg:flex mt-[70px] lg:mt-0'>
@@ -113,7 +113,7 @@ export default function Signup() {
                         *
                       </sup>
                     </label>
-                    <div className="w-full flex border border-text-secondary shadow-input pl-2 pr-3 rounded-lg">
+                    <div className="w-full flex border border-text-secondary items-center shadow-input pl-2 pr-3 rounded-lg">
                       <div className="w-[95%] ">
                         <input
                           type="text"
@@ -124,9 +124,9 @@ export default function Signup() {
                         />
                       </div>
                     {
-                      firstName &&   <button className="w-[5%] text-[#039C2EB0]">
+                      firstName &&   <span className="w-[5%] text-[#039C2EB0]">
                         <FaCheck size={14} />
-                      </button>
+                      </span>
                     }
                     </div>
                   </div>
@@ -137,7 +137,7 @@ export default function Signup() {
                         *
                       </sup>
                     </label>
-                    <div className="w-full flex border border-text-secondary shadow-input pl-2 pr-3 rounded-lg">
+                    <div className="w-full flex border border-text-secondary items-center shadow-input pl-2 pr-3 rounded-lg">
                       <div className="w-[95%] ">
                         <input
                           type="text"
@@ -148,9 +148,9 @@ export default function Signup() {
                         />
                       </div>
                      {
-                      lastName &&  <button  className="w-[5%] text-[#039C2EB0]">
+                      lastName &&  <span className="w-[5%] text-[#039C2EB0]">
                         <FaCheck size={14} />
-                      </button>
+                      </span>
                      }
                     </div>
                   </div>
