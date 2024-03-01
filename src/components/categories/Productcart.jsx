@@ -45,7 +45,9 @@ const handleCloseCart = () => {
 
   const totalPrice =  data.reduce((a, b) => a + b.price*b.selectedQty, 0);
  
-
+  console.log(
+    data
+  )
   const handelsendtocheckout = () => {
     router.push("/checkout")
     setCartOpen(false)

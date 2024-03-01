@@ -1,6 +1,6 @@
 import Category from "@/lib/models/category";
 import { connectToDb } from "@/lib/utils";
-
+import Products from "@/lib/models/products";
 export async function GET(req) {
   await connectToDb();
   let categories;
@@ -12,7 +12,9 @@ export async function GET(req) {
     if (queryParams) {
       categories = await Category.find({ name: queryParams });
     } else {
+      // let products = await Products.find();
       categories = await Category.find();
+      
     }
   } catch (err) {
     return Response.json({ error: err.message });

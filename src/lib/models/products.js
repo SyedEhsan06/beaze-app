@@ -59,7 +59,6 @@ const productSchema = new Schema(
     },
     quantity: {
       type: Number,
-      default: 5,
     },
   },
   {

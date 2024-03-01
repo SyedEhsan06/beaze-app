@@ -109,26 +109,19 @@ const router = useRouter()
 
 
   const handelincreaseqty = () => {
-      if(pdata.selectedQty != pdata.quantity){
-        setpdata({
-          ...pdata,
-          selectedQty : pdata.selectedQty+1,
-         
-        })
-    }
+    setpdata(prevState => ({
+      ...prevState,
+      selectedQty: prevState.selectedQty < pdata.quantity ? prevState.selectedQty + 1 : pdata.quantity
+    }));
   };
   
   
-    const handeldecreseqty = () => {
-      if(pdata.selectedQty != 1){
-        setpdata({
-          ...pdata,
-          selectedQty : pdata.selectedQty-1,
-         
-        })
-      }
-    }
-    
+  const handeldecreseqty = () => {
+    setpdata(prevState => ({
+      ...prevState,
+      selectedQty: prevState.selectedQty > 1 ? prevState.selectedQty - 1 : 1
+    }));
+  };
 
     const dispatch = useDispatch();
 
@@ -147,7 +140,7 @@ const router = useRouter()
 
     }
 
-
+    console.log(pdata.selectedQty)
     dispatch(addToCart(obj));
     if (selectedCartData.some((item) => item._id === obj._id)) {
       toast.success("Added same product again", {
