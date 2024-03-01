@@ -4,6 +4,7 @@ import Loader from "../loader/Loader";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "@/redux/slices/productSlice";
 import { toggleCategory, toggleCategoryCall, toggleColor, toggleSubcategory } from "@/redux/slices/filterSlice";
+import { useRouter } from "next/navigation";
 export default function Shopmenu({ meudata, Closeref, closevaribale,showmenucose }) {
   const dispatch = useDispatch();
 
@@ -26,6 +27,14 @@ export default function Shopmenu({ meudata, Closeref, closevaribale,showmenucose
     // });
   };
 
+
+  const router = useRouter();
+  const handelnavigate = (items) => {
+    showmenucose(false)
+    handleDispatch("category", items)
+    router.push('/products')
+  }
+
   return (
     <>
       {!meudata ? (
@@ -41,11 +50,8 @@ export default function Shopmenu({ meudata, Closeref, closevaribale,showmenucose
               key={index}
               onClick={() => Closeref(0)}
             >
-              <Link
-                href={{
-                  pathname: `/products`,
-                }}
-                onMouseDown={() => {handleDispatch("category", items); showmenucose(false)}}
+              <div onClick={() => handelnavigate(items)}
+               
               >
                 <div className="flex items-center gap-x-2">
                   <div className="w-3/12 cursor-pointer relative md:h-[70px] h-[50px] overflow-hidden rounded-[7px]">
@@ -74,7 +80,7 @@ export default function Shopmenu({ meudata, Closeref, closevaribale,showmenucose
                     <p className="text-lg font-[500] text-center">{items.name}</p>
                   </div>
                 </div>
-              </Link>
+              </div>
             </div>
           ))}
         </div>

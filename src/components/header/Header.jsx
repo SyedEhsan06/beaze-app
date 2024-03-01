@@ -44,6 +44,7 @@ export default function Header() {
   const [searchdata, setsearchdata] = useState([]);
   const [showsearchmobile, setshowsearchmobile] = useState(false);
   const inputRef = useRef(null);
+  
   const dispatch = useDispatch();
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -344,6 +345,8 @@ const selectDataOfUser = useSelector(selectUser)
     // typeof window !== "undefined" ? localStorage.getItem("token") : null,
   ]);
 
+
+ 
 
 
   const pathname = usePathname();

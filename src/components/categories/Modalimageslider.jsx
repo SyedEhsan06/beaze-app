@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/swiper-bundle.css';
-import { Pagination, Keyboard,Scrollbar  } from 'swiper/modules';
+import { Pagination, Keyboard,Scrollbar,Autoplay  } from 'swiper/modules';
 import 'swiper/css/scrollbar';
 
 export default function ModalImageSlider({ sliderdata,showonphone,imageindex,setimageindex }) {
@@ -37,9 +37,12 @@ const [showfullimage,setshowfullimage] = useState(true)
           <Swiper
                 centeredSlides={false}
                 pagination={false}
-                modules={[Pagination, Keyboard, Scrollbar ]}
+                modules={[Pagination, Keyboard, Scrollbar,Autoplay ]}
                 keyboard={{ enabled: true }}
                 scrollbar={{ draggable: true }}
+                autoplay={{
+                            delay: 2500,
+                        }}
                 breakpoints={{
                     0: {
                         slidesPerView: 3,

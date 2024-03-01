@@ -200,6 +200,12 @@ useEffect(() => {
   }
 },[isAccountCreated])
 
+useEffect(() => {
+  if(!ismodalopen){
+    setIsAccountCreated(false)
+  }
+},[ismodalopen])
+
   return (
     <div className=" w-full lg:flex gap-x-5">
       <div className="lg:w-[60%] w-[100%]">
@@ -433,6 +439,7 @@ useEffect(() => {
                           id="svedaccount"
                           className=" !top-[-8px] !w-[18px] "
                           value={isAccountCreated}
+                          checked = {isAccountCreated}
                           onChange={() =>
                             setIsAccountCreated(!isAccountCreated)
                           }
@@ -743,6 +750,7 @@ useEffect(() => {
             visible={ismodalopen}
             effect="fadeInDown"
             onClickAway={closeModal}
+            widht='90%'
            
           >
             <div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5">
@@ -760,10 +768,10 @@ useEffect(() => {
 
             <h5 className="w-full  headtext lg:text-[2rem] md:text-[1.8rem] text-xl font-[800]"> Your Saved address</h5>
 
-            <div className="w-full grid grid-cols-3 gap-3 mt-5">
-              <div className="w-full p-2 shadow-sm border flex rounded ">
+            <div className="w-full grid grid-cols-3 gap-3 mt-7">
+              <button className="w-full h-[40px] shadow-sm border border-theme-footer-bg   rounded flex items-center justify-center text-xl font-[500]  text-text-secondary   ">
               Home
-              </div>
+              </button>
             </div>
 
 
