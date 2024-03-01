@@ -15,7 +15,8 @@ export default function Login() {
   const [response, setResponse] = useState('');
   const[checknum,setchecknum] = useState(false)
   const router = useRouter();
-  const[showicon,setshowicon] = useState(false)
+  const[showicon,setshowicon] = useState(false);
+  const[loader,setloader] = useState(false)
   
   console.log(
     phone,
@@ -24,6 +25,7 @@ export default function Login() {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`;
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setloader(true)
    if(phone.length === 10){
     setchecknum(false)
     localStorage?.setItem('phone', phone);
@@ -31,11 +33,13 @@ export default function Login() {
       const response = await axios.post(url, {
         phone,
       });
-      console.log(response);
+    
       setResponse(response);
+      setloader(false)
     } catch (error) {
-      console.log(error);
+    
       setError(error); 
+      setloader(false)
     }
    }else{
     setchecknum(true)

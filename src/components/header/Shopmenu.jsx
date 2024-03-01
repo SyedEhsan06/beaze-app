@@ -4,7 +4,7 @@ import Loader from "../loader/Loader";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "@/redux/slices/productSlice";
 import { toggleCategory, toggleCategoryCall, toggleColor, toggleSubcategory } from "@/redux/slices/filterSlice";
-export default function Shopmenu({ meudata, Closeref, closevaribale }) {
+export default function Shopmenu({ meudata, Closeref, closevaribale,showmenucose }) {
   const dispatch = useDispatch();
 
   const handleDispatch = (type, item) => {
@@ -45,7 +45,7 @@ export default function Shopmenu({ meudata, Closeref, closevaribale }) {
                 href={{
                   pathname: `/products`,
                 }}
-                onMouseDown={() => handleDispatch("category", items)}
+                onMouseDown={() => {handleDispatch("category", items); showmenucose(false)}}
               >
                 <div className="flex items-center gap-x-2">
                   <div className="w-3/12 cursor-pointer relative md:h-[70px] h-[50px] overflow-hidden rounded-[7px]">
