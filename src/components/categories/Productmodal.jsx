@@ -90,8 +90,9 @@ useEffect(() => {
         progress: undefined,
       });
     }
-    localStorage.setItem("cart", JSON.stringify(selectedCartData));
     setismodaloprn(false)
+    localStorage.setItem("cart", JSON.stringify(selectedCartData));
+    
   };
 
 
