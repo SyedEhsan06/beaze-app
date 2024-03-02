@@ -230,6 +230,16 @@ setPincode(items.pincode)
 setismodalopen(false)
 }
 
+
+useEffect(() => {
+if(tabs === 2 && !isBillingSame ){
+  window.scrollTo({
+    top: 200,
+    behavior: 'smooth',
+  })
+}
+},[tabs])
+
   return (
     <div className=" w-full lg:flex gap-x-5">
       <div className="lg:w-[60%] w-[100%]">
