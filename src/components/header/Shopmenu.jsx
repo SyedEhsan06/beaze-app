@@ -33,6 +33,7 @@ export default function Shopmenu({ meudata, Closeref, closevaribale,showmenucose
     showmenucose(false)
     handleDispatch("category", items)
     router.push('/products')
+    Closeref(0)
   }
 
   return (

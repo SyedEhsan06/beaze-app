@@ -622,6 +622,7 @@ const selectDataOfUser = useSelector(selectUser)
                             meudata={shopmenudata}
                             Closeref={setshowhide}
                             closevaribale={setshowshop}
+                            showmenucose={setshowmenu}
                           />
                         </div>
                       ) : (
