@@ -2,6 +2,7 @@ import Order from "@/lib/models/order";
 import { connectToDb } from "@/lib/utils";
 import User from "@/lib/models/user.model";
 import { sendOTP, verifyOTP } from "@/utils/verifyOtpUtils";
+import Product from "@/lib/models/products";
 import jwt from "jsonwebtoken";
 const secret = process.env.SECRET;
 export async function POST(req) {
@@ -29,6 +30,7 @@ export async function POST(req) {
     if (!user) {
       return Response.json({ error: "User not found" }, { status: 404 });
     }
+  
     console.log(first_name, last_name, phone, cart, total, payment, paymentStatus, status, shipping_address, billing_address)
     const order = new Order({
       first_name,

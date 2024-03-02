@@ -17,9 +17,9 @@ export async function GET(req) {
     if (!token) {
       return handleCommonError("Authorization token not provided");
     }
-    const phone = req.headers.get("phone");
-    // const decodedToken = jwt.verify(token, secret);
-    // const { phone } = decodedToken;
+    // const phone = req.headers.get("phone");
+    const decodedToken = jwt.verify(token, secret);
+    const { phone } = decodedToken;
     const user = await User.findOne({ phone_number: phone });
 
     if (!user) {

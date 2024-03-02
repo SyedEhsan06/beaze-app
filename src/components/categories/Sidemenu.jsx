@@ -70,7 +70,6 @@ console.log(categorySelect);
   let categoryToMap = categories?.filter(
     (item) => item.subcategories.length > 0
   );
-
   let currentCategory = currentData?.response?.products.map(
     (item) => item.category
   );

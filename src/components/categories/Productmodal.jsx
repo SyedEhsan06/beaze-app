@@ -59,13 +59,13 @@ useEffect(() => {
       images : pdata.images,
       quantity : pdata.quantity,
       pquantity : pdata.pquantity,
-      selectedQty : pdata?.selectedQty,
+      selectedQty : pdata.selectedQty,
       color : pdata.color,
       size : pdata.size,
       price : pdata.price * pdata.selectedQty
 
     }
-
+    console.log(obj)
 
     dispatch(addToCart(obj));
     if (selectedCartData.some((item) => item._id === obj._id)) {

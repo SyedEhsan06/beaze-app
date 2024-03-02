@@ -99,9 +99,9 @@ export default function Contentcategories({ params, categories }) {
       //   console.log(res.data.products);
       //   setLoader(false);
       fetchData(`products?category=${catsState}`).then((res) => {
-        // setData([]);
-        // setCompleteData([]);
-        // setFilterData([]);
+        setData([]);
+        setCompleteData([]);
+        setFilterData([]);
         setData(res.products);
         console.log(res.products);
         setFilterLoader(false);
