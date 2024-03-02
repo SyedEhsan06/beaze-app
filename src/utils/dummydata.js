@@ -157,19 +157,19 @@ export const footerlinkresgister = [
         menus  : [
             {
                 name : 'Create an account',
-                link : '/'
+                link : '/signup'
             },
             {
                 name : 'Sign in to your account',
-                link : '/'
+                link : '/login'
             },
             {
                 name : 'See your past orders',
-                link : '/'
+                link : '/account'
             },
             {
                 name : 'Sign up with us for discounts',
-                link : '/'
+                link : '/signup'
             }
         ],
         secondmenu  : [

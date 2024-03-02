@@ -30,6 +30,7 @@ import {
   selectColor,
   selectFix,
   selectMaterial,
+  selectSearch,
   selectSize,
   selectSleeve,
   selectSubcategory,
@@ -111,6 +112,22 @@ export default function Contentcategories({ params, categories }) {
       setData([]);
     }
   }, [categoryCall, catsState, fixSelect]);
+  const searchedSelect = useSelector(selectSearch);
+  useEffect(() => {
+    if (searchedSelect !== "") {
+      setLoader(true);
+      setFilterLoader(true);
+      fetchData(`products?search=${searchedSelect}`).then((res) => {
+        setData([]);
+        setCompleteData([]);
+        setFilterData([]);
+        setData(res.products);
+        console.log(res.products);
+        setFilterLoader(false);
+        setLoader(false);
+      });
+    }
+  }, [searchedSelect]);
   let router = useRouter();
   let debounceTimeoutRef = useRef(null);
   useEffect(() => {
@@ -442,7 +459,7 @@ export default function Contentcategories({ params, categories }) {
   const handleApplyfilter = () => {
     setShowCard(true);
     setCompleteData(rightFilteredProducts);
-    console.log(rightFilteredProducts.length)
+    console.log(rightFilteredProducts.length);
   };
   const handleRemoveFilter = (item) => {
     if (colorFilter.includes(item)) {
@@ -458,7 +475,7 @@ export default function Contentcategories({ params, categories }) {
       dispatch(toggleSleeve(item));
     }
     setShowCard(true);
-  handleApplyfilter();
+    handleApplyfilter();
   };
   useEffect(() => {
     // console.log(colorFilter, sizeFilter, materialFilter, sleeveFilter);
@@ -521,7 +538,7 @@ export default function Contentcategories({ params, categories }) {
         setRightFilteredProducts([]);
       }
     }
-  }, [colorFilter, sizeFilter, materialFilter, sleeveFilter,dispatch]);
+  }, [colorFilter, sizeFilter, materialFilter, sleeveFilter, dispatch]);
   const [showCard, setShowCard] = useState(false);
   const handleResetfilter = () => {
     setShowCard(false);
@@ -533,7 +550,7 @@ export default function Contentcategories({ params, categories }) {
     setAllFiltersCount([]);
     setCompleteData([...filterData, ...data]);
   };
- 
+
   // console.log(allsubcategories);
   const categoryState = useSelector(selectCategory);
   // useEffect(() => {
@@ -791,20 +808,20 @@ export default function Contentcategories({ params, categories }) {
                     />
                   </div>
                   {/* <Link href={`/productinfo/${items._id}`}> */}
-                    <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
-                      {items.title}
-                    </h6>
+                  <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
+                    {items.title}
+                  </h6>
                   {/* </Link> */}
                   <p className="py-1 text-[1rem] font-[400]">
                     Rs {items.price}
                   </p>
-                 <Link href={`/productinfo/${items._id}`}>
-                 <button
-                    className=" transition-all duration-100 w-full md:py-2 py-1 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  lg:hover:bg-opacity-[80%]"
-                    // onClick={() => handeladdtocart(items)}
-                  >
-                    Buy Now
-                  </button>
+                  <Link href={`/productinfo/${items._id}`}>
+                    <button
+                      className=" transition-all duration-100 w-full md:py-2 py-1 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  lg:hover:bg-opacity-[80%]"
+                      // onClick={() => handeladdtocart(items)}
+                    >
+                      Buy Now
+                    </button>
                   </Link>
                 </div>
                 <button
@@ -874,20 +891,20 @@ export default function Contentcategories({ params, categories }) {
                       />
                     </div>
                     {/* <Link href={`/productinfo/${items._id}`}> */}
-                      <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
-                        {items.title}
-                      </h6>
+                    <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
+                      {items.title}
+                    </h6>
                     {/* </Link> */}
                     <p className="py-1 text-[1rem] font-[400]">
                       Rs {items.price}
                     </p>
                     <Link href={`/productinfo/${items._id}`}>
-                    <button
-                      className=" transition-all duration-100 w-full md:py-2 py-1 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  lg:hover:bg-opacity-[80%]"
-                      // onClick={() => handeladdtocart(items)}
-                    >
-                      Buy Now
-                    </button>
+                      <button
+                        className=" transition-all duration-100 w-full md:py-2 py-1 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  lg:hover:bg-opacity-[80%]"
+                        // onClick={() => handeladdtocart(items)}
+                      >
+                        Buy Now
+                      </button>
                     </Link>
                   </div>
                   <button

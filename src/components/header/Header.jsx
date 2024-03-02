@@ -29,6 +29,7 @@ import {
   toggleCategory,
   toggleFix,
   toggleSubcategory,
+  addSearch,
 } from "@/redux/slices/filterSlice";
 import { selectCartOpen } from "@/redux/slices/cartOpenSlice";
 import Productcart from "../categories/Productcart";
@@ -118,6 +119,8 @@ export default function Header() {
       dispatch(toggleSubcategory([]));
       dispatch(toggleCategory([]));
       dispatch(toggleFix([]));
+    dispatch(addSearch(""));
+
       dispatch(addMultiSubcategory(subcategoryState));
       // dispatch(toggleFix(categoryState));
       // dispatch(addMultiCategory(categoryState));
@@ -183,19 +186,22 @@ export default function Header() {
     dispatch(toggleCategory([]));
     dispatch(toggleCategoryCall([]));
     setshowhide(0);
-    console.log(searchdata);
-    const subcategories = searchdata.map((item) => item.subcategory);
-    console.log(subcategories);
-    const unique = [...new Set(subcategories)];
-    const category = searchdata.map((item) => item.category);
-    const uniqueCategory = [...new Set(category)];
-    dispatch(toggleFix(subcategories));
-    let type = "search";
     if (search.length >= 1) {
-      unique.forEach((subcategory) => {
-        dispatch(toggleSubcategory(subcategory));
-      });
+      dispatch(addSearch(search));
     }
+    // console.log(searchdata);
+    // const subcategories = searchdata.map((item) => item.subcategory);
+    // console.log(subcategories);
+    // const unique = [...new Set(subcategories)];
+    // const category = searchdata.map((item) => item.category);
+    // const uniqueCategory = [...new Set(category)];
+    // dispatch(toggleFix(subcategories));
+    // let type = "search";
+    // if (search.length >= 1) {
+    //   unique.forEach((subcategory) => {
+    //     dispatch(toggleSubcategory(subcategory));
+    //   });
+    // }
   };
   const [cartOpen, setCartOpen] = useState(false);
   const handleCartOpen = () => {

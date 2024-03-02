@@ -1,5 +1,5 @@
 "use client";
-import { addMultiCategory, addMultiSubcategory, toggleCategory, toggleFix, toggleSubcategory } from "@/redux/slices/filterSlice";
+import { addMultiCategory, addMultiSubcategory, addSearch, toggleCategory, toggleFix, toggleSubcategory } from "@/redux/slices/filterSlice";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { MdArrowCircleDown } from "react-icons/md";
@@ -26,6 +26,8 @@ export default function Bannercontent({ data }) {
         dispatch(toggleSubcategory([]));
         dispatch(toggleCategory([]));
         dispatch(toggleFix([]));
+    dispatch(addSearch(""));
+
         dispatch(addMultiSubcategory(subcategoryState));
 
 

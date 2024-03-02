@@ -9,7 +9,9 @@ let initialState = {
   material: [],
   fix: [],
   sleeve: [],
+  search: '',
   status: "idle",
+
 };
 
 // Generic function to toggle filters
@@ -62,6 +64,9 @@ export const filterSlice = createSlice({
     toggleCategoryCall: (state, action) => {
       state.categoryCall = action.payload;
     },
+    addSearch: (state, action) => {
+      state.search = action.payload;
+    },
   },
 });
 
@@ -75,6 +80,7 @@ export const {
   toggleFix,
   addMultiSubcategory,
   addMultiCategory,
+  addSearch,
   toggleCategoryCall,
 } = filterSlice.actions;
 export const selectCategory = (state) => state.filter.category;
@@ -84,5 +90,6 @@ export const selectMaterial = (state) => state.filter.material;
 export const selectSleeve = (state) => state.filter.sleeve;
 export const selectSubcategory = (state) => state.filter.subcategory;
 export const selectFix = (state) => state.filter.fix;
+export const selectSearch = (state) => state.filter.search;
 export const selectCategoryCall = (state) => state.filter.categoryCall;
 export default filterSlice.reducer;

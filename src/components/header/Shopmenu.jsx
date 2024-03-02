@@ -3,7 +3,7 @@ import Image from "next/image";
 import Loader from "../loader/Loader";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "@/redux/slices/productSlice";
-import { toggleCategory, toggleCategoryCall, toggleColor, toggleSubcategory } from "@/redux/slices/filterSlice";
+import { addSearch, toggleCategory, toggleCategoryCall, toggleColor, toggleSubcategory } from "@/redux/slices/filterSlice";
 import { useRouter } from "next/navigation";
 export default function Shopmenu({ meudata, Closeref, closevaribale,showmenucose }) {
   const dispatch = useDispatch();
@@ -13,6 +13,7 @@ export default function Shopmenu({ meudata, Closeref, closevaribale,showmenucose
     dispatch(toggleSubcategory([]));
     dispatch(toggleCategory([]));
     dispatch(toggleCategoryCall([]));
+    dispatch(addSearch(""));
     dispatch(toggleCategory(item.name));
     dispatch(toggleCategoryCall(item.name));
     // item.subcategories.forEach((subcategory) => {

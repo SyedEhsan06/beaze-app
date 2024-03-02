@@ -134,6 +134,8 @@ const handelincreaseqty = () => {
     setpdata({
       ...pdata,
       selectedQty: pdata.selectedQty + 1,
+      quantity: produtdata.quantity - (pdata.selectedQty + 1),
+      
     });
   }
 };
@@ -144,7 +146,7 @@ const handelincreaseqty = () => {
       setpdata({
         ...pdata,
         selectedQty : pdata.selectedQty-1,
-       
+        quantity : produtdata.quantity - (pdata.selectedQty-1)
       })
     }
   }
