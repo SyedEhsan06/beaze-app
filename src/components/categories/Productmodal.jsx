@@ -299,7 +299,6 @@ const handelincreaseqty = () => {
                       </button>
                     </div>
                   </div>
-                  {currentProduct?.selectedQty}
                 </div>
               </div>
 
