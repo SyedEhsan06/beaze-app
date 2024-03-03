@@ -110,18 +110,23 @@ const router = useRouter()
 
 
   const handelincreaseqty = () => {
-    setpdata(prevState => ({
-      ...prevState,
-      selectedQty: prevState.selectedQty < pdata.quantity ? prevState.selectedQty + 1 : pdata.quantity
-    }));
+
+      setpdata({
+        ...pdata,
+        selectedQty: pdata.selectedQty + 1,
+        
+      });
+    
   };
   
   
   const handeldecreseqty = () => {
-    setpdata(prevState => ({
-      ...prevState,
-      selectedQty: prevState.selectedQty > 1 ? prevState.selectedQty - 1 : 1
-    }));
+    if(pdata.selectedQty != 1){
+      setpdata({
+        ...pdata,
+        selectedQty : pdata.selectedQty-1,
+      })
+    }
   };
 
     const dispatch = useDispatch();
@@ -129,7 +134,8 @@ const router = useRouter()
   const handeladdtocart = () => {
     const obj = {
       _id : pdata?._id,
-      cartId : pdata?.productId+ pdata?.color + pdata?.size,
+      p_id : pdata?.productId+ pdata?.color + pdata?.size,
+
       productId : pdata?.productId,
       title : pdata?.title,
       images : pdata?.images,
@@ -387,14 +393,14 @@ console.log(commonCartData)
                           <p className=" font-[400] text-lg">Select quantity</p>
                           <div className="md:w-[30%] w-[90%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 items-center ">
                             <button
-                              disabled={pdata?.selectedQty === 1 ? true : false}
+                        disabled={pdata.selectedQty <= 1 ? true : false}
                               className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 h-[40px] text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
                               onClick={handeldecreseqty}
                             >
                               <RiSubtractLine size={20} />
                             </button>
                             <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 h-[40px] flex items-center justify-center">
-                              {pdata?.selectedQty}
+                            {pdata.selectedQty ? pdata.selectedQty : 1}
                             </div>
                             <button
                               className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 h-[40px] text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
