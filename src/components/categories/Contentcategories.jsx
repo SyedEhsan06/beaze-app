@@ -1036,6 +1036,7 @@ export default function Contentcategories({ params, categories }) {
           produtdata={productdata}
           modalclose={closeModal}
           ismodalopen={ismodalopen}
+          setismodaloprn = {setismodalopen}
         />
       </Modal>
       <ToastContainer />
