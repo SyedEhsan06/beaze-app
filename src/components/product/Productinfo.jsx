@@ -137,7 +137,6 @@ const router = useRouter()
       color : pdata?.color,
       size : pdata?.size,
       price : pdata?.price * pdata?.selectedQty
-
     }
 
     console.log(pdata.selectedQty)
@@ -176,6 +175,8 @@ if(currentPosition > 0 ){
   };
 
   console.log(selectedCartData)
+  let commonCartData = selectedCartData.filter((item) => item._id === pdata._id);
+console.log(commonCartData)
   return (
     <>
       {loader ? (

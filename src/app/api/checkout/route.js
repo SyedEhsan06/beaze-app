@@ -45,6 +45,12 @@ export async function POST(req) {
       billing_address,
     });  
     await order.save();
+    // let products = await Product.find();
+    for (let i = 0; i < cart.length; i++) {
+      let product = products.find((p) => p._id == cart[i].productId);
+      product.quantity = product.quantity - cart[i].selectedQty;
+      await product.save();
+    }
     return Response.json({ order });
   } catch (error) {
     console.error("Error creating order:", error);
@@ -82,6 +88,7 @@ export async function PUT(req) {
     if (payment) order.payment = payment;
     if (paymentStatus) order.paymentStatus = paymentStatus;
     if (status) order.status = status;
+    let products = await Product.find();
     
     await order.save();
     return Response.json({

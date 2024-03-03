@@ -2,6 +2,9 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { IoIosCheckmarkCircle } from "react-icons/io";
+import {
+  Bars
+} from 'react-loader-spinner'
 import { FaCheck } from "react-icons/fa";
 import Countryinput from "../countryinput/Countryinput";
 import Modal from "react-awesome-modal";
@@ -12,7 +15,6 @@ import { selectCart } from "@/redux/slices/cartSlice";
 import { useSelector } from "react-redux";
 import cookieCutter from "cookie-cutter";
 import Productshow from "./Productshow";
-import { fetchData } from "@/utils/apicall";
 export default function Patenmentsdetails() {
   const [selectedCountry, setSelectedCountry] = useState();
   const [tabs, settabs] = useState(0);
@@ -38,7 +40,6 @@ export default function Patenmentsdetails() {
   const [orderStatus, setOrderStatus] = useState("");
   const [isOrderPlaced, setIsOrderPlaced] = useState(false);
   const [orderData, setOrderData] = useState({});
-  const [savedaddres,setsavedaddres] = useState([])
   // billing address
   const [address_line1_billing, setAddressLine1Billing] = useState("");
   const [address_line2_billing, setAddressLine2Billing] = useState("");
@@ -191,54 +192,15 @@ export default function Patenmentsdetails() {
 
   const closeModal = () => {
     setismodalopen(false);
-    setIsAccountCreated(false)
   };
 
-useEffect(() => {
-  if(isAccountCreated){
-    setismodalopen(true)
-    handelgetsavedaddress()
-  }else{
-    setismodalopen(false)
-  }
-},[isAccountCreated])
-
-useEffect(() => {
-  if(!ismodalopen){
-    setIsAccountCreated(false)
-  }
-},[ismodalopen])
-
-
-
-
-const handelgetsavedaddress = async() => {
-try{
-const response = await fetchData('/auth/profile')
-console.log(response)
-setsavedaddres(response.user.address)
-}catch(err){
-console.log(err)
+  useEffect(() => {
+if(isBillingSame){
+  setismodalopen(false)
+}else{
+  setismodalopen(true)
 }
-}
-const handelbinsavedaddress = (items) =>{
-setAddressLine1(items.address_line1);
-setAddressLine2(items.address_line2);
-setState(items.state);
-setCity(items.city);
-setPincode(items.pincode)
-setismodalopen(false)
-}
-
-
-useEffect(() => {
-if(tabs === 2 && !isBillingSame ){
-  window.scrollTo({
-    top: 200,
-    behavior: 'smooth',
-  })
-}
-},[tabs])
+  },[isBillingSame])
 
   return (
     <div className=" w-full lg:flex gap-x-5">
@@ -323,7 +285,7 @@ if(tabs === 2 && !isBillingSame ){
                           *
                         </sup>{" "}
                       </label>
-                      <div className="w-full flex border items-center border-text-secondary shadow-lg pl-2 pr-3  rounded-lg">
+                      <div className="w-full flex border border-text-secondary shadow-lg pl-2 pr-3  rounded-lg">
                         <div className="w-[95%] ">
                           <input
                             type="text"
@@ -334,11 +296,9 @@ if(tabs === 2 && !isBillingSame ){
                             onChange={(e) => setFirstName(e.target.value)}
                           />
                         </div>
-                       {
-                        first_name &&  <span className="w-[5%] text-[#039C2EB0]">
+                        <button className="w-[5%] text-[#039C2EB0]">
                           <FaCheck size={14} />
-                        </span>
-                       }
+                        </button>
                       </div>
                     </div>
                     <div className=" w-full context">
@@ -348,7 +308,7 @@ if(tabs === 2 && !isBillingSame ){
                           *
                         </sup>{" "}
                       </label>
-                      <div className="w-full flex items-center border border-text-secondary shadow-lg pl-2 pr-3  rounded-lg">
+                      <div className="w-full flex border border-text-secondary shadow-lg pl-2 pr-3  rounded-lg">
                         <div className="w-[95%] ">
                           <input
                             type="text"
@@ -359,11 +319,9 @@ if(tabs === 2 && !isBillingSame ){
                             onChange={(e) => setLastName(e.target.value)}
                           />
                         </div>
-                      {
-                        last_name &&   <span className="w-[5%] text-[#039C2EB0]">
+                        <button className="w-[5%] text-[#039C2EB0]">
                           <FaCheck size={14} />
-                        </span>
-                      }
+                        </button>
                       </div>
                     </div>
                     <Countryinput
@@ -473,7 +431,6 @@ if(tabs === 2 && !isBillingSame ){
                           id="svedaccount"
                           className=" !top-[-8px] !w-[18px] "
                           value={isAccountCreated}
-                          checked = {isAccountCreated}
                           onChange={() =>
                             setIsAccountCreated(!isAccountCreated)
                           }
@@ -609,11 +566,124 @@ if(tabs === 2 && !isBillingSame ){
                     </div>
                   </div>
 
-                  <div className={`mt-4 ${isBillingSame ? 'hidden' : 'block'}`}> 
+                  <div className="w-full flex justify-center mt-6">
+                    <button
+                    onClick={
+                      handleOrderPlace
+                    }
+                     className="headtext font-[800]  lg:text-[1.4rem] text-xl py-3 lg:w-[50%] w-[85%] rounded bg-theme-footer-bg text-white">
+                      Continue to Shipping
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div className="w-full">
+              <div
+                className={`w-full bg-white p-5 shadow-sm border flex ${
+                  tabs === 2 ? "hidden" : "block"
+                }`}
+              >
+                <h6
+                  className="headtext font-extrabold lg:text-[1.5rem] text-xl text-text-secondary cursor-pointer "
+                  onClick={() => settabs(2)}
+                >
+                  Shipping Fees
+                </h6>
+                <button
+                  className="ml-auto underline context  text-text-secondary  font-[400] lg:text-lg text-sm"
+                  onClick={() => settabs(2)}
+                >
+                  Edit
+                </button>
+              </div>
+              <div
+                className={` bg-white p-4 shadow-sm ${
+                  tabs === 2 ? "block" : "hidden"
+                }`}
+              >
+                <div>
+                  <h6 className=" headtext text-text-secondary font-[700] lg:text-[1rem] text-sm">
+                    Calculated Shipping Fees
+                  </h6>
+                </div>
+
+                <div className="mt-4 context ">
+                  <div className="p-4  border  rounded-lg">
+                    <div className="w-full flex">
+                      <span className="font-[400] lg:text-xl text-[1rem]">
+                        Shipping Fees
+                      </span>
+                      <span className="ml-auto lg:text-lg text-sm text-[#039C2E] font-[500]">
+                        Free
+                      </span>
+                    </div>
+
+                    <div className="w-full flex mt-2">
+                      <span className="font-[400] lg:text-xl text-[1rem]">
+                        Estimated Delivery Date
+                      </span>
+                      <span className="ml-auto lg:text-lg text-sm text-right lg:text-left font-[500]">
+                        10th August, Wednesday
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="mt-8 text-center lg:text-lg text-[1rem] font-[400] leading-normal">
+                    Congrats, You’re all set.<br></br> You can continue to
+                    payment now
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <Modal
+            visible={ismodalopen}
+            effect="fadeInDown"
+            onClickAway={closeModal}
+           
+          >
+            <div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5">
+              <div className=" flex ">
+                <button
+                  className="ml-auto"
+                  onClick={() => setismodalopen(false)}
+                >
+                  <FaXmark size={40} />
+                </button>
+              </div>
+
+         {
+           isBillingSame ?    <div className="optsection">
+            <div className="lg:my-4 md:my-2 my-1">
+                <h6 className="context font-[900] lg:text-[2.5rem] md:text-[2rem] text-2xl text-center lg:mb-10 md:mb-7 mb-4">
+                  Enter OTP
+                </h6>
+
+                <div className="w-full flex justify-center lg:mt-7 md:mt-4 mt-3">
+                  <Otpinput onOtpInput={handleOtpChange} />
+                </div>
+              </div>
+
+              <div className=" grid grid-cols-2 gap-x-4 headtext py-2 mt-6">
+                <button className=" w-full  text-[#474747] font-[300]lg:text-xl md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] ">
+                  Change Number
+                </button>
+                <button
+                  onClick={handleOtpSendWithOtp}
+                  className=" w-full bg-theme-footer-bg text-white font-[700] py-2 rounded lg:text-xl md:text-lg text-[1rem] "
+                >
+                  Confirm OTP
+                </button>
+              </div>
+            </div> : <div> 
             <h5 className="w-full  headtext lg:text-[2rem] md:text-[1.8rem] text-xl font-[800]"> Your billing address</h5>
 
-          <div>
-          <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
+            <div className="w-full">
+            <form>
+                  <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
                     <div className=" w-full context">
                       <label htmlFor="add1" className="mb-2">
                         Address Line 1{" "}
@@ -704,8 +774,7 @@ if(tabs === 2 && !isBillingSame ){
                     </div>
                   </div>
 
-          </div>
-            </div>
+                
 
                   <div className="w-full flex justify-center mt-6">
                     <button
@@ -717,129 +786,9 @@ if(tabs === 2 && !isBillingSame ){
                     </button>
                   </div>
                 </form>
-              </div>
             </div>
-
-            <div className="w-full">
-              <div
-                className={`w-full bg-white p-5 shadow-sm border flex ${
-                  tabs === 2 ? "hidden" : "block"
-                }`}
-              >
-                <h6
-                  className="headtext font-extrabold lg:text-[1.5rem] text-xl text-text-secondary cursor-pointer "
-                  onClick={() => settabs(2)}
-                >
-                  Shipping Fees
-                </h6>
-                <button
-                  className="ml-auto underline context  text-text-secondary  font-[400] lg:text-lg text-sm"
-                  onClick={() => settabs(2)}
-                >
-                  Edit
-                </button>
-              </div>
-              <div
-                className={` bg-white p-4 shadow-sm ${
-                  tabs === 2 ? "block" : "hidden"
-                }`}
-              >
-                <div>
-                  <h6 className=" headtext text-text-secondary font-[700] lg:text-[1rem] text-sm">
-                    Calculated Shipping Fees
-                  </h6>
-                </div>
-
-                <div className="mt-4 context ">
-                  <div className="p-4  border  rounded-lg">
-                    <div className="w-full flex">
-                      <span className="font-[400] lg:text-xl text-[1rem]">
-                        Shipping Fees
-                      </span>
-                      <span className="ml-auto lg:text-lg text-sm text-[#039C2E] font-[500]">
-                        Free
-                      </span>
-                    </div>
-
-                    <div className="w-full flex mt-2">
-                      <span className="font-[400] lg:text-xl text-[1rem]">
-                        Estimated Delivery Date
-                      </span>
-                      <span className="ml-auto lg:text-lg text-sm text-right lg:text-left font-[500]">
-                        10th August, Wednesday
-                      </span>
-                    </div>
-                  </div>
-
-                  <p className="mt-8 text-center lg:text-lg text-[1rem] font-[400] leading-normal">
-                    Congrats, You’re all set.<br></br> You can continue to
-                    payment now
-                  </p>
-                </div>
-              </div>
             </div>
-          </div>
-
-          <Modal
-            visible={ismodalopen}
-            effect="fadeInDown"
-            onClickAway={closeModal}
-            widht='90%'
-           
-          >
-            <div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5">
-            <div className=" flex ">
-                <button
-                  className="ml-auto"
-                  onClick={() => setismodalopen(false)}
-                >
-                  <FaXmark size={40} />
-                </button>
-              </div>
-
-           {
-            isAccountCreated ? <div>
-
-            <h5 className="w-full  headtext lg:text-[2rem] md:text-[1.8rem] text-xl font-[800]"> Your Saved address</h5>
-
-            <div className="w-full grid grid-cols-3 gap-3 mt-7">
-             {
-              savedaddres.map((items,index) => (
-                <button className="w-full h-[40px] shadow-sm border border-theme-footer-bg   rounded flex items-center  text-xl font-[700]   px-3 " key={index} onClick={() => handelbinsavedaddress(items)}>
-            <p className="w-[90%] text-left capitalize headtext"> {items.address_type}</p>
-          <div className="w-[10%]">
-          <img src= "/images/web/addicon.png" className="w-[80%]" alt="" />
-          </div>
-              </button>
-              ))
-             }
-            </div>
-
-
-            </div> :    <div className="optsection">
-            <div className="lg:my-4 md:my-2 my-1">
-                <h6 className="context font-[900] lg:text-[2.5rem] md:text-[2rem] text-2xl text-center lg:mb-10 md:mb-7 mb-4">
-                  Enter OTP
-                </h6>
-
-                <div className="w-full flex justify-center lg:mt-7 md:mt-4 mt-3">
-                  <Otpinput onOtpInput={handleOtpChange} />
-                </div>
-              </div>
-
-              <div className=" grid grid-cols-2 gap-x-4 headtext py-2 mt-6">
-                <button className=" w-full  text-[#474747] font-[300]lg:text-xl md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] ">
-                  Change Number
-                </button>
-                <button
-                  onClick={handleOtpSendWithOtp}
-                  className=" w-full bg-theme-footer-bg text-white font-[700] py-2 rounded lg:text-xl md:text-lg text-[1rem] "
-                >
-                  Confirm OTP
-                </button>
-              </div>
-            </div> 
-           }
+         }
             </div>
           </Modal>
         </div>
