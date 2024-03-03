@@ -136,12 +136,14 @@ const router = useRouter()
       pquantity : pdata?.pquantity,
       color : pdata?.color,
       size : pdata?.size,
-      price : pdata?.price * pdata?.selectedQty
+      price : pdata?.price * pdata?.selectedQty,
+      p_id : pdata?._id+ pdata?.size+ pdata?.color
     }
 
-    console.log(pdata.selectedQty)
+    console.log({'selectedQty' : obj})
+
     dispatch(addToCart(obj));
-    if (selectedCartData.some((item) => item._id === obj._id)) {
+    if (selectedCartData.some((item) => item.p_id === obj.p_id)) {
       toast.success("Added same product again", {
         position: "bottom-left",
         autoClose: 500,

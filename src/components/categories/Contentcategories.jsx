@@ -1029,15 +1029,17 @@ export default function Contentcategories({ params, categories }) {
       <Modal
         visible={ismodalopen}
         effect="fadeInDown"
-        width="80%"
+       
         onClickAway={closeModal}
       >
-        <Productmodal
+       <div className="lg:w-[1100px] md:w-[600px] w-[340px]">
+       <Productmodal
           produtdata={productdata}
           modalclose={closeModal}
           ismodalopen={ismodalopen}
           setismodaloprn = {setismodalopen}
         />
+       </div>
       </Modal>
       <ToastContainer />
     </div>
