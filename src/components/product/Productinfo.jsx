@@ -31,6 +31,7 @@ export default function Productinfo({ pid }) {
 
   const [pdata,setpdata] = useState({
     _id : '',
+    cartId:'',
     productId : '',
     title : '',
     images : [],
@@ -128,6 +129,7 @@ const router = useRouter()
   const handeladdtocart = () => {
     const obj = {
       _id : pdata?._id,
+      cartId : pdata?.productId+ pdata?.color + pdata?.size,
       productId : pdata?.productId,
       title : pdata?.title,
       images : pdata?.images,

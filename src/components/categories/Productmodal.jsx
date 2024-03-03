@@ -54,6 +54,8 @@ useEffect(() => {
   const handeladdtocart = () => {
     const obj = {
       _id : pdata._id,
+      cartId : pdata?.productId+ pdata?.color + pdata?.size,
+
       productId : pdata.productId,
       title : pdata.title,
       images : pdata.images,
