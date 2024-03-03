@@ -49,6 +49,8 @@ const handleCloseCart = () => {
     router.push("/checkout")
     setCartOpen(false)
   }
+
+  
   return (
    <>
     {

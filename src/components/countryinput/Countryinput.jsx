@@ -13,6 +13,7 @@ export default function Countryinput({ onCountryChange, onPhoneChange,defaultVal
   useEffect(() => {
     setPhone(userdata?.phone_number?.replace("+91", "") || ""); // Set phone state to default value
   }, [userdata,defaultValue]);
+ 
   // console.log(defaultValue)
   const [data, setData] = useState(countrylist);
   const [showMenu, setShowMenu] = useState(false);
@@ -129,7 +130,7 @@ console.log(userdata)
           <div className={`w-full flex border items-center  shadow-input pl-2 pr-3 rounded-lg ${alreadyresgiter ? ' border-[#FF0000]' : 'border-text-secondary'}`}>
             <div className="w-[95%] ">
               <input
-                type="text"
+                type="number"
                 id="phoneno"
                 className="w-full border-none focus:outline-none transition-all duration-100 h-[52px] relative checkout-input"
                 onChange={(e) => {

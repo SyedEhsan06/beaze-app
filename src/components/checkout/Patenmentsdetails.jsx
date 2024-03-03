@@ -630,7 +630,7 @@ if(isBillingSame){
                     </div>
                   </div>
 
-                  <p className="mt-8 text-center lg:text-lg text-[1rem] font-[400] leading-normal">
+                  <p className="mt-8 text-center lg:text-lg text-[1rem] font-[400] leading-normal" >
                     Congrats, You’re all set.<br></br> You can continue to
                     payment now
                   </p>
@@ -643,9 +643,10 @@ if(isBillingSame){
             visible={ismodalopen}
             effect="fadeInDown"
             onClickAway={closeModal}
+            
            
           >
-            <div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5">
+<div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5">
               <div className=" flex ">
                 <button
                   className="ml-auto"
