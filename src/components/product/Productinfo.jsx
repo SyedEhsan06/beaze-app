@@ -35,7 +35,7 @@ export default function Productinfo({ pid }) {
     productId : '',
     title : '',
     images : [],
-    selectedQty : null,
+    selectedQty : 1,
     pquantity : null,
     quantity : null,
     color : '',
@@ -187,6 +187,8 @@ if(currentPosition > 0 ){
   console.log(selectedCartData)
   let commonCartData = selectedCartData.filter((item) => item._id === pdata._id);
 console.log(commonCartData)
+let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
+// console.log(currentProduct?.selectedQty>= currentProduct?.quantity)
   return (
     <>
       {loader ? (
@@ -414,7 +416,9 @@ console.log(commonCartData)
 
                     </div>
                     <div className=" grid grid-cols-1 gap-y-4 headtext py-2 mt-6">
-                      <button className=" w-full bg-theme-footer-bg text-white font-[700] text-xl py-2 rounded " onClick={handeladdtocart}>
+                      <button 
+                      disabled={currentProduct?.selectedQty>= currentProduct?.quantity}
+                      className=" w-full bg-theme-footer-bg text-white font-[700] text-xl py-2 rounded " onClick={handeladdtocart}>
                         Add to cart
                       </button>
                       <button className=" w-full  text-[#474747] font-[300] text-lg py-2 rounded border-[0.3px] border-[#000000] " onClick={() => router.back()}>

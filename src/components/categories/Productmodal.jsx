@@ -38,7 +38,7 @@ useEffect(() => {
        title : produtdata.title,
        images : produtdata.images && Array.isArray(produtdata.images) && produtdata.images,
        pquantity : 1,
-       selectedQty  : 0,
+       selectedQty  : 1,
        quantity : produtdata.quantity,
        color : produtdata.attributes && Array.isArray(produtdata.attributes[0]?.value) && produtdata.attributes[0].value[0],
        size : produtdata.attributes && Array.isArray(produtdata.attributes[1]?.value) && produtdata.attributes[1].value[0],
@@ -301,6 +301,7 @@ const handelincreaseqty = () => {
                   </div>
                 </div>
               </div>
+            
 
               <div className=" grid grid-cols-1 gap-y-4 headtext ">
                 <button

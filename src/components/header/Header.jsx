@@ -232,7 +232,7 @@ export default function Header() {
   const countData = useSelector((state) => state.cart.cart);
   useEffect(() => {
     console.log(countData);
-    let supCount = countData.map((item) => item._id);
+    let supCount = countData.map((item) => item.p_id);
     let unique = [...new Set(supCount)];
     let count = unique.length;
     setCount(count);
