@@ -645,6 +645,7 @@ export default function Contentcategories({ params, categories }) {
   useEffect(() => {
     if (completeData?.length > 0 && subcategorySelect?.length === 0) {
       console.log(localStorage.getItem("categoryData"));
+
       setAllData(JSON.parse(localStorage.getItem("categoryData")));
     }
   }, [subcategorySelect]);
@@ -789,13 +790,13 @@ export default function Contentcategories({ params, categories }) {
           )}
 
         {/* Grid of products */}
-        {(completeData?.length > 0 || subcategorySelect?.length > 0) && (
+        {(completeData?.length > 0 || subcategorySelect?.length > 0 && !loader) && (
           <div
             className={`${
               filterLoader ? "blur-md transition-all ease-linear" : ""
             } grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-8 gap-4 context`}
           >
-            {completeData.map((items, index) => (
+            {completeData?.map((items, index) => (
               <div key={index} className="group relative">
                 {/* Product content */}
                 <div className=" flex flex-col text-[#03071E]">
@@ -869,6 +870,7 @@ export default function Contentcategories({ params, categories }) {
           )}
         {/* Render allData */}
         {completeData?.length == 0 &&
+        data?.length == 0 &&
           !loader &&
           !filterLoader &&
           allData?.length > 0 &&
@@ -878,7 +880,7 @@ export default function Contentcategories({ params, categories }) {
                 filterLoader ? "blur-md transition-all ease-linear" : ""
               } grid lg:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context`}
             >
-              {allData.map((items, index) => (
+              {allData?.map((items, index) => (
                 <div key={index} className="group relative">
                   {/* Product content */}
                   <div className=" flex flex-col text-[#03071E]">

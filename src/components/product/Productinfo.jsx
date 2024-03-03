@@ -175,7 +175,7 @@ if(currentPosition > 0 ){
 }
   };
 
-
+  console.log(selectedCartData)
   return (
     <>
       {loader ? (
