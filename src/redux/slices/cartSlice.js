@@ -10,28 +10,31 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-       if (state.cart.length === 0) {
-        state.cart.push(action.payload);
+      const existingItemIndex = state.cart.findIndex(item => item.p_id === action.payload.p_id);
+      if (existingItemIndex !== -1) {
+          state.cart[existingItemIndex].selectedQty += action.payload.selectedQty;
       }
-      let existingItem = state.cart.find(
-        (item) => item._id === action.payload._id && item.size === action.payload.size && item.color === action.payload.color
-      );
+    else{
+      state.cart.push(action.payload);
+    }
+    },
+    hanldleIncrement: (state, action) => {
+      const existingItem = state.cart.find(item => item.p_id === action.payload.p_id);
       if (existingItem) {
         existingItem.selectedQty += 1;
-      } else {
-        state.cart.push({ ...action.payload, selectedQty: 1 });
-      }  
-    },
+      }
+    }
+    ,
     removeFromCart: (state, action) => {
-      state.cart = state.cart.filter((item) => item._id !== action.payload._id);
+      state.cart = state.cart.filter((item) => item.p_id !== action.payload.p_id);
     },
     removeSingleFromCart: (state, action) => {
       let existingItem = state.cart.find(
-        (item) => item._id === action.payload._id
+        (item) => item.p_id === action.payload.p_id
       );
       if (existingItem.selectedQty === 1) {
         state.cart = state.cart.filter(
-          (item) => item._id !== action.payload._id
+          (item) => item.p_id !== action.payload.p_id
         );
       } else {
         existingItem.selectedQty -= 1;
@@ -40,7 +43,9 @@ export const cartSlice = createSlice({
     
   },
 });
-export const { addToCart, removeFromCart, removeSingleFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, removeSingleFromCart 
+, hanldleIncrement
+} = cartSlice.actions;
 export const selectCart = (state) => state.cart.cart;
 
 export default cartSlice.reducer;
