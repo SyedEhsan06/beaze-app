@@ -232,7 +232,7 @@ export default function Header() {
   const countData = useSelector((state) => state.cart.cart);
   useEffect(() => {
     console.log(countData);
-    let supCount = countData.map((item) => item._id);
+    let supCount = countData.map((item) => item.p_id);
     let unique = [...new Set(supCount)];
     let count = unique.length;
     setCount(count);
@@ -362,7 +362,7 @@ const selectDataOfUser = useSelector(selectUser)
     return (
       <>
         <header
-          className={`h-[70px] showmenu  z-30 w-full shadow py-2 transition-all duration-150 ${
+          className={`h-[70px] showmenu z  z-30 w-full shadow py-2 transition-all duration-150 ${
             scrollLength > 620
               ? "fixed top-0 left-0 bg-white border z-20 "
               : " absolute top-0 left-0  bg-white bg-opacity-[50%] linkshdow"
