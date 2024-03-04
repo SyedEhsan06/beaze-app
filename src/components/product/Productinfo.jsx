@@ -27,6 +27,7 @@ export default function Productinfo({ pid }) {
   const [showdesc, setshowdesc] = useState(false);
   const [ismodalopen, setismodalopen] = useState(false)
   const selectedCartData = useSelector(selectCart);
+  const [setScrollLength,setsetScrollLength] = useState(null)
   const { slug } = pid;
 
   const [pdata,setpdata] = useState({
@@ -175,13 +176,18 @@ const router = useRouter()
     localStorage.setItem("cart", JSON.stringify(selectedCartData));
   };
 
-  const handleScroll = (event) => {
-    const currentPosition = event.target.scrollTop;
-if(currentPosition > 0 ){
-  setshowdesc(true)
-}else{
-  setshowdesc(false)
-}
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  const handleScroll = () => {
+    if(window.scrollY >= 10){
+      setshowdesc(true)
+    }else{
+      setshowdesc(false)
+    }
   };
 
   console.log(selectedCartData)
@@ -195,7 +201,7 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
         <Loader />
       ) : (
         <div>
-          <div className={`w-[100%] mt-[70px]   bg-white p-4 items-center border-[0.3px] border-theme-footer-bg ${showdesc ? 'lg:flex hidden' : 'hidden'}`}>
+          <div className={`w-[100%] mt-[70px]  transition-all duration-1000   bg-white p-4 items-center border-[0.3px] border-theme-footer-bg ${showdesc ? 'lg:flex lg:sticky top-0 left-0 lg:z-[200] hidden' : 'hidden'}`}>
             <div className="w-[25%]">
 
               <h5 className="context font-semibold  text-xl">
@@ -305,10 +311,12 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
           <div className="w-full bg-gray-100 py-10 md:px-16 px-8 rounded-[11px]  relative">
             <div className="w-full">
               <div className="w-full md:flex md:gap-16 gap-5 grid grid-cols-1">
-                <div className="md:w-[50%]">
-                  <Productcarousel sliderdata={productinfo?.images} setopemodal={setismodalopen} />
+                <div className="md:w-[50%] relative">
+                <div className={`lg:sticky top-[30px] left-0 lg:!h-[80vh] ${showdesc && ' lg:mt-[40px]'}`}>
+                <Productcarousel sliderdata={productinfo?.images} setopemodal={setismodalopen} />
                 </div>
-                <div className="md:w-[50%] lg:h-[80vh] lg:overflow-y-auto "  onScroll={handleScroll}>
+                </div>
+                <div className="md:w-[50%] ">
                   <div className={`lg:w-[80%] w-[100%] flex-col justify-between  ${showdesc ? ' lg:hidden' : 'flex'}`}>
                     <div className="w-full flex flex-col">
                       <p className=" text-[400] context text-sm mb-3   ">

@@ -149,6 +149,12 @@ input[type="checkbox"]:checked::before {
   width: 8px;
 }
 
+.no-spinner {
+  appearance: textfield;
+  -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  margin: 0; /* Remove the default margin */
+}
 
 /* 
 loader */
