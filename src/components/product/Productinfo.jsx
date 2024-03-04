@@ -146,7 +146,8 @@ const router = useRouter()
       color : pdata?.color,
       size : pdata?.size,
       price : pdata?.price * pdata?.selectedQty,
-      p_id : pdata?._id+ pdata?.size+ pdata?.color
+      p_id : pdata?._id+ pdata?.size+ pdata?.color,
+      originalprice   : pdata.price,
     }
 
     console.log({'selectedQty' : obj})
