@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { TbFaceIdError } from "react-icons/tb";
 import {
   addToCart,
+  hanldleIncrement,
   removeFromCart,
   removeSingleFromCart,
   selectCart,
@@ -27,13 +28,15 @@ export default function Productcart({
     setdata(cartData);
   }, [cartData]);
   const handleDelete = (id) => {
-    dispatch(removeFromCart({ _id: id }));
+    dispatch(removeFromCart({p_id: id }));
   };
   const handleRemove = (id) => {
-    dispatch(removeSingleFromCart({ _id: id }));
+    dispatch(removeSingleFromCart({ p_id: id }));
   };
   const handleAdd = (id) => {
-    dispatch(addToCart({ _id: id }));
+    if (data.find((item) => item.p_id === id).selectedQty < data.find((item) => item.p_id === id).quantity) {
+      dispatch(hanldleIncrement({ p_id: id }));
+    }
   };
 const handleCloseCart = () => {
   setCartOpen(false);
@@ -49,7 +52,7 @@ const handleCloseCart = () => {
     router.push("/checkout")
     setCartOpen(false)
   }
-
+console.log(data)
   
   return (
    <>
@@ -80,7 +83,7 @@ const handleCloseCart = () => {
                   </p>
                   <div className="mt-1 flex items-center border-[0.5px] w-[60%] justify-between rounded">
                     <button
-                      onClick={() => handleRemove(items._id)}
+                      onClick={() => handleRemove(items.p_id)}
                       disabled={items.selectedQty == 1 ? true : false}
                       className="py-1 px-2 border-r-[0.5px]"
                     >
@@ -88,7 +91,7 @@ const handleCloseCart = () => {
                     </button>
                     <div className="py-1 px-2 ">{items.selectedQty}</div>
                     <button
-                      onClick={() => handleAdd(items._id)}
+                      onClick={() => handleAdd(items.p_id)}
                       className="py-1 px-2 border-l-[0.5px]"
                     >
                       <IoMdAdd />
@@ -100,7 +103,7 @@ const handleCloseCart = () => {
                   </p>
                 </div>
                 <div
-                  onClick={() => handleDelete(items._id)}
+                  onClick={() => handleDelete(items.p_id)}
                   className="w-[5%] pt-2 cursor-pointer text-gray-700"
                 >
                   <FaTrashAlt size={16} />

@@ -54,6 +54,7 @@ useEffect(() => {
   const handeladdtocart = () => {
     const obj = {
       _id : pdata._id,
+      p_id : pdata?.productId+ pdata?.color + pdata?.size,
       productId : pdata.productId,
       title : pdata.title,
       images : pdata.images,
@@ -135,7 +136,6 @@ const handelincreaseqty = () => {
     setpdata({
       ...pdata,
       selectedQty: pdata.selectedQty + 1,
-      quantity: produtdata.quantity - (pdata.selectedQty + 1),
       
     });
   }
@@ -147,14 +147,14 @@ const handelincreaseqty = () => {
       setpdata({
         ...pdata,
         selectedQty : pdata.selectedQty-1,
-        quantity : produtdata.quantity - (pdata.selectedQty-1)
       })
     }
   }
 
 
- console.log(pdata)
-  
+//  console.log(pdata)
+  let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
+  // console.log(currentProduct?.selectedQty>= currentProduct?.quantity)
   return (
     <>
       {showimage ? (
@@ -280,7 +280,8 @@ const handelincreaseqty = () => {
                     <p className=" font-[400] text-lg">Select quantity</p>
                     <div className="md:w-[30%] w-[100%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096]  grid grid-cols-3 ">
                       <button
-                        disabled={pdata.selectedQty == 1 ? true : false}
+                        disabled={pdata.selectedQty <= 1 ? true : false}
+                      
                         className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
                         onClick={handeldecreseqty}
                         
@@ -288,7 +289,7 @@ const handelincreaseqty = () => {
                         <RiSubtractLine size={20} />
                       </button>
                       <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1">
-                        {pdata.selectedQty}
+                        {pdata.selectedQty ? pdata.selectedQty : 1}
                       </div>
                       <button
                         className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
@@ -300,12 +301,14 @@ const handelincreaseqty = () => {
                   </div>
                 </div>
               </div>
+            
 
               <div className=" grid grid-cols-1 gap-y-4 headtext ">
                 <button
                 onClick={
                   () => handeladdtocart(produtdata) 
                 }
+                disabled={currentProduct?.selectedQty>= currentProduct?.quantity}
                 className=" w-full bg-theme-footer-bg text-white font-[700] text-xl py-2 rounded lg:hover:bg-opacity-[90%] lg:hover:shadow-sm transition-all duration-150 ">
                   Add to cart
                 </button>
