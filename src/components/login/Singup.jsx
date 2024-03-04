@@ -113,18 +113,18 @@ export default function Signup() {
                         *
                       </sup>
                     </label>
-                    <div className="w-full flex border border-text-secondary items-center shadow-input pl-2 pr-3 rounded-lg">
-                      <div className="w-[95%] ">
+                    <div className="w-full flex border border-text-secondary items-center shadow-input rounded-lg relative overflow-hidden">
+                      <div className="w-[100%] ">
                         <input
                           type="text"
                           id="fnamesignup"
-                          className="w-full border-none focus:outline-none transition-all duration-100 h-[52px] relative leading-normal checkout-input"
+                          className="w-full pl-2 border-none focus:outline-none transition-all duration-100 h-[52px] relative leading-normal checkout-input"
                           value={firstName}
                           onChange={(e) => setFirstname(e.target.value)}
                         />
                       </div>
                     {
-                      firstName &&   <span className="w-[5%] text-[#039C2EB0]">
+                      firstName &&   <span className=" text-[#039C2EB0] absolute right-[14px] top-[20px]">
                         <FaCheck size={14} />
                       </span>
                     }
@@ -137,18 +137,18 @@ export default function Signup() {
                         *
                       </sup>
                     </label>
-                    <div className="w-full flex border border-text-secondary items-center shadow-input pl-2 pr-3 rounded-lg">
-                      <div className="w-[95%] ">
+                    <div className="w-full flex border border-text-secondary items-center shadow-input relative overflow-hidden rounded-lg">
+                      <div className="w-[100%] ">
                         <input
                           type="text"
                           id="lastname"
-                          className="w-full border-none focus:outline-none transition-all duration-100 h-[52px] relative leading-normal checkout-input"
+                          className="pl-2 w-full border-none focus:outline-none transition-all duration-100 h-[52px] relative leading-normal checkout-input"
                           value={lastName}
                           onChange={(e) => setLastname(e.target.value)}
                         />
                       </div>
                      {
-                      lastName &&  <span className="w-[5%] text-[#039C2EB0]">
+                      lastName &&  <span className=" absolute right-[14px] top-[20px] text-[#039C2EB0]">
                         <FaCheck size={14} />
                       </span>
                      }

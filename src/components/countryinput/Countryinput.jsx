@@ -130,11 +130,11 @@ console.log(userdata)
         </div>
         <div className="w-[80%]">
           <div className={`w-full flex border items-center relative  shadow-input  overflow-hidden rounded-lg ${alreadyresgiter ? ' border-[#FF0000]' : 'border-text-secondary'}`}>
-            <div className="w-[95%] ">
+            <div className="w-[100%] ">
               <input
-                type="text"
+                type="number"
                 id="phoneno"
-                className="w-full no-spinner pl-2 border-none focus:outline-none transition-all duration-100 h-[52px] relative checkout-input"
+                className="w-full no-spinner pl-2 border-none focus:outline-none transition-all duration-100 h-[52px] relative no-spinners checkout-input"
                 inputMode="numeric"
                 onChange={(e) => {
                   setPhone(e.target.value); // Update phone state
@@ -146,7 +146,7 @@ console.log(userdata)
               />
             </div>
          {
-          iconshow &&    <span className=" absolute right-1 top-[20px]" >
+          iconshow &&    <span className=" absolute right-[14px] top-[20px]" >
             {alreadyresgiter ? (
     <></>
   ) : (

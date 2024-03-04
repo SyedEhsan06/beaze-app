@@ -690,7 +690,7 @@ export default function Contentcategories({ params, categories }) {
               <span className=" text-xs mt-1">Categories</span>
             </button>
           </div>
-          <div className="ml-auto lg:ml-0">
+          <div className="ml-auto">
             <button
               className=" cursor-pointer flex items-center gap-x-2 font-semibold rounded-sm border md:px-4 px-2 bg-white text-opacity-[78%]"
               onClick={handleMoreFitlersClick}
@@ -808,22 +808,20 @@ export default function Contentcategories({ params, categories }) {
                       objectFit="cover"
                     />
                   </div>
-                  {/* <Link href={`/productinfo/${items._id}`}> */}
+                   <Link href={`/productinfo/${items._id}`}> 
                   <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
                     {items.title}
                   </h6>
-                  {/* </Link> */}
+                  </Link> 
                   <p className="py-1 text-[1rem] font-[400]">
                     Rs {items.price}
                   </p>
-                  <Link href={`/productinfo/${items._id}`}>
-                    <button
+                  <button
                       className=" transition-all duration-100 w-full md:py-2 py-1 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  lg:hover:bg-opacity-[80%]"
-                      // onClick={() => handeladdtocart(items)}
+                      onClick={() => handelpeoductinfo(items._id)}
                     >
-                      Buy Now
+                     Add to Cart
                     </button>
-                  </Link>
                 </div>
                 <button
                   className="w-[70%] transition-all duration-100 cursor-pointer rounded-xl absolute left-[50%] translate-x-[-50%] lg:hidden lg:group-hover:block top-[50%] lg:z-10 z-[1] bg-button-secondary px-5  text-text-secondary text-[1rem]  text-center  lg:hover:shadow-gray-950  hover:shadow"

@@ -285,18 +285,18 @@ if(isBillingSame){
                           *
                         </sup>{" "}
                       </label>
-                      <div className="w-full flex border border-text-secondary shadow-lg pl-2 pr-3  rounded-lg">
-                        <div className="w-[95%] ">
+                      <div className="w-full flex border border-text-secondary shadow-lg relative overflow-hidden   rounded-lg">
+                        <div className="w-[100%] ">
                           <input
                             type="text"
                             id="firstname"
-                            className="w-full border-none  focus:outline-none transition-all duration-100   relative leading-normal h-[52px] checkout-input"
+                            className="pl-2 w-full border-none  focus:outline-none transition-all duration-100   relative leading-normal h-[52px] checkout-input"
                             placeholder="Your First name"
                             value={first_name}
                             onChange={(e) => setFirstName(e.target.value)}
                           />
                         </div>
-                        <button className="w-[5%] text-[#039C2EB0]">
+                        <button className=" absolute right-[14px] top-[20px] text-[#039C2EB0]">
                           <FaCheck size={14} />
                         </button>
                       </div>
@@ -308,12 +308,12 @@ if(isBillingSame){
                           *
                         </sup>{" "}
                       </label>
-                      <div className="w-full flex border border-text-secondary shadow-lg pl-2 pr-3  rounded-lg">
-                        <div className="w-[95%] ">
+                      <div className="w-full flex border border-text-secondary shadow-lg   relative overflow-hidden rounded-lg">
+                        <div className="w-[100%] ">
                           <input
                             type="text"
                             id="lastname"
-                            className="w-full border-none  focus:outline-none transition-all duration-100   relative leading-normal checkout-input h-[52px]"
+                            className="pl-2 w-full border-none  focus:outline-none transition-all duration-100   relative leading-normal checkout-input h-[52px]"
                             placeholder="Your Last name"
                             value={last_name}
                             onChange={(e) => setLastName(e.target.value)}
@@ -462,7 +462,7 @@ if(isBillingSame){
                       <input
                         type="text"
                         id="add1"
-                        className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
+                        className="w-full border outline-none border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
                         placeholder="Flat, House, Building and other details"
                         value={address_line1}
                         onChange={(e) => setAddressLine1(e.target.value)}
@@ -479,7 +479,7 @@ if(isBillingSame){
                       <input
                         type="text"
                         id="add2"
-                        className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
+                        className="w-full border  outline-none border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
                         placeholder="Lane, Street & Landmark"
                         value={address_line2}
                         onChange={(e) => setAddressLine2(e.target.value)}
@@ -498,7 +498,7 @@ if(isBillingSame){
                         <input
                           type="text"
                           id="City"
-                          className="w-full border border-text-secondary shadow-sm px-4 h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
+                          className="w-full border  outline-none border-text-secondary shadow-sm px-4 h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
                           value={city}
                           onChange={(e) => setCity(e.target.value)}
                         />
@@ -515,7 +515,7 @@ if(isBillingSame){
                         <input
                           type="text"
                           id="State"
-                          className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
+                          className="w-full border  outline-none border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
                           value={state}
                           onChange={(e) => setState(e.target.value)}
                         />
@@ -532,7 +532,7 @@ if(isBillingSame){
                         <input
                           type="text"
                           id="Pincode"
-                          className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
+                          className="w-full border  outline-none border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
                           value={pincode}
                           onChange={(e) => setPincode(e.target.value)}
                         />

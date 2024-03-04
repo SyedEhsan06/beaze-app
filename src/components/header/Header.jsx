@@ -43,7 +43,8 @@ export default function Header() {
   const [showshop, setshowshop] = useState(false);
   const [shopmenudata, setshopmenudata] = useState([]);
   const [searchdata, setsearchdata] = useState([]);
-  const [showsearchmobile, setshowsearchmobile] = useState(false);
+  const [showsearchmobile, setshowsearchmobile] = useState(false);;
+  const [productpathname,setproductpathname] = useState('');
   const inputRef = useRef(null);
   
   const dispatch = useDispatch();
@@ -356,6 +357,11 @@ const selectDataOfUser = useSelector(selectUser)
 
 
   const pathname = usePathname();
+useEffect(() => {
+  const matchResult = pathname.match(/\/productinfo/);
+  const productInfoPart = matchResult ? matchResult[0] : null;
+  setproductpathname(productInfoPart)
+},[pathname,cartOpenState])
   if (pathname === "/login" || pathname === "/signup" || pathname === "/otp") {
     return null;
   } else {
@@ -363,7 +369,7 @@ const selectDataOfUser = useSelector(selectUser)
       <>
         <header
           className={`h-[70px] showmenu  z-30 w-full shadow py-2 transition-all duration-150 ${
-            scrollLength > 620
+            scrollLength > 620 || productpathname === '/productinfo'
               ? "fixed top-0 left-0 bg-white border z-20 "
               : " absolute top-0 left-0  bg-white bg-opacity-[50%] linkshdow"
           }`}
@@ -823,7 +829,7 @@ const selectDataOfUser = useSelector(selectUser)
         </header>
 
         <div
-          className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[425px] md:w-[400px] w-[80%]  top-0 z-30 rounded-tl-[28px] border py-3 context ${
+          className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[425px] md:w-[400px] w-[80%]  top-0 z-[300] rounded-tl-[28px] border py-3 context ${
             cartOpenState ? "block" : "hidden"
           }`}
           ref={cartref}
