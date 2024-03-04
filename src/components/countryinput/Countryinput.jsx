@@ -7,12 +7,14 @@ import { FaXmark } from "react-icons/fa6";
 export default function Countryinput({ onCountryChange, onPhoneChange,defaultValue ,userdata,editable,alreadyresgiter,checknumtendigit,iconshow}) {
   const [country, setCountry] = useState("+91");
 
-  const [phone, setPhone] = useState(
-    userdata?.phone_number?.replace("+91", "") || ""
-  ); // Define phone state
+  const [phone, setPhone] = useState(); // Define phone state
+  // userdata?.phone_number?.replace("+91", "") || ""
+  // useEffect(() => {
+  //   setPhone(userdata?.phone_number?.replace("+91", "") || ""); // Set phone state to default value
+  // }, [userdata,defaultValue]);
   useEffect(() => {
     setPhone(userdata?.phone_number?.replace("+91", "") || ""); // Set phone state to default value
-  }, [userdata,defaultValue]);
+  }, [userdata]);
  
   // console.log(defaultValue)
   const [data, setData] = useState(countrylist);

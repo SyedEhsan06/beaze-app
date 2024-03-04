@@ -46,13 +46,13 @@ const handleCloseCart = () => {
   let total = tax + data.reduce((a, b) => a + b.price*b.selectedQty, 0);
   
 
-  const totalPrice =  data.reduce((a, b) => a + b.price*b.selectedQty, 0);
+  const totalPrice =  data.reduce((a, b) => a + b.originalprice*b.selectedQty, 0);
 
   const handelsendtocheckout = () => {
     router.push("/checkout")
     setCartOpen(false)
   }
-console.log(data)
+// console.log({'cartdata' : cartData})
   
   return (
    <>
@@ -99,7 +99,8 @@ console.log(data)
                   </div>
 
                   <p className=" text-[1rem] font-[500] mt-1">
-                    INR {(items.price*items.selectedQty).toFixed(2)}
+                  INR {parseFloat((items.originalprice * items.selectedQty).toFixed(2))}
+
                   </p>
                 </div>
                 <div

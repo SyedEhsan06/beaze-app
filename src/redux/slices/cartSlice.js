@@ -22,6 +22,7 @@ export const cartSlice = createSlice({
       const existingItem = state.cart.find(item => item.p_id === action.payload.p_id);
       if (existingItem) {
         existingItem.selectedQty += 1;
+       
       }
     }
     ,
@@ -38,6 +39,7 @@ export const cartSlice = createSlice({
         );
       } else {
         existingItem.selectedQty -= 1;
+        
       }
     }
     

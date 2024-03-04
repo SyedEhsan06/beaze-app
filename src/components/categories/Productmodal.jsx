@@ -26,7 +26,8 @@ export default function Productmodal({ produtdata, modalclose,ismodalopen,setism
     selectedQty : null,
     color : '',
     size : '',
-    price : null
+    price : null,
+  
   })
 
 
@@ -63,10 +64,11 @@ useEffect(() => {
       selectedQty : pdata.selectedQty,
       color : pdata.color,
       size : pdata.size,
-      price : pdata.price * pdata.selectedQty
+      price : pdata.price * pdata.selectedQty,
+      originalprice   : pdata.price,
 
     }
-    console.log(obj)
+
 
     dispatch(addToCart(obj));
     if (selectedCartData.some((item) => item._id === obj._id)) {
