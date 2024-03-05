@@ -15,6 +15,7 @@ import { selectCart } from "@/redux/slices/cartSlice";
 import { useSelector } from "react-redux";
 import cookieCutter from "cookie-cutter";
 import Productshow from "./Productshow";
+import { fetchData } from "@/utils/apicall";
 export default function Patenmentsdetails() {
   const [selectedCountry, setSelectedCountry] = useState();
   const [tabs, settabs] = useState(0);
@@ -48,6 +49,7 @@ export default function Patenmentsdetails() {
   const [pincode_billing, setPincodeBilling] = useState("");
   const [isBillingSame, setIsBillingSame] = useState(true);
   const [token, setToken] = useState("");
+  const[savedaddress,setsavedaddress] = useState([])
   const[checkoutgreen,setcheckoutgreen] = useState(false)
   useEffect(() => {
   let cookieToken = cookieCutter.get("token");
@@ -192,16 +194,48 @@ export default function Patenmentsdetails() {
 
   const closeModal = () => {
     setismodalopen(false);
+    setIsAccountCreated(false)
+    
   };
 
-  useEffect(() => {
-if(isBillingSame){
-  setismodalopen(false)
-}else{
-  setismodalopen(true)
-}
-  },[isBillingSame])
 
+  useEffect(() => {
+if(tabs === 2 && !isBillingSame){
+  window.scrollTo({
+    top : 200,
+    behavior : 'smooth'
+  })
+}
+  },[tabs])
+
+  useEffect(() => {
+    if (isAccountCreated) {
+      setismodalopen(true);
+      handelgetsavedaddress()
+    } 
+  }, [isAccountCreated]);
+  
+
+
+  const handelgetsavedaddress = async() => {
+    try{
+const resposne = await fetchData('auth/profile')
+setsavedaddress(resposne.user.address)
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+
+  const handelsetvalues =  (items) => {
+    setAddressLine1(items.address_line1)
+    setAddressLine2(items.address_line2)
+    setCity(items.city)
+    setState(items.state)
+    setPincode(items.pincode)
+    setismodalopen(false)
+  }
+ 
   return (
     <div className=" w-full lg:flex gap-x-5">
       <div className="lg:w-[60%] w-[100%]">
@@ -296,9 +330,9 @@ if(isBillingSame){
                             onChange={(e) => setFirstName(e.target.value)}
                           />
                         </div>
-                        <button className=" absolute right-[14px] top-[20px] text-[#039C2EB0]">
+                      { first_name && <span className=" absolute right-[14px] top-[20px] text-[#039C2EB0]">
                           <FaCheck size={14} />
-                        </button>
+                        </span>}
                       </div>
                     </div>
                     <div className=" w-full context">
@@ -319,9 +353,9 @@ if(isBillingSame){
                             onChange={(e) => setLastName(e.target.value)}
                           />
                         </div>
-                        <button className="w-[5%] text-[#039C2EB0]">
+                       {last_name && <span className="absolute right-[14px] top-[20px] text-[#039C2EB0]">
                           <FaCheck size={14} />
-                        </button>
+                        </span>}
                       </div>
                     </div>
                     <Countryinput
@@ -431,6 +465,7 @@ if(isBillingSame){
                           id="svedaccount"
                           className=" !top-[-8px] !w-[18px] "
                           value={isAccountCreated}
+                          checked={isAccountCreated}
                           onChange={() =>
                             setIsAccountCreated(!isAccountCreated)
                           }
@@ -566,6 +601,108 @@ if(isBillingSame){
                     </div>
                   </div>
 
+
+              {
+                !isBillingSame &&     <div className='my-2'>
+                  <div> 
+            <h5 className="w-full  headtext lg:text-[2rem] md:text-[1.8rem] text-xl font-[800]"> Your billing address</h5>
+
+            <div className="w-full">
+            <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
+                    <div className=" w-full context">
+                      <label htmlFor="add1" className="mb-2">
+                        Address Line 1{" "}
+                        <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
+                          *
+                        </sup>{" "}
+                      </label>
+
+                      <input
+                        type="text"
+                        id="add1"
+                        className="w-full outline-none border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
+                        placeholder="Flat, House, Building and other details"
+                        value={address_line1_billing}
+                        onChange={(e) => setAddressLine1Billing(e.target.value)}
+                      />
+                    </div>
+                    <div className=" w-full context">
+                      <label htmlFor="add2" className="mb-2">
+                        Address Line 2{" "}
+                        <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
+                          *
+                        </sup>{" "}
+                      </label>
+
+                      <input
+                        type="text"
+                        id="add2"
+                        className="w-full border outline-none border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
+                        placeholder="Lane, Street & Landmark"
+                        value={address_line2_billing}
+                        onChange={(e) => setAddressLine2Billing(e.target.value)}
+                      />
+                    </div>
+
+                    <div className=" w-full grid lg:grid-cols-3 grid-cols-2 gap-y-2 lg:gap-y-0 gap-x-3">
+                      <div className=" w-full context">
+                        <label htmlFor="City" className="mb-2">
+                          City{" "}
+                          <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
+                            *
+                          </sup>{" "}
+                        </label>
+
+                        <input
+                          type="text"
+                          id="City"
+                          className="w-full outline-none border border-text-secondary shadow-sm px-4 h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
+                          value={city_billing}
+                          onChange={(e) => setCityBilling(e.target.value)}
+
+                        />
+                      </div>
+
+                      <div className=" w-full context">
+                        <label htmlFor="State" className="mb-2">
+                          State{" "}
+                          <sup className="text-[#FF2A2A] !top-[5px] text-[24px] ">
+                            *
+                          </sup>{" "}
+                        </label>
+
+                        <input
+                          type="text"
+                          id="State"
+                          className="w-full outline-none border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
+                          value={state_billing}
+                          onChange={(e) => setStateBilling(e.target.value)}
+                        />
+                      </div>
+
+                      <div className=" w-full context">
+                        <label htmlFor="Pincode" className="mb-2">
+                          Pincode{" "}
+                          <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
+                            *
+                          </sup>{" "}
+                        </label>
+
+                        <input
+                          type="text"
+                          id="Pincode"
+                          className="w-full outline-none border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
+                          value={pincode_billing}
+                          onChange={(e) => setPincodeBilling(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+            </div>
+            </div>
+                  </div>
+              }
+
                   <div className="w-full flex justify-center mt-6">
                     <button
                     onClick={
@@ -650,14 +787,31 @@ if(isBillingSame){
               <div className=" flex ">
                 <button
                   className="ml-auto"
-                  onClick={() => setismodalopen(false)}
+                  onClick={() => closeModal()}
                 >
                   <FaXmark size={40} />
                 </button>
               </div>
-
-         {
-           isBillingSame ?    <div className="optsection">
+            {
+              isAccountCreated ? <div className="my-2">
+               <div className="lg:my-4 md:my-2 my-1">
+               <h6 className="context font-[900] lg:text-[2.5rem] md:text-[2rem] text-2xl text-center lg:mb-10 md:mb-7 mb-4">
+                 Your Saved Address
+                </h6>
+                <div className="w-full">
+                <div className="w-full grid lg:grid-cols-4 md:grid-cols-3  grid-cols-2 gap-3">
+               {
+savedaddress.map((items,index) => (
+  <div key={index} className="w-full h-[50px] px-2 rounded flex items-center cursor-pointer border border-theme-footer-bg" onClick={() => handelsetvalues(items)}>
+                   <span className="text-lg headtext font-[700] text-theme-footer-bg">{items.address_type}</span>
+                   <img src="/images/web/addicon.png" className="ml-auto w-[15px]" alt="" />
+                  </div>
+))
+               }
+                </div>
+                </div>
+               </div>
+              </div> :   <div className="optsection">
             <div className="lg:my-4 md:my-2 my-1">
                 <h6 className="context font-[900] lg:text-[2.5rem] md:text-[2rem] text-2xl text-center lg:mb-10 md:mb-7 mb-4">
                   Enter OTP
@@ -679,117 +833,9 @@ if(isBillingSame){
                   Confirm OTP
                 </button>
               </div>
-            </div> : <div> 
-            <h5 className="w-full  headtext lg:text-[2rem] md:text-[1.8rem] text-xl font-[800]"> Your billing address</h5>
-
-            <div className="w-full">
-            <form>
-                  <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
-                    <div className=" w-full context">
-                      <label htmlFor="add1" className="mb-2">
-                        Address Line 1{" "}
-                        <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
-                          *
-                        </sup>{" "}
-                      </label>
-
-                      <input
-                        type="text"
-                        id="add1"
-                        className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
-                        placeholder="Flat, House, Building and other details"
-                        value={address_line1_billing}
-                        onChange={(e) => setAddressLine1Billing(e.target.value)}
-                      />
-                    </div>
-                    <div className=" w-full context">
-                      <label htmlFor="add2" className="mb-2">
-                        Address Line 2{" "}
-                        <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
-                          *
-                        </sup>{" "}
-                      </label>
-
-                      <input
-                        type="text"
-                        id="add2"
-                        className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
-                        placeholder="Lane, Street & Landmark"
-                        value={address_line2_billing}
-                        onChange={(e) => setAddressLine2Billing(e.target.value)}
-                      />
-                    </div>
-
-                    <div className=" w-full grid lg:grid-cols-3 grid-cols-2 gap-y-2 lg:gap-y-0 gap-x-3">
-                      <div className=" w-full context">
-                        <label htmlFor="City" className="mb-2">
-                          City{" "}
-                          <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
-                            *
-                          </sup>{" "}
-                        </label>
-
-                        <input
-                          type="text"
-                          id="City"
-                          className="w-full border border-text-secondary shadow-sm px-4 h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                          value={city_billing}
-                          onChange={(e) => setCityBilling(e.target.value)}
-
-                        />
-                      </div>
-
-                      <div className=" w-full context">
-                        <label htmlFor="State" className="mb-2">
-                          State{" "}
-                          <sup className="text-[#FF2A2A] !top-[5px] text-[24px] ">
-                            *
-                          </sup>{" "}
-                        </label>
-
-                        <input
-                          type="text"
-                          id="State"
-                          className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                          value={state_billing}
-                          onChange={(e) => setStateBilling(e.target.value)}
-                        />
-                      </div>
-
-                      <div className=" w-full context">
-                        <label htmlFor="Pincode" className="mb-2">
-                          Pincode{" "}
-                          <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
-                            *
-                          </sup>{" "}
-                        </label>
-
-                        <input
-                          type="text"
-                          id="Pincode"
-                          className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                          value={pincode_billing}
-                          onChange={(e) => setPincodeBilling(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                
-
-                  <div className="w-full flex justify-center mt-6">
-                    <button
-                    onClick={
-                      handleOrderPlace
-                    }
-                     className="headtext font-[800]  lg:text-[1.4rem] text-xl py-3 lg:w-[50%] w-[85%] rounded bg-theme-footer-bg text-white">
-                      Continue to Shipping
-                    </button>
-                  </div>
-                </form>
             </div>
-            </div>
-         }
+            }
+      
             </div>
           </Modal>
         </div>
