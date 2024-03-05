@@ -458,13 +458,13 @@ useEffect(() => {
                 >
                   <div
                     className={`pt-4 ${
-                      searchdata.length >= 1 ? "block" : "hidden"
+                      searchdata?.length >= 1 ? "block" : "hidden"
                     }`}
                   >
                     <h4 className="text-lg font-semibold px-3">Top Results</h4>
 
                     <div className=" max-h-[415px] overflow-y-auto">
-                      {searchdata.map((items, index) => (
+                      {searchdata?.map((items, index) => (
                         <Link
                           href={`/productinfo/${items._id}`}
                           key={index}

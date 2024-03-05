@@ -117,6 +117,11 @@ export default function Contentcategories({ params, categories }) {
     if (searchedSelect !== "") {
       setLoader(true);
       setFilterLoader(true);
+      setAllFiltersCount(
+        [
+          searchedSelect,
+        ]
+      )
       fetchData(`products?search=${searchedSelect}`).then((res) => {
         setData([]);
         setCompleteData([]);
@@ -464,21 +469,34 @@ export default function Contentcategories({ params, categories }) {
   const handleRemoveFilter = (item) => {
     if (colorFilter.includes(item)) {
       dispatch(toggleColor(item));
+      handleApplyfilter()
     }
     if (sizeFilter.includes(item)) {
       dispatch(toggleSize(item));
+      handleApplyfilter()
     }
     if (materialFilter.includes(item)) {
       dispatch(toggleMaterial(item));
+      handleApplyfilter()
     }
     if (sleeveFilter.includes(item)) {
       dispatch(toggleSleeve(item));
+      handleApplyfilter()
     }
     setShowCard(true);
+    setCompleteData(rightFilteredProducts);
+
     handleApplyfilter();
   };
+console.log({
+  colorFilter,
+  sizeFilter,
+  materialFilter,
+  sleeveFilter
+})
+
   useEffect(() => {
-    // console.log(colorFilter, sizeFilter, materialFilter, sleeveFilter);
+    console.log(colorFilter, sizeFilter, materialFilter, sleeveFilter);
     // Filter products when any filter changes
     if (
       colorFilter.length === 0 &&
@@ -538,7 +556,7 @@ export default function Contentcategories({ params, categories }) {
         setRightFilteredProducts([]);
       }
     }
-  }, [colorFilter, sizeFilter, materialFilter, sleeveFilter, dispatch]);
+  }, [colorFilter, sizeFilter, materialFilter, sleeveFilter, dispatch])
   const [showCard, setShowCard] = useState(false);
   const handleResetfilter = () => {
     setShowCard(false);
@@ -662,6 +680,7 @@ export default function Contentcategories({ params, categories }) {
       handleFetchAllData();
     }
   };
+  console.log(allFiltersCount) 
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">

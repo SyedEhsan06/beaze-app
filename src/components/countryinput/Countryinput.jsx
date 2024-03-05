@@ -16,7 +16,7 @@ export default function Countryinput({ onCountryChange, onPhoneChange,defaultVal
     setPhone(userdata?.phone_number?.replace("+91", "") || ""); // Set phone state to default value
   }, [userdata]);
  
-  // console.log(defaultValue)
+  console.log(defaultValue)
   const [data, setData] = useState(countrylist);
   const [showMenu, setShowMenu] = useState(false);
   const[localvalidation,setlocalvalidation] = useState(0)

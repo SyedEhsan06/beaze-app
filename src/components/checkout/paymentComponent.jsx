@@ -43,6 +43,7 @@ export default function PaymentComponent({
             method: "put",
             body: JSON.stringify({
               paymentStatus: "success",
+              status: "processed",
               _id:orderId,
             }),
             headers: {
