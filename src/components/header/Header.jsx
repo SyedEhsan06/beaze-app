@@ -351,7 +351,14 @@ const selectDataOfUser = useSelector(selectUser)
     // selectDataOfUser,
     // typeof window !== "undefined" ? localStorage.getItem("token") : null,
   ]);
-
+const handleRecentSearch = (e) => {
+  const search = e.target.textContent;
+  console.log(search);
+  handelsearch(search);
+  dispatch(addSearch(search));
+  setshowhide(0);
+  setshowsearchmobile(false);
+}
 
  
 
@@ -520,6 +527,9 @@ useEffect(() => {
                       <div className="w-full flex pt-2  gap-3 flex-wrap items-center">
                         {recentsearch.map((items, index) => (
                           <div
+                          onClick={
+                            (e) => handleRecentSearch(e)
+                          }
                             key={index}
                             className="px-3 py-1 bg-[#F0F0F0] text-[#00000096] font-[400] border-[0.5px] border-[#98989880] border-opacity-[50%] rounded-[4px] text-sm] capitalize cursor-pointer"
                           >
