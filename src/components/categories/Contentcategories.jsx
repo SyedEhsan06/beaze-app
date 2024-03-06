@@ -83,6 +83,7 @@ export default function Contentcategories({ params, categories }) {
   const [catsState, setCatsState] = useState("");
   const fixSelect = useSelector(selectFix);
   const [allData, setAllData] = useState([]);
+  const [allFiltersCount, setAllFiltersCount] = useState();
 
   const [subcategorySelect, setSubcategorySelect] = useState([]);
   useEffect(() => {
@@ -117,10 +118,9 @@ export default function Contentcategories({ params, categories }) {
     if (searchedSelect !== "") {
       setLoader(true);
       setFilterLoader(true);
+      console.log("push Code",searchedSelect)
       setAllFiltersCount(
-        [
-          searchedSelect,
-        ]
+       searchedSelect
       )
       fetchData(`products?search=${searchedSelect}`).then((res) => {
         setData([]);
@@ -460,7 +460,6 @@ export default function Contentcategories({ params, categories }) {
   const sleeveFilter = useSelector(selectSleeve);
   const [filterEmpty, setFilterEmpty] = useState(false);
   const [rightFilteredProducts, setRightFilteredProducts] = useState([]);
-  const [allFiltersCount, setAllFiltersCount] = useState([]);
   const handleApplyfilter = () => {
     setShowCard(true);
     setCompleteData(rightFilteredProducts);
@@ -506,7 +505,7 @@ console.log({
     ) {
       setCompleteData([...filterData, ...data]);
       setFilterEmpty(true);
-      setAllFiltersCount([]);
+      // setAllFiltersCount([]);
     }
     if (
       colorFilter.length > 0 ||
@@ -516,6 +515,7 @@ console.log({
     ) {
       setFilterEmpty(false);
       setAllFiltersCount([
+        searchedSelect,
         ...colorFilter,
         ...sizeFilter,
         ...materialFilter,
@@ -556,7 +556,7 @@ console.log({
         setRightFilteredProducts([]);
       }
     }
-  }, [colorFilter, sizeFilter, materialFilter, sleeveFilter, dispatch])
+  }, [colorFilter, sizeFilter, materialFilter, sleeveFilter, dispatch,searchedSelect]);
   const [showCard, setShowCard] = useState(false);
   const handleResetfilter = () => {
     setShowCard(false);

@@ -24,7 +24,7 @@ export default function Teazeslider({ data }) {
       );
       const bestSubCategories = bestCategory
         .flatMap((item) =>
-          item.subcategories.filter((subitem) => subitem.type === "best")
+          item.subcategories.filter((subitem) => subitem.type === "best" && subitem.showOnHomepage === true)
         )
         .flat();
 
@@ -33,7 +33,7 @@ export default function Teazeslider({ data }) {
       );
       const exploreSubCategories = exploreCategory
         .flatMap((item) =>
-          item.subcategories.filter((subitem) => subitem.type === "explore")
+          item.subcategories.filter((subitem) => subitem.type === "explore"&&subitem.showOnHomepage === true)
         )
         .flat();
 
@@ -76,12 +76,12 @@ export default function Teazeslider({ data }) {
     }
   };
 
-  console.log({'data'  : data})
+
   return (
     <>
       <div className="lg:px-8 px-4  mb-16">
         <h4 className="text-[2rem] headtext font-[900]  mb-3 capitalize">
-          Explore & Discover
+          Teaze
         </h4>
         <Swiper
           centeredSlides={false}
