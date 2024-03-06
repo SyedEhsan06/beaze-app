@@ -517,7 +517,6 @@ console.log({
     ) {
       setFilterEmpty(false);
       setAllFiltersCount([
-        searchedSelect,
         ...colorFilter,
         ...sizeFilter,
         ...materialFilter,
