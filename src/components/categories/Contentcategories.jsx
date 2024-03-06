@@ -73,6 +73,7 @@ export default function Contentcategories({ params, categories }) {
   const dispatch = useDispatch();
   const usepathname = usePathname();
   const selectReduxSubcategory = useSelector(selectSubcategory);
+  const[searchBar,setSearchBar]=useState(null);
   const cats = useSelector(selectCategories);
   const allsubcategories = cats?.categories
     ?.filter((item) => item.subcategories.length > 0)
@@ -104,6 +105,7 @@ export default function Contentcategories({ params, categories }) {
         setData([]);
         setCompleteData([]);
         setFilterData([]);
+        setSearchBar(null);
         setData(res.products);
         console.log(res.products);
         setFilterLoader(false);
@@ -119,15 +121,14 @@ export default function Contentcategories({ params, categories }) {
       setLoader(true);
       setFilterLoader(true);
       console.log("push Code",searchedSelect)
-      setAllFiltersCount(
-       searchedSelect
-      )
+     
       fetchData(`products?search=${searchedSelect}`).then((res) => {
         setData([]);
         setCompleteData([]);
         setFilterData([]);
         setData(res.products);
         console.log(res.products);
+        setSearchBar(searchedSelect);
         setFilterLoader(false);
         setLoader(false);
       });
@@ -171,6 +172,7 @@ export default function Contentcategories({ params, categories }) {
           const response = await fetchData(
             `products?type=${selectedSubcategories?.join(",")}`
           );
+          setSearchBar(null);
 
           if (response && response.products && response.products.length > 0) {
             const existingProductIds = data.map((product) => product._id);
@@ -680,11 +682,21 @@ console.log({
       handleFetchAllData();
     }
   };
-  console.log(allFiltersCount) 
+  console.log(searchBar); 
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
         <div className="lg:w-8/12 w-full flex order-2 lg:order-1  gap-2 context text-text-secondary flex-wrap ">
+          {
+              searchBar && (
+                <div className="flex items-center gap-2  px-[6px] bg-button-secondary rounded-sm font-[500] text-sm shadow-sm py-1">
+                Search:{
+                  searchBar?searchBar:null
+                }
+              </div>
+              )
+          
+          }
           {!filterEmpty &&
             showCard &&
             allFiltersCount.map((item, index) => (
