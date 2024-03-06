@@ -75,6 +75,8 @@ export default function Productslider({ data }) {
       // });
     }
   };
+
+  console.log({'data'  : data})
   return (
     <>
       <div className="lg:px-8 px-4  mb-16">

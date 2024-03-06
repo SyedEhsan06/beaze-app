@@ -233,7 +233,7 @@ setsavedaddress(resposne.user.address)
     setCity(items.city)
     setState(items.state)
     setPincode(items.pincode)
-    setismodalopen(false)
+    closeModal()
   }
  
   return (

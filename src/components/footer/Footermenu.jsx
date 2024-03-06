@@ -100,8 +100,14 @@ export default function Footermenu({
                 }
               </ul>
               {
-                items.logo && <Image src={items.logo} width={60} height={60} alt="logo" className="m-8"></Image>
+                items.logo && <Image src={items.logo} width={60} height={60} alt="logo" className="mt-8 mx-8 mb-3"></Image>
               }
+
+              <div className="w-full">
+                <a href="https://oneando.in/" target="_blank" className="flex gap-2 items-center">
+                <span className=" text-white font-[700] lg:text-[1rem] text-sm">Powerd by 1&0</span>  <img src="https://s3.ap-south-1.amazonaws.com/assets.oneando.in/logo/logo-p.webp" className="w-[50px]" alt="" />
+                </a>
+              </div>
 
               {items.secondmenu && items.secondmenu.map((seconmenuitem, secondmenuindex) => (
                 <div className="pt-4" key={secondmenuindex}>

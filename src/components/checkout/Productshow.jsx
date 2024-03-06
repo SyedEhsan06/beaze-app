@@ -18,7 +18,7 @@ export default function Productshow({ buttonevent, cartData,orderId,ischeckoutse
   };
 
   return (
-    <div className="max-h-[80vh] overflow-y-auto w-full bg-white shadow-sm border lg:relative">
+    <div className="max-h-[80vh] lg:min-h-[80vh] overflow-y-auto w-full bg-white shadow-sm border lg:relative">
       <div className="grid grid-cols-1 gap-y-3 lg:px-10 lg:py-8 md:px-8 px-4 md:py-6 py-5">
         {cart.map((items, index) => (
           <div className="w-full flex gap-3" key={index}>
@@ -58,7 +58,7 @@ export default function Productshow({ buttonevent, cartData,orderId,ischeckoutse
       />}
 
       <button disabled= {ischeckoutset ? false  : true}
-        className={`w-full lg:sticky fixed bottom-0 left-0 headtext  text-white font-extrabold text-[1.5rem] py-2  ${ischeckoutset ? ' bg-theme-footer-bg' : 'bg-[#A5A0A8]'}`}
+        className={`w-full  ${cart.length >=3 ? 'lg:sticky' : 'lg:absolute'}  fixed bottom-0 left-0 headtext  text-white font-extrabold text-[1.5rem] py-2  ${ischeckoutset ? ' bg-theme-footer-bg' : 'bg-[#A5A0A8]'}`}
         onClick={makePayment}
       >
         Continue to Payment
