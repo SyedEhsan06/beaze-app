@@ -514,7 +514,7 @@ console.log({
       sizeFilter.length > 0 ||
       materialFilter.length > 0 ||
       sleeveFilter.length > 0
-    ) {
+    ) { 
       setFilterEmpty(false);
       setAllFiltersCount([
         ...colorFilter,
@@ -681,6 +681,10 @@ console.log({
       handleFetchAllData();
     }
   };
+  const handleRemoveSearchFilter = (search) => {
+    setSearchBar(null);
+    handleFetchAllData()
+  }
   console.log(searchBar); 
   return (
     <div className="w-full">
@@ -689,9 +693,14 @@ console.log({
           {
               searchBar && (
                 <div className="flex items-center gap-2  px-[6px] bg-button-secondary rounded-sm font-[500] text-sm shadow-sm py-1">
-                Search:{
+                Search: {
                   searchBar?searchBar:null
-                }
+                }<FaXmark
+                onClick={(e) => {
+                  handleRemoveSearchFilter(searchBar);
+                }}
+                className=" cursor-pointer text-xs"
+              />
               </div>
               )
           
