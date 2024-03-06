@@ -162,7 +162,7 @@ export default function Header() {
             "cachedData",
             JSON.stringify(response.products)
           );
-          sessionStorage.setItem("cachedSearchText", search);
+          sessionStorage.setItem("cachedSearchText",search);
           setsearchdata(response.products);
         } else {
           if (cachedData) {
@@ -545,6 +545,9 @@ useEffect(() => {
                       <div className="w-full flex pt-2  gap-3 flex-wrap items-center">
                         {popularsearches.map((items, index) => (
                           <div
+                          onClick={
+                            (e) => handleRecentSearch(e)
+                          }
                             key={index}
                             className="px-3 py-1 bg-[#F0F0F0] text-[#00000096] font-[400] border-[0.5px] border-[#98989880] border-opacity-[50%] rounded-[4px] text-sm] capitalize cursor-pointer"
                           >
