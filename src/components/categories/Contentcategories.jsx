@@ -92,7 +92,7 @@ export default function Contentcategories({ params, categories }) {
   }, [selectReduxSubcategory]);
   useEffect(() => {
     setCatsState(categoryCall);
-    console.log(catsState);
+
     // setLoader(true);
     setLoader(true);
     setFilterLoader(true);
@@ -107,7 +107,7 @@ export default function Contentcategories({ params, categories }) {
         setFilterData([]);
         setSearchBar(null);
         setData(res.products);
-        console.log(res.products);
+        // console.log(res.products);
         setFilterLoader(false);
         setLoader(false);
       });
@@ -120,7 +120,7 @@ export default function Contentcategories({ params, categories }) {
     if (searchedSelect !== "") {
       setLoader(true);
       setFilterLoader(true);
-      console.log("push Code",searchedSelect)
+      // console.log("push Code",searchedSelect)
      
       fetchData(`products?search=${searchedSelect}`).then((res) => {
         setData([]);
@@ -485,19 +485,13 @@ export default function Contentcategories({ params, categories }) {
       handleApplyfilter()
     }
     setShowCard(true);
-    setCompleteData(rightFilteredProducts);
+    // setCompleteData(rightFilteredProducts);
 
     handleApplyfilter();
   };
-console.log({
-  colorFilter,
-  sizeFilter,
-  materialFilter,
-  sleeveFilter
-})
 
   useEffect(() => {
-    console.log(colorFilter, sizeFilter, materialFilter, sleeveFilter);
+    console.log({'colorFilter' : colorFilter})
     // Filter products when any filter changes
     if (
       colorFilter.length === 0 &&
@@ -553,12 +547,17 @@ console.log({
 
       if (filtered.length > 0) {
         setRightFilteredProducts(filtered);
+        setCompleteData(filtered);
       } else {
         setRightFilteredProducts([]);
       }
     }
+    
   }, [colorFilter, sizeFilter, materialFilter, sleeveFilter, dispatch,searchedSelect]);
   const [showCard, setShowCard] = useState(false);
+
+
+  
   const handleResetfilter = () => {
     setShowCard(false);
     dispatch(toggleColor([]));
@@ -594,7 +593,7 @@ console.log({
   // , [completeData]);
   // console.log(completeData);
   // console.log(subcategorySelect);
-  console.log(data);
+  
   // console.log(filterData);
   const handleFetchAllData = () => {
     // dispatch(toggleSubcategory([]));
@@ -654,7 +653,7 @@ console.log({
   useEffect(() => {
     fetchData(`products`).then((res) => {
       localStorage.setItem("categoryData", JSON.stringify(res?.products));
-      console.log(res?.products);
+      // console.log(res?.products);
       setAllData(res?.products);
       // setCompleteData(res?.products);
       setLoader(false);
@@ -663,7 +662,7 @@ console.log({
   }, [typeof window !== "undefined" && localStorage.getItem("categoryData")]);
   useEffect(() => {
     if (completeData?.length > 0 && subcategorySelect?.length === 0) {
-      console.log(localStorage.getItem("categoryData"));
+      // console.log(localStorage.getItem("categoryData"));
 
       setAllData(JSON.parse(localStorage.getItem("categoryData")));
     }
@@ -685,7 +684,11 @@ console.log({
     setSearchBar(null);
     handleFetchAllData()
   }
-  console.log(searchBar); 
+
+  console.log({
+    'setRightFilteredProducts'  :rightFilteredProducts
+  })
+  // console.log(searchBar); 
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
