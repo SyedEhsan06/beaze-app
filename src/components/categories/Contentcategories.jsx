@@ -85,7 +85,7 @@ export default function Contentcategories({ params, categories }) {
   const fixSelect = useSelector(selectFix);
   const [allData, setAllData] = useState([]);
   const [allFiltersCount, setAllFiltersCount] = useState();
-
+const[callfun,setcallfun] = useState(null);
   const [subcategorySelect, setSubcategorySelect] = useState([]);
   useEffect(() => {
     setSubcategorySelect(selectReduxSubcategory);
@@ -547,13 +547,77 @@ export default function Contentcategories({ params, categories }) {
 
       if (filtered.length > 0) {
         setRightFilteredProducts(filtered);
-        setCompleteData(filtered);
+        // setCompleteData(filtered);
       } else {
         setRightFilteredProducts([]);
       }
     }
     
   }, [colorFilter, sizeFilter, materialFilter, sleeveFilter, dispatch,searchedSelect]);
+
+useEffect(() => {
+  if (
+    colorFilter.length === 0 &&
+    sizeFilter.length === 0 &&
+    materialFilter.length === 0 &&
+    sleeveFilter.length === 0
+  ) {
+    setCompleteData([...filterData, ...data]);
+    setFilterEmpty(true);
+    // setAllFiltersCount([]);
+  }
+  if (
+    colorFilter.length > 0 ||
+    sizeFilter.length > 0 ||
+    materialFilter.length > 0 ||
+    sleeveFilter.length > 0
+  ) { 
+    setFilterEmpty(false);
+    setAllFiltersCount([
+      ...colorFilter,
+      ...sizeFilter,
+      ...materialFilter,
+      ...sleeveFilter,
+    ]);
+    let comdata = [...filterData, ...data];
+    const filtered = comdata.filter((product) => {
+      const colorMatch =
+        colorFilter?.length === 0 ||
+        colorFilter.some((filter) =>
+          product.attributes
+            ?.find((attr) => attr.name === "Colors")
+            ?.value.includes(filter)
+        );
+      const sizeMatch =
+        sizeFilter?.length === 0 ||
+        sizeFilter.some((filter) =>
+          product.attributes
+            ?.find((attr) => attr.name === "Sizes")
+            ?.value.includes(filter)
+        );
+      const materialMatch =
+        materialFilter?.length === 0 ||
+        materialFilter.some(
+          (filter) =>
+            product.attributes.find((attr) => attr.name === "Material") &&
+            product.attributes.find((attr) => attr.name === "Material")
+              .value === filter
+        );
+      // const sleeveMatch = sleeveFilter.length === 0 || sleeveFilter.includes(product.attributes.find(attr => attr.name === 'Sleeve')?.value);
+
+      return colorMatch && sizeMatch && materialMatch;
+    });
+
+    if (filtered.length > 0) {
+      setRightFilteredProducts(filtered);
+      setCompleteData(filtered);
+    } else {
+      setRightFilteredProducts([]);
+    }
+  }
+},[callfun])
+
+
   const [showCard, setShowCard] = useState(false);
 
 
@@ -714,7 +778,7 @@ export default function Contentcategories({ params, categories }) {
               <div className="flex items-center gap-2  px-[6px] bg-button-secondary rounded-sm font-[500] text-sm shadow-sm py-1">
                 <FaXmark
                   onClick={(e) => {
-                    handleRemoveFilter(item, index);
+                    handleRemoveFilter(item, index); setcallfun(index)
                   }}
                   className=" cursor-pointer text-xs"
                 />
