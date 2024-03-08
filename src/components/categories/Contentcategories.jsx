@@ -467,6 +467,8 @@ export default function Contentcategories({ params, categories }) {
     setCompleteData(rightFilteredProducts);
     console.log(rightFilteredProducts.length);
   };
+
+  
   const handleRemoveFilter = (item) => {
     if (colorFilter.includes(item)) {
       dispatch(toggleColor(item));
@@ -488,6 +490,7 @@ export default function Contentcategories({ params, categories }) {
     setCompleteData(rightFilteredProducts);
 
     handleApplyfilter();
+    
   };
 console.log({
   colorFilter,
@@ -517,8 +520,8 @@ console.log({
     ) { 
       setFilterEmpty(false);
       setAllFiltersCount([
-        ...colorFilter,
-        ...sizeFilter,
+        ...colorFilter, 
+        ...sizeFilter, 
         ...materialFilter,
         ...sleeveFilter,
       ]);
@@ -557,7 +560,7 @@ console.log({
         setRightFilteredProducts([]);
       }
     }
-  }, [colorFilter, sizeFilter, materialFilter, sleeveFilter, dispatch,searchedSelect]);
+  }, [colorFilter, sizeFilter, materialFilter, sleeveFilter, dispatch]);
   const [showCard, setShowCard] = useState(false);
   const handleResetfilter = () => {
     setShowCard(false);
