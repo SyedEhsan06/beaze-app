@@ -85,14 +85,14 @@ export default function Contentcategories({ params, categories }) {
   const fixSelect = useSelector(selectFix);
   const [allData, setAllData] = useState([]);
   const [allFiltersCount, setAllFiltersCount] = useState();
-
+const[callfun,setcallfun] = useState(null);
   const [subcategorySelect, setSubcategorySelect] = useState([]);
   useEffect(() => {
     setSubcategorySelect(selectReduxSubcategory);
   }, [selectReduxSubcategory]);
   useEffect(() => {
     setCatsState(categoryCall);
-    console.log(catsState);
+
     // setLoader(true);
     setLoader(true);
     setFilterLoader(true);
@@ -107,7 +107,7 @@ export default function Contentcategories({ params, categories }) {
         setFilterData([]);
         setSearchBar(null);
         setData(res.products);
-        console.log(res.products);
+        // console.log(res.products);
         setFilterLoader(false);
         setLoader(false);
       });
@@ -120,7 +120,7 @@ export default function Contentcategories({ params, categories }) {
     if (searchedSelect !== "") {
       setLoader(true);
       setFilterLoader(true);
-      console.log("push Code",searchedSelect)
+      // console.log("push Code",searchedSelect)
      
       fetchData(`products?search=${searchedSelect}`).then((res) => {
         setData([]);
@@ -487,20 +487,14 @@ export default function Contentcategories({ params, categories }) {
       handleApplyfilter()
     }
     setShowCard(true);
-    setCompleteData(rightFilteredProducts);
+    // setCompleteData(rightFilteredProducts);
 
     handleApplyfilter();
     
   };
-console.log({
-  colorFilter,
-  sizeFilter,
-  materialFilter,
-  sleeveFilter
-})
 
   useEffect(() => {
-    console.log(colorFilter, sizeFilter, materialFilter, sleeveFilter);
+    console.log({'colorFilter' : colorFilter})
     // Filter products when any filter changes
     if (
       colorFilter.length === 0 &&
@@ -556,12 +550,81 @@ console.log({
 
       if (filtered.length > 0) {
         setRightFilteredProducts(filtered);
+        // setCompleteData(filtered);
       } else {
         setRightFilteredProducts([]);
       }
     }
-  }, [colorFilter, sizeFilter, materialFilter, sleeveFilter, dispatch]);
+    
+  }, [colorFilter, sizeFilter, materialFilter, sleeveFilter, dispatch,searchedSelect]);
+
+useEffect(() => {
+  if (
+    colorFilter.length === 0 &&
+    sizeFilter.length === 0 &&
+    materialFilter.length === 0 &&
+    sleeveFilter.length === 0
+  ) {
+    setCompleteData([...filterData, ...data]);
+    setFilterEmpty(true);
+    // setAllFiltersCount([]);
+  }
+  if (
+    colorFilter.length > 0 ||
+    sizeFilter.length > 0 ||
+    materialFilter.length > 0 ||
+    sleeveFilter.length > 0
+  ) { 
+    setFilterEmpty(false);
+    setAllFiltersCount([
+      ...colorFilter,
+      ...sizeFilter,
+      ...materialFilter,
+      ...sleeveFilter,
+    ]);
+    let comdata = [...filterData, ...data];
+    const filtered = comdata.filter((product) => {
+      const colorMatch =
+        colorFilter?.length === 0 ||
+        colorFilter.some((filter) =>
+          product.attributes
+            ?.find((attr) => attr.name === "Colors")
+            ?.value.includes(filter)
+        );
+      const sizeMatch =
+        sizeFilter?.length === 0 ||
+        sizeFilter.some((filter) =>
+          product.attributes
+            ?.find((attr) => attr.name === "Sizes")
+            ?.value.includes(filter)
+        );
+      const materialMatch =
+        materialFilter?.length === 0 ||
+        materialFilter.some(
+          (filter) =>
+            product.attributes.find((attr) => attr.name === "Material") &&
+            product.attributes.find((attr) => attr.name === "Material")
+              .value === filter
+        );
+      // const sleeveMatch = sleeveFilter.length === 0 || sleeveFilter.includes(product.attributes.find(attr => attr.name === 'Sleeve')?.value);
+
+      return colorMatch && sizeMatch && materialMatch;
+    });
+
+    if (filtered.length > 0) {
+      setRightFilteredProducts(filtered);
+      setCompleteData(filtered);
+    } else {
+      setRightFilteredProducts([]);
+    }
+  }
+},[callfun])
+
+
   const [showCard, setShowCard] = useState(false);
+
+
+  
   const handleResetfilter = () => {
     setShowCard(false);
     dispatch(toggleColor([]));
@@ -597,7 +660,7 @@ console.log({
   // , [completeData]);
   // console.log(completeData);
   // console.log(subcategorySelect);
-  console.log(data);
+  
   // console.log(filterData);
   const handleFetchAllData = () => {
     // dispatch(toggleSubcategory([]));
@@ -657,7 +720,7 @@ console.log({
   useEffect(() => {
     fetchData(`products`).then((res) => {
       localStorage.setItem("categoryData", JSON.stringify(res?.products));
-      console.log(res?.products);
+      // console.log(res?.products);
       setAllData(res?.products);
       // setCompleteData(res?.products);
       setLoader(false);
@@ -666,7 +729,7 @@ console.log({
   }, [typeof window !== "undefined" && localStorage.getItem("categoryData")]);
   useEffect(() => {
     if (completeData?.length > 0 && subcategorySelect?.length === 0) {
-      console.log(localStorage.getItem("categoryData"));
+      // console.log(localStorage.getItem("categoryData"));
 
       setAllData(JSON.parse(localStorage.getItem("categoryData")));
     }
@@ -688,7 +751,11 @@ console.log({
     setSearchBar(null);
     handleFetchAllData()
   }
-  console.log(searchBar); 
+
+  console.log({
+    'setRightFilteredProducts'  :rightFilteredProducts
+  })
+  // console.log(searchBar); 
   return (
     <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
@@ -714,7 +781,7 @@ console.log({
               <div className="flex items-center gap-2  px-[6px] bg-button-secondary rounded-sm font-[500] text-sm shadow-sm py-1">
                 <FaXmark
                   onClick={(e) => {
-                    handleRemoveFilter(item, index);
+                    handleRemoveFilter(item, index); setcallfun(index)
                   }}
                   className=" cursor-pointer text-xs"
                 />
@@ -932,22 +999,22 @@ console.log({
                         objectFit="cover"
                       />
                     </div>
-                    {/* <Link href={`/productinfo/${items._id}`}> */}
+                    <Link href={`/productinfo/${items._id}`}>
                     <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
                       {items.title}
                     </h6>
-                    {/* </Link> */}
+                    </Link>
                     <p className="py-1 text-[1rem] font-[400]">
                       Rs {items.price}
                     </p>
-                    <Link href={`/productinfo/${items._id}`}>
+                    {/* <Link href={`/productinfo/${items._id}`}> */}
                       <button
                         className=" transition-all duration-100 w-full md:py-2 py-1 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  lg:hover:bg-opacity-[80%]"
-                        // onClick={() => handeladdtocart(items)}
+                        onClick={() => handelpeoductinfo(items._id)}
                       >
-                        Buy Now
+                       Add to cart
                       </button>
-                    </Link>
+                    {/* </Link> */}
                   </div>
                   <button
                     className="w-[70%] transition-all duration-100 cursor-pointer rounded-xl absolute left-[50%] translate-x-[-50%] lg:hidden lg:group-hover:block top-[50%] lg:z-10 z-[1] bg-button-secondary px-5  text-text-secondary text-[1rem]  text-center  lg:hover:shadow-gray-950  hover:shadow"
@@ -1069,10 +1136,9 @@ console.log({
       <Modal
         visible={ismodalopen}
         effect="fadeInDown"
-       
         onClickAway={closeModal}
       >
-       <div className="lg:w-[1100px] md:w-[600px] w-[340px]">
+       <div className="lg:!w-[1100px] md:w-[600px] w-[340px]">
        <Productmodal
           produtdata={productdata}
           modalclose={closeModal}
