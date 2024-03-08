@@ -43,10 +43,10 @@ export default function Header() {
   const [showshop, setshowshop] = useState(false);
   const [shopmenudata, setshopmenudata] = useState([]);
   const [searchdata, setsearchdata] = useState([]);
-  const [showsearchmobile, setshowsearchmobile] = useState(false);;
-  const [productpathname,setproductpathname] = useState('');
+  const [showsearchmobile, setshowsearchmobile] = useState(false);
+  const [productpathname, setproductpathname] = useState("");
   const inputRef = useRef(null);
-  
+
   const dispatch = useDispatch();
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -120,7 +120,7 @@ export default function Header() {
       dispatch(toggleSubcategory([]));
       dispatch(toggleCategory([]));
       dispatch(toggleFix([]));
-    dispatch(addSearch(""));
+      dispatch(addSearch(""));
 
       dispatch(addMultiSubcategory(subcategoryState));
       // dispatch(toggleFix(categoryState));
@@ -162,7 +162,7 @@ export default function Header() {
             "cachedData",
             JSON.stringify(response.products)
           );
-          sessionStorage.setItem("cachedSearchText",search);
+          sessionStorage.setItem("cachedSearchText", search);
           setsearchdata(response.products);
         } else {
           if (cachedData) {
@@ -312,13 +312,13 @@ export default function Header() {
   }, [showhide]);
   const [userData, setUserData] = useState(null);
   const path = usePathname();
-    // console.log(process.env.NEXT_PUBLIC_API_URL)
-  let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`
+  // console.log(process.env.NEXT_PUBLIC_API_URL)
+  let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
   const fetchDataProfile = async () => {
     // console.log("fetching user data");
     // console.log(localStorage.getItem("token"));
     try {
-      console.log(url)
+      console.log(url);
       // const token = localStorage.getItem("token");
       const token = cookieCutter.get("token");
       // console.log(token);/
@@ -337,11 +337,11 @@ export default function Header() {
       console.error("Error fetching user data:", error);
     }
   };
-// console.log(userData?.first_name)
+  // console.log(userData?.first_name)
   // useEffect(() => {
   //   fetchData();
   // }, [path, setUserData, window ? localStorage.getItem("token") : null]);
-const selectDataOfUser = useSelector(selectUser)
+  const selectDataOfUser = useSelector(selectUser);
   useEffect(() => {
     fetchDataProfile();
   }, [
@@ -351,24 +351,22 @@ const selectDataOfUser = useSelector(selectUser)
     // selectDataOfUser,
     // typeof window !== "undefined" ? localStorage.getItem("token") : null,
   ]);
-const handleRecentSearch = (e) => {
-  const search = e.target.textContent;
-  console.log(search);
-  handelsearch(search);
-  dispatch(addSearch(search));
-  setshowhide(0);
-  setshowsearchmobile(false);
-}
+  const handleRecentSearch = (e) => {
+    const search = e.target.textContent;
+    console.log(search);
+    handelsearch(search);
+    dispatch(addSearch(search));
+    setshowhide(0);
 
- 
-
+    setshowsearchmobile(false);
+  };
 
   const pathname = usePathname();
-useEffect(() => {
-  const matchResult = pathname.match(/\/productinfo/);
-  const productInfoPart = matchResult ? matchResult[0] : null;
-  setproductpathname(productInfoPart)
-},[pathname,cartOpenState])
+  useEffect(() => {
+    const matchResult = pathname.match(/\/productinfo/);
+    const productInfoPart = matchResult ? matchResult[0] : null;
+    setproductpathname(productInfoPart);
+  }, [pathname, cartOpenState]);
   if (pathname === "/login" || pathname === "/signup" || pathname === "/otp") {
     return null;
   } else {
@@ -376,7 +374,7 @@ useEffect(() => {
       <>
         <header
           className={`h-[70px] showmenu  z-30 w-full shadow py-2 transition-all duration-150 ${
-            scrollLength > 620 || productpathname === '/productinfo'
+            scrollLength > 620 || productpathname === "/productinfo"
               ? "fixed top-0 left-0 bg-white border z-20 "
               : " absolute top-0 left-0  bg-white bg-opacity-[50%] linkshdow"
           }`}
@@ -426,7 +424,11 @@ useEffect(() => {
                 <Link href={"/"}>About </Link>{" "}
               </li>
               <li className="w-[350px] xl:w-[400px] flex  bg-white rounded shadow-sm items-center justify-center px-2 border gap-3 relative transition-all duration-150 ">
-                <div className="w-[8.33%] text-[#9B9494] font-bold">
+                <div
+                  className="w-[8.33%] text-[#9B9494] font-bold
+                cursor-pointer
+                "
+                >
                   <button className="px-2">
                     <IoSearch size={20} />
                   </button>
@@ -441,6 +443,7 @@ useEffect(() => {
                     className="w-full context font text-[16px] focus:outline-none py-[8px] text-[#03071E] "
                     placeholder="Search Tops, Jeans, Blazers, suspenders"
                     onChange={(e) => handelsearch(e.target.value)}
+                    onClick={() => setshowhide(4)}
                   />
                 </div>
 
@@ -526,15 +529,15 @@ useEffect(() => {
                       <h4 className="text-lg font-semibold">Recent Searches</h4>
                       <div className="w-full flex pt-2  gap-3 flex-wrap items-center">
                         {recentsearch.map((items, index) => (
-                          <div
-                          onClick={
-                            (e) => handleRecentSearch(e)
-                          }
-                            key={index}
-                            className="px-3 py-1 bg-[#F0F0F0] text-[#00000096] font-[400] border-[0.5px] border-[#98989880] border-opacity-[50%] rounded-[4px] text-sm] capitalize cursor-pointer"
-                          >
-                            {items.title}
-                          </div>
+                          <Link href={"/products"}>
+                            <div
+                              onClick={(e) => handleRecentSearch(e)}
+                              key={index}
+                              className="px-3 py-1 bg-[#F0F0F0] text-[#00000096] font-[400] border-[0.5px] border-[#98989880] border-opacity-[50%] rounded-[4px] text-sm] capitalize cursor-pointer"
+                            >
+                              {items.title}
+                            </div>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -544,15 +547,15 @@ useEffect(() => {
                       </h4>
                       <div className="w-full flex pt-2  gap-3 flex-wrap items-center">
                         {popularsearches.map((items, index) => (
-                          <div
-                          onClick={
-                            (e) => handleRecentSearch(e)
-                          }
-                            key={index}
-                            className="px-3 py-1 bg-[#F0F0F0] text-[#00000096] font-[400] border-[0.5px] border-[#98989880] border-opacity-[50%] rounded-[4px] text-sm] capitalize cursor-pointer"
-                          >
-                            {items.title}
-                          </div>
+                          <Link href={"/products"}>
+                            <div
+                              onClick={(e) => handleRecentSearch(e)}
+                              key={index}
+                              className="px-3 py-1 bg-[#F0F0F0] text-[#00000096] font-[400] border-[0.5px] border-[#98989880] border-opacity-[50%] rounded-[4px] text-sm] capitalize cursor-pointer"
+                            >
+                              {items.title}
+                            </div>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -564,9 +567,7 @@ useEffect(() => {
                 {" "}
                 {userData?.first_name ? (
                   <>
-                    <Link href={"/account"}>
-                      {userData.first_name}
-                    </Link>
+                    <Link href={"/account"}>{userData.first_name}</Link>
                   </>
                 ) : (
                   <>

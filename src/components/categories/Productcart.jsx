@@ -45,9 +45,9 @@ const handleCloseCart = () => {
   let tax= data.reduce((a, b) => a + b.tax*b.selectedQty, 0);
   let total = tax + data.reduce((a, b) => a + b.price*b.selectedQty, 0);
   
-
+  console.log(data)
   const totalPrice =  data.reduce((a, b) => a + b.originalprice*b.selectedQty, 0);
-
+  const fullTotal = totalPrice + tax;
   const handelsendtocheckout = () => {
     router.push("/checkout")
     setCartOpen(false)
@@ -166,7 +166,7 @@ const handleCloseCart = () => {
 
                 <div className="w-[50%] flex">
                   <p className="ml-auto text-[1rem] font-[500]">{
-                0
+                    tax.toFixed(2)
                   }</p>
                 </div>
               </div>
@@ -189,7 +189,7 @@ const handleCloseCart = () => {
 
             <div className="w-[50%] flex">
               <p className="ml-auto text-[1rem] font-[500]">{
-                totalPrice.toFixed(2)
+                fullTotal.toFixed(2)
               }</p>
             </div>
           </div>

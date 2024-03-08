@@ -10,9 +10,11 @@ export default function Productshow({ buttonevent, cartData,orderId,ischeckoutse
   const [showPayment, setShowPayment] = useState(false); // State to control visibility of PaymentComponent
   const cart = useSelector(selectCart);
   console.log(cart);
-  const totalPrice =cart.reduce((a, b) => a + b.price*b.selectedQty, 0);
+  const totalPrice =cart.reduce((a, b) => 
+  a + (b.originalprice * b.selectedQty)+b.tax*b.selectedQty, 0);
+  
 
-
+console.log(totalPrice)
   const makePayment = () => {
     setShowPayment(true); // Show PaymentComponent when button is clicked
   };
@@ -41,7 +43,11 @@ export default function Productshow({ buttonevent, cartData,orderId,ischeckoutse
                 Qty : {items.selectedQty}
               </p>
               <p className="text-[1rem] font-[500] mt-1">
-                INR {items.price * items.selectedQty}
+                INR {
+                  parseFloat(
+                    (items.originalprice * items.selectedQty)+items.tax*items.selectedQty).toFixed(2
+                  )
+                }
               </p>
             </div>
           </div>
