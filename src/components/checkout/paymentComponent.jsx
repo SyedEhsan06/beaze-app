@@ -77,6 +77,7 @@ export default function PaymentComponent({
           body: JSON.stringify({
             paymentStatus: "failed",
             _id:orderId,
+            
           }),
           headers: {
             "Content-Type": "application/json",
