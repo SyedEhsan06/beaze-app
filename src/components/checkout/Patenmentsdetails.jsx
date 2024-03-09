@@ -51,6 +51,7 @@ export default function Patenmentsdetails() {
   const [token, setToken] = useState("");
   const[savedaddress,setsavedaddress] = useState([])
   const[checkoutgreen,setcheckoutgreen] = useState(false)
+  const[showicon,setshowicon] = useState(false);
   useEffect(() => {
   let cookieToken = cookieCutter.get("token");
   if (cookieToken) {
@@ -189,6 +190,11 @@ export default function Patenmentsdetails() {
     setSelectedCountry(country);
   };
   const handlePhoneChange = (phone) => {
+    if(phone.length){
+      setshowicon(true)
+    }else{
+      setshowicon(false)
+    }
     setPhone(phone);
   };
 
@@ -363,6 +369,7 @@ setsavedaddress(resposne.user.address)
                       onCountryChange={handleCountryChange}
                       onPhoneChange={handlePhoneChange}
                       defaultValue={phone}
+                      iconshow={showicon}
                     />
                   </div>
                   {/* <div className=" w-full my-6 context">
