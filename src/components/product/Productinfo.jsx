@@ -20,6 +20,7 @@ import Link from "next/link";
 
 
 
+
 export default function Productinfo({ pid }) {
   const [loader, setloader] = useState(false);
   const [productinfo, setproductinfo] = useState([]);
@@ -554,6 +555,7 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
               </div>
             </div>
           </div>
+          
           <ToastContainer/>
         </div>
       )}
