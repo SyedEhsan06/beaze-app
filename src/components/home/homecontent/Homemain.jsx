@@ -14,7 +14,7 @@ export default function Homemain({data}) {
     <Features/>
     <Productslider  data={data} />
     <Offerbanner/>
-    <Teazeslider data={data} />
+    <Teazeslider data={data} heading={'Teaze'}/>
     <Ratings/>
     <Sociallinks/>
   </>

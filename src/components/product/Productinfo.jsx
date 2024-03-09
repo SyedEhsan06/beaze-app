@@ -17,6 +17,8 @@ import { useRouter } from "next/navigation";
 import { addToCart, selectCart } from "@/redux/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
+import { fetchCategories, selectCategories } from "@/redux/slices/categorySlice";
+import Teazeslider from "../home/homecontent/Teazeslider";
 
 
 
@@ -44,6 +46,22 @@ export default function Productinfo({ pid }) {
     size : '',
     price : null
   })
+
+  const [data, setData] = useState([]);
+ 
+  let selectData = useSelector(selectCategories)
+  useEffect(() => {
+      if(selectData.length === 0){
+          dispatch(fetchCategories())
+          console.log(selectData)
+      }
+      setData(selectData)
+      if(selectData){
+          setloader(false)
+      }
+  }
+  , [selectData]);
+  
 
 
 
@@ -185,7 +203,7 @@ const router = useRouter()
     };
   }, []);
   const handleScroll = () => {
-    if(window.scrollY >= 200){
+    if(window.scrollY >= 300){
       setshowdesc(true)
     }else{
       setshowdesc(false)
@@ -245,7 +263,7 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
               <div className="w-[80%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] pl-4 py-[6px] flex items-center relative">
                 <div className="w-[100%]">
                   <select
-                    className="w-full border-none focus:outline-none appearance-none bg-transparent cursor-pointer text-[15px] px-2"
+                    className="w-full  border-none focus:outline-none appearance-none bg-transparent cursor-pointer text-[15px] px-2"
                     id="sizeselect"
                     value={pdata.color}
                     onChange={(e) => handelsetcolr(e.target.value)}
@@ -257,7 +275,7 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
                       ) &&
                       productinfo?.attributes[0].value.map(
                         (items, index) => (
-                          <option value={items}>{items}</option>
+                          <option value={items}>Colour : {items}</option>
                         )
                       )}
                   </select>
@@ -289,7 +307,7 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
                       ) &&
                       productinfo?.attributes[1].value.map(
                         (items, index) => (
-                          <option value={items}>{items}</option>
+                          <option value={items}>Size : {items}</option>
                         )
                       )}
                   </select>
@@ -310,11 +328,11 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
               </button>
             </div>
           </div>
-          <div className={`w-full bg-gray-100 py-10 md:px-16 px-8 rounded-[11px] transition-all duration-150  relative ${showdesc && ' lg:pt-[200px]'}`}>
+          <div className={`w-full bg-gray-100 py-10 md:px-16 px-8 rounded-[11px] transition-all  duration-300  relative ${showdesc && ' lg:pt-[420px]'}`}>
             <div className="w-full">
               <div className="w-full md:flex md:gap-16 gap-5 grid grid-cols-1">
                 <div className="md:w-[50%] relative">
-                <div className={`lg:sticky top-[30px] left-0 lg:!h-[80vh] ${showdesc && ' lg:mt-[40px]'}`}>
+                <div className={`lg:sticky top-[100px] left-0 lg:!h-[80vh] ${showdesc && ' lg:mt-[40px]'}`}>
                 <Productcarousel sliderdata={productinfo?.images} setopemodal={setismodalopen} />
                 </div>
                 </div>
@@ -555,6 +573,9 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
               </div>
             </div>
           </div>
+         <div className="mt-6">
+         <Teazeslider data={data} heading={'Curated for you'}/>
+         </div>
           
           <ToastContainer/>
         </div>
@@ -564,13 +585,15 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
       <Modal
         visible={ismodalopen}
         effect="fadeInDown"
-        width='90%'
+       
         onClickAway={closeModal}
       >
-        <div className="p-8 relative">
+       <div className="w-[330px]">
+       <div className="p-8 relative">
           <button className=" absolute right-1 top-1 bg-black text-white p-2 rounded-full" onClick={() => setismodalopen(false)} ><FaXmark size={16} /></button>
           <Productmobile sliderdata={productinfo?.images} setopemodal={setismodalopen} />
         </div>
+       </div>
       </Modal>
    
     </>

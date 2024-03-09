@@ -223,7 +223,7 @@ const handelincreaseqty = () => {
                 readMoreText={"View more details"}
                 readLessText={"View less details"}
             >
-                   {produtdata?.description}
+                   {produtdata.description ? produtdata.description : ' '}
             </ReactReadMoreReadLess>
                
                 </p>
