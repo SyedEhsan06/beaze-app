@@ -9,6 +9,7 @@ import Image from "next/image";
 import { addToCart, selectCart } from "@/redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
+import ReactReadMoreReadLess from "react-read-more-read-less";
 
 
 export default function Productmodal({ produtdata, modalclose,ismodalopen,setismodaloprn }) {
@@ -217,7 +218,14 @@ const handelincreaseqty = () => {
                 </p>
 
                 <p className="context mt-2 text-[1rem] text-opacity-[50%] font-[300]">
-                  {produtdata.description}
+                <ReactReadMoreReadLess
+                charLimit={100}
+                readMoreText={"View more details"}
+                readLessText={"View less details"}
+            >
+                   {produtdata.description ? produtdata.description : ' '}
+            </ReactReadMoreReadLess>
+               
                 </p>
               </div>
 

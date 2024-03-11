@@ -13,7 +13,7 @@ import { fetchProducts } from "@/redux/slices/productSlice";
 import Link from "next/link";
 import { addSearch, toggleCategory, toggleCategoryCall, toggleSubcategory } from "@/redux/slices/filterSlice";
 
-export default function Teazeslider({ data }) {
+export default function Teazeslider({ data,heading }) {
   const [best, setBest] = useState([]);
   const [explore, setExplore] = useState([]);
 
@@ -81,7 +81,7 @@ export default function Teazeslider({ data }) {
     <>
       <div className="lg:px-8 px-4  mb-16">
         <h4 className="text-[2rem] headtext font-[900]  mb-3 capitalize">
-          Teaze
+         {heading}
         </h4>
         <Swiper
           centeredSlides={false}

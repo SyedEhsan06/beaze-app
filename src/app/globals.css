@@ -219,6 +219,12 @@ loader */
   cursor: pointer !important;
 }
 
+.react-read-more-read-less{
+  font-weight: 600 !important;
+ 
+  opacity: 50%;
+}
+
 .swiper-scrollbar-drag{
 background-color: #FFB61DCC !important;
 opacity: 80% !important;

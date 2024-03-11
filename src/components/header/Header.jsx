@@ -376,7 +376,7 @@ export default function Header() {
           className={`h-[70px] showmenu  z-30 w-full shadow py-2 transition-all duration-150 ${
             scrollLength > 620 || productpathname === "/productinfo"
               ? "fixed top-0 left-0 bg-white border z-20 "
-              : " absolute top-0 left-0  bg-white bg-opacity-[50%] linkshdow"
+              : " absolute top-0 left-0 bg-transparent linkshdow"
           }`}
         >
           <nav className="lg:block hidden">
