@@ -10,7 +10,6 @@ export default function Invoice() {
   const params = useSearchParams();
   const orderId = params.get("orderId");
   const [orderData, setOrderData] = useState(null);
-
   useEffect(() => {
     const fetchOrderData = async () => {
       try {
@@ -30,7 +29,8 @@ export default function Invoice() {
     };
     fetchOrderData();
   }, [orderId]);
-
+  console.log(orderData);
+  let totalPrice = orderData?.orders?.reduce((acc, order) => acc + order.total, 0);
   useEffect(() => {
     // Ensure the code runs only in the browser environment
     if (typeof window !== "undefined") {
@@ -123,7 +123,9 @@ export default function Invoice() {
                       </div>
 
                       <div className="mt-8">
-                        <p className="my-2">Order Total : Rs. {order.total}</p>
+                        <p className="my-2">Order Total : Rs. {
+                          totalPrice
+                        }</p>
                       </div>
                     </div>
 

@@ -46,11 +46,11 @@ export async function POST(req) {
     });  
     await order.save();
     // let products = await Product.find();
-    for (let i = 0; i < cart.length; i++) {
-      let product = products.find((p) => p._id == cart[i].productId);
-      product.quantity = product.quantity - cart[i].selectedQty;
-      await product.save();
-    }
+    // for (let i = 0; i < cart.length; i++) {
+    //   let product = products.find((p) => p._id == cart[i].productId);
+    //   product.quantity = product.quantity - cart[i].selectedQty;
+    //   await product.save();
+    // }
     return Response.json({ order });
   } catch (error) {
     console.error("Error creating order:", error);
