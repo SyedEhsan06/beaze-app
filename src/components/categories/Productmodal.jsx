@@ -50,7 +50,7 @@ useEffect(() => {
   })
   setsizeindex(0)
 },[produtdata,ismodalopen])
-
+console.log(pdata)
 
   const dispatch = useDispatch();
 

@@ -326,6 +326,7 @@ const[callfun,setcallfun] = useState(null);
 
   const handelpeoductinfo = async (id) => {
     setLoader(true);
+    console.log(id);
     try {
       const response = await fetchData(`products/${id}`);
       setproductdata(response.products);
@@ -340,8 +341,8 @@ const[callfun,setcallfun] = useState(null);
     setismodalopen(false);
   };
   const selectedCartData = useSelector(selectCart);
-
   const handeladdtocart = (pdata) => {
+    // console.log(pdata);
     const obj = {
       _id: pdata._id,
       productId: pdata.productId,
