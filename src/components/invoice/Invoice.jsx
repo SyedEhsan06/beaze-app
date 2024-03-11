@@ -30,7 +30,7 @@ export default function Invoice() {
     fetchOrderData();
   }, [orderId]);
   console.log(orderData);
-  let totalPrice = orderData?.orders?.reduce((acc, order) => acc + order.total, 0);
+  // let totalPrice = orderData?.orders?.reduce((acc, order) => acc + order.price, 0);
   useEffect(() => {
     // Ensure the code runs only in the browser environment
     if (typeof window !== "undefined") {
@@ -124,7 +124,7 @@ export default function Invoice() {
 
                       <div className="mt-8">
                         <p className="my-2">Order Total : Rs. {
-                          totalPrice
+                          order.total
                         }</p>
                       </div>
                     </div>

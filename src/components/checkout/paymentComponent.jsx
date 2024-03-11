@@ -44,6 +44,7 @@ export default function PaymentComponent({
             body: JSON.stringify({
               paymentStatus: "success",
               status: "processed",
+              total: amount,
               _id:orderId,
             }),
             headers: {

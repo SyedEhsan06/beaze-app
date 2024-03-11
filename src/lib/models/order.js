@@ -53,6 +53,7 @@ const orderSchema = new Schema({
   billing_address: addressSchema,
   cart: [cartSchema],
   total: Number,
+  totalPrice: Number,
   payment: String,
   paymentStatus: {
     type: String,

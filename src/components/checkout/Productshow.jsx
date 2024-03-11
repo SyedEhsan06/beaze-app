@@ -10,9 +10,11 @@ export default function Productshow({ buttonevent, cartData,orderId,ischeckoutse
   const [showPayment, setShowPayment] = useState(false); // State to control visibility of PaymentComponent
   const cart = useSelector(selectCart);
   console.log(cart);
-  const totalPrice =cart.reduce((a, b) => 
-  a + (b.originalprice * b.selectedQty)+b.tax*b.selectedQty, 0);
-  
+  const totalPrice = cart.reduce((total, item) => {
+    const itemPrice = item.originalprice * item.selectedQty; // Calculate item price
+    const itemTax = item.tax * item.selectedQty; // Calculate item tax
+    return total + itemPrice + itemTax; // Accumulate total price
+  }, 0);
 
 console.log(totalPrice)
   const makePayment = () => {
