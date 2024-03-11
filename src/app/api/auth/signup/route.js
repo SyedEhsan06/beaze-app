@@ -1,5 +1,7 @@
 import { sendOTP } from "@/utils/verifyOtpUtils";
 import User from "@/lib/models/user.model";
+import { connectToDb } from "@/lib/utils";
+
 // import jwt from "jsonwebtoken";
 
 // const secret = process.env.SECRET;
@@ -11,13 +13,13 @@ import User from "@/lib/models/user.model";
 
 export async function POST(req) {
   let { phone, firstName, lastName } = await req.json();
+await connectToDb();
   console.log(phone, firstName, lastName)
   try {
     let user = await User.findOne({ phone_number: phone });
 
     if (!user) {
       const { otp, expiration } = await sendOTP(phone);
-
       user = new User({
         phone_number: phone,
         first_name: firstName,
@@ -27,6 +29,7 @@ export async function POST(req) {
       });
 
       await user.save();
+      return Response.json({ message: "User created successfully" ,firstName, lastName});
     } else {
       const { otp, expiration } = await sendOTP(phone);
 

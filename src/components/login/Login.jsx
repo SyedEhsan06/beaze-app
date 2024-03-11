@@ -98,6 +98,7 @@ export default function Login() {
   const handleCountryChange = (code) => {
     setCountry(code);
   }
+  console.log(phone)
 
   return (
     <div className="h-[100vh] w-[100%] pb-4 pt-8  lg:px-10 px-2 relative mianconlogins flex items-center lg:block">
@@ -166,7 +167,12 @@ export default function Login() {
                   <p className=' text-center lg:text-[1rem] text-xs text-[#760000] font-[500]'>🤔 Uh Oh, That number does not seem right.</p>
                   <p className=' text-center lg:text-[1rem] text-xs underline font-[700]'>We’d love for you to check it again</p>
                  </div>
-                <button className="w-[100%] mt-7 py-4  headtext font-[900] text-text-secondary bg-[#FFD012] lg:text-3xl text-xl  rounded-lg button-shadow  ">
+                <button
+                  disabled={
+                    phone.length === 10? false : true
+                  }
+                className="w-[100%] mt-7 py-4  headtext font-[900] text-text-secondary bg-[#FFD012] lg:text-3xl text-xl  rounded-lg button-shadow  ">
+                
                   Submit
                 </button>
               </form>

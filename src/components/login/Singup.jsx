@@ -165,7 +165,9 @@ export default function Signup() {
                   <p className=' text-center lg:text-[1rem] text-xs underline font-[700]'>We’d love for you to check it again</p>
                  </div>
                 </div>
-                <button type="submit" className='w-[100%] lg:mt-5 mt-10 py-4 headtext font-[900] text-text-secondary bg-[#FFD012] lg:text-3xl text-xl rounded-lg button-shadow'>Submit</button>
+                <button 
+                  disabled={firstName && lastName && phone  ? false : true}
+                type="submit" className='w-[100%] lg:mt-5 mt-10 py-4 headtext font-[900] text-text-secondary bg-[#FFD012] lg:text-3xl text-xl rounded-lg button-shadow'>Submit</button>
               </form>
             </div>
             <div className='lg:mt-4 mt-10'>

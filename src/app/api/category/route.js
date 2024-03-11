@@ -3,23 +3,33 @@ import { connectToDb } from "@/lib/utils";
 import Products from "@/lib/models/products";
 export async function GET(req) {
   await connectToDb();
-  let categories;
+  // let Products = await Products.find();
   try {
     let queryParams = req.url.split("?")[1];
     if (queryParams) {
       queryParams = decodeURIComponent(queryParams);
     }
+    
+    let categories;
     if (queryParams) {
       categories = await Category.find({ name: queryParams });
     } else {
-      // let products = await Products.find();
+      // Fetch all categories
       categories = await Category.find();
       
+      // Fetch all products
+      const products = await Products.find();
+      
+      // Find categories that have associated products
+      categories = categories.filter(category =>
+        products.some(product => product.category === category.name)
+      );
     }
+    
+    return Response.json({ categories });
   } catch (err) {
     return Response.json({ error: err.message });
   }
-  return Response.json({ categories });
 }
 
 export async function POST(req) {
