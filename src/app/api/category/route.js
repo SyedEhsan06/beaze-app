@@ -12,6 +12,10 @@ export async function GET(req) {
     
     let categories;
     if (queryParams) {
+      if (queryParams === "all") {
+        categories = await Category.find();
+        return Response.json({ categories });
+      }
       categories = await Category.find({ name: queryParams });
     } else {
       // Fetch all categories
