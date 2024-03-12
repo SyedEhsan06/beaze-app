@@ -372,7 +372,7 @@ setsavedaddress(resposne.user.address)
                       iconshow={showicon}
                     />
                   </div>
-                  {/* <div className=" w-full my-6 context">
+                  <div className=" w-full my-6 context">
                     <div className=" flex gap-2 lg:gap-0 items-center">
                       <div className="w-[5%]">
                         <div className=" relative">
@@ -420,7 +420,7 @@ setsavedaddress(resposne.user.address)
                         </label>
                       </div>
                     </div>
-                  </div> */}
+                  </div>
 
                   <div className="w-full flex justify-center my-6">
                     <button
@@ -462,7 +462,7 @@ setsavedaddress(resposne.user.address)
               >
                 <div className=" flex flex-col lg:flex-row ">
                   <h6 className=" headtext text-text-secondary font-[700] lg:text-[1rem] text-sm">
-                    Access your Account or Where do we send your items ?
+                    Where do we send your items ?
                   </h6>
                   <div className=" flex items-center ms-auto text-sm lg:text-[1rem]">
                     <div className="w-[25px]">
@@ -612,7 +612,7 @@ setsavedaddress(resposne.user.address)
               {
                 !isBillingSame &&     <div className='my-2'>
                   <div> 
-            <h5 className="w-full  headtext lg:text-[2rem] md:text-[1.8rem] text-xl font-[800]"> Your billing address</h5>
+            <h5 className="w-full  headtext lg:text-[1.2rem] md:text-[1rem] text-xl font-[800] pt-4"> Your billing address</h5>
 
             <div className="w-full">
             <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
