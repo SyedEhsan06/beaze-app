@@ -241,7 +241,7 @@ setsavedaddress(resposne.user.address)
     setPincode(items.pincode)
     closeModal()
   }
- 
+//  console.log()
   return (
     <div className=" w-full lg:flex gap-x-5">
       <div className="lg:w-[60%] w-[100%]">
@@ -715,6 +715,17 @@ setsavedaddress(resposne.user.address)
                     onClick={
                       handleOrderPlace
                     }
+                      disabled={
+                        !address_line1 ||
+                        !address_line2 ||
+                        !city ||
+                        !state ||
+                        !pincode||
+                        address_line1.length < 5 ||
+                        address_line2.length < 5 ||
+                        city.length < 3 ||
+                        state.length < 3 
+                      }
                      className="headtext font-[800]  lg:text-[1.4rem] text-xl py-3 lg:w-[50%] w-[85%] rounded bg-theme-footer-bg text-white">
                       Continue to Shipping
                     </button>
