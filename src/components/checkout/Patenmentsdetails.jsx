@@ -807,7 +807,7 @@ setsavedaddress(resposne.user.address)
                   className="ml-auto"
                   onClick={() => closeModal()}
                 >
-                  <FaXmark size={40} />
+                  <img src="/images/web/xmark.png" className="w-[20px]" alt="" />
                 </button>
               </div>
             {

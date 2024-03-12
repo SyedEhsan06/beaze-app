@@ -35,6 +35,7 @@ import { selectCartOpen } from "@/redux/slices/cartOpenSlice";
 import Productcart from "../categories/Productcart";
 import axios from "axios";
 import { selectUser, setUser } from "@/redux/slices/userData.slice";
+import { FaChevronRight } from "react-icons/fa";
 
 export default function Header() {
   const [scrollLength, setScrollLength] = useState(0);
@@ -656,10 +657,10 @@ export default function Header() {
                           <div className="">
                             <ul className=" text-3xl font-[700]">
                               <li
-                                className="pb-4 cursor-pointer"
+                                className="pb-4 cursor-pointer flex items-center"
                                 onClick={() => setshowshop(true)}
                               >
-                                Shop
+                                Shop <FaChevronRight size={16} className="ml-auto mr-3"/>
                               </li>
                               <li
                                 className="pb-4"
@@ -848,11 +849,10 @@ export default function Header() {
           }`}
           ref={cartref}
         >
-          <div className="py-3 px-6 w-full flex gap-x-4 border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700]">
-            <FaXmark
-              className=" cursor-pointer"
-              onClick={() => setCartOpen(false)}
-            />{" "}
+          <div className="py-3 px-6 w-full flex gap-x-7 border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700] items-center cursor-pointer" onClick={() => setCartOpen(false)}>
+         <div>
+         <img src="/images/web/xmark.png" className="w-[18px]" alt="" />
+         </div>
             Cart
           </div>
           <Productcart setCartOpen={setCartOpen} />

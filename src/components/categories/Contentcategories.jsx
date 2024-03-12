@@ -1038,11 +1038,10 @@ useEffect(() => {
         }`}
         ref={divRef}
       >
-        <div className="py-3 px-3 w-full flex gap-x-4 border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700]">
-          <FaXmark
-            className=" cursor-pointer"
-            onClick={() => setisfilterbaropen(0)}
-          />{" "}
+        <div className="py-3 px-3 w-full flex gap-x-7 items-center border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700]  cursor-pointer "  onClick={() => setisfilterbaropen(0)}>
+         <div>
+         <img src="/images/web/xmark.png" className="w-[18px]" alt="" />
+         </div>
           Filters
         </div>
 

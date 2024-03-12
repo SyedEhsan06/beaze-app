@@ -171,7 +171,7 @@ const handelincreaseqty = () => {
               setshowimage(false);
             }}
           >
-            <FaXmark size={30} />
+            <img src="images/web/xmark.png" className="w-[20px]" alt="" />
           </button>
           <button
             className=" absolute top-[10px] left-3 z-10"
@@ -197,7 +197,7 @@ const handelincreaseqty = () => {
             className=" absolute top-[10px] right-3 z-10"
             onClick={() => modalclose()}
           >
-            <FaXmark size={30} />
+            <img src="/images/web/xmark.png"  className="w-[20px]" alt="" />
           </button>
           <div className="w-full lg:flex lg:gap-x-5 grid grid-cols-1 gap-y-5 lg:gap-y-0">
             <div className="lg:w-[45%] ">
@@ -298,7 +298,7 @@ const handelincreaseqty = () => {
                         onClick={handeldecreseqty}
                         
                       >
-                        <RiSubtractLine size={20} />
+                        <img src="images/web/subicon.png" className="w-[15px]" alt="" />
                       </button>
                       <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1">
                         {pdata.selectedQty ? pdata.selectedQty : 1}
@@ -307,7 +307,7 @@ const handelincreaseqty = () => {
                         className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center p-1 text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
                         onClick={handelincreaseqty}
                       >
-                        <IoMdAdd size={20} />
+                        <img src="images/web/addicon.png" className="w-[15px]" alt="" />
                       </button>
                     </div>
                   </div>

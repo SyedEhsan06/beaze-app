@@ -187,7 +187,7 @@ export default function Accountdetails({ data }) {
         <div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5">
           <div className="flex ">
             <button className="ml-auto" onClick={closeModal}>
-              <FaXmark size={40} />
+            <img src="/images/web/xmark.png" className="w-[20px]" alt="" />
             </button>
           </div>
           <div className="my-4">

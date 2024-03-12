@@ -243,7 +243,7 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
                     className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 py-[6px] text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
                     onClick={handeldecreseqty}
                   >
-                    <RiSubtractLine size={20} />
+                     <img src="/images/web/subicon.png" className="w-[15px]" alt="" />
                   </button>
                   <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 py-[6px]">
                     {pdata?.selectedQty}
@@ -252,7 +252,7 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
                     className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 py-[6px] text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
                     onClick={handelincreaseqty}
                   >
-                    <IoMdAdd size={20} />
+                     <img src="/images/web/addicon.png" className="w-[15px]" alt="" />
                   </button>
                 </div>
               </div>
@@ -427,7 +427,7 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
                               className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 h-[40px] text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
                               onClick={handeldecreseqty}
                             >
-                              <RiSubtractLine size={20} />
+                              <img src="/images/web/subicon.png" className="w-[15px]" alt="" />
                             </button>
                             <div className="border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 h-[40px] flex items-center justify-center">
                             {pdata.selectedQty ? pdata.selectedQty : 1}
@@ -436,7 +436,7 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
                               className=" border-r-[0.5px] border-[#989898CC] border-opacity-[80%] text-center px-1 h-[40px] text-gray-950 flex items-center justify-center font-[800] cursor-pointer"
                               onClick={handelincreaseqty}
                             >
-                              <IoMdAdd size={20} />
+                               <img src="/images/web/addicon.png" className="w-[15px]" alt="" />
                             </button>
                           </div>
                         </div>
@@ -590,7 +590,7 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
       >
        <div className="w-[330px]">
        <div className="p-8 relative">
-          <button className=" absolute right-1 top-1 bg-black text-white p-2 rounded-full" onClick={() => setismodalopen(false)} ><FaXmark size={16} /></button>
+          <button className=" absolute right-1 top-1 text-white " onClick={() => setismodalopen(false)} > <img src="/images/web/xmark.png" className="w-[20px]" alt="" /></button>
           <Productmobile sliderdata={productinfo?.images} setopemodal={setismodalopen} />
         </div>
        </div>
