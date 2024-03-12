@@ -946,10 +946,12 @@ useEffect(() => {
         )}
 
         {/* Show "No products found" when no completeData and subcategorySelect length > 0 */}
-        {/* {!loader &&
+        {!loader &&
           !filterLoader &&
           completeData?.length === 0 &&
-          subcategorySelect?.length > 0 && (
+          subcategorySelect?.length > 0 &&
+          rightFilteredProducts?.length === 0 && (
+          
             <div className="flex items-center justify-center  h-full">
               <div className="text-center">
                 <img
@@ -976,7 +978,7 @@ useEffect(() => {
                 </div>
               </div>
             </div>
-          )} */}
+          )}
         {/* Render allData */}
         {completeData?.length == 0 &&
         data?.length == 0 &&
