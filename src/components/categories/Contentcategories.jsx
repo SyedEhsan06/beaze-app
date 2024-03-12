@@ -905,7 +905,7 @@ useEffect(() => {
           <div
             className={`${
               filterLoader ? "blur-md transition-all ease-linear" : ""
-            } grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-8 gap-4 context`}
+            } grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context`}
           >
             {completeData?.map((items, index) => (
               <div key={index} className="group relative">
@@ -920,7 +920,7 @@ useEffect(() => {
                     />
                   </div>
                    <Link href={`/productinfo/${items._id}`}> 
-                  <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
+                  <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-4 pb-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
                     {items.title}
                   </h6>
                   </Link> 
@@ -1004,7 +1004,7 @@ useEffect(() => {
                       />
                     </div>
                     <Link href={`/productinfo/${items._id}`}>
-                    <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
+                    <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-4 pb-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
                       {items.title}
                     </h6>
                     </Link>

@@ -374,13 +374,13 @@ export default function Header() {
     return (
       <>
         <header
-          className={`h-[70px] showmenu  z-30 w-full shadow py-2 transition-all duration-150 ${
+          className={`lg:h-[100px] h-[70px] showmenu lg:pt-[30px]  z-30 w-full shadow py-2 transition-all duration-150 ${
             scrollLength > 620 || productpathname === "/productinfo"
               ? "fixed top-0 left-0 bg-white border z-20 "
-              : " absolute top-0 left-0 bg-transparent linkshdow"
+              : " absolute top-0 left-0 lg:bg-transparent bg-white bg-opacity-[50%] linkshdow"
           }`}
         >
-          <nav className="lg:block hidden">
+          <nav className="lg:block hidden ">
             <ul className="px-3  flex items-center m-0  justify-between text-[20px] xl:[24px] ">
               <li className="px-2">
                 <Link href={"/"}>

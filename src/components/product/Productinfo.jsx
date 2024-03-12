@@ -573,7 +573,7 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
               </div>
             </div>
           </div>
-         <div className="mt-6">
+         <div className="pt-10 bg-gray-100">
          <Teazeslider data={data} heading={'Curated for you'}/>
          </div>
           

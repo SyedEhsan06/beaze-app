@@ -79,7 +79,7 @@ export default function Teazeslider({ data,heading }) {
 
   return (
     <>
-      <div className="lg:px-8 px-4  mb-16">
+      <div className="lg:px-8 px-4  pb-16">
         <h4 className="text-[2rem] headtext font-[900]  mb-3 capitalize">
          {heading}
         </h4>

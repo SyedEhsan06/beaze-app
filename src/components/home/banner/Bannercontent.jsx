@@ -41,7 +41,7 @@ export default function Bannercontent({ data }) {
   };
   return (
     <>
-      <h1 className=" mt-[20px] mb-0 headtext font-[800] text-[100px] md:text-[150px] uppercase text-white space-x-1 text-with-shadow">
+      <h1 className=" mt-[20px] lg:mt-[30px] mb-0 headtext font-[800] text-[100px] md:text-[150px] uppercase text-white space-x-1 text-with-shadow">
         Beaze
       </h1>
 
