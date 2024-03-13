@@ -22,7 +22,7 @@ console.log(totalPrice)
   };
 
   return (
-    <div className="max-h-[80vh] lg:min-h-[80vh] overflow-y-auto w-full bg-white shadow-sm border lg:relative">
+    <div className="max-h-[70vh] lg:min-h-[75vh] overflow-y-auto w-full bg-white shadow-sm border lg:relative">
       <div className="grid grid-cols-1 gap-y-3 lg:px-10 lg:py-8 md:px-8 px-4 md:py-6 py-5">
         {cart.map((items, index) => (
           <div className="w-full flex gap-3" key={index}>

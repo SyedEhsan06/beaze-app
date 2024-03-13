@@ -267,7 +267,7 @@ export default function Addressdeatils({ data }) {
         <div className="lg:w-[800px] md:w-[600px] w-[340px] px-5 pt-3 pb-5">
           <div className="flex">
             <button className="ml-auto" onClick={closeModal}>
-              <FaXmark size={40} />
+            <img src="/images/web/xmark.png" className="w-[20px]" alt="" />
             </button>
           </div>
           <h6 className="context font-[900] lg:text-[2.5rem] md:text-[2rem] text-2xl text-center mb-4">

@@ -59,7 +59,7 @@ const handleCloseCart = () => {
     {
       data.length >= 1 ?  <>
       <div className="pt-5 z-[99999]">
-        <div className=" overflow-y-auto max-h-[405px] border-b">
+        <div className=" overflow-y-auto max-h-[63vh] border-b">
           <div className="px-3">
             {data.map((items, index) => (
               <div className="w-full flex gap-3 mb-3" key={index}>
@@ -87,14 +87,14 @@ const handleCloseCart = () => {
                       disabled={items.selectedQty == 1 ? true : false}
                       className="py-1 px-2 border-r-[0.5px]"
                     >
-                      <RiSubtractFill className="font-[800]" />
+                      <img src="images/web/subicon.png" className="w-[15px]" alt="" />
                     </button>
                     <div className="py-1 px-2 text-center ">{items.selectedQty}</div>
                     <button
                       onClick={() => handleAdd(items.p_id)}
                       className="py-1 px-2 border-l-[0.5px]"
                     >
-                      <IoMdAdd />
+                       <img src="images/web/addicon.png" className="w-[15px]" alt="" />
                     </button>
                   </div>
 

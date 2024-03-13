@@ -905,7 +905,7 @@ useEffect(() => {
           <div
             className={`${
               filterLoader ? "blur-md transition-all ease-linear" : ""
-            } grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-8 gap-4 context`}
+            } grid lg:grid-cols-4 md:grid-cols-4 grid-cols-2 lg:gap-8 gap-4 context`}
           >
             {completeData?.map((items, index) => (
               <div key={index} className="group relative">
@@ -920,7 +920,7 @@ useEffect(() => {
                     />
                   </div>
                    <Link href={`/productinfo/${items._id}`}> 
-                  <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
+                  <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-4 pb-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
                     {items.title}
                   </h6>
                   </Link> 
@@ -1004,7 +1004,7 @@ useEffect(() => {
                       />
                     </div>
                     <Link href={`/productinfo/${items._id}`}>
-                    <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
+                    <h6 className=" font-[700]  text-[1.1rem] 2xl:text-[1.5rem] pt-4 pb-2  leading-[1rem] overflow-hidden whitespace-nowrap text-ellipsis ">
                       {items.title}
                     </h6>
                     </Link>
@@ -1038,11 +1038,10 @@ useEffect(() => {
         }`}
         ref={divRef}
       >
-        <div className="py-3 px-3 w-full flex gap-x-4 border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700]">
-          <FaXmark
-            className=" cursor-pointer"
-            onClick={() => setisfilterbaropen(0)}
-          />{" "}
+        <div className="py-3 px-3 w-full flex gap-x-7 items-center border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700]  cursor-pointer "  onClick={() => setisfilterbaropen(0)}>
+         <div>
+         <img src="/images/web/xmark.png" className="w-[18px]" alt="" />
+         </div>
           Filters
         </div>
 

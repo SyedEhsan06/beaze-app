@@ -35,6 +35,7 @@ import { selectCartOpen } from "@/redux/slices/cartOpenSlice";
 import Productcart from "../categories/Productcart";
 import axios from "axios";
 import { selectUser, setUser } from "@/redux/slices/userData.slice";
+import { FaChevronRight } from "react-icons/fa";
 
 export default function Header() {
   const [scrollLength, setScrollLength] = useState(0);
@@ -44,7 +45,7 @@ export default function Header() {
   const [shopmenudata, setshopmenudata] = useState([]);
   const [searchdata, setsearchdata] = useState([]);
   const [showsearchmobile, setshowsearchmobile] = useState(false);
-  const [productpathname, setproductpathname] = useState("");
+  const [productpathname, setproductpathname] = useState(false);
   const inputRef = useRef(null);
 
   const dispatch = useDispatch();
@@ -365,7 +366,12 @@ export default function Header() {
   useEffect(() => {
     const matchResult = pathname.match(/\/productinfo/);
     const productInfoPart = matchResult ? matchResult[0] : null;
-    setproductpathname(productInfoPart);
+    if(productInfoPart === '/productinfo' ){
+      setproductpathname(true);
+    }else{
+      setproductpathname(false);
+    }
+  
   }, [pathname, cartOpenState]);
   if (pathname === "/login" || pathname === "/signup" || pathname === "/otp") {
     return null;
@@ -373,13 +379,13 @@ export default function Header() {
     return (
       <>
         <header
-          className={`h-[70px] showmenu  z-30 w-full shadow py-2 transition-all duration-150 ${
-            scrollLength > 620 || productpathname === "/productinfo"
+          className={`lg:h-[100px] h-[70px] showmenu lg:pt-[30px]  z-30 w-full shadow py-2 transition-all duration-150 ${
+            scrollLength > 620 || productpathname
               ? "fixed top-0 left-0 bg-white border z-20 "
-              : " absolute top-0 left-0 bg-transparent linkshdow"
+              : " absolute top-0 left-0 lg:bg-transparent bg-white bg-opacity-[50%] linkshdow"
           }`}
         >
-          <nav className="lg:block hidden">
+          <nav className="lg:block hidden ">
             <ul className="px-3  flex items-center m-0  justify-between text-[20px] xl:[24px] ">
               <li className="px-2">
                 <Link href={"/"}>
@@ -656,10 +662,10 @@ export default function Header() {
                           <div className="">
                             <ul className=" text-3xl font-[700]">
                               <li
-                                className="pb-4 cursor-pointer"
+                                className="pb-4 cursor-pointer flex items-center"
                                 onClick={() => setshowshop(true)}
                               >
-                                Shop
+                                Shop <FaChevronRight size={16} className="ml-auto mr-3"/>
                               </li>
                               <li
                                 className="pb-4"
@@ -848,11 +854,10 @@ export default function Header() {
           }`}
           ref={cartref}
         >
-          <div className="py-3 px-6 w-full flex gap-x-4 border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700]">
-            <FaXmark
-              className=" cursor-pointer"
-              onClick={() => setCartOpen(false)}
-            />{" "}
+          <div className="py-3 px-6 w-full flex gap-x-7 border-b border-theme-footer-bg  border-opacity-[49%] text-2xl font-[700] items-center cursor-pointer" onClick={() => setCartOpen(false)}>
+         <div>
+         <img src="/images/web/xmark.png" className="w-[18px]" alt="" />
+         </div>
             Cart
           </div>
           <Productcart setCartOpen={setCartOpen} />
