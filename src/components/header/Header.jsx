@@ -45,7 +45,7 @@ export default function Header() {
   const [shopmenudata, setshopmenudata] = useState([]);
   const [searchdata, setsearchdata] = useState([]);
   const [showsearchmobile, setshowsearchmobile] = useState(false);
-  const [productpathname, setproductpathname] = useState("");
+  const [productpathname, setproductpathname] = useState(false);
   const inputRef = useRef(null);
 
   const dispatch = useDispatch();
@@ -366,7 +366,12 @@ export default function Header() {
   useEffect(() => {
     const matchResult = pathname.match(/\/productinfo/);
     const productInfoPart = matchResult ? matchResult[0] : null;
-    setproductpathname(productInfoPart);
+    if(productInfoPart === '/productinfo' ){
+      setproductpathname(true);
+    }else{
+      setproductpathname(false);
+    }
+  
   }, [pathname, cartOpenState]);
   if (pathname === "/login" || pathname === "/signup" || pathname === "/otp") {
     return null;
@@ -375,7 +380,7 @@ export default function Header() {
       <>
         <header
           className={`lg:h-[100px] h-[70px] showmenu lg:pt-[30px]  z-30 w-full shadow py-2 transition-all duration-150 ${
-            scrollLength > 620 || productpathname === "/productinfo"
+            scrollLength > 620 || productpathname
               ? "fixed top-0 left-0 bg-white border z-20 "
               : " absolute top-0 left-0 lg:bg-transparent bg-white bg-opacity-[50%] linkshdow"
           }`}

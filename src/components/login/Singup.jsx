@@ -80,14 +80,14 @@ export default function Signup() {
       <div className='lg:max-w-full max-w-[500px] mx-auto lg:mx-0 lg:flex mt-[70px] lg:mt-0'>
         <div className='w-[60%] h-[90vh] relative loginbackground lg:flex hidden items-center'>
           <div className='relative pl-10 z-20  '>
-            <Image src="/images/web/signup/Rectangle1.png" fill alt="logo" className='!static  ' />
+            <Image src="/images/web/signup/Rectangle1.png" fill alt="logo" className='!static' />
           </div>
-          <div className='absolute top-[5%] right-[32%] z-10'>
+          <div className='absolute top-[5%] right-[26%] z-10'>
             <div className='relative'>
               <Image src="/images/web/signup/Rectangle3.png" fill alt="logo" className='!static' />
             </div>
           </div>
-          <div className='absolute bottom-[5%] right-[25%] z-30'>
+          <div className='absolute bottom-[0%] right-[20%] z-30'>
             <div className='relative pl-6'>
               <Image src="/images/web/signup/Rectangle2.png" fill alt="logo" className='!static' />
             </div>

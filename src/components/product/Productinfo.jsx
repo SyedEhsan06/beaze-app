@@ -221,7 +221,7 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
         <Loader />
       ) : (
         <div className=" relative">
-          <div className={`w-[100%]   transition-all duration-1000   bg-white p-4 items-center border-[0.3px] border-theme-footer-bg ${showdesc ? 'lg:flex lg:sticky top-[64px] left-0 lg:z-[200] hidden' : 'hidden'}`}>
+          <div className={`w-[100%]   transition-all duration-1000   bg-white p-4 items-center border-[0.3px] border-theme-footer-bg ${showdesc ? 'lg:flex lg:sticky top-[100px] left-0 lg:z-[200] hidden' : 'hidden'}`}>
             <div className="w-[25%]">
 
               <h5 className="context font-semibold  text-xl">
@@ -328,11 +328,11 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
               </button>
             </div>
           </div>
-          <div className={`w-full bg-gray-100 py-10 md:px-16 px-8 rounded-[11px] transition-all  duration-300  relative ${showdesc && ' lg:pt-[420px]'}`}>
+          <div className={`w-full bg-gray-100 py-10 md:px-16 px-8 rounded-[11px] transition-all  duration-700 relative ${showdesc && ' lg:pt-[420px]'}`}>
             <div className="w-full">
               <div className="w-full md:flex md:gap-16 gap-5 grid grid-cols-1">
                 <div className="md:w-[50%] relative">
-                <div className={`lg:sticky top-[100px] left-0 lg:!h-[80vh] ${showdesc && ' lg:mt-[40px]'}`}>
+                <div className={`lg:sticky top-[150px] left-0 lg:!h-[80vh] ${showdesc && ' lg:mt-[40px]'}`}>
                 <Productcarousel sliderdata={productinfo?.images} setopemodal={setismodalopen} />
                 </div>
                 </div>
