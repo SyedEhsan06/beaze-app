@@ -210,7 +210,7 @@ const handleCloseCart = () => {
            </button>
         </div>
       </div>
-    </> : <div className="w-full h-[100%] flex items-center justify-center flex-col">
+    </> : <div className="w-full !h-[90%] flex items-center justify-center flex-col">
     <TbFaceIdError className="lg:text-[4rem] md:text-[3rem] text-[2rem]"/>
       <p className="md:text-lg text-[1rem] font-semibold headtext ">Oops Look like your cart is empty</p>
     </div>

@@ -184,7 +184,7 @@ export default function Accountdetails({ data }) {
         </div>
       </div>
       <Modal visible={ismodalopen} effect="fadeInDown" onClickAway={closeModal}>
-        <div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5">
+        <div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5 rounded-[24px]">
           <div className="flex ">
             <button className="ml-auto" onClick={closeModal}>
             <img src="/images/web/xmark.png" className="w-[20px]" alt="" />
@@ -206,18 +206,29 @@ export default function Accountdetails({ data }) {
             /> */}
          
           </div>
-          <div className="grid grid-cols-2 gap-x-4 headtext py-2 mt-6">
+          <div className="grid grid-cols-2 gap-x-4 headtext py-2 mt-6 justify-center">
             {!isOtpSent ? (
-              <button
-                className="w-full text-[#474747] font-[300]  md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] "
+             <>
+             <button
+                className="w-full text-[#474747] font-[400]  md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] "
                 onClick={handleUpdateWithOtp}
               >
                 Update Details
               </button>
+
+              <button
+                  className="w-full bg-theme-footer-bg text-white font-[700] lg:text-xl md:text-lg text-[1rem] py-2 rounded "
+                  onClick={handleUpdateWithOtp}
+                >
+                  Confirm OTP
+                </button>
+             </>
+
+              
             ) : (
               <>
                 <button
-                  className="w-full text-[#474747] font-[300] md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] "
+                  className="w-full text-[#474747] font-[400] md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] "
                   onClick={closeModal}
                 >
                   Change Number
