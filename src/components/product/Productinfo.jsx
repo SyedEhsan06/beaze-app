@@ -83,6 +83,7 @@ const router = useRouter()
            _id : resdata?._id,
            productId : resdata?.productId,
            title : resdata?.title,
+           tax: resdata?.tax,
            images : resdata?.images && Array.isArray(resdata?.images) && resdata?.images,
            pquantity : 1,
            selectedQty : 1,
@@ -92,6 +93,7 @@ const router = useRouter()
            price : resdata?.price,
         
       })
+      
       setloader(false);
      
     } catch (err) {
@@ -153,22 +155,21 @@ const router = useRouter()
 
   const handeladdtocart = () => {
     const obj = {
-      _id : pdata?._id,
+      _id : pdata._id,
       p_id : pdata?.productId+ pdata?.color + pdata?.size,
-
-      productId : pdata?.productId,
-      title : pdata?.title,
-      images : pdata?.images,
-      selectedQty : pdata?.selectedQty,
-      quantity : pdata?.quantity,
-      pquantity : pdata?.pquantity,
-      color : pdata?.color,
-      size : pdata?.size,
-      price : pdata?.price * pdata?.selectedQty,
-      p_id : pdata?._id+ pdata?.size+ pdata?.color,
+      productId : pdata.productId,
+      title : pdata.title,
+      tax: pdata.tax,
+      images : pdata.images,
+      quantity : pdata.quantity,
+      pquantity : pdata.pquantity,
+      selectedQty : pdata.selectedQty,
+      color : pdata.color,
+      size : pdata.size,
+      price : pdata.price * pdata.selectedQty,
       originalprice   : pdata.price,
-    }
 
+    }
     console.log({'selectedQty' : obj})
 
     dispatch(addToCart(obj));
