@@ -208,16 +208,16 @@ export default function Otpcomp() {
                       {resend ? (
                         <button
                           onClick={handleResendOTP}
-                          className="items-center flex gap-3 px-5 py-1 bg-gray-400 context rounded-[9px] lg:text-sm text-xs font-[500] text-[#717070] shadow-input "
+                          className="items-center flex gap-3 px-8 h-[30px] leading-normal bg-theme-footer-bg context rounded-[9px] lg:text-sm text-xs font-[500] text-[#F9DC5C] shadow-input "
                         >
-                          <FaRegClock /> Resend 
+                           Resend 
                         </button>
                       ) : (
                         <button
                           disabled
-                          className="items-center flex gap-3 px-5 py-1 bg-yellow-400 context rounded-[9px] lg:text-sm text-xs font-[500] text-[#717070] shadow-input "
+                          className="items-center flex gap-3 px-5 h-[30px] leading-normal bg-[#DED5D5] context rounded-[9px] lg:text-sm text-xs font-[500] text-[#717070] shadow-input "
                         >
-                          <FaRegClock /> {otpTime} Resend
+                          <FaRegClock /> <span className=" leading-none">{otpTime} Resend</span>
                         </button>
                       )}
                     </div>

@@ -58,14 +58,14 @@ export default function Account() {
                 key={index}
                 onClick={() => settabs(index)}
               >
-                <h5 className=" font-[800] lg:text-2xl md:text-xl text-lg headtext text-text-secondary ">
+                <h5 className=" font-[900] lg:text-[1.4rem] md:text-xl text-lg headtext text-text-secondary ">
                   {items.title}
                 </h5>
               </div>
             ))}
           </div>
 
-          <div className="lg:mt-12 md:mt-10 mt-5">
+          <div className="lg:mt-12 md:mt-10 mt-5 md:block hidden">
             <div className="w-full flex gap-x-4">
               <button className="w-[50%] py-2 border headtext rounded text-text-secondary border-theme-footer-bg font-[800] lg:text-[1.4rem] md:text-xl text-[1rem]">
                 Get Help
@@ -88,6 +88,17 @@ export default function Account() {
             )}
           </div>
         </div>
+
+        <div className="lg:mt-12 md:mt-10 mt-5 block md:hidden">
+            <div className="w-full flex gap-x-4">
+              <button className="w-[50%] py-2 border headtext rounded text-text-secondary border-theme-footer-bg font-[800] lg:text-[1.4rem] md:text-xl text-[1rem]">
+                Get Help
+              </button>
+              <button className="w-[50%] py-2 border headtext rounded border-transparent bg-theme-footer-bg text-white font-[800] lg:text-[1.4rem] md:text-xl text-[1rem]">
+                Leave a Review
+              </button>
+            </div>
+          </div>
       </div>
     </div>
   );

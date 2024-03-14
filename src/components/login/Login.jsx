@@ -123,7 +123,7 @@ export default function Login() {
               className="!static "
             />
           </div>
-          <div className="absolute top-[5%]  right-[32%] z-10">
+          <div className="absolute top-[5%]  right-[26%] z-10">
             <div className=" relative ">
               <Image
                 src="/images/web/login/Rectangle3.png"
@@ -134,7 +134,7 @@ export default function Login() {
             </div>
           </div>
 
-          <div className="absolute bottom-[5%]  right-[25%] z-30">
+          <div className="absolute bottom-[0%]  right-[18%] z-30">
             <div className=" relative pl-6">
               <Image
                 src="/images/web/login/Rectangle2.png"

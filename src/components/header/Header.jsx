@@ -47,7 +47,7 @@ export default function Header() {
   const [showsearchmobile, setshowsearchmobile] = useState(false);
   const [productpathname, setproductpathname] = useState(false);
   const inputRef = useRef(null);
-
+const router = useRouter();
   const dispatch = useDispatch();
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -628,7 +628,7 @@ export default function Header() {
                 </div>
                 {showhide === 1 && (
                   <div
-                    className="absolute w-[80%] z-40 bg-[#EBE9DB] left-0 top-[100%] h-[92vh] transition-all duration-75  overflow-y-auto"
+                    className="absolute w-[100%] z-40 bg-[#EBE9DB] left-0 top-[100%] h-[92vh] transition-all duration-75  overflow-y-auto"
                     ref={divRef}
                   >
                     <div className="w-full flex">
@@ -663,7 +663,8 @@ export default function Header() {
                             <ul className=" text-3xl font-[700]">
                               <li
                                 className="pb-4 cursor-pointer flex items-center"
-                                onClick={() => setshowshop(true)}
+                                // onClick={() => setshowshop(true)}
+                                onClick={() => {router.push('/products'); setshowhide(0)}}
                               >
                                 Shop <FaChevronRight size={16} className="ml-auto mr-3"/>
                               </li>
