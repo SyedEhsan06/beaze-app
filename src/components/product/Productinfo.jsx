@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import { fetchCategories, selectCategories } from "@/redux/slices/categorySlice";
 import Teazeslider from "../home/homecontent/Teazeslider";
+import { toggleCategory, toggleCategoryCall } from "@/redux/slices/filterSlice";
 
 
 
@@ -78,6 +79,7 @@ const router = useRouter()
       const response = await fetchData(`products/${slug}`);
       const resdata = response.products
       setproductinfo(resdata);
+      console.log(resdata)
       setpdata({
         ...pdata,
            _id : resdata?._id,
@@ -215,6 +217,20 @@ const router = useRouter()
   let commonCartData = selectedCartData.filter((item) => item._id === pdata._id);
 console.log(commonCartData)
 let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
+
+const routeToProducts = () => {
+  dispatch(toggleCategory(
+    productinfo?.category
+  ));
+  // dispatch(toggleCategory(item.name));
+    dispatch(toggleCategoryCall(
+    productinfo?.category
+    ));
+  console.log(productinfo?.category)
+  // router.push(`/products`)
+}
+
+  
 // console.log(currentProduct?.selectedQty>= currentProduct?.quantity)
   return (
     <>
@@ -341,7 +357,17 @@ let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
                   <div className={`lg:w-[80%] w-[100%] flex-col justify-between  ${showdesc ? ' lg:hidden' : 'flex'}`}>
                     <div className="w-full flex flex-col">
                       <p className=" text-[400] context text-sm mb-3   ">
-                      <span><Link href='/'>Home</Link></span> /  <span className="cursor-pointer" onClick={() => router.back()}>Categories</span> / Product
+                      <span><Link href='/'>Home</Link></span> /  <Link
+                      href={`/products`}
+                      >
+                      <span className="cursor-pointer" onClick={ 
+                    routeToProducts  
+                    }>{
+                        productinfo?.category
+                      }</span>
+                      </Link> / {
+                        productinfo?.title
+                      }
                       </p>
                       <h5 className="headtext font-semibold md:text-3xl text-2xl lg:leading-[2.8rem]">
                         {productinfo?.title}

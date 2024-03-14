@@ -25,6 +25,7 @@ import {
 } from "@/redux/slices/productSlice";
 import {
   addMultiSubcategory,
+  addSearch,
   selectCategory,
   selectCategoryCall,
   selectColor,
@@ -116,6 +117,7 @@ const[callfun,setcallfun] = useState(null);
     }
   }, [categoryCall, catsState, fixSelect]);
   const searchedSelect = useSelector(selectSearch);
+ const [searchData, setSearchData] = useState([]);
   useEffect(() => {
     if (searchedSelect !== "") {
       setLoader(true);
@@ -126,9 +128,13 @@ const[callfun,setcallfun] = useState(null);
         setData([]);
         setCompleteData([]);
         setFilterData([]);
-        setData(res.products);
         console.log(res.products);
-        setSearchBar(searchedSelect);
+        setData(res.products);
+        setRightFilteredProducts([]);
+      
+        console.log(res.products);
+        setSearchBar(searchedSelect)
+        setSearchData(res.products);
         setFilterLoader(false);
         setLoader(false);
       });
@@ -751,10 +757,24 @@ useEffect(() => {
   const handleRemoveSearchFilter = (search) => {
     setSearchBar(null);
     handleFetchAllData()
+    dispatch(
+      addSearch('')
+    )
+    // sessionStorage.getItem("cachedData")
+    sessionStorage.setItem("cachedData",null)
   }
 
   console.log({
     'setRightFilteredProducts'  :rightFilteredProducts
+  })
+  console.log({
+    'completeData' : completeData,
+    'filterData' : filterData,
+    'searchData' : searchData,
+    'allData' : allData,
+    'subcategorySelect' : subcategorySelect,
+    'searchBar' : searchBar,
+    'searchedSelect' : searchedSelect
   })
   // console.log(searchBar); 
   return (
@@ -949,6 +969,7 @@ useEffect(() => {
         {!loader &&
           !filterLoader &&
           completeData?.length === 0 &&
+          searchData?.length === 0 &&
           subcategorySelect?.length > 0 &&
           rightFilteredProducts?.length === 0 && (
           
@@ -982,7 +1003,8 @@ useEffect(() => {
         {/* Render allData */}
         {completeData?.length == 0 &&
         data?.length == 0 &&
-          !loader &&
+          !loader ||
+          searchData?.length > 0 ||
           !filterLoader &&
           allData?.length > 0 &&
           subcategorySelect.length == 0 && (

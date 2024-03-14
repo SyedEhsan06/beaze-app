@@ -191,6 +191,7 @@ const router = useRouter();
     if (search.length >= 1) {
       dispatch(addSearch(search));
     }
+    setSearch("");
     // console.log(searchdata);
     // const subcategories = searchdata.map((item) => item.subcategory);
     // console.log(subcategories);
@@ -358,7 +359,7 @@ const router = useRouter();
     handelsearch(search);
     dispatch(addSearch(search));
     setshowhide(0);
-
+    setSearch("");
     setshowsearchmobile(false);
   };
 

@@ -888,16 +888,16 @@ export const recentsearch = [
 
 export const popularsearches = [
     {
-        title  :'Little Black Dress'
+        title  :'Suits'
     },
     {
-        title  :'Slim Fit Shirts for Men'
+        title  :'Sweatshirts'
     },
     {
-        title  :'Lace Tops'
+        title  :'Sneakers'
     },
     {
-        title  :'V Neck'
+        title  :'Red'
     }
    
 ]

@@ -2,6 +2,7 @@ import Script from "next/script";
 import cookieCutter from "cookie-cutter";
 import { NextResponse } from 'next/server'
 import { useEffect } from "react";
+import { redirect } from "next/navigation";
 export default function PaymentComponent({
   makePaymentClick,
   data,
@@ -34,7 +35,10 @@ export default function PaymentComponent({
       theme: {
         color: "#ffa347",
       },
-      // callback_url: "http://localhost:3000/api/paymentstatus",
+      ondismiss: function () {
+        console.log("payment failed");
+      },
+      
       handler: async function (response) {
          console.log("Payment successful", response);
         const updateOrder = await fetch(
@@ -66,11 +70,17 @@ export default function PaymentComponent({
       },    
 
       prefill: {
-        name: "Beaze",
+        name: "Placeholder",
         email: "beaze@gmail.com",
         contact: "9999999999",
       },
-    
+      modal:{
+        ondismiss:function(){
+          console.log("payment failed")
+          const absoluteUrl =`${process.env.NEXT_PUBLIC_API_URL}/`;
+          window.location.href = absoluteUrl
+        }
+      }
     };
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
