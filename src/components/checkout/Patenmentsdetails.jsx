@@ -69,7 +69,6 @@ export default function Patenmentsdetails() {
             {
               headers: {
                 Authorization: `Bearer ${token}`,
-                phone: "+918340263940",
               },
             }
           );

@@ -23,7 +23,6 @@ export default function Account() {
         const res = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${token}`,
-            phone:'+918340263940'
           },
         });
         // console.log(res)

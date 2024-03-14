@@ -320,7 +320,7 @@ const router = useRouter();
     // console.log("fetching user data");
     // console.log(localStorage.getItem("token"));
     try {
-      console.log(url);
+      // console.log(url);
       // const token = localStorage.getItem("token");
       const token = cookieCutter.get("token");
       // console.log(token);/
