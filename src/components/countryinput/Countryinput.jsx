@@ -14,7 +14,7 @@ export default function Countryinput({ onCountryChange, onPhoneChange,defaultVal
   // }, [userdata,defaultValue]);
   useEffect(() => {
     setPhone(userdata?.phone_number?.replace("+91", "") || ""); // Set phone state to default value
-  }, [userdata]);
+  }, [userdata,defaultValue]);
  
   console.log(defaultValue)
   const [data, setData] = useState(countrylist);

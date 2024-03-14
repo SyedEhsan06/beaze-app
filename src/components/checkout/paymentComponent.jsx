@@ -54,7 +54,10 @@ export default function PaymentComponent({
           }
         ).then((t) => t.json());
         console.log("updateOrder", updateOrder);
-        cookieCutter.set("paymentStatus", "success", {
+        cookieCutter.set("paymentStatus",
+          `success ${updateOrder.order._id}`
+
+        , {
           expires: new Date(new Date().getTime() + 60 * 60 * 1000),
         });
         const absoluteUrl =`${process.env.NEXT_PUBLIC_API_URL}/invoice?orderId=${orderId}`;
@@ -67,6 +70,7 @@ export default function PaymentComponent({
         email: "beaze@gmail.com",
         contact: "9999999999",
       },
+    
     };
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();

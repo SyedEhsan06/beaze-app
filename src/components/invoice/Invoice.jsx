@@ -10,6 +10,7 @@ export default function Invoice() {
   const params = useSearchParams();
   const orderId = params.get("orderId");
   const [orderData, setOrderData] = useState(null);
+  // console.log(orderId);
   useEffect(() => {
     const fetchOrderData = async () => {
       try {
