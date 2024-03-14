@@ -10,7 +10,7 @@ import 'swiper/css/scrollbar';
 
 export default function Productcarousel({ sliderdata,setopemodal }) {
   const [imageindex, setimageindex] = useState(0);
-  const [swiperProgress, setSwiperProgress] = useState(33);
+  const [swiperProgress, setSwiperProgress] = useState(0);
 
   const progressbar = [
     { val: 0 },
@@ -83,7 +83,7 @@ export default function Productcarousel({ sliderdata,setopemodal }) {
             <div className="w-full mt-3 h-[5px] bg-[#E9E6E0CC] bg-opacity-[80%]">
     <div
         className="h-[100%] transition-all duration-300 bg-opacity-[80%] bg-[#FFB61DCC]"
-        style={{ width: `${swiperProgress}%` }}
+        style={{ width: `${swiperProgress+40}%` }}
     ></div>
 </div>
     </div>

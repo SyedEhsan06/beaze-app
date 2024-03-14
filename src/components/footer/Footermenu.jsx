@@ -3,10 +3,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { addSearch, toggleCategory, toggleCategoryCall, toggleSubcategory } from "@/redux/slices/filterSlice";
+import cookieCutter from 'cookie-cutter'
+import { useEffect,useState } from "react";
 
 export default function Footermenu({
   categrories
 }) {
+
+  const [logdata,setlogdata] = useState('')
   // console.log(categrories)
   // console.log(footerlinkshop)
   const dispatch = useDispatch();
@@ -19,6 +23,13 @@ export default function Footermenu({
     dispatch(toggleCategory(item.name));
     dispatch(toggleCategoryCall(item.name));
   };
+
+  // useEffect(() => {
+  //   let token = 'xyz';
+  //  setlogdata(token)
+  // },[])
+
+
   return (
     <div className=" py-12 px-4 md:px-10 lg:px-24 bg-theme-footer-bg  context ">
       <div className="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-5 md:justify-items-center ">
@@ -28,11 +39,15 @@ export default function Footermenu({
             <div key={index} >
               <h4 className="text-2xl text-white font-[700]">{items.heading}</h4>
               <ul className="">
-                {
-                  items.menus.map((menuitem, menuindex) => (
-                    <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]" key={menuindex}><Link href={menuitem.link}>{menuitem.name}</Link></li>
-                  ))
-                }
+              <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]"><Link href={'/'}>Create an account</Link></li>
+
+              <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]" ><Link href={'/'}>Sign in to your account</Link></li>
+
+             {
+              logdata ?  <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]" ><Link href={'/'}>See your past orders</Link></li> : null
+             }
+
+              <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]" ><Link href={'/'}>Sign up with us for discounts</Link></li>
               </ul>
               {
                 items.logo && <Image src={items.logo} width={60} height={60} alt="logo" className="m-8"></Image>

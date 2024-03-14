@@ -326,15 +326,15 @@ const[callfun,setcallfun] = useState(null);
   };
 
   const handelpeoductinfo = async (id) => {
-    setLoader(true);
+    setFilterLoader(true);
     console.log(id);
     try {
       const response = await fetchData(`products/${id}`);
       setproductdata(response.products);
-      setLoader(false);
+      setFilterLoader(false);
       setismodalopen(true);
     } catch (err) {
-      setLoader(false);
+      setFilterLoader(false);
     }
   };
 

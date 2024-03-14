@@ -7,6 +7,7 @@ import Modal from "react-awesome-modal";
 import { useDispatch, useSelector } from "react-redux";
 import Otpinput from "../otp/Otpinput";
 
+
 export default function Accountdetails({ data }) {
   const [initalData, setInitalData] = useState(data);
   useEffect(() => {
@@ -109,6 +110,12 @@ export default function Accountdetails({ data }) {
   const candleBtn = () => {
     setIsEditabel(false);
   };
+
+
+ 
+
+
+
   return (
     <div className="w-full bg-white rounded-[13px] lg:px-10 md:px-8 px-5 lg:py-8 md:py-7 py-6 shadow">
       <div className="w-full">
@@ -183,7 +190,7 @@ export default function Accountdetails({ data }) {
 
         </div>
       </div>
-      <Modal visible={ismodalopen} effect="fadeInDown" onClickAway={closeModal} className=' !rounded-[24px]'>
+      <Modal visible={ismodalopen} effect="fadeInDown" onClickAway={closeModal}  contentClassName="custom-modal">
         <div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5 rounded-[24px]">
           <div className="flex " >
             <button className="ml-auto" onClick={closeModal}>

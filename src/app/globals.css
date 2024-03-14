@@ -164,7 +164,8 @@ input[type=number]::-webkit-outer-spin-button {
 loader */
 
 .mianconlo { 
-  height: 100vh;
+  min-height: 100vh;
+  max-height: auto;
   width: 100%;
   display: flex;
   align-items: center;
@@ -182,6 +183,10 @@ loader */
 .button-shadow{
   box-shadow: 1px 2px 5px 0px #00000026;
 
+}
+
+.custom-modal {
+  border-radius: 24px !important; /* Adjust the value as per your preference */
 }
 
 
@@ -299,6 +304,7 @@ cursor: pointer !important;
    
   }
 }
+
 
 
 @tailwind base;
