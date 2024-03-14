@@ -15,6 +15,7 @@ import Image from "next/image";
 import { fetchData } from "@/utils/apicall";
 import Loader from "../loader/Loader";
 import { FaBars } from "react-icons/fa6";
+import { FaChevronRight } from "react-icons/fa";
 import axios from "axios";
 import Sidemenu from "./Sidemenu";
 import { useDispatch, useSelector } from "react-redux";
@@ -796,8 +797,9 @@ useEffect(() => {
               className=" p-3 rounded-full bg-white shadow-sm border flex items-center gap-x-1"
               onClick={() => setisfilterbaropen(3)}
             >
-              <FaBars size={20} />{" "}
-              <span className=" text-xs mt-1">Categories</span>
+           
+              <span className=" text-xs ">All Categories</span>
+              <FaChevronRight size={10} />
             </button>
           </div>
           <div className="ml-auto">

@@ -183,9 +183,9 @@ export default function Accountdetails({ data }) {
 
         </div>
       </div>
-      <Modal visible={ismodalopen} effect="fadeInDown" onClickAway={closeModal}>
+      <Modal visible={ismodalopen} effect="fadeInDown" onClickAway={closeModal} className=' !rounded-[24px]'>
         <div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5 rounded-[24px]">
-          <div className="flex ">
+          <div className="flex " >
             <button className="ml-auto" onClick={closeModal}>
             <img src="/images/web/xmark.png" className="w-[20px]" alt="" />
             </button>
