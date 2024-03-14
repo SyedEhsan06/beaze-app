@@ -66,7 +66,7 @@ console.log(totalPrice)
       />}
 
       <button disabled= {ischeckoutset ? false  : true}
-        className={`w-full  ${cart.length >=3 ? 'lg:sticky' : 'lg:absolute'}  fixed bottom-0 left-0 headtext  text-white font-extrabold text-[1.5rem] py-2  ${ischeckoutset ? ' bg-theme-footer-bg' : 'bg-[#A5A0A8]'}`}
+        className={`w-full  lg:absolute  fixed bottom-0 left-0 headtext  text-white font-extrabold text-[1.5rem] py-2  ${ischeckoutset ? ' bg-theme-footer-bg' : 'bg-[#A5A0A8]'}`}
         onClick={makePayment}
       >
         Continue to Payment

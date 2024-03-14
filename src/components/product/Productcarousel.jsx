@@ -10,6 +10,7 @@ import 'swiper/css/scrollbar';
 
 export default function Productcarousel({ sliderdata,setopemodal }) {
   const [imageindex, setimageindex] = useState(0);
+  const [swiperProgress, setSwiperProgress] = useState(0);
 
   const progressbar = [
     { val: 0 },
@@ -33,9 +34,9 @@ export default function Productcarousel({ sliderdata,setopemodal }) {
       <Swiper
                 centeredSlides={false}
                 pagination={false}
-                modules={[Pagination, Keyboard,Scrollbar,Autoplay]}
+                modules={[Pagination, Keyboard,Autoplay]}
                 keyboard={{ enabled: true }}
-                scrollbar={{ draggable: true }}
+                // scrollbar={{ draggable: true }}
                 autoplay={{
                             delay: 2500,
                         }}
@@ -54,6 +55,7 @@ export default function Productcarousel({ sliderdata,setopemodal }) {
                     }
                 }}
                 className="mySwiper"
+                onSlideChange={(swiper) => setSwiperProgress((swiper.activeIndex + 1) / swiper.slides.length * 100)}
             >
                 {
                     sliderdata?.map((items, index) => (
@@ -78,7 +80,12 @@ export default function Productcarousel({ sliderdata,setopemodal }) {
             </Swiper>
 
 
-            
+            <div className="w-full mt-3 h-[5px] bg-[#E9E6E0CC] bg-opacity-[80%]">
+    <div
+        className="h-[100%] transition-all duration-300 bg-opacity-[80%] bg-[#FFB61DCC]"
+        style={{ width: `${swiperProgress+40}%` }}
+    ></div>
+</div>
     </div>
   );
 }

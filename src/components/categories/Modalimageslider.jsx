@@ -4,12 +4,13 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/swiper-bundle.css';
-import { Pagination, Keyboard,Scrollbar,Autoplay  } from 'swiper/modules';
+import { Pagination, Keyboard,Scrollbar,Autoplay,  } from 'swiper/modules';
 import 'swiper/css/scrollbar';
 
 export default function ModalImageSlider({ sliderdata,showonphone,imageindex,setimageindex }) {
   
 const [showfullimage,setshowfullimage] = useState(true)
+const [swiperProgress, setSwiperProgress] = useState(0);
 
     const progressbar = [
         { val: 0 },
@@ -37,9 +38,9 @@ const [showfullimage,setshowfullimage] = useState(true)
           <Swiper
                 centeredSlides={false}
                 pagination={false}
-                modules={[Pagination, Keyboard, Scrollbar,Autoplay ]}
+                modules={[Pagination, Keyboard,Autoplay ]}
                 keyboard={{ enabled: true }}
-                scrollbar={{ draggable: true }}
+                // scrollbar={{ draggable: true }}
                 autoplay={{
                             delay: 2500,
                         }}
@@ -58,6 +59,7 @@ const [showfullimage,setshowfullimage] = useState(true)
                     }
                 }}
                 className="mySwiper"
+                onSlideChange={(swiper) => setSwiperProgress((swiper.activeIndex + 1) / swiper.slides.length * 100)}
             >
                 {
                     sliderdata?.map((items, index) => (
@@ -85,12 +87,12 @@ const [showfullimage,setshowfullimage] = useState(true)
 
 
 
-            {/* <div className={`w-full mt-3 h-[5px] bg-[#E9E6E0CC] bg-opacity-[80%] `}>
-            <div
-                        className={`h-[100%] transition-all duration-300 bg-opacity-[80%]  bg-[#FFB61DCC] w-[40%]  `}
-                        
-                    ></div>
-            </div> */}
+          <div className="w-full mt-3 h-[5px] bg-[#E9E6E0CC] bg-opacity-[80%]">
+    <div
+        className="h-[100%] transition-all duration-300 bg-opacity-[80%] bg-[#FFB61DCC]"
+        style={{ width: `${swiperProgress+40}%` }}
+    ></div>
+</div>
         </div>
     );
 }
