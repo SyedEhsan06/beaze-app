@@ -19,8 +19,6 @@ const addressSchema = new Schema({
     },
     address_type: {
         type: String,
-        enum: ["home", "work", "other"],
-        default: "home",
     },
     addressId: {
         type: String,

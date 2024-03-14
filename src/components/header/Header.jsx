@@ -30,6 +30,7 @@ import {
   toggleFix,
   toggleSubcategory,
   addSearch,
+  selectSearch
 } from "@/redux/slices/filterSlice";
 import { selectCartOpen } from "@/redux/slices/cartOpenSlice";
 import Productcart from "../categories/Productcart";
@@ -48,6 +49,7 @@ export default function Header() {
   const [productpathname, setproductpathname] = useState(false);
   const inputRef = useRef(null);
 const router = useRouter();
+const searchSelector = useSelector(selectSearch);
   const dispatch = useDispatch();
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -182,7 +184,17 @@ const router = useRouter();
     }, 400);
 
     return () => clearTimeout(timeoutId);
-  }, [search]);
+  }, [search,searchSelector]);
+  useEffect(() => {
+    if(searchSelector.length <= 0){
+      setsearchdata([])
+      setSearch("");
+      sessionStorage.removeItem("cachedData");
+      sessionStorage.removeItem("cachedSearchText");
+    }
+  }, [searchSelector]);
+  
+  console.log(searchSelector);
   const handleDispatch = () => {
     dispatch(toggleSubcategory([]));
     dispatch(toggleCategory([]));
@@ -574,7 +586,7 @@ const router = useRouter();
                 {" "}
                 {userData?.first_name ? (
                   <>
-                    <Link href={"/account"}>{userData.first_name}</Link>
+                    <Link href={"/account"}>{userData.first_name}'s account</Link>
                   </>
                 ) : (
                   <>
@@ -689,7 +701,14 @@ const router = useRouter();
                                 </>
                               ) : (
                                 <>
-                                  <li>{userData.first_name}</li>
+                                  <li
+                                    className="pb-4"
+                                    onClick={() => setshowhide(0)}
+                                  >
+                                    <Link href="/account">
+                                      {userData.first_name}'s account
+                                    </Link>
+                                  </li>
                                 </>
                               )}
                             </ul>

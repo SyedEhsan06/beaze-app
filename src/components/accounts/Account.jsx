@@ -12,7 +12,8 @@ import cookieCutter from "cookie-cutter";
 export default function Account() {
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
-  const selectDataOfUser = useSelector(selectUser)
+  const selectDataOfUser = useSelector(selectUser);
+  console.log(selectDataOfUser)
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
   const fetchDataProfile = async () => {
     // console.log("fetching user data");
@@ -38,9 +39,9 @@ export default function Account() {
   useEffect(() => {
     fetchDataProfile();
   }, [
-     
+    selectDataOfUser
   ]);
-
+console.log(userData)
   const [tabs, settabs] = useState(0);
   return (
     <div>

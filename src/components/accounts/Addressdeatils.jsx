@@ -4,7 +4,9 @@ import { Addressdetails } from "@/utils/dummydata";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Modal from "react-awesome-modal";
-import { FaXmark } from "react-icons/fa6";
+import { 
+  FaDeleteLeft
+ } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 
 
@@ -22,6 +24,8 @@ export default function Addressdeatils({ data }) {
   const [Pincode, setPincode] = useState("");
   const [phone, setphone] = useState("");
   const [ismodalopen, setismodalopen] = useState(false);
+  const [addressType, setAddressType] = useState("");
+  console.log(data);
   useEffect(() => {
     if (data) {
       setAddressLine1(data?.address?.address_line1);
@@ -29,6 +33,7 @@ export default function Addressdeatils({ data }) {
       setCity(data?.address?.city);
       setState(data?.address?.state);
       setPincode(data?.address?.pincode);
+      setAddressType(data?.address?.address_type);
       // setphone(data?.phone_number);
     }
   }, [data]);
@@ -63,9 +68,12 @@ export default function Addressdeatils({ data }) {
       console.log(res);
     });
   };
+  const [loader, setLoader] = useState(false);
   const dispatch = useDispatch();
   const handleAddAddress =  async() => {
     console.log("add");
+    setismodalopen(false);
+    setLoader(true);
     console.log(AddressLine1, AddressLine2, City, State, Pincode);
     await axios.put(
         url,
@@ -78,7 +86,7 @@ export default function Addressdeatils({ data }) {
             pincode: Pincode,
             operation: "add",
             addressId: (Date.now() * Math.random(1000, 9999) + Date.now()).toString().slice(0, 10),
-            address_type: "home"
+            address_type: addressType,
           
         },
         config
@@ -86,15 +94,32 @@ export default function Addressdeatils({ data }) {
       .then((res) => {
         dispatch(updateUser(res.data));
         console.log(res);
+        setLoader(false);
         setUserAddress(res.data.address);
       });
   };
+  const handleDeleteAddress = async(id) => {
+    console.log("delete");
+    await axios.put(
+      url,
+      {
+        operation: "delete",
+        addressId: id,
+      },
+      config
+    ).then((res) => {
+      console.log(res);
+      dispatch(updateUser(res.data));
+      setUserAddress(res.data.address);
 
+    });
+  };
+    
   const closeModal = () => {
     setismodalopen(false);
    
   };
-  console.log(data?.address)
+  // console.log(data)
   return (
     <>
       <div className="w-full">
@@ -108,7 +133,7 @@ export default function Addressdeatils({ data }) {
           >
             <div
               className="w-full flex items-center"
-              onClick={() => handelopenadddeatis(items._id)}
+              onClick={() => handelopenadddeatis(items.addressId)}
             >
               <h5 className=" font-[600] md:text-xl text-lg headtext text-text-secondary ">
                 {items.address_type}
@@ -126,7 +151,11 @@ export default function Addressdeatils({ data }) {
                 />
               </div>
             </div>
-
+                <FaDeleteLeft 
+                onClick={
+                  () => handleDeleteAddress(items._id)
+                }
+                className="w-[20px] h-[20px] text-[#FF2A2A] ml-auto" />
             <div className={`${items._id === bars ? "block" : "hidden"}`}>
               <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
                 <div className=" w-full context">
@@ -258,7 +287,9 @@ export default function Addressdeatils({ data }) {
           onClick={() => setismodalopen(true)}
           className=" bg-[#F8B43A] w-[40%]  font-[600] g:text-xl md:text-lg text-[1rem] headtext rounded-[21.5px] text-theme-footer-bg py-2  text-center"
         >
-          Add another
+          {
+          userAddress?.length > 0 ? "Add New Address" : "Add Address"
+          }
         </button>
       </div>
     </div>
@@ -276,6 +307,21 @@ export default function Addressdeatils({ data }) {
 
          <div className="w-full mt-3">
          <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
+         <div className="w-full context">
+          <label htmlFor="addressType" className="mb-2">
+            Address Type{" "}
+            <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">*</sup>{" "}
+          </label>
+          <input
+            type="text"
+            id="addressType"
+            className="w-full border border-text-secondary shadow-sm px-4 rounded-lg focus:outline-none transition-all duration-100 relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
+            placeholder="Home Work Other"
+            value={addressType}
+            required
+            onChange={(e) => setAddressType(e.target.value)}
+          />
+        </div>
                 <div className=" w-full context">
                   <label htmlFor="add1" className="mb-2">
                     Address Line 1{" "}

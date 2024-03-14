@@ -116,6 +116,7 @@ export default function Signup() {
                     <div className="w-full flex border border-text-secondary items-center shadow-input rounded-lg relative overflow-hidden">
                       <div className="w-[100%] ">
                         <input
+                        required
                           type="text"
                           id="fnamesignup"
                           className="w-full pl-2 border-none focus:outline-none transition-all duration-100 h-[52px] relative leading-normal checkout-input"
@@ -140,6 +141,7 @@ export default function Signup() {
                     <div className="w-full flex border border-text-secondary items-center shadow-input relative overflow-hidden rounded-lg">
                       <div className="w-[100%] ">
                         <input
+                        required
                           type="text"
                           id="lastname"
                           className="pl-2 w-full border-none focus:outline-none transition-all duration-100 h-[52px] relative leading-normal checkout-input"
@@ -154,7 +156,7 @@ export default function Signup() {
                      }
                     </div>
                   </div>
-                  <Countryinput editable={true} onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} alreadyresgiter={validationerr} checknumtendigit={checknum} iconshow = {showicon} />
+                  <Countryinput required={true} editable={true} onCountryChange={handleCountryChange} onPhoneChange={handlePhoneChange} alreadyresgiter={validationerr} checknumtendigit={checknum} iconshow = {showicon} />
                  <div className={`context w-full leading-3 mt-3 ${validationerr ? 'block' : ' hidden'}`}>
                   <p className=' text-center lg:text-[1rem] text-xs text-[#760000] font-[500]'>😩 Oops, Looks like this number is already registered</p>
                   <p className=' text-center lg:text-[1rem] text-xs underline font-[700]'><Link href='/login'>Try signing in instead</Link></p>
@@ -167,7 +169,10 @@ export default function Signup() {
                 </div>
                 <button 
                   disabled={firstName && lastName && phone  ? false : true}
-                type="submit" className='w-[100%] lg:mt-5 mt-10 py-4 headtext font-[900] text-text-secondary bg-[#FFD012] lg:text-3xl text-xl rounded-lg button-shadow'>Submit</button>
+                type="submit" className={`  w-[100%] lg:mt-5 mt-10 py-4 headtext font-[900] text-text-secondary bg-[#FFD012] lg:text-3xl text-xl rounded-lg button-shadow
+                
+                ${firstName && lastName && phone.length==10  ? 'hover:bg-[#FFD012]' : 'hover:bg-[#FFD012] cursor-not-allowed'}
+                `}>Submit</button>
               </form>
             </div>
             <div className='lg:mt-4 mt-10'>

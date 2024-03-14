@@ -20,6 +20,7 @@ export async function GET(req) {
     // const phone = req.headers.get("phone");
     const decodedToken = jwt.verify(token, secret);
     const { phone } = decodedToken;
+    // const phone="+918340263940"
     const user = await User.findOne({ phone_number: phone });
 
     if (!user) {
@@ -43,6 +44,7 @@ export async function PUT(req) {
 
     const decodedToken = jwt.verify(token, secret);
     const { phone } = decodedToken;
+    // const phone="+918340263940"
     let user = await User.findOne({ phone_number: phone });
 
     if (!user) {
@@ -99,11 +101,13 @@ export async function PUT(req) {
           user.address[editedAddressIndex] = { ...address };
         }
         break;
-      case "delete":
-        user.address = user.address.filter(
-          (addr) => addr.addressId !== addressId
-        );
-        break;
+        case "delete":
+          await user.address.pull(addressId);
+          console.log('user.address',user.address)
+          
+
+          break;
+      
       default:
         break;
     }

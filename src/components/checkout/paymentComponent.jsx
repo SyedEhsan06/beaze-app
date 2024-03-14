@@ -37,6 +37,7 @@ export default function PaymentComponent({
       },
       ondismiss: function () {
         console.log("payment failed");
+        window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/`;
       },
       
       handler: async function (response) {
