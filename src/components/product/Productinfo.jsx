@@ -238,7 +238,8 @@ const routeToProducts = () => {
         <Loader />
       ) : (
         <div className=" relative">
-          <div className={`w-[100%]   transition-all duration-1000   bg-white p-4 items-center border-[0.3px] border-theme-footer-bg ${showdesc ? 'lg:flex lg:sticky top-[100px] left-0 lg:z-[200] hidden' : 'hidden'}`}>
+        <div className={`w-[100%] transition-opacity duration-1000 bg-white p-4 items-center border-[0.3px] border-theme-footer-bg ${showdesc ? 'lg:flex lg:sticky top-[100px] left-0 lg:z-[200] opacity-100' : 'hidden opacity-0'}`}>
+
             <div className="w-[25%]">
 
               <h5 className="context font-semibold  text-xl">
@@ -345,7 +346,7 @@ const routeToProducts = () => {
               </button>
             </div>
           </div>
-          <div className={`w-full bg-gray-100 py-10 md:px-16 px-8 rounded-[11px] transition-all  duration-700 relative ${showdesc && ' lg:pt-[420px]'}`}>
+          <div className={`w-full bg-gray-100 py-10 md:px-16 px-8 rounded-[11px] transition-all duration-1000 relative ${showdesc && ' lg:pt-[420px]'}`}>
             <div className="w-full">
               <div className="w-full md:flex md:gap-16 gap-5 grid grid-cols-1">
                 <div className="md:w-[50%] relative">

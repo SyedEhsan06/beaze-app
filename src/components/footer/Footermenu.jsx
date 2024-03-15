@@ -10,7 +10,7 @@ export default function Footermenu({
   categrories
 }) {
 
-  const [logdata,setlogdata] = useState('')
+  const [logdata,setlogdata] = useState(null)
   // console.log(categrories)
   // console.log(footerlinkshop)
   const dispatch = useDispatch();
@@ -39,15 +39,15 @@ export default function Footermenu({
             <div key={index} >
               <h4 className="text-2xl text-white font-[700]">{items.heading}</h4>
               <ul className="">
-              <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]"><Link href={'/'}>Create an account</Link></li>
+              <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]"><Link href={'/signup'}>Create an account</Link></li>
 
-              <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]" ><Link href={'/'}>Sign in to your account</Link></li>
+              <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]" ><Link href={'/login'}>Sign in to your account</Link></li>
 
              {
               logdata ?  <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]" ><Link href={'/'}>See your past orders</Link></li> : null
              }
 
-              <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]" ><Link href={'/'}>Sign up with us for discounts</Link></li>
+              <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]" ><Link href={'/signup'}>Sign up with us for discounts</Link></li>
               </ul>
               {
                 items.logo && <Image src={items.logo} width={60} height={60} alt="logo" className="m-8"></Image>
