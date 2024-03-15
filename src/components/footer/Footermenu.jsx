@@ -24,10 +24,10 @@ export default function Footermenu({
     dispatch(toggleCategoryCall(item.name));
   };
 
-  // useEffect(() => {
-  //   let token = 'xyz';
-  //  setlogdata(token)
-  // },[])
+  useEffect(() => {
+    let token = cookieCutter.get('token')
+    setlogdata(token)
+  },[])
 
 
   return (

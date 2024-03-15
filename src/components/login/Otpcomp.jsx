@@ -18,6 +18,7 @@ export default function Otpcomp() {
   const [otpTime, setOtpTime] = useState(45);
   const [resend, setResend] = useState(false);
   const router = useRouter();
+  const[wrongotp,setwrongotp] = useState(false)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -82,7 +83,10 @@ export default function Otpcomp() {
         console.log(res.data);
         if (res.data.error) {
           setError(res.data.error);
+          setwrongotp(true)
+
         }
+        setwrongotp(false)
         localStorage.setItem("token", res.data.token);
         cookieCutter.set("token", res.data.token);
         setToken(res.data.token);
@@ -192,7 +196,7 @@ export default function Otpcomp() {
                         maxLength={1}
                         ref={inputRefs[index]}
                         className={`border lg:h-[60px] md:h-[50px] h-[40px] transition-all duration-150 text-center rounded-[9px] shadow-input context font-[500] text-xl leading-normal focus:outline-none ${
-                          digit ? " border-[#039C2E]" : "border-theme-footer-bg "
+                          digit  ? " border-[#039C2E]" : wrongotp ? 'border-[#D00000]' :  "border-theme-footer-bg " 
                         }`}
                       />
                     ))}

@@ -213,6 +213,11 @@ loader */
  
 }
 
+.ReactModal__Overlay{
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  z-index: 1001 !important;
+}
+
 /* .swiper-wrapper{
   padding-bottom: 30px !important;
 } */

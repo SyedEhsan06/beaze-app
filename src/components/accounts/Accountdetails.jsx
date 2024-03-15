@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Countryinput from "../countryinput/Countryinput";
 import { FaXmark } from "react-icons/fa6";
-import Modal from "react-awesome-modal";
+import Modal from 'react-modal';
 import { useDispatch, useSelector } from "react-redux";
 import Otpinput from "../otp/Otpinput";
 
@@ -114,7 +114,18 @@ export default function Accountdetails({ data }) {
 
  
 
-
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      borderRadius: "24px",
+     
+    },
+  };
 
   return (
     <div className="w-full bg-white rounded-[13px] lg:px-10 md:px-8 px-5 lg:py-8 md:py-7 py-6 shadow">
@@ -190,8 +201,15 @@ export default function Accountdetails({ data }) {
 
         </div>
       </div>
-      <Modal visible={ismodalopen} effect="fadeInDown" onClickAway={closeModal}  contentClassName="custom-modal">
-        <div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5 rounded-[24px]">
+      <Modal
+        isOpen={ismodalopen}
+        // onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        style={customStyles}
+      
+       
+      >
+         <div className="lg:w-[700px] md:w-[500px] w-[340px] px-5 pt-3 pb-5 rounded-[24px]">
           <div className="flex " >
             <button className="ml-auto" onClick={closeModal}>
             <img src="/images/web/xmark.png" className="w-[20px]" alt="" />
