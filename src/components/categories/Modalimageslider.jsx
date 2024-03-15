@@ -89,8 +89,8 @@ const [swiperProgress, setSwiperProgress] = useState(0);
 
           <div className="w-full mt-3 h-[5px] bg-[#E9E6E0CC] bg-opacity-[80%]">
     <div
-        className="h-[100%] transition-all duration-300 bg-opacity-[80%] bg-[#FFB61DCC]"
-        style={{ width: `${swiperProgress+40}%` }}
+        className={`h-[100%] transition-all duration-300 bg-opacity-[80%] bg-[#FFB61DCC] w-[${100/imageindex+1}%]`}
+       
     ></div>
 </div>
         </div>

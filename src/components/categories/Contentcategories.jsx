@@ -118,7 +118,6 @@ const[callfun,setcallfun] = useState(null);
     }
   }, [categoryCall, catsState, fixSelect]);
   const searchedSelect = useSelector(selectSearch);
- const [searchData, setSearchData] = useState([]);
   useEffect(() => {
     if (searchedSelect !== "") {
       setLoader(true);
@@ -129,13 +128,9 @@ const[callfun,setcallfun] = useState(null);
         setData([]);
         setCompleteData([]);
         setFilterData([]);
-        console.log(res.products);
         setData(res.products);
-        setRightFilteredProducts([]);
-      
         console.log(res.products);
-        setSearchBar(searchedSelect)
-        setSearchData(res.products);
+        setSearchBar(searchedSelect);
         setFilterLoader(false);
         setLoader(false);
       });
@@ -332,15 +327,15 @@ const[callfun,setcallfun] = useState(null);
   };
 
   const handelpeoductinfo = async (id) => {
-    setFilterLoader(true);
+    setLoader(true);
     console.log(id);
     try {
       const response = await fetchData(`products/${id}`);
       setproductdata(response.products);
-      setFilterLoader(false);
+      setLoader(false);
       setismodalopen(true);
     } catch (err) {
-      setFilterLoader(false);
+      setLoader(false);
     }
   };
 
@@ -761,25 +756,23 @@ useEffect(() => {
     dispatch(
       addSearch('')
     )
-    // sessionStorage.getItem("cachedData")
+    sessionStorage.getItem("cachedData")
     sessionStorage.setItem("cachedData",null)
   }
 
   console.log({
     'setRightFilteredProducts'  :rightFilteredProducts
   })
-  console.log({
-    'completeData' : completeData,
-    'filterData' : filterData,
-    'searchData' : searchData,
-    'allData' : allData,
-    'subcategorySelect' : subcategorySelect,
-    'searchBar' : searchBar,
-    'searchedSelect' : searchedSelect
-  })
   // console.log(searchBar); 
   return (
-    <div className="w-full">
+   <>{
+    loader ?   <ThreeDots
+          color="#F8B43A"
+          radius={20}
+          height={120}
+          width={120}
+          wrapperClass="product"
+        /> :  <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
         <div className="lg:w-8/12 w-full flex order-2 lg:order-1  gap-2 context text-text-secondary flex-wrap ">
           {
@@ -817,9 +810,9 @@ useEffect(() => {
               className=" p-3 rounded-full bg-white shadow-sm border flex items-center gap-x-1"
               onClick={() => setisfilterbaropen(3)}
             >
-           
-              <span className=" text-xs ">All Categories</span>
-              <FaChevronRight size={10} />
+          
+              <span className=" text-sm ">All Categories</span>
+              <FaChevronRight size={12} />
             </button>
           </div>
           <div className="ml-auto">
@@ -971,7 +964,6 @@ useEffect(() => {
         {!loader &&
           !filterLoader &&
           completeData?.length === 0 &&
-          searchData?.length === 0 &&
           subcategorySelect?.length > 0 &&
           rightFilteredProducts?.length === 0 && (
           
@@ -1005,8 +997,7 @@ useEffect(() => {
         {/* Render allData */}
         {completeData?.length == 0 &&
         data?.length == 0 &&
-          !loader ||
-          searchData?.length > 0 ||
+          !loader &&
           !filterLoader &&
           allData?.length > 0 &&
           subcategorySelect.length == 0 && (
@@ -1176,5 +1167,6 @@ useEffect(() => {
       </Modal>
       <ToastContainer />
     </div>
+   }</>
   );
 }
