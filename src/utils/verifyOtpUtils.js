@@ -1,4 +1,3 @@
-
 import twilio from "twilio";
 import { connectToDb } from "../lib/utils"; // Import your database connection function
 
@@ -7,7 +6,7 @@ const twilioConfig = {
   accountSid: process.env.TWILIO_ACCOUNT_SID,
   authToken: process.env.TWILIO_AUTH_TOKEN,
   verifySid: process.env.TWILIO_VERIFIED_SID, // Verify Service SID
-  number : process.env.TWILIO_NUMBER
+  number: process.env.TWILIO_NUMBER,
 };
 
 const client = twilio(twilioConfig.accountSid, twilioConfig.authToken);
@@ -19,15 +18,15 @@ export async function sendOTP(phone) {
     await connectToDb();
 
     // Send OTP via Twilio Verify service
-    const verification = await client.verify
-      .v2.services(twilioConfig.verifySid)
+    const verification = await client.verify.v2
+      .services(twilioConfig.verifySid)
       .verifications.create({ to: phone, channel: "sms" });
 
     console.log(verification.status);
-    console.log(verification)
+    console.log(verification);
     if (verification.status === "pending") {
-      const otp =  Math.floor(100000 + Math.random() * 900000); 
-      const expiration = new Date().getTime() + 600000; 
+      const otp = Math.floor(100000 + Math.random() * 900000);
+      const expiration = new Date().getTime() + 600000;
       console.log("OTP sent successfully:", otp, expiration);
 
       return { isOTPSent: true, otp, expiration };
@@ -47,8 +46,8 @@ export async function verifyOTP(phone, otp) {
     await connectToDb();
 
     // Verify OTP via Twilio Verify service
-    const verificationCheck = await client.verify
-      .v2.services(twilioConfig.verifySid)
+    const verificationCheck = await client.verify.v2
+      .services(twilioConfig.verifySid)
       .verificationChecks.create({ to: phone, code: otp });
 
     console.log(verificationCheck.status); // Log verification status
