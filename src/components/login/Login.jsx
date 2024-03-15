@@ -134,7 +134,7 @@ export default function Login() {
             </div>
           </div>
 
-          <div className="absolute bottom-[0%]  right-[18%] z-30">
+          <div className="absolute bottom-[0%]  right-[20%] z-30">
             <div className=" relative pl-6">
               <Image
                 src="/images/web/login/Rectangle2.png"

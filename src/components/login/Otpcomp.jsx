@@ -86,7 +86,7 @@ export default function Otpcomp() {
           setwrongotp(true)
 
         }
-        setwrongotp(false)
+        setwrongotp(true)
         localStorage.setItem("token", res.data.token);
         cookieCutter.set("token", res.data.token);
         setToken(res.data.token);
@@ -196,7 +196,7 @@ export default function Otpcomp() {
                         maxLength={1}
                         ref={inputRefs[index]}
                         className={`border lg:h-[60px] md:h-[50px] h-[40px] transition-all duration-150 text-center rounded-[9px] shadow-input context font-[500] text-xl leading-normal focus:outline-none ${
-                          digit  ? " border-[#039C2E]" : wrongotp ? 'border-[#D00000]' :  "border-theme-footer-bg " 
+                          digit && !wrongotp  ? " border-[#039C2E]" : wrongotp ? 'border-[#D00000]' :  "border-theme-footer-bg " 
                         }`}
                       />
                     ))}
@@ -227,6 +227,11 @@ export default function Otpcomp() {
                     </div>
                   </div>
                 </div>
+
+                <div className={`context w-full leading-3 mt-5 ${wrongotp ? 'block' : ' hidden'}`}>
+                  <p className=' text-center lg:text-[1rem] text-xs text-[#760000] font-[500]'>🤔 Uh Oh, That code does not seem right.</p>
+                  <p className=' text-center lg:text-[1rem] text-xs underline font-[700]'>We’d love for you to check it again</p>
+                 </div>
 
                 <button className="w-[100%] mt-7 py-4 headtext font-[900] text-text-secondary bg-[#FFD012] lg:text-3xl text-xl rounded-lg button-shadow">
                   Submit
