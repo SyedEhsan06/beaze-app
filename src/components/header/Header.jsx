@@ -463,6 +463,7 @@ const searchSelector = useSelector(selectSearch);
                     placeholder="Search Tops, Jeans, Blazers, suspenders"
                     onChange={(e) => handelsearch(e.target.value)}
                     onClick={() => setshowhide(4)}
+                    value={search}
                   />
                 </div>
 
@@ -760,6 +761,7 @@ const searchSelector = useSelector(selectSearch);
                   placeholder="Search Tops, Jeans, Blazers, suspenders"
                   onChange={(e) => handelsearch(e.target.value)}
                   ref={inputRef}
+                  value={search}
                 />
 
                 <div className="  relative">
