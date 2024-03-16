@@ -10,7 +10,7 @@ export default function Footermenu({
   categrories
 }) {
 
-  const [logdata,setlogdata] = useState('')
+  const [logdata,setlogdata] = useState(null)
   // console.log(categrories)
   // console.log(footerlinkshop)
   const dispatch = useDispatch();
@@ -37,18 +37,18 @@ export default function Footermenu({
        <div>
        {
         footerlinkresgister.map((items, index) => (
-            <div key={index} >
+            <div key={index} className="md:text-left text-center" >
               <h4 className="text-2xl text-white font-[700]">{items.heading}</h4>
               <ul className="">
-              <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]"><Link href={'/'}>Create an account</Link></li>
+              <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]"><Link href={'/signup'}>Create an account</Link></li>
 
-              <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]" ><Link href={'/'}>Sign in to your account</Link></li>
+              <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]" ><Link href={'/login'}>Sign in to your account</Link></li>
 
              {
               logdata ?  <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]" ><Link href={'/'}>See your past orders</Link></li> : null
              }
 
-              <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]" ><Link href={'/'}>Sign up with us for discounts</Link></li>
+              <li className="text-white text-opacity-[75%] transition-all duration-150 text-lg font-[400] mt-4 hover:text-opacity-[100%]" ><Link href={'/signup'}>Sign up with us for discounts</Link></li>
               </ul>
               {
                 items.logo && <Image src={items.logo} width={60} height={60} alt="logo" className="m-8"></Image>
@@ -72,10 +72,10 @@ export default function Footermenu({
        </div>
 
        <div>
-         <h4 className="text-2xl text-white font-[700]">Shop</h4>
+         <h4 className="text-2xl text-white font-[700] md:text-left text-center ">Shop</h4>
        {
         categrories?.map((items, index) => (
-            <div key={index} >
+            <div key={index} className="md:text-left text-center" >
               <ul className="">
               <li
               onClick={() => handleDispatch(items)}
@@ -106,7 +106,7 @@ export default function Footermenu({
        <div>
        {
         foooterlinkabout.map((items, index) => (
-            <div key={index} >
+            <div key={index} className="md:text-left text-center" >
               <h4 className="text-2xl text-white font-[700]">{items.heading}</h4>
               <ul className="">
                 {
@@ -116,11 +116,11 @@ export default function Footermenu({
                 }
               </ul>
               {
-                items.logo && <Image src={items.logo} width={60} height={60} alt="logo" className="mt-8 mx-8 mb-3"></Image>
+                items.logo && <Image src={items.logo} width={60} height={60} alt="logo" className="mt-8 md:mx-8 mx-auto mb-3"></Image>
               }
 
               <div className="w-full">
-                <a href="https://oneando.in/" target="_blank" className="flex gap-2 items-center">
+                <a href="https://oneando.in/" target="_blank" className="flex gap-2 items-center md:justify-start  justify-center">
                 <span className=" text-white font-[700] lg:text-[1rem] text-sm">Powerd by 1&0</span>  <img src="https://s3.ap-south-1.amazonaws.com/assets.oneando.in/logo/logo-p.webp" className="w-[50px]" alt="" />
                 </a>
               </div>

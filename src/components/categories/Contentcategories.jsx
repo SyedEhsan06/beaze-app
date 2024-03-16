@@ -17,6 +17,7 @@ import Loader from "../loader/Loader";
 import { FaBars } from "react-icons/fa6";
 import axios from "axios";
 import Sidemenu from "./Sidemenu";
+import { FaChevronRight } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addProduct,
@@ -120,6 +121,7 @@ const[callfun,setcallfun] = useState(null);
   }, [categoryCall, catsState]);
   
   const searchedSelect = useSelector(selectSearch);
+ const [searchData, setSearchData] = useState([]);
   useEffect(() => {
     if (searchedSelect !== "") {
       setLoader(true);
@@ -787,7 +789,14 @@ useEffect(() => {
   })
   // console.log(searchBar); 
   return (
-    <div className="w-full">
+   <>{
+    loader ?   <ThreeDots
+          color="#F8B43A"
+          radius={20}
+          height={120}
+          width={120}
+          wrapperClass="product"
+        /> :  <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
         <div className="lg:w-8/12 w-full flex order-2 lg:order-1  gap-2 context text-text-secondary flex-wrap ">
           {
@@ -825,8 +834,9 @@ useEffect(() => {
               className=" p-3 rounded-full bg-white shadow-sm border flex items-center gap-x-1"
               onClick={() => setisfilterbaropen(3)}
             >
-              <FaBars size={20} />{" "}
-              <span className=" text-xs mt-1">Categories</span>
+           
+              <span className=" text-xs ">All Categories</span>
+              <FaChevronRight size={10} />
             </button>
           </div>
           <div className="ml-auto">
@@ -1181,5 +1191,6 @@ useEffect(() => {
       </Modal>
       <ToastContainer />
     </div>
+   }</>
   );
 }

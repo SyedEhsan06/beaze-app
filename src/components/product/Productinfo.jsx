@@ -206,7 +206,7 @@ const router = useRouter()
     };
   }, []);
   const handleScroll = () => {
-    if(window.scrollY >= 300){
+    if(window.scrollY >= 450){
       setshowdesc(true)
     }else{
       setshowdesc(false)
@@ -345,16 +345,16 @@ const routeToProducts = () => {
               </button>
             </div>
           </div>
-          <div className={`w-full bg-gray-100 py-10 md:px-16 px-8 rounded-[11px] transition-all  duration-700 relative ${showdesc && ' lg:pt-[420px]'}`}>
+          <div className={`w-full bg-gray-100 py-10 md:px-16 px-8 rounded-[11px] transition-all  duration-1000 relative `}>
             <div className="w-full">
               <div className="w-full md:flex md:gap-16 gap-5 grid grid-cols-1">
                 <div className="md:w-[50%] relative">
-                <div className={`lg:sticky top-[150px] left-0 lg:!h-[80vh] ${showdesc && ' lg:mt-[40px]'}`}>
+                <div className={`lg:sticky top-[150px] transition-all duration-300 left-0 lg:!h-[80vh] ${showdesc && ' lg:pt-[70px]'}`}>
                 <Productcarousel sliderdata={productinfo?.images} setopemodal={setismodalopen} />
                 </div>
                 </div>
                 <div className="md:w-[50%] ">
-                  <div className={`lg:w-[80%] w-[100%] flex-col justify-between  ${showdesc ? ' lg:hidden' : 'flex'}`}>
+                  <div className={`lg:w-[80%] w-[100%] flex-col justify-between  flex`}>
                     <div className="w-full flex flex-col">
                       <p className=" text-[400] context text-sm mb-3   ">
                       <span><Link href='/'>Home</Link></span> /  <Link
