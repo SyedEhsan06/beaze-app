@@ -63,6 +63,7 @@ export default function Productcart({
   };
 
   updateCart();
+  setdata(cartData);
 }, [cartData]);
 
   console.log(data)

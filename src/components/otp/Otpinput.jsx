@@ -105,6 +105,43 @@ export default function Otpinput({onOtpInput}) {
         }
     }
         , [token, error]);
+        const handleResendOTP = () => {
+            setResend(false);
+            // setOtpTime(45); // Reset the timer
+            // Add logic to resend OTP
+            let phone = localStorage.getItem("phone");
+            phone = `+91${phone}`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/sendotp`;
+            const sendOtp = async () => {
+              await axios
+                .post(url, { phone: phone })
+                .then((res) => {
+                  console.log(res);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            };
+            sendOtp();
+          };
+    const [otpTime, setOtpTime] = useState(45);
+    const [resend, setResend] = useState(true);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (otpTime > 0) {
+                setOtpTime(prevTime => prevTime - 1);
+            } else {
+                setResend(true);
+                clearInterval(interval);
+            }
+        }, 1000);
+    
+        return () => {
+            clearInterval(interval);
+        };
+    }, [otpTime]);
+    
+
     return (
         <div className='lg:w-[60%] md:w-[80%] w-[90%] '>
           <label htmlFor="fnamesignup" className="mb-2 context font-[500] md:text-lg text-[1rem]">
@@ -134,8 +171,22 @@ export default function Otpinput({onOtpInput}) {
                     <p className=' font-[500] lg:text-lg md:text-sm text-xs  context'>Haven’t received it yet ?</p>
                 </div>
                 <div>
-                    <button className=' items-center flex gap-3 px-5 py-1 bg-[#DED5D5] context  rounded-[9px]  lg:text-sm text-xs  font-[500] text-[#717070]  shadow-input '><FaRegClock /> 12s | Resend </button>
-                </div>
+                      {resend ? (
+                        <button
+                          onClick={handleResendOTP}
+                          className="items-center flex gap-3 px-8 h-[30px] leading-normal bg-theme-footer-bg context rounded-[9px] lg:text-sm text-xs font-[500] text-[#F9DC5C] shadow-input "
+                        >
+                           Resend 
+                        </button>
+                      ) : (
+                        <button
+                          disabled
+                          className="items-center flex gap-3 px-5 h-[30px] leading-normal bg-[#DED5D5] context rounded-[9px] lg:text-sm text-xs font-[500] text-[#717070] shadow-input "
+                        >
+                          <FaRegClock /> <span className=" leading-none">{otpTime} Resend</span>
+                        </button>
+                      )}
+                    </div>
             </div>
         </div>
     )
