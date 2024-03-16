@@ -22,6 +22,7 @@ export default function Footermenu({
     dispatch(addSearch(""));
     dispatch(toggleCategory(item.name));
     dispatch(toggleCategoryCall(item.name));
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
