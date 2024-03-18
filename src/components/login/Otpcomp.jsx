@@ -122,15 +122,15 @@ export default function Otpcomp() {
         draggable: true,
         progress: undefined,
       });
-      setTimeout(() => {
-        setOTP(["", "", "", "", "", ""]);
-      }, 1000);
+      // setTimeout(() => {
+      //   setOTP(["", "", "", "", "", ""]);
+      // }, 1000);
     }
   }, [token, error]);
 
   const handleResendOTP = () => {
     setResend(false);
-    // setOtpTime(45); // Reset the timer
+    setOtpTime(45); // Reset the timer
     // Add logic to resend OTP
     let phone = localStorage.getItem("phone");
     phone = `+91${phone}`;
