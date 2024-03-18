@@ -75,7 +75,7 @@ export default function Addressdeatils({ data }) {
     console.log("add");
     setismodalopen(false);
     setLoader(true);
-    console.log(AddressLine1, AddressLine2, City, State, Pincode);
+    // console.log(AddressLine1, AddressLine2, City, State, Pincode);
     await axios.put(
         url,
         {
@@ -96,6 +96,11 @@ export default function Addressdeatils({ data }) {
         dispatch(updateUser(res.data));
         console.log(res);
         setLoader(false);
+        setAddressLine1("");
+        setAddressLine2("");
+        setCity("");
+        setState("");
+        setPincode("");
         setUserAddress(res.data.address);
       });
   };
@@ -127,7 +132,7 @@ export default function Addressdeatils({ data }) {
       <div className=" grid grid-cols-1 gap-y-4 text-lg font-[500]">
         {userAddress?.map((items, index) => (
           <div
-            className={`w-full bg-white cursor-pointer shadow-sm  lg:px-10 md:px-8 px-5 lg:py-5 md:py-4 py-3 rounded-[13px] transition-all duration-150 `}
+            className={`w-full relative bg-white cursor-pointer shadow-sm  lg:px-10 md:px-8 px-5 lg:py-5 md:py-4 py-3 rounded-[13px] transition-all duration-150 `}
             key={
               items?._id
             }
@@ -153,11 +158,7 @@ export default function Addressdeatils({ data }) {
                 />
               </div>
             </div>
-                <FaDeleteLeft 
-                onClick={
-                  () => handleDeleteAddress(items._id)
-                }
-                className="w-[20px] h-[20px] text-[#FF2A2A] ml-auto" />
+
             <div className={`${items.addressId === bars ? "block" : "hidden"}`}>
               <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
                 <div className=" w-full context">
@@ -279,6 +280,10 @@ export default function Addressdeatils({ data }) {
                 </button>
               </div>
             </div>
+            <button className=" absolute right-1 top-[-8px] border text-sm p-1 bg-white shadow rounded-full" onClick={
+                  () => handleDeleteAddress(items._id)
+                }><FaDeleteLeft className="text-red-500" />
+                </button>
           </div>
         ))}
       </div>
@@ -339,6 +344,7 @@ export default function Addressdeatils({ data }) {
                     placeholder="Flat, House, Building and other details"
                     value={AddressLine1}
                     onChange={(e) => setAddressLine1(e.target.value)}
+                    required
                   />
                 </div>
                 <div className=" w-full context">
@@ -356,6 +362,7 @@ export default function Addressdeatils({ data }) {
                     placeholder="Lane, Street & Landmark"
                     value={AddressLine2}
                     onChange={(e) => setAddressLine2(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -374,6 +381,7 @@ export default function Addressdeatils({ data }) {
                       className="w-full border border-text-secondary shadow-sm px-4 h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
                       value={City}
                       onChange={(e) => setCity(e.target.value)}
+                      required
                     />
                   </div>
 
@@ -391,6 +399,7 @@ export default function Addressdeatils({ data }) {
                       className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
                       value={State}
                       onChange={(e) => setState(e.target.value)}
+                      required
                     />
                   </div>
 
@@ -408,6 +417,7 @@ export default function Addressdeatils({ data }) {
                       className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
                       value={Pincode}
                       onChange={(e) => setPincode(e.target.value)}
+                      required
                     />
                   </div>
                 </div>

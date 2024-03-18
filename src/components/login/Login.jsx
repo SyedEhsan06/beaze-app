@@ -33,8 +33,13 @@ export default function Login() {
       const response = await axios.post(url, {
         phone,
       });
-    
-      setResponse(response);
+   if(response?.data?.message === "User not found"){
+    setchecknum(true);
+    setResponse(response);
+   }else{
+    setResponse(response);
+   }
+      
       setloader(false)
     } catch (error) {
     

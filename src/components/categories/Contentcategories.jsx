@@ -56,6 +56,7 @@ import { selectCategories } from "@/redux/slices/categorySlice";
 import { ThreeDots } from "react-loader-spinner";
 
 import "./content.css";
+import Loaderfixed from "../loader/Loaderfixed";
 export default function Contentcategories({ params, categories }) {
   const [showsort, setshowsort] = useState(false);
   const [selectedfilter, setselectedfilter] = useState(null);
@@ -789,14 +790,9 @@ useEffect(() => {
   })
   // console.log(searchBar); 
   return (
-   <>{
-    loader ?   <ThreeDots
-          color="#F8B43A"
-          radius={20}
-          height={120}
-          width={120}
-          wrapperClass="product"
-        /> :  <div className="w-full">
+   <>
+   {loader && <Loaderfixed/>}
+    <div className="w-full">
       <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
         <div className="lg:w-8/12 w-full flex order-2 lg:order-1  gap-2 context text-text-secondary flex-wrap ">
           {
@@ -1191,6 +1187,6 @@ useEffect(() => {
       </Modal>
       <ToastContainer />
     </div>
-   }</>
+   </>
   );
 }
