@@ -40,6 +40,7 @@ export default function Addressdeatils({ data }) {
   const handelopenadddeatis = (id) => {
     bars === id ? setbars(0) : setbars(id);
   };
+  console.log(data);
   // console.log(data);
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
   const [token, setToken] = useState("");
@@ -146,6 +147,7 @@ export default function Addressdeatils({ data }) {
 
               <div className="ml-auto">
                 <img
+                
                   src={
                     bars === items.addressId
                       ? "/images/web/subicon.png"
@@ -156,7 +158,7 @@ export default function Addressdeatils({ data }) {
                 />
               </div>
             </div>
-                
+
             <div className={`${items.addressId === bars ? "block" : "hidden"}`}>
               <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
                 <div className=" w-full context">

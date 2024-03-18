@@ -94,30 +94,33 @@ const[callfun,setcallfun] = useState(null);
     setSubcategorySelect(selectReduxSubcategory);
   }, [selectReduxSubcategory]);
   useEffect(() => {
+    console.log("categoryCall:", categoryCall);
+    console.log("catsState:", catsState);
+    console.log("fixSelect:", fixSelect);
+  
     setCatsState(categoryCall);
-
-    // setLoader(true);
     setLoader(true);
     setFilterLoader(true);
+  
     if (categoryCall !== "" && catsState.length > 0) {
-      // axios.get(`http://localhost:3000/api/products?category=${catsState}`).then((res) => {
-      //   setData(res.data.products);
-      //   console.log(res.data.products);
-      //   setLoader(false);
       fetchData(`products?category=${catsState}`).then((res) => {
         setData([]);
         setCompleteData([]);
         setFilterData([]);
         setSearchBar(null);
+        
         setData(res.products);
-        // console.log(res.products);
+        console.log(res.products);
         setFilterLoader(false);
         setLoader(false);
       });
     } else {
       setData([]);
+      setLoader(false);
+      setFilterLoader(false);
     }
-  }, [categoryCall, catsState, fixSelect]);
+  }, [categoryCall, catsState]);
+  
   const searchedSelect = useSelector(selectSearch);
  const [searchData, setSearchData] = useState([]);
   useEffect(() => {
@@ -184,6 +187,8 @@ const[callfun,setcallfun] = useState(null);
               (product) => !existingProductIds.includes(product._id)
             );
             setFilterData(uniqueProducts);
+            setFilterLoader(false);
+            setLoader(false);
           } else {
             setFilterData([]);
           }
@@ -220,16 +225,20 @@ const[callfun,setcallfun] = useState(null);
   //   }
   // }, [subcategorySelect,dispatch]);
   const [completeData, setCompleteData] = useState([]);
-  useEffect(() => {
-    const mergedData = [...data, ...filterData];
-    const uniqueData = Array.from(
-      new Set(mergedData.map((item) => item._id))
-    ).map((id) => mergedData.find((item) => item._id === id));
+  // useEffect(() => {
+  //  if (data?.length > 0) {
+  //   const mergedData = [...data, ...filterData];
+  //   const uniqueData = Array.from(
+  //     new Set(mergedData.map((item) => item._id))
+  //   ).map((id) => mergedData.find((item) => item._id === id));
 
-    setCompleteData(uniqueData);
-    sessionStorage?.setItem("categoryData", JSON.stringify(data));
-  }, [data, filterData, usepathname]);
-
+  //   setCompleteData(uniqueData);
+  //   sessionStorage?.setItem("categoryData", JSON.stringify(data));
+  //   }
+  // }, [data, filterData, usepathname]);
+useEffect(() => {
+  setCompleteData([...filterData, ...data]);
+}, [filterData, data]);
   useEffect(() => {
     if (selectData?.length < 1) {
       let rawData = sessionStorage?.getItem("categoryData");
@@ -364,6 +373,20 @@ const[callfun,setcallfun] = useState(null);
         pdata.attributes[1].value[0],
       price: pdata.price,
     };
+    // await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/auth/profile, {
+    //   cartOperation: "add",
+    //   product:pdata.productId,
+    //   quantity: pdata.quantity,
+    //   pquantity: 1,
+    //   price: pdata.price,
+    //   size: pdata.attributes[1]?.value[0],
+    //   color: pdata.attributes[0]?.value[0],
+    //   total: pdata.price,
+    //   original_price: pdata.price,
+    //   tax: 0,
+    // });
+    
+
 
     dispatch(addToCart(obj));
     if (selectedCartData.some((item) => item._id === obj._id)) {

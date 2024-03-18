@@ -19,7 +19,6 @@ const axiosWithToken = () => {
 
 export const fetchData = async (endpoint) => {
   try {
-
     const response = await axiosWithToken().get(`${BASE_URL}/${endpoint}`);
     return response.data;
   } catch (error) {

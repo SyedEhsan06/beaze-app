@@ -36,13 +36,11 @@ const cartSchema = new Schema({
     price: {
         type: Number,
     },
-    attributes: {
-        size: {
-            type: String,
-        },
-        color: {
-            type: String,
-        },
+    size: {
+        type: String,
+    },
+    color: {
+        type: String,
     },
     total: {
         type: Number,
@@ -54,7 +52,28 @@ const cartSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User",
     },
+    original_price: {
+        type: Number,
+    },
+    tax: {
+        type: Number,
+    },
+    pquantity: {
+        type: Number,
+    },
+    p_id: {
+        type: String,
+    },
+    title: {
+        type: String,
+    },
+    images: {
+        type: [String],
+    },
+
+    
 });
+
 const userSchema = new Schema({
     phone_number: {
         type: String,
