@@ -102,6 +102,8 @@ export default function Signup() {
               <p className='text-center context font-[300] lg:text-lg text-sm mt-1 lg:leading-[1rem] text-text-secondary'>
                 Welcome and Buzz on in, Create an account and join us for an un-bee-lievable shopping experience
               </p>
+
+              
             </div>
             <div className='lg:mt-12 mt-8'>
               <form onSubmit={handleSubmit} className='w-full'>
