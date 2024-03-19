@@ -4,15 +4,18 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import cookieCutter from "cookie-cutter";
+import Loaderfixed from "../loader/Loaderfixed";
 
 export default function Invoice() {
   const [pdfContent, setPdfContent] = useState("");
+  const[loader,setloader] = useState(false);
   const params = useSearchParams();
   const orderId = params.get("orderId");
   const [orderData, setOrderData] = useState(null);
   // console.log(orderId);
   useEffect(() => {
     const fetchOrderData = async () => {
+      setloader(true)
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/checkout?orderId=${orderId}`,
@@ -23,8 +26,10 @@ export default function Invoice() {
             },
           }
         );
+        setloader(false)
         setOrderData(response.data);
       } catch (error) {
+        setloader(false)
         console.error("Error fetching order data:", error);
       }
     };
@@ -68,7 +73,11 @@ export default function Invoice() {
   var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
   return (
-    <div className=" lg:px-40 py-8 px-5 bg-gray-50">
+   <>
+   {
+    loader && <Loaderfixed/>  
+   }
+     <div className=" lg:px-40 py-8 px-5 bg-gray-50">
       <div>
         <div className="w-full">
         <div className="w-full lg:flex justify-center">
@@ -148,5 +157,6 @@ export default function Invoice() {
         </div>
       </div>
     </div>
+   </>
   );
 }

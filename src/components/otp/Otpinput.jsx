@@ -9,13 +9,15 @@ import { useRouter } from 'next/navigation'
 import { toast, ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 
-export default function Otpinput({onOtpInput}) {
+export default function Otpinput({onOtpInput,setOtpTime,otpTime,matchotp}) {
     const [otp, setOTP] = useState(['', '', '', '', '', '']);
     const inputRefs = Array.from({ length: 6 }, () => useRef());
     const [token, setToken] = useState('');
     const [error, setError] = useState('');
     const [response, setResponse] = useState('');
     const router = useRouter();
+    
+    const [resend, setResend] = useState(false);
 
     const handleInputChange = (index, event) => {
         const value = event.target.value;
@@ -107,7 +109,7 @@ export default function Otpinput({onOtpInput}) {
         , [token, error]);
         const handleResendOTP = () => {
             setResend(false);
-            // setOtpTime(45); // Reset the timer
+            setOtpTime(45); // Reset the timer
             // Add logic to resend OTP
             let phone = localStorage.getItem("phone");
             phone = `+91${phone}`;
@@ -124,24 +126,37 @@ export default function Otpinput({onOtpInput}) {
             };
             sendOtp();
           };
-    const [otpTime, setOtpTime] = useState(45);
-    const [resend, setResend] = useState(true);
-    useEffect(() => {
-        const interval = setInterval(() => {
-            if (otpTime > 0) {
-                setOtpTime(prevTime => prevTime - 1);
-            } else {
-                setResend(true);
-                clearInterval(interval);
-            }
-        }, 1000);
+  
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         if (otpTime > 0) {
+    //             setOtpTime(prevTime => prevTime - 1);
+    //         } else {
+    //             setResend(true);
+    //             clearInterval(interval);
+    //         }
+    //     }, 1000);
     
-        return () => {
-            clearInterval(interval);
-        };
-    }, [otpTime]);
+    //     return () => {
+    //         clearInterval(interval);
+    //     };
+    // }, [otpTime]);
     
 
+    useEffect(() => {
+        const timer = setInterval(() => {
+          setOtpTime((prevTime) => prevTime - 1);
+        }, 1000);
+    
+        return () => clearInterval(timer);
+      }, []);
+
+      
+  useEffect(() => {
+    if (otpTime === 0) {
+      setResend(true);
+    }
+  }, [otpTime]);
     return (
         <div className='lg:w-[60%] md:w-[80%] w-[90%] '>
           <label htmlFor="fnamesignup" className="mb-2 context font-[500] md:text-lg text-[1rem]">
@@ -160,7 +175,9 @@ export default function Otpinput({onOtpInput}) {
                         onKeyDown={(event) => handleKeyDown(index, event)}
                         maxLength={1}
                         ref={inputRefs[index]}
-                        className={`border md:h-[60px] h-[40px]  transition-all duration-150 text-center rounded-[9px] shadow-input  context font-[500] text-xl leading-normal focus:outline-none ${digit ? ' border-[#039C2E]' : 'border-theme-footer-bg '}`}
+                        className={`border md:h-[60px] h-[40px]  transition-all duration-150 text-center rounded-[9px] shadow-input  context font-[500] text-xl leading-normal focus:outline-none  ${
+                          digit && !matchotp  ? " border-[#039C2E]" : matchotp ? 'border-[#D00000]' :  "border-theme-footer-bg " 
+                        }`}
                     />
                 ))}
 

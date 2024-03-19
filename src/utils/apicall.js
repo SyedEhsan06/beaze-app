@@ -1,4 +1,5 @@
 import axios from 'axios';
+import cookieCutter from 'cookie-cutter';
 
  const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/api`;
  console.log("BASE_URL",BASE_URL)
@@ -7,8 +8,7 @@ const axiosWithToken = () => {
   
   const instance = axios.create({
     headers: {
-      Authorization: `Bearer +918340263940`,
-      Phone : '+918340263940',
+      Authorization: `Bearer ${cookieCutter.get('token')}`,
       'Content-Type': 'application/json',
     },
   });

@@ -24,9 +24,9 @@ export async function POST(req) {
       billing_address,
     } = await req.json();
     const token = req.headers.get("authorization")?.replace("Bearer ", "");
-    // const decodedToken = jwt.verify(token, secret);
-    // const { phone } = decodedToken;
-    const phone = "+918340263940";
+    const decodedToken = jwt.verify(token, secret);
+    const { phone } = decodedToken;
+    // const phone = "+918340263940";
     const user = await User.findOne({ phone_number: phone });
     if (!user) {
       return Response.json({ error: "User not found" }, { status: 404 });
@@ -106,10 +106,10 @@ export async function GET(req) {
     await connectToDb();
     ///////
     const token = req.headers.get("authorization")?.replace("Bearer ", "");
-    // const decodedToken = jwt.verify(token, secret);
-    // const { phone } = decodedToken;
+    const decodedToken = jwt.verify(token, secret);
+    const { phone } = decodedToken;
     ///////
-    const phone = "+918340263940"
+    // const phone = "+918340263940"
     // const phone = req.headers.get("phone");
     const query = req.url.split("?")[1];
     const params = new URLSearchParams(query);
@@ -129,6 +129,7 @@ export async function GET(req) {
       orders = [order];
     } else {
       orders = await Order.find({ phone });
+      console.log(orders);
     }
 
     return Response.json({ orders });

@@ -6,6 +6,7 @@ import { FaXmark } from "react-icons/fa6";
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from "react-redux";
 import Otpinput from "../otp/Otpinput";
+import cookieCutter from "cookie-cutter";
 
 
 export default function Accountdetails({ data }) {
@@ -31,15 +32,17 @@ export default function Accountdetails({ data }) {
   const [isOtpSent, setIsOtpSent] = useState(false);
   const dispatch = useDispatch();
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
+  const token = cookieCutter.get("token");
   const closeModal = () => {
     setismodalopen(false);
     setError("");
     setIsOtpSent(false);
   };
-  useEffect(() => {
-    setToken(localStorage.getItem("token"));
-  }, [typeof window !== "undefined" && localStorage.getItem("token")]);
+  // useEffect(() => {
+  //   setToken(localStorage.getItem("token"));
+  // }, [typeof window !== "undefined" && localStorage.getItem("token")]);
+
   const handleUpdateWithoutOtp = async () => {
     setismodalopen(true);
     // console.log(token)
@@ -127,6 +130,8 @@ export default function Accountdetails({ data }) {
     },
   };
 
+
+  // console.log({'token' : cookieCutter.get("token")})
   return (
     <div className="w-full bg-white rounded-[13px] lg:px-10 md:px-8 px-5 lg:py-8 md:py-7 py-6 shadow">
       <div className="w-full">

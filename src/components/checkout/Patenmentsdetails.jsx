@@ -10,16 +10,18 @@ import { FaXmark } from "react-icons/fa6";
 import axios from "axios";
 import Otpinput from "../otp/Otpinput";
 import { selectCart } from "@/redux/slices/cartSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import cookieCutter from "cookie-cutter";
 import Productshow from "./Productshow";
 import { fetchData } from "@/utils/apicall";
 import { useRouter } from "next/navigation";
+import { setUser } from "@/redux/slices/userData.slice";
+import Loaderfixed from "../loader/Loaderfixed";
 export default function Patenmentsdetails() {
   const [selectedCountry, setSelectedCountry] = useState();
   const [tabs, settabs] = useState(0);
   const [ismodalopen, setismodalopen] = useState(false);
-
+const dispatch = useDispatch();
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("");
   const [first_name, setFirstName] = useState("");
@@ -40,6 +42,8 @@ export default function Patenmentsdetails() {
   const [orderStatus, setOrderStatus] = useState("");
   const [isOrderPlaced, setIsOrderPlaced] = useState(false);
   const [orderData, setOrderData] = useState({});
+  const[loaderotpnew,setloaderotpnew] = useState(false)
+  const[checknum,setchecknum] = useState(false)
   // billing address
   const [address_line1_billing, setAddressLine1Billing] = useState("");
   const [address_line2_billing, setAddressLine2Billing] = useState("");
@@ -53,6 +57,9 @@ export default function Patenmentsdetails() {
   const [showicon, setshowicon] = useState(false);
   const [userProfileData, setUserProfileData] = useState({});
   const [loaderforPayment, setLoaderforPayment] = useState(false);
+  const [otpTime, setOtpTime] = useState(45);
+  const[matchotp,setmatchotp] = useState(false);
+  const[usedsavedaddress,setusedsavedaddress] = useState(false);
   useEffect(() => {
     let cookieToken = cookieCutter.get("token");
     if (cookieToken) {
@@ -77,7 +84,7 @@ export default function Patenmentsdetails() {
           setFirstName(response.data.user.first_name);
           setLastName(response.data.user.last_name);
           setPhone(response.data.user.phone_number);
-
+          dispatch(setUser(response.data.user));
           settabs(1);
         } catch (error) {
           console.error("Error fetching profile:", error);
@@ -87,6 +94,8 @@ export default function Patenmentsdetails() {
     }
   }, [token]);
 
+
+ 
   //api1
   const dataFromStore = useSelector(selectCart);
   useEffect(() => {
@@ -96,7 +105,9 @@ export default function Patenmentsdetails() {
     );
   }, []);
   const handleOtpSend = async () => {
-    setismodalopen(true);
+   if(phone.length === 10){
+    setchecknum(false)
+    setloaderotpnew(true)
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup`,
@@ -106,18 +117,26 @@ export default function Patenmentsdetails() {
           lastName: last_name,
         }
       );
+      setOtpTime(45)
+      setloaderotpnew(false)
+      setismodalopen(true);
       console.log(response.data);
       setIsOtpSent(true);
 
       // Handle response data as needed
     } catch (error) {
+      setloaderotpnew(false)
       console.error("Error sending OTP request:", error);
       // Handle error
     }
-  };
+   }else{
+    
+    setchecknum(true)
+  }
+}
   const handleOtpSendWithOtp = async () => {
-    console.log("otp", otp);
-    setismodalopen(true);
+  setloaderotpnew(true)
+  
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/verifyotp`,
@@ -126,11 +145,23 @@ export default function Patenmentsdetails() {
           otp: otp,
         }
       );
-      console.log(response.data);
-      setIsOtpSent(true);
+      if(response.data.error === "Invalid OTP"){
+        setmatchotp(true)
+        setloaderotpnew(false)
+      }else{
+        setIsOtpSent(true);
+        setloaderotpnew(false);
+        setmatchotp(false);
+        
+        setismodalopen(false);
       setToken(response.data.token);
+      cookieCutter.set("token", response.data.token);
+      
+      }
+     
       // Handle response data as needed
     } catch (error) {
+      setloaderotpnew(false)
       console.error("Error sending OTP request:", error);
       // Handle error
     }
@@ -265,11 +296,15 @@ export default function Patenmentsdetails() {
     setCity(items.city);
     setState(items.state);
     setPincode(items.pincode);
+    setusedsavedaddress(true)
     closeModal();
   };
   //  console.log()
   return (
-    <div className=" w-full lg:flex gap-x-5">
+    <>
+ {(loaderotpnew || loaderforPayment) && <Loaderfixed/>}
+
+      <div className=" w-full lg:flex gap-x-5">
       <div className="lg:w-[60%] w-[100%]">
         <div className=" w-full">
           <div className=" flex lg:gap-x-10 gap-x-3  headtext font-[600]  items-center md:px-4 mt-4 ">
@@ -292,10 +327,11 @@ export default function Patenmentsdetails() {
             </div>
             <div>
               <button
-                className={`lg:text-2xl text-xl ${
+                className={`lg:text-2xl flex items-center text-xl ${
                   checkoutgreen ? " text-[#039C2EB0]" : "text-black"
                 }`}
               >
+                {checkoutgreen && <IoIosCheckmarkCircle size={16} />}
                 Checkout
               </button>
             </div>
@@ -328,7 +364,7 @@ export default function Patenmentsdetails() {
                   className="headtext font-extrabold lg:text-[1.5rem] text-xl text-text-secondary cursor-pointer"
                   onClick={() => settabs(0)}
                 >
-                  Welcome Sherlock
+                  Welcome {first_name}
                 </h6>
                 <button
                   className="ml-auto underline context  text-text-secondary  font-[400] lg:text-lg text-sm"
@@ -407,6 +443,8 @@ export default function Patenmentsdetails() {
                       defaultValue={phone}
                       userdata={userProfileData}
                       iconshow={showicon}
+                      checknumtendigit={checknum}
+                      alreadyresgiter={checknum}
                     />
                   </div>
                   {/* <div className=" w-full my-6 context">
@@ -508,7 +546,7 @@ export default function Patenmentsdetails() {
                           id="svedaccount"
                           className=" !top-[-8px] !w-[18px] "
                           value={isAccountCreated}
-                          checked={isAccountCreated}
+                          checked={isAccountCreated || usedsavedaddress}
                           onChange={() =>
                             setIsAccountCreated(!isAccountCreated)
                           }
@@ -869,17 +907,13 @@ export default function Patenmentsdetails() {
                         {savedaddress.map((items, index) => (
                           <div
                             key={index}
-                            className="w-full h-[50px] px-2 rounded flex items-center cursor-pointer border border-theme-footer-bg"
+                            className="w-full h-[50px] px-2 rounded flex justify-center items-center cursor-pointer border border-theme-footer-bg"
                             onClick={() => handelsetvalues(items)}
                           >
                             <span className="text-lg headtext font-[700] text-theme-footer-bg">
                               {items.address_type}
                             </span>
-                            <img
-                              src="/images/web/addicon.png"
-                              className="ml-auto w-[15px]"
-                              alt=""
-                            />
+                          
                           </div>
                         ))}
                       </div> : <div className="w-full">
@@ -897,12 +931,17 @@ export default function Patenmentsdetails() {
                     </h6>
 
                     <div className="w-full flex justify-center lg:mt-7 md:mt-4 mt-3">
-                      <Otpinput onOtpInput={handleOtpChange} />
+                      <Otpinput onOtpInput={handleOtpChange} otpTime={otpTime} setOtpTime={setOtpTime} matchotp={matchotp} />
                     </div>
+
+                    <div className={`context w-full leading-3 mt-5 ${matchotp ? 'block' : ' hidden'}`}>
+                  <p className=' text-center lg:text-[1rem] text-xs text-[#760000] font-[500]'>🤔 Uh Oh, That code does not seem right.</p>
+                  <p className=' text-center lg:text-[1rem] text-xs underline font-[700]'>We’d love for you to check it again</p>
+                 </div>
                   </div>
 
                   <div className=" grid grid-cols-2 gap-x-4 headtext py-2 mt-6">
-                    <button className=" w-full  text-[#474747] font-[300]lg:text-xl md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] ">
+                    <button className=" w-full  text-[#474747] font-[300]lg:text-xl md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] " onClick={() => setismodalopen(false)}>
                       Change Number
                     </button>
                     <button
@@ -926,7 +965,7 @@ export default function Patenmentsdetails() {
         />
       </div>
 
-      {loaderforPayment ? (
+      {/* {loaderforPayment ? (
         <div
           className="loader
       w-full h-screen fixed top-0 left-0 bg-white bg-opacity-60 z-50 flex justify-center items-center
@@ -934,8 +973,9 @@ export default function Patenmentsdetails() {
         >
           <Bars color="#039C2EB0" height={100} width={100} />
         </div>
-      ) : null}
+      ) : null} */}
     </div>
+    </>
   );
 }
 // Path: src/components/checkout/Productshow.jsx

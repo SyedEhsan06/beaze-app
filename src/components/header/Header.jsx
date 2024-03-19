@@ -35,7 +35,7 @@ import {
 import { selectCartOpen } from "@/redux/slices/cartOpenSlice";
 import Productcart from "../categories/Productcart";
 import axios from "axios";
-import { selectUser, setUser } from "@/redux/slices/userData.slice";
+import { selectUser, setUser, updateUser } from "@/redux/slices/userData.slice";
 import { FaChevronRight } from "react-icons/fa";
 
 export default function Header() {
@@ -50,6 +50,8 @@ export default function Header() {
   const inputRef = useRef(null);
 const router = useRouter();
 const searchSelector = useSelector(selectSearch);
+const profilelogindata = useSelector(selectUser);
+console.log({'profilelogindata' : profilelogindata})
   const dispatch = useDispatch();
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -324,7 +326,7 @@ const searchSelector = useSelector(selectSearch);
       document.body.classList.remove("blurbody");
     };
   }, [showhide]);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState();
   const path = usePathname();
   // console.log(process.env.NEXT_PUBLIC_API_URL)
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
@@ -358,10 +360,11 @@ const searchSelector = useSelector(selectSearch);
   const selectDataOfUser = useSelector(selectUser);
   useEffect(() => {
     fetchDataProfile();
+    
   }, [
     path,
     // setUserData,
-    dispatch,
+    dispatch
     // selectDataOfUser,
     // typeof window !== "undefined" ? localStorage.getItem("token") : null,
   ]);
@@ -374,6 +377,14 @@ const searchSelector = useSelector(selectSearch);
     setSearch("");
     setshowsearchmobile(false);
   };
+
+  const handleLogout = () => {
+    cookieCutter.set("token", "");
+    router.push("/");
+    dispatch(updateUser({first_name: '',last_name: '',phone_number: '',address: [],cart: [],email: '',role: '',isVerified: false}));
+
+};
+
 
   const pathname = usePathname();
   useEffect(() => {
@@ -585,9 +596,10 @@ const searchSelector = useSelector(selectSearch);
 
               <li className=" context font-semibold px-2">
                 {" "}
-                {userData?.first_name ? (
+                {profilelogindata?.first_name ? (
                   <>
-                    <Link href={"/account"}>{userData.first_name}'s account</Link>
+                    <Link href={"/account"}>{profilelogindata.first_name}'s account |</Link>
+                    <Link href={"/"} onClick={handleLogout}> Logout </Link>
                   </>
                 ) : (
                   <>
