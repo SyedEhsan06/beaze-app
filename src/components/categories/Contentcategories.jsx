@@ -1017,7 +1017,7 @@ useEffect(() => {
         {/* Render allData */}
         {completeData?.length == 0 &&
         data?.length == 0 &&
-          !loader &&
+          
           !filterLoader &&
           allData?.length > 0 &&
           subcategorySelect.length == 0 && (

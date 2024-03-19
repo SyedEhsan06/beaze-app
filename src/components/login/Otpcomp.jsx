@@ -86,7 +86,7 @@ export default function Otpcomp() {
           setwrongotp(true)
 
         }
-        setwrongotp(true)
+        // setwrongotp(true)
         localStorage.setItem("token", res.data.token);
         cookieCutter.set("token", res.data.token);
         setToken(res.data.token);

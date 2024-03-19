@@ -8,6 +8,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/redux/slices/userData.slice";
 import cookieCutter from "cookie-cutter";
+import Loaderfixed from "../loader/Loaderfixed";
 
 export default function Account() {
   const [userData, setUserData] = useState({});
@@ -17,8 +18,10 @@ export default function Account() {
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
   const fetchDataProfile = async () => {
     // console.log("fetching user data");
+    setLoading(true)
     const token = cookieCutter.get("token");
     try {
+     
       // console.log(url);
       if (token) {
         const res = await axios.get(url, {
@@ -44,7 +47,11 @@ export default function Account() {
 console.log(userData)
   const [tabs, settabs] = useState(0);
   return (
-    <div>
+  <>
+  {
+    loading && <Loaderfixed/>
+  }
+      <div>
       <div className="w-full md:flex  gap-x-16">
         <div className="md:w-[50%] w-full">
           <div className=" grid grid-cols-1 gap-y-4">
@@ -101,5 +108,6 @@ console.log(userData)
           </div>
       </div>
     </div>
+  </>
   );
 }

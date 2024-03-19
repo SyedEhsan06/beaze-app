@@ -8,6 +8,7 @@ import {
   FaDeleteLeft
  } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
+import { FaTrashAlt } from "react-icons/fa";
 
 
 export default function Addressdeatils({ data }) {
@@ -139,13 +140,16 @@ export default function Addressdeatils({ data }) {
           >
             <div
               className="w-full flex items-center"
-              onClick={() => handelopenadddeatis(items.addressId)}
+             
             >
-              <h5 className=" font-[600] md:text-xl text-lg headtext text-text-secondary ">
+             <div className="w-[90%]"  onClick={() => handelopenadddeatis(items.addressId)}>
+             <h5 className=" font-[600] md:text-xl text-lg headtext text-text-secondary ">
                 {items.address_type}
               </h5>
+             </div>
 
-              <div className="ml-auto">
+             <div className="w-[10%] flex gap-2 items-center ml-auto">
+             <div className="w-[50%]">
                 <img
                 
                   src={
@@ -157,6 +161,12 @@ export default function Addressdeatils({ data }) {
                   className="w-[15px]"
                 />
               </div>
+
+              <button className="w-[50%] md:text-[1rem] text-sm" onClick={
+                  () => handleDeleteAddress(items._id)
+                }><FaTrashAlt className="text-red-500" />
+                </button>
+             </div>
             </div>
 
             <div className={`${items.addressId === bars ? "block" : "hidden"}`}>
@@ -280,10 +290,7 @@ export default function Addressdeatils({ data }) {
                 </button>
               </div>
             </div>
-            <button className=" absolute right-1 top-[-8px] border text-sm p-1 bg-white shadow rounded-full" onClick={
-                  () => handleDeleteAddress(items._id)
-                }><FaDeleteLeft className="text-red-500" />
-                </button>
+         
           </div>
         ))}
       </div>

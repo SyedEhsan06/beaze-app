@@ -2,22 +2,26 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import cookieCutter from "cookie-cutter";
+import Loaderfixed from "../loader/Loaderfixed";
 
 export default function OrderDetails({ userData }) {
   const [bars, setBars] = useState(0);
   const [orders, setOrders] = useState([]);
   const token = cookieCutter.get("token");
-
+const [loader, setLoader] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
+      setLoader(true)
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/checkout`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
+        setLoader(false)
         setOrders(response.data);
       } catch (error) {
+        setLoader(false)
         console.error(error);
       }
     };
@@ -35,7 +39,11 @@ export default function OrderDetails({ userData }) {
   console.log(ordersToShow);
 
   return (
-    <div className="w-full">
+    <>
+    {
+      loader && <Loaderfixed/>
+    }
+      <div className="w-full">
       <div className="grid grid-cols-1 gap-y-4 text-lg font-[500]">
         {ordersToShow?.length === 0 || !ordersToShow ? (
           <div className="text-center text-gray-500">No orders found.</div>
@@ -102,5 +110,6 @@ export default function OrderDetails({ userData }) {
         )}
       </div>
     </div>
+    </>
   );
 }
