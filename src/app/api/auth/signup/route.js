@@ -17,17 +17,26 @@ await connectToDb();
   console.log(phone, firstName, lastName)
   try {
     let user = await User.findOne({ phone_number: phone });
-
-    if (!user) {
-      const { otp, expiration } = await sendOTP(phone);
-      user = new User({
-        phone_number: phone,
-        first_name: firstName,
-        last_name: lastName,
-        otp: { code: otp.toString(), expiration },
-        isVerified: false, 
-      });
-
+//prodcution
+    // if (!user) {
+    //   const { otp, expiration } = await sendOTP(phone);
+    //   user = new User({
+    //     phone_number: phone,
+    //     first_name: firstName,
+    //     last_name: lastName,
+    //     otp: { code: otp.toString(), expiration },
+    //     isVerified: false, 
+    //   });
+// for testing
+if (!user) {
+  // const { otp, expiration } = await sendOTP(phone);
+  user = new User({
+    phone_number: phone,
+    first_name: firstName,
+    last_name: lastName,
+    // otp: { code: otp.toString(), expiration },
+    isVerified: false, 
+  });
       await user.save();
       return Response.json({ message: "User created successfully" ,firstName, lastName});
     } else {
