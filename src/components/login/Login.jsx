@@ -52,6 +52,7 @@ export default function Login() {
   };
   useEffect(() => {
     if(response?.data?.error === "Internal Server Error"){
+      router.push("/otp");
       toast.error("Try agin later", {
         position: "top-right",
         autoClose: 2000,

@@ -6,7 +6,6 @@ import { RiSubtractFill } from "react-icons/ri";
 import { FaTrashAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { TbFaceIdError } from "react-icons/tb";
-import cookieCutter from "cookie-cutter";
 import {
   addToCart,
   hanldleIncrement,
@@ -17,7 +16,6 @@ import {
 import { closeCart } from "@/redux/slices/cartOpenSlice";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import axios from "axios";
 export default function Productcart({
   setCartOpen,
 }) {
@@ -26,47 +24,9 @@ export default function Productcart({
   const [showprice, setshowprice] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
-  console.log(cartData)
- useEffect(() => {
-  const updateCart = async () => {
-    try {
-      for (const item of cartData) {
-        const { productId, selectedQty, price, color, size, images, title, pquantity } = item;
-
-        const response = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`, {
-          cartOperation: "add",
-          product: productId,
-          quantity: selectedQty,
-          pquantity: pquantity,
-          title: title,
-          price: price,
-          size: size || '', // If size is undefined, set it to an empty string
-          color: color || '', // If color is undefined, set it to an empty string
-          total: price * selectedQty,
-          original_price: price,
-          tax: 0,
-          images: images,
-        }, {
-          headers: {
-            Authorization: `Bearer ${cookieCutter.get("token")}`,
-            'Content-Type': 'application/json', // Set content type as JSON
-          },
-        });
-
-        // Handle response as needed
-        console.log(response.data);
-      }
-    } catch (error) {
-      // Handle error
-      console.error('Error:', error);
-    }
-  };
-
-  updateCart();
-  setdata(cartData);
-}, [cartData]);
-
-  console.log(data)
+  useEffect(() => {
+    setdata(cartData);
+  }, [cartData]);
   const handleDelete = (id) => {
     dispatch(removeFromCart({p_id: id }));
   };

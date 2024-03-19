@@ -14,17 +14,25 @@ let { phone, otp } = await req.json();
 
   try {
     // Verify OTP
-    const isOTPVerified = await verifyOTP(phone, otp);
-    if (isOTPVerified) {
+//For Production
+    // const isOTPVerified = await verifyOTP(phone, otp);
+    // if (isOTPVerified) {
+    //   // Update user's verification status
+    //   await User.findOneAndUpdate(
+    //     { phone_number: phone },
+    //     { isVerified: true },
+    //     { new: true }
+    //   );
+
+//Testing
+    if (otp == "123456") {
       // Update user's verification status
       await User.findOneAndUpdate(
         { phone_number: phone },
         { isVerified: true },
         { new: true }
-      );
-
-
-      const token = generateToken({ phone });
+        );
+        const token = generateToken({ phone });
 
 
       return Response.json({ token, message: "OTP verified successfully" });
