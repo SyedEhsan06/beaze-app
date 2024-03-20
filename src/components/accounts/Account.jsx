@@ -16,10 +16,10 @@ export default function Account() {
   const selectDataOfUser = useSelector(selectUser);
   console.log(selectDataOfUser)
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
+  const token ="asdasodkjasdhasjn" 
   const fetchDataProfile = async () => {
     console.log("fetching user data");
     setLoading(true)
-    const token = cookieCutter.get("token");
     try {
      
       // console.log(url);
