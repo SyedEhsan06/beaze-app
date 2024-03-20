@@ -1,6 +1,7 @@
 import Account from '@/components/accounts/Account'
 import React from 'react'
-import Accounthead from './Accounthead'
+import Accounthead from '../../components/accounts/Accounthead'
+
 
 export default function page() {
   return (
