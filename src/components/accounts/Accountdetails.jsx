@@ -224,10 +224,10 @@ export default function Accountdetails({ data }) {
             <h6 className="context font-[900] lg:text-[2.5rem] md:text-[2rem] text-2xl text-center lg:mb-10 md:mb-7 mb-4">
               Enter OTP
             </h6>
-            <div className="w-full grid grid-cols-1 gap-y-3 justify-items-center">
+            {/* <div className="w-full grid grid-cols-1 gap-y-3 justify-items-center">
               <Otpinput/>
               {error && <p className="text-red-500 text-left context py-2 md:text-[1rem] text-sm ">{error}</p>}
-            </div>
+            </div> */}
             {/* <input
               type="text"
               value={otp}
