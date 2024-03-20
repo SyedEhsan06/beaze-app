@@ -18,8 +18,8 @@ export default function Account() {
   // console.log(selectDataOfUser)
   const[token,settoken] = useState("")
 useEffect(() => {
-const tok = cookieCutter.get("token");
-settoken(tok)
+const newtoken = cookieCutter.get("token");
+settoken(newtoken)
 },[])
 
   const router= useRouter()
