@@ -1,4 +1,4 @@
-// "use client"
+"use client"
 import Account from '@/components/accounts/Account'
 import React from 'react'
 import Accounthead from '../../components/accounts/Accounthead'
