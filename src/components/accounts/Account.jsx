@@ -16,10 +16,15 @@ export default function Account() {
   const [loading, setLoading] = useState(true);
   const selectDataOfUser = useSelector(selectUser);
   // console.log(selectDataOfUser)
+  const[token,settoken] = useState("")
+useEffect(() => {
+const tok = cookieCutter.get("token");
+settoken(tok)
+},[])
 
   const router= useRouter()
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
-  const token = cookieCutter.get("token");
+  // const token = cookieCutter.get("token");
   const fetchDataProfile = async () => {
     console.log("fetching user data");
     setLoading(true)
