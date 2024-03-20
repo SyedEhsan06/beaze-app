@@ -51,7 +51,7 @@ export default function Header() {
 const router = useRouter();
 const searchSelector = useSelector(selectSearch);
 const profilelogindata = useSelector(selectUser);
-console.log({'profilelogindata' : profilelogindata})
+// console.log({'profilelogindata' : profilelogindata})
   const dispatch = useDispatch();
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -91,6 +91,7 @@ console.log({'profilelogindata' : profilelogindata})
   const handelshowmenu = () => {
     showhide === 1 ? setshowhide(0) : setshowhide(1);
   };
+  
 
   let selectData = useSelector(selectCategories);
   useEffect(() => {
@@ -148,7 +149,7 @@ console.log({'profilelogindata' : profilelogindata})
     }
 
     setSearch(val);
-    console.log(val);
+   
     if (val.length === 0) {
       setshowhide(0);
       setshowsearchmobile(false);
@@ -196,7 +197,7 @@ console.log({'profilelogindata' : profilelogindata})
     }
   }, [searchSelector]);
   
-  console.log(searchSelector);
+  // console.log(searchSelector);
   const handleDispatch = () => {
     dispatch(toggleSubcategory([]));
     dispatch(toggleCategory([]));
@@ -700,9 +701,22 @@ console.log({'profilelogindata' : profilelogindata})
                               >
                                 <Link href="/">About</Link>
                               </li>
-                              {userData == null ? (
+                              {profilelogindata?.first_name ? (
                                 <>
                                   <li
+                                    className="pb-4"
+                                    onClick={() => setshowhide(0)}
+                                  >
+                                    <Link href="/account">{profilelogindata.first_name}'s account </Link>
+                                    
+                                  </li>
+                                  <li onClick={() => setshowhide(0)}>
+                                  <Link href={"/"} onClick={handleLogout}> Logout </Link>
+                                  </li>
+                                </>
+                              ) : (
+                                <>
+                                <li
                                     className="pb-4"
                                     onClick={() => setshowhide(0)}
                                   >
@@ -710,17 +724,6 @@ console.log({'profilelogindata' : profilelogindata})
                                   </li>
                                   <li onClick={() => setshowhide(0)}>
                                     <Link href="/signup">Create account</Link>
-                                  </li>
-                                </>
-                              ) : (
-                                <>
-                                  <li
-                                    className="pb-4"
-                                    onClick={() => setshowhide(0)}
-                                  >
-                                    <Link href="/account">
-                                      {userData.first_name}'s account
-                                    </Link>
                                   </li>
                                 </>
                               )}

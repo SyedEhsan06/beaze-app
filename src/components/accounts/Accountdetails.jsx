@@ -5,8 +5,10 @@ import Countryinput from "../countryinput/Countryinput";
 import { FaXmark } from "react-icons/fa6";
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from "react-redux";
-import Otpinput from "../otp/Otpinput";
 import cookieCutter from "cookie-cutter";
+import Otpinput from "../otp/Otpinput";
+
+
 
 
 export default function Accountdetails({ data }) {
@@ -32,8 +34,15 @@ export default function Accountdetails({ data }) {
   const [isOtpSent, setIsOtpSent] = useState(false);
   const dispatch = useDispatch();
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
-  // const [token, setToken] = useState("");
-  const token = cookieCutter.get("token");
+  const [token, setToken] = useState("");
+ 
+ useEffect(() => {
+  const tok = cookieCutter.get("token");
+  setToken(tok)
+ },[])
+
+
+
   const closeModal = () => {
     setismodalopen(false);
     setError("");
