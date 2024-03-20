@@ -40,6 +40,7 @@ import { FaChevronRight } from "react-icons/fa";
 
 export default function Header() {
   const [scrollLength, setScrollLength] = useState(0);
+  
   const [showmenu, setshowmenu] = useState(false);
   const [showhide, setshowhide] = useState(0);
   const [showshop, setshowshop] = useState(false);
@@ -398,6 +399,7 @@ const profilelogindata = useSelector(selectUser);
     }
   
   }, [pathname, cartOpenState]);
+  
   if (pathname === "/login" || pathname === "/signup" || pathname === "/otp") {
     return null;
   } else {
@@ -561,10 +563,12 @@ const profilelogindata = useSelector(selectUser);
                       <h4 className="text-lg font-semibold">Recent Searches</h4>
                       <div className="w-full flex pt-2  gap-3 flex-wrap items-center">
                         {recentsearch.map((items, index) => (
-                          <Link href={"/products"}>
+                          <Link href={"/products"}
+                          key={index}
+                          
+                          >
                             <div
                               onClick={(e) => handleRecentSearch(e)}
-                              key={index}
                               className="px-3 py-1 bg-[#F0F0F0] text-[#00000096] font-[400] border-[0.5px] border-[#98989880] border-opacity-[50%] rounded-[4px] text-sm] capitalize cursor-pointer"
                             >
                               {items.title}
@@ -579,10 +583,12 @@ const profilelogindata = useSelector(selectUser);
                       </h4>
                       <div className="w-full flex pt-2  gap-3 flex-wrap items-center">
                         {popularsearches.map((items, index) => (
-                          <Link href={"/products"}>
+                          <Link href={"/products"}
+                          key={index}
+                        
+                          >
                             <div
                               onClick={(e) => handleRecentSearch(e)}
-                              key={index}
                               className="px-3 py-1 bg-[#F0F0F0] text-[#00000096] font-[400] border-[0.5px] border-[#98989880] border-opacity-[50%] rounded-[4px] text-sm] capitalize cursor-pointer"
                             >
                               {items.title}

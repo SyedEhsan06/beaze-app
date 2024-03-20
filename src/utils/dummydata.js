@@ -880,7 +880,7 @@ export const recentsearch = [
         title  :'Floral Tshirts'
     },
     {
-        title  :'Kids Pants'
+        title  :'Sneakers'
     }
    
 ]

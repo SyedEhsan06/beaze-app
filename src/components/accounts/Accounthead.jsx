@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import cookieCutter from "cookie-cutter";
 import { useDispatch,useSelector } from "react-redux";
-import { clearUser,selectUser,updateUser} from "@/redux/slices/userData.slice";
+import { selectUser,updateUser} from "@/redux/slices/userData.slice";
 export default function Accounthead() {
     const router = useRouter();
     const dispatch = useDispatch();
