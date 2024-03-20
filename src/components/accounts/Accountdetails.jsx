@@ -14,7 +14,6 @@ export default function Accountdetails({ data }) {
   useEffect(() => {
     setInitalData(data);
   }, [data]);
-  // console.log(initalData);
   const [ismodalopen, setismodalopen] = useState(false);
   const [newFirstName, setNewFirstName] = useState(initalData?.first_name);
   const [newLastName, setNewLastName] = useState(initalData?.last_name);

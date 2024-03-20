@@ -14,9 +14,9 @@ export default function Account() {
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
   const selectDataOfUser = useSelector(selectUser);
-  console.log(selectDataOfUser)
+  // console.log(selectDataOfUser)
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
-  const token ="asdasodkjasdhasjn" 
+  const token = cookieCutter.get("token");
   const fetchDataProfile = async () => {
     console.log("fetching user data");
     setLoading(true)
@@ -29,7 +29,7 @@ export default function Account() {
             Authorization: `Bearer ${token}`,
           },
         });
-        // console.log(res)
+        console.log(res)
         setUserData(res.data.user);
         setLoading(false); 
       }
