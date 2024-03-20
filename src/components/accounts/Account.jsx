@@ -17,7 +17,7 @@ export default function Account() {
   console.log(selectDataOfUser)
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
   const fetchDataProfile = async () => {
-    // console.log("fetching user data");
+    console.log("fetching user data");
     setLoading(true)
     const token = cookieCutter.get("token");
     try {
