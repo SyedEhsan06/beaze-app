@@ -9,7 +9,7 @@ import {
  } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 import { FaTrashAlt } from "react-icons/fa";
-
+import cookiesCutter from "cookie-cutter";
 
 export default function Addressdeatils({ data }) {
   const [bars, setbars] = useState(0);
@@ -44,10 +44,12 @@ export default function Addressdeatils({ data }) {
   console.log(data);
   // console.log(data);
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
-  const [token, setToken] = useState("");
-  useEffect(() => {
-    setToken(localStorage.getItem("token"));
-  }, []);
+  const token = cookiesCutter.get("token");
+  // const [token, setToken] = useState("");
+  
+  // useEffect(() => {
+  //   setToken(localStorage.getItem("token"));
+  // }, []);
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
