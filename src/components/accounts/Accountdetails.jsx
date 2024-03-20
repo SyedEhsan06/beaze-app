@@ -25,6 +25,7 @@ export default function Accountdetails({ data }) {
     setCountryCode("+91");
     setPhoneNumber(initalData?.phone_number);
   }, [initalData]);
+  console.log(initalData)
   const [otp, setOtp] = useState("");
   const [isEditabel, setIsEditabel] = useState(false);
   const [error, setError] = useState("");
