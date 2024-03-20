@@ -398,9 +398,7 @@ console.log({'profilelogindata' : profilelogindata})
     }
   
   }, [pathname, cartOpenState]);
-  if(router.isFallback){
-    <h1>Data is loading</h1>;
-  }
+  
   if (pathname === "/login" || pathname === "/signup" || pathname === "/otp") {
     return null;
   } else {

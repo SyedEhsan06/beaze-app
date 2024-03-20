@@ -9,12 +9,15 @@ import { useSelector } from "react-redux";
 import { selectUser } from "@/redux/slices/userData.slice";
 import cookieCutter from "cookie-cutter";
 import Loaderfixed from "../loader/Loaderfixed";
+import { useRouter } from "next/navigation";
 
 export default function Account() {
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
   const selectDataOfUser = useSelector(selectUser);
   // console.log(selectDataOfUser)
+
+  const router= useRouter()
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
   const token = cookieCutter.get("token");
   const fetchDataProfile = async () => {
@@ -46,6 +49,7 @@ export default function Account() {
   ]);
 console.log(userData)
   const [tabs, settabs] = useState(0);
+  if(router.isFallback) return <Loaderfixed/>
   return (
   <>
   {
