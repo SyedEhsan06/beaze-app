@@ -88,7 +88,7 @@ const [loader, setLoader] = useState(true);
                       <ul>
                         {order.cart.map((item) => (
                           <li key={item._id}>
-                            {item.title} - Quantity: {item.quantity}, Size: {item.size}, Color: {item.color}
+                            {item.title} - Quantity: {item.selectedQty}, Size: {item.size}, Color: {item.color}
                           </li>
                         ))}
                       </ul>

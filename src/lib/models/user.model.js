@@ -73,6 +73,32 @@ const cartSchema = new Schema({
 
     
 });
+const couponSchema = new Schema({
+    code: {
+        type: String,
+        unique: true,
+    },
+    discount: {
+        type: Number,
+    },
+    maxDiscount: {
+        type: Number,
+    },
+    minOrder: {
+        type: Number,
+    },
+    validFrom: {
+        type: Date,
+    },
+    validTill: {
+        type: Date,
+    },
+    active: {
+        type: Boolean,
+        default: true,
+    },
+});
+
 
 const userSchema = new Schema({
     phone_number: {
@@ -111,6 +137,7 @@ const userSchema = new Schema({
     },
     address: [addressSchema], 
     cart: [cartSchema],
+    coupons: [couponSchema],
 });
 
 const User = mongoose?.models.User || mongoose?.model("User", userSchema);
