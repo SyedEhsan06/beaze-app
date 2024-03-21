@@ -87,6 +87,7 @@ export default function PaymentComponent({
     paymentObject.open();
     paymentObject.on("payment.failed", function (response) {
       console.log("Payment failed", response.error.code);
+      
       // const updateFailedOrder = async()=>{
       //   await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/checkout`, {
       //     method: "put",
