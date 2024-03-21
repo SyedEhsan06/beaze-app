@@ -33,6 +33,9 @@ export default function Productinfo({ pid }) {
   const selectedCartData = useSelector(selectCart);
   const [setScrollLength,setsetScrollLength] = useState(null)
   const { slug } = pid;
+  const[colors,setcolors] = useState([]);
+  const[sizes,setsizes] = useState([]);
+
 
   const [pdata,setpdata] = useState({
     _id : '',
@@ -49,6 +52,17 @@ export default function Productinfo({ pid }) {
   })
 
   const [data, setData] = useState([]);
+
+  
+  const findItemByKey = (data, key, value) => {
+    if (!Array.isArray(data)) {
+      console.error('Data is not an array.');
+      return null;
+    }
+    
+    return data.find(item => item[key] === value);
+  };
+  
  
   let selectData = useSelector(selectCategories)
   useEffect(() => {
@@ -90,13 +104,20 @@ const router = useRouter()
            pquantity : 1,
            selectedQty : 1,
            quantity : resdata?.quantity,
-           color : resdata?.attributes && Array.isArray(resdata?.attributes[0]?.value) && resdata?.attributes[0].value[0],
-           size : resdata?.attributes && Array.isArray(resdata?.attributes[1]?.value) && resdata?.attributes[1].value[0],
+           color : findItemByKey(resdata.attributes, 'name', 'Colors')?.value[0],
+           size :findItemByKey(resdata.attributes, 'name', 'Sizes')?.value[0],
            price : resdata?.price,
         
       })
+      const elemcolor = findItemByKey(resdata.attributes, 'name', 'Colors');
+      setcolors(elemcolor?.value ? elemcolor.value : [])
+      
+      
+      const elemcsizes = findItemByKey(resdata.attributes, 'name', 'Sizes');
+      setsizes(elemcsizes?.value ? elemcsizes.value : [])
       
       setloader(false);
+      
      
     } catch (err) {
       setloader(false);
@@ -286,11 +307,7 @@ const routeToProducts = () => {
                     onChange={(e) => handelsetcolr(e.target.value)}
                   >
                     <option value="">Select colour</option>
-                    {productinfo?.attributes &&
-                      Array.isArray(
-                        productinfo?.attributes[0]?.value
-                      ) &&
-                      productinfo?.attributes[0].value.map(
+                    {colors.map(
                         (items, index) => (
                           <option value={items}>Colour : {items}</option>
                         )
@@ -318,11 +335,7 @@ const routeToProducts = () => {
                     onChange={(e) => handelselectsize(e.target.value)}
                   >
                     <option value="">Size : Medium</option>
-                    {productinfo?.attributes &&
-                      Array.isArray(
-                        productinfo?.attributes[1]?.value
-                      ) &&
-                      productinfo?.attributes[1].value.map(
+                    {sizes.map(
                         (items, index) => (
                           <option value={items}>Size : {items}</option>
                         )
@@ -381,13 +394,12 @@ const routeToProducts = () => {
                   </p> */}
                     </div>
 
-                    <div className="context md:mt-7 mt-4">
+                   {
+                    sizes.length > 0 &&  <div className="context md:mt-7 mt-4">
                       <div className="w-full">
                         <p className=" font-[400] text-lg">Select a size</p>
                         <div className="flex mt-1 gap-2 flex-wrap">
-                          {productinfo?.attributes &&
-                            Array.isArray(productinfo?.attributes[1]?.value) &&
-                            productinfo?.attributes[1].value.map(
+                          {sizes.map(
                               (items, index) => (
                                 <button
                                   key={index}
@@ -404,9 +416,11 @@ const routeToProducts = () => {
                         </div>
                       </div>
                     </div>
+                   }
 
                     <div className="md:block grid grid-cols-2 gap-3">
-                      <div className=" context mt-3">
+                      {
+                        colors.length > 0 && <div className=" context mt-3">
                         <div className="w-full">
                           <label
                             htmlFor="sizeselect"
@@ -423,11 +437,7 @@ const routeToProducts = () => {
                                 onChange={(e) => handelsetcolr(e.target.value)}
                               >
                                 <option value="">Select Colour</option>
-                                {productinfo?.attributes &&
-                                  Array.isArray(
-                                    productinfo?.attributes[0]?.value
-                                  ) &&
-                                  productinfo?.attributes[0].value.map(
+                                {colors.map(
                                     (items, index) => (
                                       <option value={items}>{items}</option>
                                     )
@@ -444,6 +454,7 @@ const routeToProducts = () => {
                           </div>
                         </div>
                       </div>
+                      }
 
                       <div className=" context mt-3 md:mt-6 ">
                         <div className="w-full">
