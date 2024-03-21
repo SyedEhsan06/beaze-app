@@ -52,7 +52,7 @@ export default function Header() {
 const router = useRouter();
 const searchSelector = useSelector(selectSearch);
 const profilelogindata = useSelector(selectUser);
-// console.log({'profilelogindata' : profilelogindata})
+console.log({'profilelogindata' : profilelogindata})
   const dispatch = useDispatch();
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -92,7 +92,6 @@ const profilelogindata = useSelector(selectUser);
   const handelshowmenu = () => {
     showhide === 1 ? setshowhide(0) : setshowhide(1);
   };
-  
 
   let selectData = useSelector(selectCategories);
   useEffect(() => {
@@ -126,6 +125,7 @@ const profilelogindata = useSelector(selectUser);
       setshowmenu(true);
       dispatch(toggleSubcategory([]));
       dispatch(toggleCategory([]));
+      dispatch(toggleCategoryCall([]));
       dispatch(toggleFix([]));
       dispatch(addSearch(""));
 
@@ -150,7 +150,7 @@ const profilelogindata = useSelector(selectUser);
     }
 
     setSearch(val);
-   
+    console.log(val);
     if (val.length === 0) {
       setshowhide(0);
       setshowsearchmobile(false);
@@ -198,7 +198,7 @@ const profilelogindata = useSelector(selectUser);
     }
   }, [searchSelector]);
   
-  // console.log(searchSelector);
+  console.log(searchSelector);
   const handleDispatch = () => {
     dispatch(toggleSubcategory([]));
     dispatch(toggleCategory([]));
@@ -362,7 +362,7 @@ const profilelogindata = useSelector(selectUser);
   const selectDataOfUser = useSelector(selectUser);
   useEffect(() => {
     fetchDataProfile();
-    
+
   }, [
     path,
     // setUserData,
@@ -707,22 +707,9 @@ const profilelogindata = useSelector(selectUser);
                               >
                                 <Link href="/">About</Link>
                               </li>
-                              {profilelogindata?.first_name ? (
+                              {userData == null ? (
                                 <>
                                   <li
-                                    className="pb-4"
-                                    onClick={() => setshowhide(0)}
-                                  >
-                                    <Link href="/account">{profilelogindata.first_name}'s account </Link>
-                                    
-                                  </li>
-                                  <li onClick={() => setshowhide(0)}>
-                                  <Link href={"/"} onClick={handleLogout}> Logout </Link>
-                                  </li>
-                                </>
-                              ) : (
-                                <>
-                                <li
                                     className="pb-4"
                                     onClick={() => setshowhide(0)}
                                   >
@@ -730,6 +717,17 @@ const profilelogindata = useSelector(selectUser);
                                   </li>
                                   <li onClick={() => setshowhide(0)}>
                                     <Link href="/signup">Create account</Link>
+                                  </li>
+                                </>
+                              ) : (
+                                <>
+                                  <li
+                                    className="pb-4"
+                                    onClick={() => setshowhide(0)}
+                                  >
+                                    <Link href="/account">
+                                      {userData.first_name}'s account
+                                    </Link>
                                   </li>
                                 </>
                               )}
