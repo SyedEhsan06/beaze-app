@@ -201,7 +201,8 @@ console.log({'profilelogindata' : profilelogindata})
   console.log(searchSelector);
   const handleDispatch = () => {
     dispatch(toggleSubcategory([]));
-    dispatch(toggleCategory([]));
+    dispatch(toggleCategory(""));
+    
     dispatch(toggleCategoryCall([]));
     setshowhide(0);
     if (search.length >= 1) {
