@@ -170,10 +170,10 @@ export default function Signup() {
                  </div>
                 </div>
                 <button 
-                  disabled={firstName && lastName && phone  ? false : true}
+              
                 type="submit" className={`  w-[100%] lg:mt-5 mt-10 py-4 headtext font-[900] text-text-secondary bg-[#FFD012] lg:text-3xl text-xl rounded-lg button-shadow
                 
-                ${firstName && lastName && phone.length==10  ? 'hover:bg-[#FFD012]' : 'hover:bg-[#FFD012] cursor-not-allowed'}
+             
                 `}>Submit</button>
               </form>
             </div>
