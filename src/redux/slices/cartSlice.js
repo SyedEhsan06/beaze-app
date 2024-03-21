@@ -41,12 +41,18 @@ export const cartSlice = createSlice({
         existingItem.selectedQty -= 1;
         
       }
+      
+    }
+    ,
+    emptyCart: (state, action) => {
+      state.cart = [];
     }
     
   },
 });
 export const { addToCart, removeFromCart, removeSingleFromCart 
 , hanldleIncrement
+, emptyCart
 } = cartSlice.actions;
 export const selectCart = (state) => state.cart.cart;
 

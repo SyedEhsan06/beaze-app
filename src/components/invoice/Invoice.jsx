@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import cookieCutter from "cookie-cutter";
 import Loaderfixed from "../loader/Loaderfixed";
+import { useDispatch } from "react-redux";
+import { emptyCart } from "@/redux/slices/cartSlice";
 
 export default function Invoice() {
   const [pdfContent, setPdfContent] = useState("");
@@ -12,6 +14,7 @@ export default function Invoice() {
   const params = useSearchParams();
   const orderId = params.get("orderId");
   const [orderData, setOrderData] = useState(null);
+  const dispatch= useDispatch();
   // console.log(orderId);
   useEffect(() => {
     const fetchOrderData = async () => {
@@ -27,6 +30,7 @@ export default function Invoice() {
           }
         );
         setloader(false)
+        dispatch(emptyCart());
         setOrderData(response.data);
       } catch (error) {
         setloader(false)
