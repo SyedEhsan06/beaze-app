@@ -7,6 +7,11 @@ export async function GET(req) {
     try{
         let query = req.url.split('?')[1];
         console.log(query);
+        if(query){
+            let code = query.split('=')[1];
+            let coupon = await couponModel.findOne({code});
+            return Response.json({coupon});
+        }
         let coupons = await couponModel.find();
         return Response.json({coupons});
     }
