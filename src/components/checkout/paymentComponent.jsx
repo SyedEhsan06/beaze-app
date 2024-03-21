@@ -78,7 +78,7 @@ export default function PaymentComponent({
       modal:{
         ondismiss:function(){
           console.log("payment failed")
-          const absoluteUrl =`${process.env.NEXT_PUBLIC_API_URL}/`;
+          const absoluteUrl =`${process.env.NEXT_PUBLIC_API_URL}/checkout`;
           window.location.href = absoluteUrl
         }
       }
@@ -87,21 +87,21 @@ export default function PaymentComponent({
     paymentObject.open();
     paymentObject.on("payment.failed", function (response) {
       console.log("Payment failed", response.error.code);
-      const updateFailedOrder = async()=>{
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/checkout`, {
-          method: "put",
-          body: JSON.stringify({
-            paymentStatus: "failed",
-            _id:orderId,
+      // const updateFailedOrder = async()=>{
+      //   await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/checkout`, {
+      //     method: "put",
+      //     body: JSON.stringify({
+      //       paymentStatus: "failed",
+      //       _id:orderId,
             
-          }),
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${cookieCutter.get("token")}`,
-          },
-        }).then((t) => t.json());
-      }
-      updateFailedOrder();
+      //     }),
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       "Authorization": `Bearer ${cookieCutter.get("token")}`,
+      //     },
+      //   }).then((t) => t.json());
+      // }
+      // updateFailedOrder();
     });
   };
 
