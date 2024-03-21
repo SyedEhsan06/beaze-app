@@ -51,6 +51,7 @@ useEffect(() => {
   setsizeindex(0)
 },[produtdata,ismodalopen])
 console.log(pdata)
+console.log(produtdata)
 
   const dispatch = useDispatch();
 
@@ -71,7 +72,6 @@ console.log(pdata)
       originalprice   : pdata.price,
 
     }
-
 
     dispatch(addToCart(obj));
     if (selectedCartData.some((item) => item._id === obj._id)) {

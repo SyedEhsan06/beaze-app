@@ -45,6 +45,7 @@ export async function PUT(req) {
     const decodedToken = jwt.verify(token, secret);
     const { phone } = decodedToken;
     // const phone="+918340263940"
+    console.log('phone',phone)
     let user = await User.findOne({ phone_number: phone });
 
     if (!user) {
@@ -79,15 +80,19 @@ export async function PUT(req) {
       images,
     } = await req.json();
     if (phone_number) {
-      const { isOTPSent, sentOTP, otpExpiration } = await sendOTP(phone_number);
+      // const { isOTPSent, sentOTP, otpExpiration } = await sendOTP(phone_number);
 
-      if (!isOTPSent) {
-        return handleCommonError("Failed to send OTP", 500);
-      }
+      // if (!isOTPSent) {
+      //   return handleCommonError("Failed to send OTP", 500);
+      // }
 
-      const isOTPSuccess = await verifyOTP(phone_number, otp);
+      // const isOTPSuccess = await verifyOTP(phone_number, otp);
 
-      if (!isOTPSuccess) {
+      // if (!isOTPSuccess) {
+      //   return handleCommonError("Invalid OTP", 400);
+      // }
+      //testing
+      if (otp !== "123456") {
         return handleCommonError("Invalid OTP", 400);
       }
     }
@@ -128,7 +133,17 @@ export async function PUT(req) {
 
     if (first_name) user.first_name = first_name;
     if (last_name) user.last_name = last_name;
-    if (phone_number) user.phone_number = phone_number;
+    if (phone_number) {
+      const userExists = await User.findOne({ phone_number });
+      if (userExists) {
+        return handleCommonError("Oops this phone number already exists", 400);
+      }
+      user.phone_number = phone_number;
+        const token = jwt.sign({ phone: phone_number }, secret, {
+          expiresIn: "1d",
+        });
+        return Response.json({ token:token });
+    }
     switch (cartOperation) {
       case "add":
         user.cart.push({

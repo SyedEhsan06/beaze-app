@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 
 export default function Account() {
   const [userData, setUserData] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const selectDataOfUser = useSelector(selectUser);
   // console.log(selectDataOfUser)
   const[token,settoken] = useState("")
@@ -27,7 +27,7 @@ settoken(newtoken)
   // const token = cookieCutter.get("token");
   const fetchDataProfile = async () => {
     console.log("fetching user data");
-    setLoading(true)
+    // setLoading(true)
     try {
      
       // console.log(url);
