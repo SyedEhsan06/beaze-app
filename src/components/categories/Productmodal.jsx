@@ -17,6 +17,9 @@ export default function Productmodal({ produtdata, modalclose,ismodalopen,setism
   const [imageindex, setimageindex] = useState(0);
   const [showimage, setshowimage] = useState(false);
   const selectedCartData = useSelector(selectCart);
+  const[colors,setcolors] = useState([]);
+  const[sizes,setsizes] = useState([]);
+
   const [pdata,setpdata] = useState({
     _id : '',
     productId : '',
@@ -32,6 +35,20 @@ export default function Productmodal({ produtdata, modalclose,ismodalopen,setism
   })
 
 
+  const findItemByKey = (data, key, value) => {
+    if (!Array.isArray(data)) {
+      console.error('Data is not an array.');
+      return null;
+    }
+    
+    return data.find(item => item[key] === value);
+  };
+  
+  
+ 
+  
+  
+
 useEffect(() => {
   setpdata({
     ...pdata,
@@ -43,12 +60,22 @@ useEffect(() => {
        pquantity : 1,
        selectedQty  : 1,
        quantity : produtdata.quantity,
-       color : produtdata.attributes && Array.isArray(produtdata.attributes[0]?.value) && produtdata.attributes[0].value[0],
-       size : produtdata.attributes && Array.isArray(produtdata.attributes[1]?.value) && produtdata.attributes[1].value[0],
+       color : findItemByKey(produtdata.attributes, 'name', 'Colors')?.value[0],
+       size : findItemByKey(produtdata.attributes, 'name', 'Sizes')?.value[0],
        price : produtdata.price,
     
   })
   setsizeindex(0)
+  const elemcolor = findItemByKey(produtdata.attributes, 'name', 'Colors');
+setcolors(elemcolor?.value ? elemcolor.value : [])
+
+
+const elemcsizes = findItemByKey(produtdata.attributes, 'name', 'Sizes');
+setsizes(elemcsizes?.value ? elemcsizes.value : [])
+
+
+  
+  
 },[produtdata,ismodalopen])
 console.log(pdata)
 console.log(produtdata)
@@ -229,13 +256,12 @@ const handelincreaseqty = () => {
                 </p>
               </div>
 
-              <div className="context ">
+           {
+            sizes.length > 0 &&     <div className="context ">
                 <div className="w-full">
                   <p className=" font-[400] text-lg">Select a size</p>
                   <div className="flex mt-1 gap-2 flex-wrap">
-                    {produtdata.attributes &&
-                      Array.isArray(produtdata.attributes[1]?.value) &&
-                      produtdata.attributes[1].value.map((items, index) => (
+                    {sizes.map((items, index) => (
                         <button
                           key={index}
                           className={` transition-all duration-150 font-[400] text-sm border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] px-2 py-1 ${
@@ -251,8 +277,10 @@ const handelincreaseqty = () => {
                   </div>
                 </div>
               </div>
+           }
 
-              <div className=" md:block  grid grid-cols-2 gap-x-3">
+            {
+              colors.length > 0 &&   <div className=" md:block  grid grid-cols-2 gap-x-3">
                 <div className=" context  ">
                   <div className="w-full">
                     <label htmlFor="sizeselect" className=" font-[400] text-lg">
@@ -265,9 +293,7 @@ const handelincreaseqty = () => {
                           id="sizeselect" value={pdata.color} onChange={(e) => handelsetcolr(e.target.value)}
                         >
                           <option value="">Select Colour</option>
-                          {produtdata.attributes &&
-                            Array.isArray(produtdata.attributes[0]?.value) &&
-                            produtdata.attributes[0].value.map(
+                          {colors.map(
                               (items, index) => (
                                 <option value={items} key={index}>
                                   {items}
@@ -313,6 +339,7 @@ const handelincreaseqty = () => {
                   </div>
                 </div>
               </div>
+            }
             
 
               <div className=" grid grid-cols-1 gap-y-4 headtext ">
