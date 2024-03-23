@@ -708,7 +708,23 @@ console.log({'profilelogindata' : profilelogindata})
                               >
                                 <Link href="/">About</Link>
                               </li>
-                              {userData == null ? (
+                              {profilelogindata?.first_name ? (
+                                <>
+                                  <li
+                                    className="pb-4"
+                                    onClick={() => setshowhide(0)}
+                                  >
+                                    <Link href="/account">
+                                      {profilelogindata.first_name}'s account
+                                    </Link>
+                                   
+                                  </li>
+
+                                  <li>
+                                  <Link href={"/"} onClick={handleLogout}> Logout </Link>
+                                  </li>
+                                </>
+                              ) : (
                                 <>
                                   <li
                                     className="pb-4"
@@ -720,18 +736,8 @@ console.log({'profilelogindata' : profilelogindata})
                                     <Link href="/signup">Create account</Link>
                                   </li>
                                 </>
-                              ) : (
-                                <>
-                                  <li
-                                    className="pb-4"
-                                    onClick={() => setshowhide(0)}
-                                  >
-                                    <Link href="/account">
-                                      {userData.first_name}'s account
-                                    </Link>
-                                  </li>
-                                </>
-                              )}
+                              )
+                               }
                             </ul>
                           </div>
                         </div>

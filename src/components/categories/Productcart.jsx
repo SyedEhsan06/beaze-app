@@ -59,7 +59,7 @@ const handleCloseCart = () => {
     {
       data.length >= 1 ?  <>
       <div className="pt-5 z-[99999]">
-        <div className=" overflow-y-auto max-h-[63vh] border-b">
+        <div className={`overflow-y-auto transition-all duration-300  border-b ${showprice ? 'max-h-[40vh]' : 'max-h-[60vh]'}`}>
           <div className="px-3">
             {data.map((items, index) => (
               <div className="w-full flex gap-3 mb-3" key={index}>
