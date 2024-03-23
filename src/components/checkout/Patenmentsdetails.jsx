@@ -15,7 +15,7 @@ import cookieCutter from "cookie-cutter";
 import Productshow from "./Productshow";
 import { fetchData } from "@/utils/apicall";
 import { useRouter } from "next/navigation";
-import { setUser } from "@/redux/slices/userData.slice";
+import { selectUser, setUser } from "@/redux/slices/userData.slice";
 import Loaderfixed from "../loader/Loaderfixed";
 export default function Patenmentsdetails() {
   const [selectedCountry, setSelectedCountry] = useState();
@@ -34,6 +34,7 @@ const dispatch = useDispatch();
   const [state, setState] = useState("");
   const [pincode, setPincode] = useState("");
   const [isAccountCreated, setIsAccountCreated] = useState(false);
+  const [isAccountCreatedbilling, setIsAccountCreatedbilling] = useState(false);
   const [isNewsLetter, setIsNewsLetter] = useState(false);
   const [cartData, setCartData] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -60,6 +61,8 @@ const dispatch = useDispatch();
   const [otpTime, setOtpTime] = useState(45);
   const[matchotp,setmatchotp] = useState(false);
   const[usedsavedaddress,setusedsavedaddress] = useState(false);
+  const[usedsavedaddressbilling,setusedsavedaddressbilling] = useState(false);
+  const profilelogindata = useSelector(selectUser);
   useEffect(() => {
     let cookieToken = cookieCutter.get("token");
     if (cookieToken) {
@@ -168,6 +171,7 @@ const dispatch = useDispatch();
   };
   const [loader, setLoader] = useState(false);
   const handleOrderPlace = async (e) => {
+    e.preventDefault();
     setLoaderforPayment(true);
     setLoader(true);
     setTotalPrice(cartData.reduce((a, b) => a + b.price * b.selectedQty, 0));
@@ -238,6 +242,8 @@ const dispatch = useDispatch();
   const closeModal = () => {
     setismodalopen(false);
     setIsAccountCreated(false);
+    setIsAccountCreatedbilling(false);
+
   };
 
   useEffect(() => {
@@ -255,6 +261,13 @@ const dispatch = useDispatch();
       handelgetsavedaddress();
     }
   }, [isAccountCreated]);
+
+  useEffect(() => {
+    if (isAccountCreatedbilling) {
+      setismodalopen(true);
+      handelgetsavedaddress();
+    }
+  }, [isAccountCreatedbilling]);
 
   const handelgetsavedaddress = async () => {
     try {
@@ -299,7 +312,43 @@ const dispatch = useDispatch();
     setusedsavedaddress(true)
     closeModal();
   };
-  //  console.log()
+
+  const handelsetvaluesbilling = (items) => {
+    setAddressLine1Billing(items.address_line1);
+    setAddressLine2Billing(items.address_line2);
+    setCityBilling(items.city);
+    setStateBilling(items.state);
+    setPincodeBilling(items.pincode);
+    setusedsavedaddressbilling(true)
+    closeModal();
+  };
+ const handelsetuseaddress = () => {
+ if(usedsavedaddress){
+  setAddressLine1("");
+  setAddressLine2("");
+  setCity("");
+  setState("");
+  setPincode("");
+  setusedsavedaddress(false)
+ }else{
+  setIsAccountCreated(!isAccountCreated)
+ }
+ }
+
+ const handelsetuseaddressbilling = () => {
+  if(usedsavedaddressbilling){
+   setAddressLine1Billing("");
+   setAddressLine2Billing("");
+   setCityBilling("");
+   setStateBilling("");
+   setPincodeBilling("");
+   setusedsavedaddressbilling(false)
+  }else{
+   setIsAccountCreatedbilling(!isAccountCreatedbilling)
+  }
+  }
+
+ 
   return (
     <>
  {(loaderotpnew || loaderforPayment) && <Loaderfixed/>}
@@ -328,10 +377,10 @@ const dispatch = useDispatch();
             <div>
               <button
                 className={`lg:text-2xl flex items-center text-xl ${
-                  checkoutgreen ? " text-[#039C2EB0]" : "text-black"
+                  checkoutgreen  ? " text-[#039C2EB0] font-[800] lg:text-3xl text-2xl" : "text-black"
                 }`}
               >
-                {checkoutgreen && <IoIosCheckmarkCircle size={16} />}
+                {checkoutgreen && <IoIosCheckmarkCircle size={20} />}
                 Checkout
               </button>
             </div>
@@ -347,7 +396,7 @@ const dispatch = useDispatch();
               </div>
             </div>
             <div>
-              <button className="text-[#998F8F] lg:text-2xl text-xl">
+              <button className={` lg:text-2xl text-xl ${checkoutgreen ? ' text-black' : ' text-[#998F8F]'}`}>
                 Payment
               </button>
             </div>
@@ -538,7 +587,7 @@ const dispatch = useDispatch();
                   <h6 className=" headtext text-text-secondary font-[700] lg:text-[1rem] text-sm">
                     Where do we send your items ?
                   </h6>
-                  <div className=" flex items-center ms-auto text-sm lg:text-[1rem]">
+                  <div className={`items-center ms-auto text-sm lg:text-[1rem] ${profilelogindata.first_name ? 'flex' : 'hidden'}`}>
                     <div className="w-[25px]">
                       <div className=" relative">
                         <input
@@ -548,7 +597,7 @@ const dispatch = useDispatch();
                           value={isAccountCreated}
                           checked={isAccountCreated || usedsavedaddress}
                           onChange={() =>
-                            setIsAccountCreated(!isAccountCreated)
+                           handelsetuseaddress()
                           }
                         />
                       </div>
@@ -565,7 +614,7 @@ const dispatch = useDispatch();
                   </div>
                 </div>
 
-                <form>
+                <form onSubmit={handleOrderPlace}>
                   <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
                     <div className=" w-full context">
                       <label htmlFor="add1" className="mb-2">
@@ -578,7 +627,7 @@ const dispatch = useDispatch();
                       <input
                         type="text"
                         id="add1"
-                        className="w-full border outline-none border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
+                        className="w-full border outline-none border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]" required
                         placeholder="Flat, House, Building and other details"
                         value={address_line1}
                         onChange={(e) => setAddressLine1(e.target.value)}
@@ -595,7 +644,7 @@ const dispatch = useDispatch();
                       <input
                         type="text"
                         id="add2"
-                        className="w-full border  outline-none border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
+                        className="w-full border  outline-none border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]" required
                         placeholder="Lane, Street & Landmark"
                         value={address_line2}
                         onChange={(e) => setAddressLine2(e.target.value)}
@@ -614,7 +663,7 @@ const dispatch = useDispatch();
                         <input
                           type="text"
                           id="City"
-                          className="w-full border  outline-none border-text-secondary shadow-sm px-4 h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
+                          className="w-full border  outline-none border-text-secondary shadow-sm px-4 h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]" required
                           value={city}
                           onChange={(e) => setCity(e.target.value)}
                         />
@@ -631,7 +680,7 @@ const dispatch = useDispatch();
                         <input
                           type="text"
                           id="State"
-                          className="w-full border  outline-none border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
+                          className="w-full border  outline-none border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]" required
                           value={state}
                           onChange={(e) => setState(e.target.value)}
                         />
@@ -648,7 +697,7 @@ const dispatch = useDispatch();
                         <input
                           type="text"
                           id="Pincode"
-                          className="w-full border  outline-none border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
+                          className="w-full border  outline-none border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]" required
                           value={pincode}
                           onChange={(e) => setPincode(e.target.value)}
                         />
@@ -683,13 +732,38 @@ const dispatch = useDispatch();
                   </div>
 
                   {!isBillingSame && (
-                    <div className="my-2">
+                    <div className="mb-2 mt-4">
                       <div>
-                        <h5 className="w-full  headtext lg:text-[1.2rem] md:text-[1rem] text-xl font-[800] pt-4">
-                          {" "}
-                          Your billing address
-                        </h5>
+                      <div className=" flex flex-col lg:flex-row ">
+                  <h6 className=" headtext text-text-secondary font-[700] lg:text-[1rem] text-sm">
+                  Your billing address
+                  </h6>
+                  <div className={`items-center ms-auto text-sm lg:text-[1rem] ${profilelogindata.first_name ? 'flex' : 'hidden'}`}>
+                    <div className="w-[25px]">
+                      <div className=" relative">
+                        <input
+                          type="checkbox"
+                          id="svedaccountbilling"
+                          className=" !top-[-8px] !w-[18px] "
+                          value={isAccountCreatedbilling}
+                          checked={isAccountCreatedbilling || usedsavedaddressbilling}
+                          onChange={() =>
+                           handelsetuseaddressbilling()
+                          }
+                        />
+                      </div>
+                    </div>
 
+                    <div className="">
+                      <label
+                        htmlFor="svedaccountbilling"
+                        className=" font-[400] lg:text-[1rem] text-sm cursor-pointer text-text-secondary context"
+                      >
+                        Use Saved Address
+                      </label>
+                    </div>
+                  </div>
+                </div>
                         <div className="w-full">
                           <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
                             <div className=" w-full context">
@@ -705,7 +779,7 @@ const dispatch = useDispatch();
                                 id="add1"
                                 className="w-full outline-none border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
                                 placeholder="Flat, House, Building and other details"
-                                value={address_line1_billing}
+                                value={address_line1_billing} required
                                 onChange={(e) =>
                                   setAddressLine1Billing(e.target.value)
                                 }
@@ -723,11 +797,12 @@ const dispatch = useDispatch();
                                 type="text"
                                 id="add2"
                                 className="w-full border outline-none border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
-                                placeholder="Lane, Street & Landmark"
+                                placeholder="Lane, Street & Landmark" required
                                 value={address_line2_billing}
                                 onChange={(e) =>
                                   setAddressLine2Billing(e.target.value)
                                 }
+                                
                               />
                             </div>
 
@@ -744,7 +819,7 @@ const dispatch = useDispatch();
                                   type="text"
                                   id="City"
                                   className="w-full outline-none border border-text-secondary shadow-sm px-4 h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                                  value={city_billing}
+                                  value={city_billing} required
                                   onChange={(e) =>
                                     setCityBilling(e.target.value)
                                   }
@@ -763,7 +838,7 @@ const dispatch = useDispatch();
                                   type="text"
                                   id="State"
                                   className="w-full outline-none border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                                  value={state_billing}
+                                  value={state_billing} required
                                   onChange={(e) =>
                                     setStateBilling(e.target.value)
                                   }
@@ -782,7 +857,7 @@ const dispatch = useDispatch();
                                   type="text"
                                   id="Pincode"
                                   className="w-full outline-none border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                                  value={pincode_billing}
+                                  value={pincode_billing} required
                                   onChange={(e) =>
                                     setPincodeBilling(e.target.value)
                                   }
@@ -797,18 +872,8 @@ const dispatch = useDispatch();
 
                   <div className="w-full flex justify-center mt-6">
                     <button
-                      onClick={handleOrderPlace}
-                      disabled={
-                        !address_line1 ||
-                        !address_line2 ||
-                        !city ||
-                        !state ||
-                        !pincode ||
-                        address_line1.length < 5 ||
-                        address_line2.length < 5 ||
-                        city.length < 3 ||
-                        state.length < 3
-                      }
+                      
+                    
                       className="headtext font-[800]  lg:text-[1.4rem] text-xl py-3 lg:w-[50%] w-[85%] rounded bg-theme-footer-bg text-white"
                     >
                       Continue to Shipping
@@ -893,7 +958,7 @@ const dispatch = useDispatch();
                   />
                 </button>
               </div>
-              {isAccountCreated ? (
+              {isAccountCreated || isAccountCreatedbilling ? (
                 <div className="my-2">
                   <div className="lg:my-4 md:my-2 my-1">
                     <h6 className="context font-[900] lg:text-[2.5rem] md:text-[2rem] text-2xl text-center lg:mb-10 md:mb-7 mb-4">
@@ -908,7 +973,7 @@ const dispatch = useDispatch();
                           <div
                             key={index}
                             className="w-full h-[50px] px-2 rounded flex justify-center items-center cursor-pointer border border-theme-footer-bg"
-                            onClick={() => handelsetvalues(items)}
+                            onClick={usedsavedaddressbilling ? () => handelsetvalues(items) : () => handelsetvaluesbilling(items)}
                           >
                             <span className="text-lg headtext font-[700] text-theme-footer-bg">
                               {items.address_type}

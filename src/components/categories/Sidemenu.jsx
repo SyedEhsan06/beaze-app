@@ -79,20 +79,20 @@ console.log(categorySelect);
   
 
   return (
-    <aside className="w-full py-0 px-5 overflow-y-auto">
+    <aside className="w-full py-0 lg:px-5 overflow-y-auto">
       {categoryToMap?.map((items, index) => (
-        <div className="w-full flex flex-col gap-y-2 my-7 context" key={index}>
+        <div className="w-full flex flex-col gap-y-2 lg:my-7 py-5 lg:py-0 context border-b lg:border-b-0 border-theme-footer-bg  border-opacity-[40%]" key={index}>
           <div
             className="cursor-pointer"
             onClick={() => handleCheckboxChange(items,index)}
           >
-            <div className="flex gap-x-4 items-center cursor-pointer pl-[1.5rem]">
+            <div className="flex gap-x-4 items-center cursor-pointer lg:pl-[1.5rem] pl-[12px] lg:pr-[0px] pr-[12px]">
               <div>
                 <p className="text-xl font-[500] mb-0 leading-[1.50rem]">
                   {items.name}
                 </p>
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center ms-auto lg:ms-0">
                 <button className="text-xl">
                 <BiSolidChevronDown
                     className={`transition-all duration-75 ${

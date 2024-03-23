@@ -151,7 +151,7 @@ export default function Addressdeatils({ data }) {
              </div>
 
              <div className="w-[10%] flex gap-2 items-center ml-auto">
-             <div className="w-[50%]">
+             <div className="w-[50%]"  onClick={() => handelopenadddeatis(items.addressId)}>
                 <img
                 
                   src={

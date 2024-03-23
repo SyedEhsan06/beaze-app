@@ -26,8 +26,8 @@ settoken(newtoken)
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
   // const token = cookieCutter.get("token");
   const fetchDataProfile = async () => {
-    console.log("fetching user data");
-    // setLoading(true)
+
+    setLoading(true)
     try {
      
       // console.log(url);

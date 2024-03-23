@@ -793,7 +793,7 @@ useEffect(() => {
    <>
    {loader && <Loaderfixed/>}
     <div className="w-full">
-      <div className="w-full flex pt-3 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
+      <div className="w-full flex lg:pt-0 pt-3 lg:pb-4 pb-2 gap-x-4 flex-wrap lg:flex-nowrap gap-y-2 lg:gap-y-0 ">
         <div className="lg:w-8/12 w-full flex order-2 lg:order-1  gap-2 context text-text-secondary flex-wrap ">
           {
               searchBar && (
