@@ -497,7 +497,7 @@ const routeToProducts = () => {
                   <div className="mt-5">
                     <button
                       className="context font-[500] text-2xl md:w-[80%] w-[100%] flex items-center gap-x-5"
-                      onClick={() => setshowdesc(!showdesc)}
+                     
                     >
                       Description & Details{" "}
                       <BiSolidChevronDown
