@@ -358,7 +358,7 @@ const dispatch = useDispatch();
         <div className=" w-full">
           <div className=" flex lg:gap-x-10 gap-x-3  headtext font-[600]  items-center md:px-4 mt-4 ">
             <div>
-              <button className=" font-[800] lg:text-3xl text-2xl text-[#039C2EB0] text-opacity-[69%] flex items-center">
+              <button className=" font-[800] lg:text-3xl text-lg text-[#039C2EB0] text-opacity-[69%] flex items-center">
                 <IoIosCheckmarkCircle size={20} />
                 Cart
               </button>
@@ -376,8 +376,8 @@ const dispatch = useDispatch();
             </div>
             <div>
               <button
-                className={`lg:text-2xl flex items-center text-xl ${
-                  checkoutgreen  ? " text-[#039C2EB0] font-[800] lg:text-3xl text-2xl" : "text-black"
+                className={`lg:text-2xl flex items-center ${
+                  checkoutgreen  ? " text-[#039C2EB0] font-[800] lg:text-3xl text-lg" : "text-black"
                 }`}
               >
                 {checkoutgreen && <IoIosCheckmarkCircle size={20} />}
@@ -396,7 +396,7 @@ const dispatch = useDispatch();
               </div>
             </div>
             <div>
-              <button className={` lg:text-2xl text-xl ${checkoutgreen ? ' text-black' : ' text-[#998F8F]'}`}>
+              <button className={` lg:text-2xl text-[1rem] ${checkoutgreen ? ' text-black' : ' text-[#998F8F]'}`}>
                 Payment
               </button>
             </div>

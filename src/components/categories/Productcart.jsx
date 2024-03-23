@@ -59,7 +59,7 @@ const handleCloseCart = () => {
     {
       data.length >= 1 ?  <>
       <div className="pt-5 z-[99999]">
-        <div className={`overflow-y-auto transition-all duration-300  border-b ${showprice ? 'max-h-[40vh]' : 'max-h-[60vh]'}`}>
+        <div className={`overflow-y-auto transition-all duration-300  border-b ${showprice ? 'max-h-[40vh]' : 'md:max-h-[60vh] max-h-[58vh]'}`}>
           <div className="px-3">
             {data.map((items, index) => (
               <div className="w-full flex gap-3 mb-3" key={index}>
@@ -115,8 +115,8 @@ const handleCloseCart = () => {
         </div>
       </div>
 
-      <div className="px-3 py-2">
-        <div className="flex w-full context gap-2 mb-3">
+      <div className="px-3 py-2 mb-3 lg:mb-0">
+        <div className="flex w-full context gap-2 mb-2 ">
           <div className="w-[65%]">
             <input
               type="text"
