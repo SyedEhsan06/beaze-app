@@ -174,11 +174,9 @@ export default function Login() {
                   <p className=' text-center lg:text-[1rem] text-xs underline font-[700]'>We’d love for you to check it again</p>
                  </div>
                 <button
-                  disabled={
-                    phone.length === 10? false : true
-                  }
+                 
                 className={`w-[100%] mt-7 py-4  headtext font-[900] text-text-secondary bg-[#FFD012] lg:text-3xl text-xl  rounded-lg button-shadow 
-                ${phone.length === 10 ? 'hover:bg-[#FFD012]' : 'cursor-not-allowed'}
+               }
                 
                 `}>
                 

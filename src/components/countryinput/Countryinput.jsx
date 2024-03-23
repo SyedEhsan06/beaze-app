@@ -131,7 +131,7 @@ console.log(userdata)
           </div>
         </div>
         <div className="w-[80%]">
-          <div className={`w-full flex border items-center relative  shadow-input  overflow-hidden rounded-lg ${alreadyresgiter ? ' border-[#FF0000]' : 'border-text-secondary'}`}>
+          <div className={`w-full flex border items-center relative  shadow-input  overflow-hidden rounded-lg ${alreadyresgiter || checknumtendigit ? ' border-[#FF0000]' : 'border-text-secondary'}`}>
             <div className="w-[100%] ">
               <input
                 type="number"

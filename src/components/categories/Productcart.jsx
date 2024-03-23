@@ -203,10 +203,10 @@ const handleCloseCart = () => {
           className="w-[35%] bg-transparent rounded-[29px] py-2 border-[1px] border-[#000000] text-xl text-[300] text-text-secondary">
             Cancel
           </button>
-          <Link href="/checkout">
+          <Link href="/checkout" className="w-[65%]">
           <button
            
-           className=" w-[65%] bg-theme-footer-bg  py-2 text-xl text-white font-[700] rounded-[29px]" onClick={handelsendtocheckout}>
+           className=" w-full bg-theme-footer-bg  py-2 text-xl text-white font-[700] rounded-[29px]" onClick={handelsendtocheckout}>
             Checkout
            </button>
            </Link>
