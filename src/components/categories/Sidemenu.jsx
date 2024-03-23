@@ -105,7 +105,7 @@ console.log(categorySelect);
             </div>
           </div>
           <div
-            className={`pl-[1.5rem] lg:pl-0 ${
+            className={`pl-[10px] lg:pl-0 ${
               isVisible(index) || categorySelect.includes(items.name)
                 ? "block"
                 : "hidden"
