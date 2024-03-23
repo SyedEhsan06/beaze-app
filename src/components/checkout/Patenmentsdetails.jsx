@@ -970,10 +970,19 @@ const dispatch = useDispatch();
                      {
                       savedaddress.length >= 1 ?  <div className="w-full grid lg:grid-cols-4 md:grid-cols-3  grid-cols-2 gap-3">
                         {savedaddress.map((items, index) => (
-                          <div
+                         isAccountCreatedbilling ?  <div
                             key={index}
                             className="w-full h-[50px] px-2 rounded flex justify-center items-center cursor-pointer border border-theme-footer-bg"
-                            onClick={usedsavedaddressbilling ? () => handelsetvalues(items) : () => handelsetvaluesbilling(items)}
+                            onClick={() => handelsetvaluesbilling(items)}
+                          >
+                            <span className="text-lg headtext font-[700] text-theme-footer-bg">
+                              {items.address_type}
+                            </span>
+                          
+                          </div> :  <div
+                            key={index}
+                            className="w-full h-[50px] px-2 rounded flex justify-center items-center cursor-pointer border border-theme-footer-bg"
+                            onClick={() => handelsetvalues(items)}
                           >
                             <span className="text-lg headtext font-[700] text-theme-footer-bg">
                               {items.address_type}
