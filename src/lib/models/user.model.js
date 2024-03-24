@@ -112,6 +112,10 @@ const userSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    isNewsletter: {
+        type: Boolean,
+        default: false,
+    },
     last_name: {
         type: String,
     },
