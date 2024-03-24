@@ -208,7 +208,7 @@ export default function Productcart({ setCartOpen }) {
                 <input
                   type="text"
                   placeholder={
-                    cookieCutter.get("token").length < 1? "Login to apply coupon" : "Enter Coupon Code"
+                    cookieCutter?.get("token")?.length < 1? "Login to apply coupon" : "Enter Coupon Code"
                   }
                   className="w-full focus:outline-none border-[1px] border-bg-[#00000066] border-opacity-[40%] p-2 rounded-lg  focus:border-opacity-[100%] transition-all duration-150"
                   value={coupon}
@@ -216,14 +216,14 @@ export default function Productcart({ setCartOpen }) {
                 />
               </div>
               <button
-              disabled={coupon.length < 1 ||cookieCutter.get("token").length < 1}
+              disabled={coupon?.length < 1 ||cookieCutter?.get("token")?.length < 1}
                 className={`w-[35%] bg-[#FFB61D] ${
                   couponError
                     ? "border-[1px] border-[#FF0000] text-[#FF0000] border-opacity-[100%]"
                     : "border-transparent text-[#000000]"
                 } text-white
                 ${
-                  coupon.length >=1 ||cookieCutter.get("token").length < 1 ? 'opacity-[100%]':'opacity-[50%]'
+                  coupon?.length >=1 ||cookieCutter?.get("token")?.length < 1 ? 'opacity-[100%]':'opacity-[50%]'
                 }
               rounded-lg px-2 text-xs md:text-[1rem]`}
                 
