@@ -30,7 +30,7 @@ export async function POST(req) {
     if (usedCoupon) {
       return Response.json(
         { error: "Coupon already applied" },
-        { status: 400 }
+        { status: 200 }
       );
     }
 
@@ -71,6 +71,7 @@ export async function POST(req) {
 
     return Response.json({
       discount,
+      code,
       couponId: coupon._id,
       message: "Coupon applied successfully",
     });

@@ -1,22 +1,29 @@
 "use client"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import { selectCart } from "@/redux/slices/cartSlice";
+import { selectCart, selectDiscount } from "@/redux/slices/cartSlice";
 import PaymentComponent from "./paymentComponent";
 // import PaymentComponent from "./paymentComponent";
 
 export default function Productshow({ buttonevent, cartData,orderId,ischeckoutset }) {
   const [showPayment, setShowPayment] = useState(false); // State to control visibility of PaymentComponent
   const cart = useSelector(selectCart);
-  console.log(cart);
+  const discountState = useSelector(selectDiscount);
+  const [code,setCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  useEffect(() => {
+    setCode(discountState?.code)
+    setDiscount(discountState?.discount)
+  }, [discountState]);
+  // console.log(cart);
   const totalPrice = cart.reduce((total, item) => {
     const itemPrice = item.originalprice * item.selectedQty; // Calculate item price
     const itemTax = item.tax * item.selectedQty; // Calculate item tax
-    return total + itemPrice + itemTax; // Accumulate total price
+    return total + itemPrice-discount/100*itemPrice + itemTax; // Add item price and tax to total
   }, 0);
 
-console.log(totalPrice)
+// console.log(totalPrice)
   const makePayment = () => {
     setShowPayment(true); // Show PaymentComponent when button is clicked
   };
@@ -63,6 +70,7 @@ console.log(totalPrice)
       data={cart}
       amount = {totalPrice}
       orderId = {orderId}
+      coupon ={code}
       />}
 
       <button disabled= {ischeckoutset ? false  : true}
