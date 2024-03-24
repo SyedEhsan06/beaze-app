@@ -183,12 +183,12 @@ loader */
   min-height: 100vh;
   max-height: auto;
   width: 100%;
-  z-index: 10019;
+  z-index: 10019 !important;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  z-index: 100;
+
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.7)
 }
@@ -305,7 +305,7 @@ cursor: pointer !important;
     animation-iteration-count: infinite;
     animation-name: orbit;
     animation-duration: 5.5s;
-    z-index: 10020;
+    z-index: 10020 !important;
     
     &:after {
       content: '';

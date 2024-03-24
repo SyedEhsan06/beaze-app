@@ -708,7 +708,24 @@ console.log({'profilelogindata' : profilelogindata})
                               >
                                 <Link href="/">About</Link>
                               </li>
-                              {userData == null ? (
+                              {profilelogindata?.first_name ? (
+                                <>
+                                  <li
+                                    className="pb-4"
+                                    onClick={() => setshowhide(0)}
+                                  >
+                                    <Link href="/account">
+                                      {profilelogindata.first_name}'s account
+                                    </Link>
+                                   
+                                  </li>
+
+                                  <li   className="pb-4"
+                                    onClick={() => setshowhide(0)} >
+                                  <Link href={"/"} onClick={handleLogout}> Logout </Link>
+                                  </li>
+                                </>
+                              ) : (
                                 <>
                                   <li
                                     className="pb-4"
@@ -720,18 +737,8 @@ console.log({'profilelogindata' : profilelogindata})
                                     <Link href="/signup">Create account</Link>
                                   </li>
                                 </>
-                              ) : (
-                                <>
-                                  <li
-                                    className="pb-4"
-                                    onClick={() => setshowhide(0)}
-                                  >
-                                    <Link href="/account">
-                                      {userData.first_name}'s account
-                                    </Link>
-                                  </li>
-                                </>
-                              )}
+                              )
+                               }
                             </ul>
                           </div>
                         </div>
@@ -892,7 +899,7 @@ console.log({'profilelogindata' : profilelogindata})
         </header>
 
         <div
-          className={`your-specific-class fixed overflow-y-auto right-0 h-[100vh] bg-white shadow-sm lg:w-[425px] md:w-[400px] w-[80%]  top-0 z-[300] rounded-tl-[28px] border py-3 context ${
+          className={`your-specific-class fixed  right-0 h-[100vh] bg-white shadow-sm lg:w-[425px] md:w-[400px] w-[80%]  top-0 z-[300] rounded-tl-[28px] border py-3 context ${
             cartOpenState ? "block" : "hidden"
           }`}
           ref={cartref}

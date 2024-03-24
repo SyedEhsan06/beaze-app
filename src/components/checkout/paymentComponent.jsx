@@ -92,7 +92,7 @@ export default function PaymentComponent({
       
 
       prefill: {
-        name: "Placeholder",
+        name: "",
         email: "beaze@gmail.com",
         contact: "9999999999",
       },

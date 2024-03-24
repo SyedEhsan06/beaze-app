@@ -22,16 +22,26 @@ export async function POST(req) {
       status,
       shipping_address,
       billing_address,
+      isNewsletter,
+      createAccount,
+      phoneFromBody
     } = await req.json();
     const token = req.headers.get("authorization")?.replace("Bearer ", "");
     const decodedToken = jwt.verify(token, secret);
     const { phone } = decodedToken;
     // const phone = "+918340263940";
     const user = await User.findOne({ phone_number: phone });
-    if (!user) {
-      return Response.json({ error: "User not found" }, { status: 404 });
+    if (!user && createAccount) {
+      const newUser = new User({
+        phone_number: phoneFromBody,
+        first_name,
+        last_name,
+        shipping_address,
+        billing_address,
+        isNewsletter,
+      });
+      await newUser.save();
     }
-  
     console.log(first_name, last_name, phone, cart, total, payment, paymentStatus, status, shipping_address, billing_address)
     const order = new Order({
       first_name,
@@ -44,6 +54,7 @@ export async function POST(req) {
       status,
       shipping_address,
       billing_address,
+      
     });  
     await order.save();
     // let products = await Product.find();

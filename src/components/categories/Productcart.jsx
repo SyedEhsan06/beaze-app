@@ -5,13 +5,18 @@ import { IoMdAdd } from "react-icons/io";
 import { RiSubtractFill } from "react-icons/ri";
 import { FaTrashAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";X
 import { TbFaceIdError } from "react-icons/tb";
 import {
+  addDiscount,
   addToCart,
   hanldleIncrement,
+  removeDiscount,
   removeFromCart,
   removeSingleFromCart,
   selectCart,
+  selectDiscount,
 } from "@/redux/slices/cartSlice";
 import { closeCart } from "@/redux/slices/cartOpenSlice";
 import { useRouter } from "next/navigation";
@@ -27,6 +32,7 @@ export default function Productcart({ setCartOpen }) {
   const [couponError, setcouponError] = useState("");
   const [couponDiscount, setcouponDiscount] = useState(0);
   const [couponId, setcouponId] = useState("");
+  const [codeName,setcodename]=useState("")
   const [showprice, setshowprice] = useState(false);
   const [loder, setloder] = useState(false);
   const router = useRouter();
@@ -49,18 +55,25 @@ export default function Productcart({ setCartOpen }) {
     }
   };
   const handleCloseCart = () => {
+    dispatch(removeDiscount());
+      setcoupon("");
+      setcouponDiscount(0);
     setCartOpen(false);
     // dispatch(closeCart());
   };
   let tax = data.reduce((a, b) => a + b.tax * b.selectedQty, 0);
   let total = tax + data.reduce((a, b) => a + b.price * b.selectedQty, 0);
-
-  console.log(data);
+  const discountState = useSelector(selectDiscount);
+  console.log(discountState);
+    // console.log(data);
   const totalPrice = data.reduce(
     (a, b) => a + b.originalprice * b.selectedQty,
     0
   );
-  const fullTotal = totalPrice + tax;
+  useEffect(() => {
+    dispatch(addDiscount({ discount: couponDiscount, couponId: couponId ,code:codeName}))
+  }, [couponDiscount]);
+  const fullTotal = totalPrice+tax - couponDiscount/100 * totalPrice;
   const handelsendtocheckout = () => {
     router.push("/checkout");
     setCartOpen(false);
@@ -76,30 +89,42 @@ export default function Productcart({ setCartOpen }) {
           code: coupon,
         },
         {
-          headers: {
+          headers: { 
             Authorization: `Bearer ${cookieCutter.get("token")}`,
           },
         }
       );
-        // console.log(response);
+        console.log(response)
+
         setloder(false);
       if (response.data.error) {
         setcouponError(response.data.error);
       } else {
         setcouponDiscount(response.data.discount);
-        setcouponId(response.data._id);
+        setcouponId(response.data.couponId);
+        setcodename(response.data.code)
         setcouponError("");
-        dispatch(addToCart({ discount: response.data.discount }));
+        dispatch(
+          addDiscount({
+            discount: response.data.discount,
+            couponId: response.data.couponId,
+            code:response.data.code
+          })
+        );
+        
       }
     } catch (error) {
       setloder(false);
+      // 
+      console.log(error);
+      setcouponError(error)
       console.error(error);
     }
   };
 
   console.log(couponDiscount);
   console.log(couponError);
-
+  
 
   return (
     <>
@@ -182,20 +207,23 @@ export default function Productcart({ setCartOpen }) {
               <div className="w-[65%]">
                 <input
                   type="text"
-                  placeholder="Enter Coupon Code"
+                  placeholder={
+                    cookieCutter.get("token").length < 1? "Login to apply coupon" : "Enter Coupon Code"
+                  }
                   className="w-full focus:outline-none border-[1px] border-bg-[#00000066] border-opacity-[40%] p-2 rounded-lg  focus:border-opacity-[100%] transition-all duration-150"
                   value={coupon}
                   onChange={(e) => setcoupon(e.target.value)}
                 />
               </div>
               <button
+              disabled={coupon.length < 1 ||cookieCutter.get("token").length < 1}
                 className={`w-[35%] bg-[#FFB61D] ${
                   couponError
                     ? "border-[1px] border-[#FF0000] text-[#FF0000] border-opacity-[100%]"
                     : "border-transparent text-[#000000]"
                 } text-white
                 ${
-                  coupon.length >=1 ? 'opacity-[100%]':'opacity-[50%]'
+                  coupon.length >=1 ||cookieCutter.get("token").length < 1 ? 'opacity-[100%]':'opacity-[50%]'
                 }
               rounded-lg px-2 text-xs md:text-[1rem]`}
                 

@@ -138,6 +138,7 @@ export default function Accountdetails({ data }) {
   };
 
   const handleUpdateWithOtp = async () => {
+    setLoading(true)
     try {
       const response = await axios.put(
         url,
@@ -163,10 +164,12 @@ export default function Accountdetails({ data }) {
           phone_number: updatedUser.phone_number,
         })
       );
-      setismodalopen(false);
-      setMatchotp(true);
+      setLoading(false)
+      closeModal();
+      setMatchotp(false);
       setError("");
     } catch (error) {
+      setLoading(false)
       setMatchotp(true);
       console.error("Error updating account details with OTP:", error);
       setError("Failed to update account details with OTP. Please try again.");
@@ -255,8 +258,9 @@ export default function Accountdetails({ data }) {
           <div className="lg:mt-14 md:mt-10 mt-6 grid grid-cols-2 gap-5">
             {!isEditabel ? (
               <>
+              
                 <button
-                  className="w-[100%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg lg:text-[1.4rem] md:text-xl text-[1rem] rounded-[21.5px]"
+                className=" bg-[#F8B43A] w-full  font-[600] lg:text-xl md:text-lg text-[1rem] headtext rounded-[21.5px] text-theme-footer-bg py-2  text-center border border-transparent"
                   onClick={editDetails}
                 >
                   Edit Details
@@ -264,8 +268,9 @@ export default function Accountdetails({ data }) {
               </>
             ) : (
               <>
+              
                 <button
-                  className="w-[100%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg lg:text-[1.4rem] md:text-xl text-[1rem] rounded-[21.5px]"
+                  className=" border border-theme-footer-bg w-full  font-[600] lg:text-xl md:text-lg text-[1rem] headtext rounded-[21.5px] text-theme-footer-bg py-2  text-center"
                   onClick={candleBtn}
                 >
                   Cancel
@@ -277,7 +282,7 @@ export default function Accountdetails({ data }) {
               <>
                 <button
                   onClick={handleUpdateWithoutOtp}
-                  className="w-[100%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg lg:text-[1.4rem] md:text-xl text-[1rem] rounded-[21.5px]"
+                  className=" bg-[#F8B43A] w-full  font-[600] lg:text-xl md:text-lg text-[1rem] headtext rounded-[21.5px] text-theme-footer-bg py-2  text-center border border-transparent"
                 >
                   Save
                 </button>
@@ -286,7 +291,7 @@ export default function Accountdetails({ data }) {
               <>
                 <button
                   onClick={handleUpdate}
-                  className="w-[100%] headtext py-1 bg-[#F8B43A] font-[400] text-theme-footer-bg lg:text-[1.4rem] md:text-xl text-[1rem] rounded-[21.5px]"
+                  className=" bg-[#F8B43A] w-full  font-[600] lg:text-xl md:text-lg text-[1rem] headtext rounded-[21.5px] text-theme-footer-bg py-2  text-center border border-transparent"
                 >
                   Save
                 </button>

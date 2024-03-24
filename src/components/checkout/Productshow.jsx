@@ -8,6 +8,7 @@ import PaymentComponent from "./paymentComponent";
 
 export default function Productshow({ buttonevent, cartData,orderId,ischeckoutset }) {
   const [showPayment, setShowPayment] = useState(false); // State to control visibility of PaymentComponent
+  const [isScrolled, setIsScrolled] = useState(false);
   const cart = useSelector(selectCart);
   const discountState = useSelector(selectDiscount);
   const [code,setCode] = useState("");
@@ -16,20 +17,34 @@ export default function Productshow({ buttonevent, cartData,orderId,ischeckoutse
     setCode(discountState?.code)
     setDiscount(discountState?.discount)
   }, [discountState]);
+  console.log(discountState)
+  console.log(code)
+  console.log(discount)
+  
   // console.log(cart);
-  const totalPrice = cart.reduce((total, item) => {
+  let totalPrice = cart.reduce((total, item) => {
     const itemPrice = item.originalprice * item.selectedQty; // Calculate item price
     const itemTax = item.tax * item.selectedQty; // Calculate item tax
-    return total + itemPrice-discount/100*itemPrice + itemTax; // Add item price and tax to total
+    return total + itemPrice-discount/100*itemPrice + itemTax
   }, 0);
 
-// console.log(totalPrice)
+  totalPrice = parseFloat(totalPrice).toFixed(2);
+  console.log(totalPrice);
   const makePayment = () => {
     setShowPayment(true); // Show PaymentComponent when button is clicked
   };
 
+  const handleScroll = () => {
+    const scrollableDiv = document.getElementById('scrollableDiv');
+    if (scrollableDiv.scrollTop > 0) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+
   return (
-    <div className="max-h-[70vh] lg:min-h-[75vh] overflow-y-auto w-full bg-white shadow-sm border lg:relative">
+    <div className="max-h-[70vh] lg:min-h-[75vh] overflow-y-auto w-full bg-white shadow-sm border lg:relative"  id="scrollableDiv" onScroll={handleScroll}>
       <div className="grid grid-cols-1 gap-y-3 lg:px-10 lg:py-8 md:px-8 px-4 md:py-6 py-5">
         {cart.map((items, index) => (
           <div className="w-full flex gap-3" key={index}>
@@ -74,7 +89,7 @@ export default function Productshow({ buttonevent, cartData,orderId,ischeckoutse
       />}
 
       <button disabled= {ischeckoutset ? false  : true}
-        className={`w-full  lg:absolute  fixed bottom-0 left-0 headtext  text-white font-extrabold text-[1.5rem] py-2  ${ischeckoutset ? ' bg-theme-footer-bg' : 'bg-[#A5A0A8]'}`}
+        className={`w-full transition-all duration-150  ${isScrolled ? ' lg:sticky' : ' lg:absolute'}  fixed bottom-0 left-0 headtext  text-white font-extrabold text-[1.5rem] py-2  ${ischeckoutset ? ' bg-theme-footer-bg' : 'bg-[#A5A0A8]'}`}
         onClick={makePayment}
       >
         Continue to Payment
