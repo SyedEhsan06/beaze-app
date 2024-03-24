@@ -8,7 +8,7 @@ import { FaDeleteLeft } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 import { FaTrashAlt } from "react-icons/fa";
 import cookiesCutter from "cookie-cutter";
-
+import Swal from 'sweetalert2';
 export default function Addressdeatils({ data }) {
   const [bars, setbars] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
@@ -110,22 +110,42 @@ export default function Addressdeatils({ data }) {
         setUserAddress(res.data.address);
       });
   };
-  const handleDeleteAddress = async (id) => {
-    console.log("delete");
-    await axios
-      .put(
-        url,
-        {
-          operation: "delete",
-          addressId: id,
-        },
-        config
-      )
-      .then((res) => {
-        console.log(res);
-        dispatch(updateUser(res.data.user));
-        setUserAddress(res.data.address);
-      });
+  const handleDeleteAddress = async(id) => {
+
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then( async(result) => {
+      if (result.isConfirmed) {
+        await axios.put(
+          url,
+          {
+            operation: "delete",
+            addressId: id,
+          },
+          config
+        ).then((res) => {
+          console.log(res);
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your address has been deleted.",
+            icon: "success"
+          });
+          dispatch(updateUser(res.data.user));
+          setUserAddress(res.data.address);
+    
+        });
+       
+      }
+    });
+   
+  
   };
 
   const closeModal = () => {
@@ -340,7 +360,7 @@ export default function Addressdeatils({ data }) {
                   type="text"
                   id="addressType"
                   className="w-full border border-text-secondary shadow-sm px-4 rounded-lg focus:outline-none transition-all duration-100 relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
-                  placeholder="Home Work Other Required"
+                  placeholder="Home Work Other"
                   value={addressType}
                   required={true}
                   onChange={(e) => setAddressType(e.target.value)}

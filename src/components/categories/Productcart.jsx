@@ -24,6 +24,7 @@ import cookieCutter from "cookie-cutter";
 import Link from "next/link";
 import axios from "axios";
 import Loaderfixed from "../loader/Loaderfixed";
+import { set } from "mongoose";
 export default function Productcart({ setCartOpen }) {
   const cartData = useSelector(selectCart);
   const [data, setdata] = useState(cartData);
@@ -36,6 +37,7 @@ export default function Productcart({ setCartOpen }) {
   const [showprice, setshowprice] = useState(false);
   const [loder, setloder] = useState(false);
   const router = useRouter();
+  const[showremove,setshowremove] = useState(false)
   const dispatch = useDispatch();
   useEffect(() => {
     setdata(cartData);
@@ -55,12 +57,20 @@ export default function Productcart({ setCartOpen }) {
     }
   };
   const handleCloseCart = () => {
-    dispatch(removeDiscount());
-      setcoupon("");
-      setcouponDiscount(0);
+    // dispatch(removeDiscount());
+    //   setcoupon("");
+    //   setcouponDiscount(0);
     setCartOpen(false);
     // dispatch(closeCart());
   };
+
+
+  const handelremovecoupon = () => {
+    setshowremove(false)
+    dispatch(removeDiscount());
+    setcoupon("");
+    setcouponDiscount(0);
+  }
   let tax = data.reduce((a, b) => a + b.tax * b.selectedQty, 0);
   let total = tax + data.reduce((a, b) => a + b.price * b.selectedQty, 0);
   const discountState = useSelector(selectDiscount);
@@ -74,6 +84,7 @@ export default function Productcart({ setCartOpen }) {
     dispatch(addDiscount({ discount: couponDiscount, couponId: couponId ,code:codeName}))
   }, [couponDiscount]);
   const fullTotal = totalPrice+tax - couponDiscount/100 * totalPrice;
+  const originalTotal = totalPrice + tax;
   const handelsendtocheckout = () => {
     router.push("/checkout");
     setCartOpen(false);
@@ -100,6 +111,7 @@ export default function Productcart({ setCartOpen }) {
       if (response.data.error) {
         setcouponError(response.data.error);
       } else {
+        setshowremove(true)
         setcouponDiscount(response.data.discount);
         setcouponId(response.data.couponId);
         setcodename(response.data.code)
@@ -132,7 +144,7 @@ export default function Productcart({ setCartOpen }) {
       {data.length >= 1 ? (
         <>
           <div className="pt-5 z-[99999]">
-            <div className={`overflow-y-auto transition-all duration-300  border-b ${showprice ? 'max-h-[40vh]' : 'md:max-h-[60vh] max-h-[58vh]'}`}>
+            <div className={`overflow-y-auto transition-all duration-300  border-b ${showprice ? 'max-h-[40vh]' : showremove ? 'max-h-[55vh] lg:max-h-[55vh]' : 'md:max-h-[60vh] max-h-[58vh]'}`}>
               <div className="px-3">
                 {data.map((items, index) => (
                   <div className="w-full flex gap-3 mb-3" key={index}>
@@ -203,7 +215,16 @@ export default function Productcart({ setCartOpen }) {
           </div>
 
           <div className="px-3 py-2 mb-3 lg:mb-0">
-            <div className="flex w-full context gap-2 mb-2">
+          {
+            showremove ?  <div className="flex w-full context gap-2 mb-2">
+              <div className="w-[65%] bg-[#FFB61D42] bg-opacity-[26%] rounded-[8px]  px-3 py-2">
+              <div className=" w-full flex items-center gap-2 " ><img src="/images/web/task.png" className="w-[20px] h-[16px]" alt="" /> <span  className=" text-text-secondary  context leading-normal mt-[1px] font-[500] uppercase lg:text-lg text-[1rem] ">{coupon}</span></div>
+              <p className="mt-1 font-[800] context lg:text-sm text-xs">A {couponDiscount}% discount has been applied</p>
+              </div>
+           <button className="w-[35%] bg-[#B6B2AA87] bg-opacity-[53%] rounded-[8px] flex items-center justify-center text-text-secondary context font-[400] lg:text-lg text-[1rem]" onClick={handelremovecoupon}>
+           Remove
+           </button>
+            </div> :   <div className="flex w-full context gap-2 mb-2">
               <div className="w-[65%]">
                 <input
                   type="text"
@@ -221,7 +242,7 @@ export default function Productcart({ setCartOpen }) {
                   couponError
                     ? "border-[1px] border-[#FF0000] text-[#FF0000] border-opacity-[100%]"
                     : "border-transparent text-[#000000]"
-                } text-white
+                }  text-text-secondary
                 ${
                   coupon?.length >=1 ||cookieCutter?.get("token")?.length < 1 ? 'opacity-[100%]':'opacity-[50%]'
                 }
@@ -232,6 +253,7 @@ export default function Productcart({ setCartOpen }) {
                 Apply Coupon
               </button>
             </div>
+          }
 
             <div className="border-[0.5px] border-bg-[#00000033] border-opacity-[50%] rounded-lg mb-3">
               <div className={`${showprice ? "block" : "hidden"}`}>
@@ -293,7 +315,7 @@ export default function Productcart({ setCartOpen }) {
 
                 <div className="w-[50%] flex">
                   <p className="ml-auto text-[1rem] font-[500]">
-                    {fullTotal.toFixed(2)}
+               {showremove &&  <span className=" line-through  font-[300] text-[#585656] pr-3">INR {originalTotal.toFixed(2)} </span>  } INR {fullTotal.toFixed(2)}
                   </p>
                 </div>
               </div>
