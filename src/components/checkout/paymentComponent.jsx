@@ -8,10 +8,17 @@ export default function PaymentComponent({
   data,
   amount,
   orderId,
+  coupon,
+  couponId,
 }) {
-  // console.log("data", data);
-  // console.log("amount", amount);
-  // console.log("orderId", orderId);
+  console.log({
+    makePaymentClick,
+    data,
+    amount,
+    orderId,
+    coupon,
+    couponId,
+  })
   const makePayment = async ({ productId = "example_ebook" }) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/razorpay`, {
       method: "POST",
@@ -41,37 +48,51 @@ export default function PaymentComponent({
       },
       
       handler: async function (response) {
-         console.log("Payment successful", response);
-        const updateOrder = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/checkout`,
-          {
-            method: "put",
-            body: JSON.stringify({
-              paymentStatus: "success",
-              status: "processed",
-              total: amount,
-              _id:orderId,
-            }),
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${cookieCutter.get("token")}`,
-            },
-          }
-        ).then((t) => t.json());
+        console.log("Payment successful", response);
+        
+        // Update order status
+        const updateOrder = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/checkout`, {
+          method: "put",
+          body: JSON.stringify({
+            paymentStatus: "success",
+            status: "processed",
+            total: amount,
+            _id: orderId,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${cookieCutter.get("token")}`,
+          },
+        }).then((t) => t.json());
+      
         console.log("updateOrder", updateOrder);
-        cookieCutter.set("paymentStatus",
-          `success ${updateOrder.order._id}`
-
-        , {
+      
+        // Update coupon usage status
+        const updateCoupon = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/coupon/use`, {
+          method: "put",
+          body: JSON.stringify({
+            code: coupon,
+            couponId: couponId,
+          }), 
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${cookieCutter.get("token")}`,
+          }
+        }).then((t) => t.json());
+      
+        console.log("updateCoupon", updateCoupon);
+      
+        cookieCutter.set("paymentStatus", `success ${updateOrder.order._id}`, {
           expires: new Date(new Date().getTime() + 60 * 60 * 1000),
         });
-        const absoluteUrl =`${process.env.NEXT_PUBLIC_API_URL}/invoice?orderId=${orderId}`;
-
-          window.location.href = absoluteUrl
-      },    
+      
+        const absoluteUrl = `${process.env.NEXT_PUBLIC_API_URL}/invoice?orderId=${orderId}`;
+        window.location.href = absoluteUrl;
+      },
+      
 
       prefill: {
-        name: "Placeholder",
+        name: "",
         email: "beaze@gmail.com",
         contact: "9999999999",
       },

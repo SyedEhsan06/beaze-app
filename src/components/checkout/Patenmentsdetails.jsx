@@ -62,6 +62,7 @@ const dispatch = useDispatch();
   const[matchotp,setmatchotp] = useState(false);
   const[usedsavedaddress,setusedsavedaddress] = useState(false);
   const[usedsavedaddressbilling,setusedsavedaddressbilling] = useState(false);
+  const [createAccount, setCreateAccount] = useState(false);
   const profilelogindata = useSelector(selectUser);
   useEffect(() => {
     let cookieToken = cookieCutter.get("token");
@@ -202,6 +203,9 @@ const dispatch = useDispatch();
           payment: "razorpay",
           paymentStatus: "pending",
           status: "pending",
+          createAccount,
+          isNewsLetter,
+          phoneFromBody: phone,
         },
         {
           headers: {
@@ -496,7 +500,7 @@ const dispatch = useDispatch();
                       alreadyresgiter={checknum}
                     />
                   </div>
-                  {/* <div className=" w-full my-6 context">
+                  <div className=" w-full my-6 context">
                     <div className=" flex gap-2 lg:gap-0 items-center">
                       <div className="w-[5%]">
                         <div className=" relative">
@@ -504,10 +508,8 @@ const dispatch = useDispatch();
                             type="checkbox"
                             id="accout"
                             className=" !top-[-9px] "
-                            value={isAccountCreated}
-                            onChange={() =>
-                              setIsAccountCreated(!isAccountCreated)
-                            }
+                            value={createAccount}
+                            onChange={() => setCreateAccount(!createAccount)}
                           />
                         </div>
                       </div>
@@ -544,7 +546,7 @@ const dispatch = useDispatch();
                         </label>
                       </div>
                     </div>
-                  </div> */}
+                  </div>
 
                   <div className="w-full flex justify-center my-6">
                     <button
