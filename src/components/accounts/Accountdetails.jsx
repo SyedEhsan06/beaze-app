@@ -65,15 +65,7 @@ export default function Accountdetails({ data }) {
   //   setToken(localStorage.getItem("token"));
   // }, [typeof window !== "undefined" && localStorage.getItem("token")]);
   const handleUpdateWithoutOtp = async () => {
-    // console.log(token)
     setLoading(true);
-    console.log({
-      first_name: newFirstName,
-      last_name: newLastName,
-      // country_code: countryCode,
-      phone_number: phoneNumber,
-    });
-    console.log("Updating user details without OTP");
     try {
       const response = await axios.put(
         url,
