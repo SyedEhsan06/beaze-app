@@ -10,7 +10,7 @@ import {
 import { useDispatch } from "react-redux";
 import { FaTrashAlt } from "react-icons/fa";
 import cookiesCutter from "cookie-cutter";
-
+import Swal from 'sweetalert2';
 export default function Addressdeatils({ data }) {
   const [bars, setbars] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
@@ -108,20 +108,41 @@ export default function Addressdeatils({ data }) {
       });
   };
   const handleDeleteAddress = async(id) => {
-    console.log("delete");
-    await axios.put(
-      url,
-      {
-        operation: "delete",
-        addressId: id,
-      },
-      config
-    ).then((res) => {
-      console.log(res);
-      dispatch(updateUser(res.data));
-      setUserAddress(res.data.address);
 
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then( async(result) => {
+      if (result.isConfirmed) {
+        await axios.put(
+          url,
+          {
+            operation: "delete",
+            addressId: id,
+          },
+          config
+        ).then((res) => {
+          console.log(res);
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your address has been deleted.",
+            icon: "success"
+          });
+          dispatch(updateUser(res.data));
+          setUserAddress(res.data.address);
+    
+        });
+       
+      }
     });
+   
+  
   };
     
   const closeModal = () => {
