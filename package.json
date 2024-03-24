@@ -30,6 +30,7 @@
     "react-toastify": "^10.0.5",
     "redux-persist": "^6.0.0",
     "shortid": "^2.2.16",
+    "sweetalert2": "^11.10.7",
     "swiper": "^11.0.5",
     "twilio": "^4.22.0"
   },
