@@ -3,12 +3,15 @@ import { useRouter } from "next/navigation";
 import cookieCutter from "cookie-cutter";
 import { useDispatch,useSelector } from "react-redux";
 import { selectUser,updateUser} from "@/redux/slices/userData.slice";
+import { emptyCart } from "@/redux/slices/cartSlice";
 export default function Accounthead() {
     const router = useRouter();
     const dispatch = useDispatch();
     const handleLogout = () => {
         cookieCutter.set("token", "");
         router.push("/");
+    dispatch(emptyCart());
+
         dispatch(updateUser({first_name: '',last_name: '',phone_number: '',address: [],cart: [],email: '',role: '',isVerified: false}));
 
     };

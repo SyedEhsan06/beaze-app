@@ -37,6 +37,7 @@ import Productcart from "../categories/Productcart";
 import axios from "axios";
 import { selectUser, setUser, updateUser } from "@/redux/slices/userData.slice";
 import { FaChevronRight } from "react-icons/fa";
+import { emptyCart } from "@/redux/slices/cartSlice";
 
 export default function Header() {
   const [scrollLength, setScrollLength] = useState(0);
@@ -384,6 +385,7 @@ console.log({'profilelogindata' : profilelogindata})
   const handleLogout = () => {
     cookieCutter.set("token", "");
     router.push("/");
+    dispatch(emptyCart());
     dispatch(updateUser({first_name: '',last_name: '',phone_number: '',address: [],cart: [],email: '',role: '',isVerified: false}));
 
 };

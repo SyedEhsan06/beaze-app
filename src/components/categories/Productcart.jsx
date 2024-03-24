@@ -5,6 +5,7 @@ import { IoMdAdd } from "react-icons/io";
 import { RiSubtractFill } from "react-icons/ri";
 import { FaTrashAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import "./cartcss.css"
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";X
 import { TbFaceIdError } from "react-icons/tb";
@@ -25,6 +26,7 @@ import Link from "next/link";
 import axios from "axios";
 import Loaderfixed from "../loader/Loaderfixed";
 import { set } from "mongoose";
+import { Bars, MagnifyingGlass } from "react-loader-spinner";
 export default function Productcart({ setCartOpen }) {
   const cartData = useSelector(selectCart);
   const [data, setdata] = useState(cartData);
@@ -91,7 +93,9 @@ export default function Productcart({ setCartOpen }) {
   };
   // console.log({'cartdata' : cartData})
   //coupon
+  const [couponName, setcouponName] = useState("");
   const handleCoupon = async () => {
+    setcouponName(coupon);
     setloder(true);
     try {
       const response = await axios.post(
@@ -129,7 +133,7 @@ export default function Productcart({ setCartOpen }) {
       setloder(false);
       // 
       console.log(error);
-      setcouponError(error)
+      setcouponError("Invalid Coupon Code");
       console.error(error);
     }
   };
@@ -214,11 +218,25 @@ export default function Productcart({ setCartOpen }) {
             </div>
           </div>
 
-          <div className="px-3 py-2 mb-3 lg:mb-0">
+          <div className="px-3 py-2 mb-3 lg:mb-0 relative ">
+            {
+              loder && <MagnifyingGlass
+              visible={true}
+              height="80"
+              width="80"
+            
+              className="absolute left-[30%]"
+              ariaLabel="magnifying-glass-loading"
+              wrapperStyle={{}}
+              wrapperClass="magnifying-glass-wrapper"
+              glassColor="#c0efff"
+              color="#e15b64"
+              />
+            }
           {
             showremove ?  <div className="flex w-full context gap-2 mb-2">
               <div className="w-[65%] bg-[#FFB61D42] bg-opacity-[26%] rounded-[8px]  px-3 py-2">
-              <div className=" w-full flex items-center gap-2 " ><img src="/images/web/task.png" className="w-[20px] h-[16px]" alt="" /> <span  className=" text-text-secondary  context leading-normal mt-[1px] font-[500] uppercase lg:text-lg text-[1rem] ">{coupon}</span></div>
+              <div className=" w-full flex items-center gap-2 " ><img src="/images/web/task.png" className="w-[20px] h-[16px]" alt="" /> <span  className=" text-text-secondary  context leading-normal mt-[1px] font-[500] uppercase lg:text-lg text-[1rem] ">{couponName}</span></div>
               <p className="mt-1 font-[800] context lg:text-sm text-xs">A {couponDiscount}% discount has been applied</p>
               </div>
            <button className="w-[35%] bg-[#B6B2AA87] bg-opacity-[53%] rounded-[8px] flex items-center justify-center text-text-secondary context font-[400] lg:text-lg text-[1rem]" onClick={handelremovecoupon}>
@@ -229,13 +247,14 @@ export default function Productcart({ setCartOpen }) {
                 <input
                   type="text"
                   placeholder={
-                    cookieCutter?.get("token")?.length < 1? "Login to apply coupon" : "Enter Coupon Code"
+                    cookieCutter?.get("token")?.length < 1? "Login to apply coupon" : "Enter Coupon Code" 
                   }
                   className="w-full focus:outline-none border-[1px] border-bg-[#00000066] border-opacity-[40%] p-2 rounded-lg  focus:border-opacity-[100%] transition-all duration-150"
                   value={coupon}
                   onChange={(e) => setcoupon(e.target.value)}
                 />
               </div>
+            
               <button
               disabled={coupon?.length < 1 ||cookieCutter?.get("token")?.length < 1}
                 className={`w-[35%] bg-[#FFB61D] ${
@@ -252,9 +271,13 @@ export default function Productcart({ setCartOpen }) {
               >
                 Apply Coupon
               </button>
+              
             </div>
           }
-
+        {
+          couponError && <p className="text-[#FF0000] text-[1rem] font-[400]">{couponError}</p>
+        }
+  
             <div className="border-[0.5px] border-bg-[#00000033] border-opacity-[50%] rounded-lg mb-3">
               <div className={`${showprice ? "block" : "hidden"}`}>
                 {" "}
