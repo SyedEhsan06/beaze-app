@@ -132,7 +132,7 @@ export default function Productcart({ setCartOpen }) {
       {data.length >= 1 ? (
         <>
           <div className="pt-5 z-[99999]">
-            <div className=" overflow-y-auto max-h-[63vh] border-b">
+            <div className={`overflow-y-auto transition-all duration-300  border-b ${showprice ? 'max-h-[40vh]' : 'md:max-h-[60vh] max-h-[58vh]'}`}>
               <div className="px-3">
                 {data.map((items, index) => (
                   <div className="w-full flex gap-3 mb-3" key={index}>
@@ -202,8 +202,8 @@ export default function Productcart({ setCartOpen }) {
             </div>
           </div>
 
-          <div className="px-3 py-2">
-            <div className="flex w-full context gap-2 mb-3">
+          <div className="px-3 py-2 mb-3 lg:mb-0">
+            <div className="flex w-full context gap-2 mb-2">
               <div className="w-[65%]">
                 <input
                   type="text"
@@ -306,9 +306,9 @@ export default function Productcart({ setCartOpen }) {
               >
                 Cancel
               </button>
-              <Link href="/checkout">
+              <Link href="/checkout" className="w-[65%]">
                 <button
-                  className=" w-[65%] bg-theme-footer-bg  py-2 text-xl text-white font-[700] rounded-[29px]"
+                  className=" w-[100%] bg-theme-footer-bg  py-2 text-xl text-white font-[700] rounded-[29px]"
                   onClick={handelsendtocheckout}
                 >
                   Checkout

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -12,6 +12,8 @@ export default function ModalImageSlider({ sliderdata,showonphone,imageindex,set
 const [showfullimage,setshowfullimage] = useState(true)
 const [swiperProgress, setSwiperProgress] = useState(0);
 
+
+
     const progressbar = [
         { val: 0 },
         { val: 1 },
@@ -19,6 +21,7 @@ const [swiperProgress, setSwiperProgress] = useState(0);
         { val: 3 },
         { val: 4 },
     ];
+  
 
     return (
         <div className='w-full'>
@@ -42,7 +45,7 @@ const [swiperProgress, setSwiperProgress] = useState(0);
                 keyboard={{ enabled: true }}
                 // scrollbar={{ draggable: true }}
                 autoplay={{
-                            delay: 2500,
+                            delay: 4500,
                         }}
                 breakpoints={{
                     0: {
