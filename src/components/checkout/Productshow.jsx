@@ -88,7 +88,9 @@ export default function Productshow({ buttonevent, cartData,orderId,ischeckoutse
       coupon ={code}
       />}
 
-      <button disabled= {ischeckoutset ? false  : true}
+      <button disabled= {ischeckoutset 
+        
+      ? false  : true}
         className={`w-full transition-all duration-150  ${isScrolled ? ' lg:sticky' : ' lg:absolute'}  fixed bottom-0 left-0 headtext  text-white font-extrabold text-[1.5rem] py-2  ${ischeckoutset ? ' bg-theme-footer-bg' : 'bg-[#A5A0A8]'}`}
         onClick={makePayment}
       >

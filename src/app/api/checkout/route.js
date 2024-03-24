@@ -30,7 +30,8 @@ export async function POST(req) {
     const decodedToken = jwt.verify(token, secret);
     const { phone } = decodedToken;
     // const phone = "+918340263940";
-    const user = await User.findOne({ phone_number: phone });
+    const user = await User.findOne({ phone_number: phone })
+
     if (!user && createAccount) {
       const newUser = new User({
         phone_number: phoneFromBody,
@@ -127,13 +128,13 @@ export async function GET(req) {
     const orderId = params.get("orderId");
 
     const user = await User.findOne({ phone_number: phone });
-    if (!user) {
-      return Response.json({ error: "User not found" }, { status: 404 });
-    }
+    // if (!user) {
+    //   return Response.json({ error: "User not found" }, { status: 404 });
+    // }
 
     let orders;
     if (orderId) {
-      const order = await Order.findOne({ _id: orderId, phone });
+      const order = await Order.findOne({ _id: orderId });
       if (!order) {
         return Response.json({ error: "Order not found" }, { status: 404 });
       }
