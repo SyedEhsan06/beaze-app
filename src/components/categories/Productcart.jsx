@@ -101,6 +101,7 @@ export default function Productcart({ setCartOpen }) {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/coupon/use`,
         {
+          total: totalPrice,
           code: coupon,
         },
         {
