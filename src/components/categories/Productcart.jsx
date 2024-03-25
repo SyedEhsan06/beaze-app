@@ -242,7 +242,7 @@ export default function Productcart({ setCartOpen }) {
            <button className="w-[35%] bg-[#B6B2AA87] bg-opacity-[53%] rounded-[8px] flex items-center justify-center text-text-secondary context font-[400] lg:text-lg text-[1rem]" onClick={handelremovecoupon}>
            Remove
            </button>
-            </div> :   <div className="flex w-full context gap-2 mb-2">
+            </div> :   <div className={`flex w-full context gap-2 ${couponError ? 'mb-0' : 'mb-2'}`}>
               <div className="w-[65%]">
                 <input
                   type="text"
@@ -275,7 +275,7 @@ export default function Productcart({ setCartOpen }) {
             </div>
           }
         {
-          couponError && <p className="text-[#FF0000] text-[1rem] font-[400]">{couponError}</p>
+          couponError && <p className="text-[#FF0000] mb-[5px]  font-[400] pl-[5px] text-[10px]">{couponError}</p>
         }
   
             <div className="border-[0.5px] border-bg-[#00000033] border-opacity-[50%] rounded-lg mb-3">
