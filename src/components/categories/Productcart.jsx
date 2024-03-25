@@ -149,7 +149,7 @@ export default function Productcart({ setCartOpen }) {
       {data.length >= 1 ? (
         <>
           <div className="pt-5 z-[99999]">
-            <div className={`overflow-y-auto transition-all duration-300  border-b ${showprice && !showremove ? 'lg:max-h-[40vh] max-h-[38vh] ' : showremove && showprice  ? '!max-h-[32vh] lg:!max-h-[35vh]' : 'md:max-h-[58vh] max-h-[51vh]'}`}>
+            <div className={`overflow-y-auto transition-all duration-300  border-b ${showprice && !showremove ? 'lg:max-h-[45vh]  max-h-[38vh] ' : showremove && showprice  ? '!max-h-[32vh] lg:!max-h-[35vh]' : 'lg:max-h-[60vh] max-h-[51vh]'}`}>
               <div className="px-3">
                 {data.map((items, index) => (
                   <div className="w-full flex gap-3 mb-3" key={index}>

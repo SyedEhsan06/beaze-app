@@ -500,10 +500,10 @@ const routeToProducts = () => {
                      
                     >
                       Description & Details{" "}
-                      <BiSolidChevronDown
+                      {/* <BiSolidChevronDown
                         className={` transition-all duration-150 ${showdesc ? " rotate-180" : "null"
                           }`}
-                      />
+                      /> */}
                     </button>
                   </div>
 
