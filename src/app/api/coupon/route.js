@@ -24,8 +24,24 @@ export async function GET(req) {
 export async function POST(req) {
     await connectToDb();
     try{
-        let {code, discount} = await req.json();
-        let coupon = new couponModel({code, discount});
+        let {
+            code,
+            discount,
+            minOrder,
+            maxDiscount,
+            validFrom,
+            validTill,
+            active,
+        } = await req.json();
+        let coupon = new couponModel({
+            code,
+            discount,
+            minOrder,
+            maxDiscount,
+            validFrom,
+            validTill,
+            active,
+        });
         await coupon.save();
         return Response.json({message: "Coupon created successfully"});
 

@@ -23,6 +23,7 @@ export default function Invoice() {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/checkout?orderId=${orderId}`,
           {
+            
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${cookieCutter.get("token")}`,

@@ -9,7 +9,7 @@ const secret = process.env.SECRET;
 export async function POST(req) {
   await connectToDb();
   try {
-    const { code } = await req.json();
+    const { code,total } = await req.json();
     const token = req.headers.get("authorization")?.replace("Bearer ", "");
     const decodedToken = jwt.verify(token, secret);
     const { phone } = decodedToken;
@@ -18,10 +18,10 @@ export async function POST(req) {
     const user = await mongoose.models.User.findOne({ phone_number: phone }).lean();
     const coupon = await Coupon.findOne({ code }).lean();
     if (!coupon) {
-        return Response.json({ error: "Coupon not found" }, { status: 404 });
+        return Response.json({ error: "Coupon not found" }, { status: 200 });
     }
     if (!user) {
-      return Response.json({ error: "User not found" }, { status: 404 });
+      return Response.json({ error: "User not found" }, { status: 200 });
     }
     const usedCoupon = await usedCoupons.findOne({
       coupon: coupon._id.toString(),
@@ -35,27 +35,28 @@ export async function POST(req) {
     }
 
     // Find the coupon by its code
-
+    console.log(coupon)
+    console.log(total)
     if (!coupon) {
-      return Response.json({ error: "Coupon not found" }, { status: 404 });
+      return Response.json({ error: "Coupon not found" }, { status: 200 });
     }
 
     // Check if the coupon is active
     if (!coupon.active) {
-      return Response.json({ error: "Coupon not active" }, { status: 400 });
+      return Response.json({ error: "Coupon not active" }, { status: 200 });
     }
 
     // Validate coupon
     if (coupon.validFrom > new Date()) {
-      return Response.json({ error: "Coupon not valid yet" }, { status: 400 });
+      return Response.json({ error: "Coupon not valid yet" }, { status: 200 });
     }
     if (coupon.validTill < new Date()) {
-      return Response.json({ error: "Coupon expired" }, { status: 400 });
+      return Response.json({ error: "Coupon expired" }, { status: 200 });
     }
-    if (coupon.minOrder > user.cart.total) {
+    if (coupon.minOrder > total) {
       return Response.json(
         { error: "Minimum order value not met" },
-        { status: 400 }
+        { status: 200 }
       );
     }
 
@@ -89,19 +90,19 @@ export async function PUT(req) {
       const { phone } = decodedToken;
       let user = await User.findOne({ phone_number: phone });
       if (!user) {
-        return Response.json({ error: "User not found" }, { status: 404 });
+        return Response.json({ error: "User not found" }, { status: 200 });
       }
       const { code } = await req.json(); // Change from couponId to code
       const coupon = await Coupon.findOne({ code }).lean()
         if (!coupon) {
-            return Response.json({ error: "Coupon not found" }, { status: 404 });
+            return Response.json({ error: "Coupon not found" }, { status: 200 });
         }
         const isUsed = await usedCoupons.findOne({ coupon: coupon._id.toString(), user: user._id.toString() });
         if (isUsed) {
-            return Response.json({ error: "Coupon already applied" }, { status: 400 });
+            return Response.json({ error: "Coupon already applied" }, { status: 200 });
         }
         if (!coupon.active) {
-            return Response.json({ error: "Coupon not active" }, { status: 400 });
+            return Response.json({ error: "Coupon not active" }, { status: 200 });
         }
       const usedCoupon = new usedCoupons({ coupon: coupon._id.toString() , user: user._id }); // Use coupon._id
       await usedCoupon.save();
