@@ -67,10 +67,14 @@ export default function Patenmentsdetails() {
   console.log(userProfileData?.phone_number);
   console.log(phone);
   console.log("+91" + phone);
-  // console.log(userProfileData?.phone_number == "+91"+ phone);
+  console.log(
+    userProfileData?.phone_number == "+91" + phone ||
+      userProfileData?.phone_number == phone
+  );
+
   useEffect(() => {
-  console.log(phone);
-    
+    console.log(phone);
+
     let cookieToken = cookieCutter.get("token");
     if (cookieToken) {
       setToken(cookieToken);
@@ -78,7 +82,6 @@ export default function Patenmentsdetails() {
   }, []);
   // console.log(orderData)
   useEffect(() => {
-
     console.log("token", token);
     if (token) {
       const fetchProfile = async () => {
@@ -109,7 +112,7 @@ export default function Patenmentsdetails() {
   //api1
   const dataFromStore = useSelector(selectCart);
   useEffect(() => {
-  console.log(phone);
+    console.log(phone);
 
     setCartData(dataFromStore);
     setTotalPrice(
@@ -280,7 +283,7 @@ export default function Patenmentsdetails() {
   };
 
   useEffect(() => {
-  console.log(phone);
+    console.log(phone);
 
     if (tabs === 2 && !isBillingSame) {
       window.scrollTo({
@@ -595,21 +598,22 @@ export default function Patenmentsdetails() {
                     )}
 
                     <div className="w-full flex justify-center my-6">
-                      {userProfileData?.phone_number != "+91"+ phone ? (
+                      {userProfileData?.phone_number == "+91" + phone ||
+                      userProfileData?.phone_number == phone ? (
                         <button
                           disabled={!phone || !first_name || !last_name}
-                          className="headtext font-[800]  lg:text-[1.4rem] text-lg py-3 lg:w-[40%] w-[60%] rounded bg-theme-footer-bg text-white"
-                          onClick={createAccount ? handleOtpSend : handleVerify}
+                          className="headtext font-[800] lg:text-[1.4rem] text-lg py-3 lg:w-[40%] w-[60%] rounded bg-theme-footer-bg text-white"
+                          onClick={() => settabs(1)}
                         >
-                          Send OTP
+                          Save Details
                         </button>
                       ) : (
                         <button
                           disabled={!phone || !first_name || !last_name}
-                          className="headtext font-[800]  lg:text-[1.4rem] text-lg py-3 lg:w-[40%] w-[60%] rounded bg-theme-footer-bg text-white"
-                          onClick={() => settabs(1)}
+                          className="headtext font-[800] lg:text-[1.4rem] text-lg py-3 lg:w-[40%] w-[60%] rounded bg-theme-footer-bg text-white"
+                          onClick={createAccount ? handleOtpSend : handleVerify}
                         >
-                          Save Details
+                          Send OTP
                         </button>
                       )}
                     </div>
