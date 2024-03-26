@@ -64,7 +64,13 @@ export default function Patenmentsdetails() {
   const [usedsavedaddressbilling, setusedsavedaddressbilling] = useState(false);
   const [createAccount, setCreateAccount] = useState(false);
   const profilelogindata = useSelector(selectUser);
+  console.log(userProfileData?.phone_number);
+  console.log(phone);
+  console.log("+91" + phone);
+  // console.log(userProfileData?.phone_number == "+91"+ phone);
   useEffect(() => {
+  console.log(phone);
+    
     let cookieToken = cookieCutter.get("token");
     if (cookieToken) {
       setToken(cookieToken);
@@ -72,6 +78,8 @@ export default function Patenmentsdetails() {
   }, []);
   // console.log(orderData)
   useEffect(() => {
+
+    console.log("token", token);
     if (token) {
       const fetchProfile = async () => {
         try {
@@ -101,6 +109,8 @@ export default function Patenmentsdetails() {
   //api1
   const dataFromStore = useSelector(selectCart);
   useEffect(() => {
+  console.log(phone);
+
     setCartData(dataFromStore);
     setTotalPrice(
       dataFromStore.reduce((a, b) => a + b.price * b.selectedQty, 0)
@@ -270,6 +280,8 @@ export default function Patenmentsdetails() {
   };
 
   useEffect(() => {
+  console.log(phone);
+
     if (tabs === 2 && !isBillingSame) {
       window.scrollTo({
         top: 200,
@@ -524,68 +536,82 @@ export default function Patenmentsdetails() {
                         alreadyresgiter={checknum}
                       />
                     </div>
-                   {
-                    cookieCutter.get("token") ?null:
-                    <> <div className=" w-full my-6 context">
-                    <div className=" flex gap-2 lg:gap-0 items-center">
-                      <div className="w-[5%]">
-                        <div className=" relative">
-                          <input
-                            type="checkbox"
-                            id="accout"
-                            className=" !top-[-9px] "
-                            value={createAccount}
-                            onChange={() => setCreateAccount(!createAccount)}
-                          />
+                    {cookieCutter.get("token") ? null : (
+                      <>
+                        {" "}
+                        <div className=" w-full my-6 context">
+                          <div className=" flex gap-2 lg:gap-0 items-center">
+                            <div className="w-[5%]">
+                              <div className=" relative">
+                                <input
+                                  type="checkbox"
+                                  id="accout"
+                                  className=" !top-[-9px] "
+                                  value={createAccount}
+                                  onChange={() =>
+                                    setCreateAccount(!createAccount)
+                                  }
+                                />
+                              </div>
+                            </div>
+
+                            <div className="w-[95%]">
+                              <label
+                                htmlFor="accout"
+                                className=" font-[400] lg:text-[1rem] text-sm cursor-pointer"
+                              >
+                                Automatically create an account for me
+                              </label>
+                            </div>
+                          </div>
+
+                          <div className=" flex lg:gap-0 gap-2  items-center mt-1">
+                            <div className="w-[5%]">
+                              <div className=" relative">
+                                <input
+                                  type="checkbox"
+                                  id="news"
+                                  className=" !top-[-9px] "
+                                  value={isNewsLetter}
+                                  onChange={() => {
+                                    setIsNewsLetter(!isNewsLetter);
+                                  }}
+                                />
+                              </div>
+                            </div>
+
+                            <div className="w-[95%]">
+                              <label
+                                htmlFor="news"
+                                className=" font-[400] lg:text-[1rem] text-sm cursor-pointer w-full"
+                              >
+                                Sign up for news, discounts, updates via
+                                whatsapp
+                              </label>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-
-                      <div className="w-[95%]">
-                        <label
-                          htmlFor="accout"
-                          className=" font-[400] lg:text-[1rem] text-sm cursor-pointer"
-                        >
-                          Automatically create an account for me
-                        </label>
-                      </div>
-                    </div>
-
-                    <div className=" flex lg:gap-0 gap-2  items-center mt-1">
-                      <div className="w-[5%]">
-                        <div className=" relative">
-                          <input
-                            type="checkbox"
-                            id="news"
-                            className=" !top-[-9px] "
-                            value={isNewsLetter}
-                            onChange={() => {
-                              setIsNewsLetter(!isNewsLetter);
-                            }}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="w-[95%]">
-                        <label
-                          htmlFor="news"
-                          className=" font-[400] lg:text-[1rem] text-sm cursor-pointer w-full"
-                        >
-                          Sign up for news, discounts, updates via whatsapp
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  </>
-                   }
+                      </>
+                    )}
 
                     <div className="w-full flex justify-center my-6">
-                      <button
-                        disabled={!phone || !first_name || !last_name}
-                        className="headtext font-[800]  lg:text-[1.4rem] text-lg py-3 lg:w-[40%] w-[60%] rounded bg-theme-footer-bg text-white"
-                        onClick={createAccount ? handleOtpSend : handleVerify}
-                      >
-                        Send OTP
-                      </button>
+                      {userProfileData?.phone_number != "+91"+ phone ? (
+                        <button
+                          disabled={!phone || !first_name || !last_name}
+                          className="headtext font-[800]  lg:text-[1.4rem] text-lg py-3 lg:w-[40%] w-[60%] rounded bg-theme-footer-bg text-white"
+                          onClick={createAccount ? handleOtpSend : handleVerify}
+                        >
+                          Send OTP
+                        </button>
+                      ) : (
+                        <button
+                          disabled={!phone || !first_name || !last_name}
+                          className="headtext font-[800]  lg:text-[1.4rem] text-lg py-3 lg:w-[40%] w-[60%] rounded bg-theme-footer-bg text-white"
+                          onClick={() => settabs(1)}
+                        >
+                          Save Details
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>

@@ -14,12 +14,11 @@ export default function Productshow({ buttonevent, cartData,orderId,ischeckoutse
   const [code,setCode] = useState("");
   const [discount, setDiscount] = useState(0);
   useEffect(() => {
+    // console.log(discountState);
     setCode(discountState?.code)
     setDiscount(discountState?.discount)
   }, [discountState]);
-  console.log(discountState)
-  console.log(code)
-  console.log(discount)
+
   
   // console.log(cart);
   let totalPrice = cart.reduce((total, item) => {

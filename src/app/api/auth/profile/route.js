@@ -115,10 +115,18 @@ export async function PUT(req) {
       case "edit":
         const editedAddressIndex = user.address.findIndex(
           (addr) => addr.addressId === addressId
-        );
-        if (editedAddressIndex !== -1) {
-          user.address[editedAddressIndex] = { ...address };
-        }
+      );
+      if (editedAddressIndex !== -1) {
+          // Modify the existing address properties
+          const editedAddress = user.address[editedAddressIndex];
+          editedAddress.address_line1 = address.address_line1;
+          editedAddress.address_line2 = address.address_line2;
+          editedAddress.city = address.city;
+          editedAddress.state = address.state;
+          editedAddress.pincode = address.pincode;
+          editedAddress.address_type = address.address_type;
+      }
+      
         break;
         case "delete":
           await user.address.pull(addressId);
