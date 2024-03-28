@@ -43,7 +43,6 @@ export async function POST(req) {
       });
       await newUser.save();
     }
-    console.log(first_name, last_name, phone, cart, total, payment, paymentStatus, status, shipping_address, billing_address)
     const order = new Order({
       first_name,
       last_name,
@@ -141,7 +140,7 @@ export async function GET(req) {
       orders = [order];
     } else {
       orders = await Order.find({ phone });
-      console.log(orders);
+    
     }
 
     return Response.json({ orders });

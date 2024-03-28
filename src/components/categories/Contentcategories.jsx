@@ -94,9 +94,7 @@ const[callfun,setcallfun] = useState(null);
     setSubcategorySelect(selectReduxSubcategory);
   }, [selectReduxSubcategory]);
   useEffect(() => {
-    console.log("categoryCall:", categoryCall);
-    console.log("catsState:", catsState);
-    console.log("fixSelect:", fixSelect);
+
   
     setCatsState(categoryCall);
     setLoader(true);
@@ -110,7 +108,7 @@ const[callfun,setcallfun] = useState(null);
         setSearchBar(null);
         
         setData(res.products);
-        console.log(res.products);
+      
         setFilterLoader(false);
         setLoader(false);
       });
@@ -127,14 +125,14 @@ const[callfun,setcallfun] = useState(null);
     if (searchedSelect !== "") {
       setLoader(true);
       setFilterLoader(true);
-      // console.log("push Code",searchedSelect)
+    
      
       fetchData(`products?search=${searchedSelect}`).then((res) => {
         setData([]);
         setCompleteData([]);
         setFilterData([]);
         setData(res.products);
-        console.log(res.products);
+   
         setSearchBar(searchedSelect);
         setFilterLoader(false);
         setLoader(false);
@@ -163,7 +161,7 @@ const[callfun,setcallfun] = useState(null);
   useEffect(() => {
     const fetchProductsBySubcategory = async () => {
       try {
-        console.log("Fetching products by subcategory...");
+       
         // Set filterLoader to true at the beginning of the fetch operation
         setFilterLoader(true);
         // Filter out empty arrays from subcategorySelect
@@ -339,7 +337,7 @@ useEffect(() => {
 
   const handelpeoductinfo = async (id) => {
     setLoader(true);
-    console.log(id);
+  
     try {
       const response = await fetchData(`products/${id}`);
       setproductdata(response.products);
@@ -355,7 +353,7 @@ useEffect(() => {
   };
   const selectedCartData = useSelector(selectCart);
   const handeladdtocart = (pdata) => {
-    // console.log(pdata);
+
     const obj = {
       _id: pdata._id,
       productId: pdata.productId,
@@ -493,7 +491,7 @@ useEffect(() => {
   const handleApplyfilter = () => {
     setShowCard(true);
     setCompleteData(rightFilteredProducts);
-    console.log(rightFilteredProducts.length);
+   
   };
 
   
@@ -522,7 +520,7 @@ useEffect(() => {
   };
 
   useEffect(() => {
-    console.log({'colorFilter' : colorFilter})
+   
     // Filter products when any filter changes
     if (
       colorFilter.length === 0 &&
@@ -664,34 +662,11 @@ useEffect(() => {
     setCompleteData([...filterData, ...data]);
   };
 
-  // console.log(allsubcategories);
-  const categoryState = useSelector(selectCategory);
-  // useEffect(() => {
-  // if(subcategorySelect?.length ===0 && completeData?.length === 0 && allsubcategories?.length > 0){
-  //   // dispatch(toggleSubcategory([]));
-  //   console.log("i am here");
-  //   dispatch(addMultiSubcategory(allsubcategories));
-  //   // dispatch(addProduct(completeData));
-  // }
-  // console.log(subcategorySelect);
-  // console.log(completeData);
-  // }, [subcategorySelect]);
-  // useEffect(() => {
-  //   if(completeData?.length >12){
-  //     localStorage.setItem("categoryData", JSON.stringify(completeData));
-  //   }
-  //   if(localStorage.getItem("categoryData")){
-  //     console.log(localStorage.getItem("categoryData"));
 
-  //   }
-  // }
-  // , [completeData]);
-  // console.log(completeData);
-  // console.log(subcategorySelect);
-  
-  // console.log(filterData);
+  const categoryState = useSelector(selectCategory);
+
   const handleFetchAllData = () => {
-    // dispatch(toggleSubcategory([]));
+   
     dispatch(addMultiSubcategory([]));
 
     dispatch(toggleCategory([]));
@@ -700,55 +675,10 @@ useEffect(() => {
     dispatch(toggleFix(allsubcategories));
   };
 
-  // useEffect(() => {
-  //     if(subcategorySelect?.length===0){
-
-  //     }
-  // }, [])
-
-  // const [allData, setAllData] = useState([]);
-
-  // useEffect(() => {
-  //   if (!dataFetched && subcategorySelect?.length === 0 && completeData?.length === 0 && allsubcategories?.length > 0) {
-  //     handleFetchAllData();
-  //     setDataFetched(true);
-  //   }
-  // }, [completeData, subcategorySelect, dataFetched]);
-
-  // useEffect(() => {
-  //     if ( completeData?.length === 0 && allsubcategories?.length > 0) {
-  //       handleFetchAllData();
-  //     }
-  //   }, [completeData,subcategorySelect]);
-  // useEffect(() => {
-  //   if (subcategorySelect?.length === 0 && completeData?.length === 0 && allsubcategories?.length > 0) {
-  //     axios.get(`http://localhost:3000/api/products``
-  //   }
-  // }
-  // , [completeData,subcategorySelect]);
-  // useEffect(() => {
-  //   if(!filterLoader && filterData.length==0 && completeData?.length === 0 && subcategorySelect.length==0 && catsState?.length == 0  && categoryCall=='' ){
-  //     console.log("i am here");
-
-  //       handleFetchAllData();
-  //   }
-  //   console.log(
-  //     loader,
-  //     filterLoader,
-  //     filterData.length,
-  //     completeData?.length,
-  //     catsState?.length,
-  //     subcategorySelect,
-  //     subcategorySelect?.length,
-  //     categoryCall
-  //   )
-  // }, [
-  //   loader,subcategorySelect?.length==0,completeData?.length==0
-  // ]);
   useEffect(() => {
     fetchData(`products`).then((res) => {
       localStorage.setItem("categoryData", JSON.stringify(res?.products));
-      // console.log(res?.products);
+      
       setAllData(res?.products);
       // setCompleteData(res?.products);
       setLoader(false);
@@ -757,7 +687,7 @@ useEffect(() => {
   }, [typeof window !== "undefined" && localStorage.getItem("categoryData")]);
   useEffect(() => {
     if (completeData?.length > 0 && subcategorySelect?.length === 0) {
-      // console.log(localStorage.getItem("categoryData"));
+      
 
       setAllData(JSON.parse(localStorage.getItem("categoryData")));
     }
@@ -785,10 +715,7 @@ useEffect(() => {
     sessionStorage.setItem("cachedData",null)
   }
 
-  console.log({
-    'setRightFilteredProducts'  :rightFilteredProducts
-  })
-  // console.log(searchBar); 
+
   return (
    <>
    {loader && <Loaderfixed/>}

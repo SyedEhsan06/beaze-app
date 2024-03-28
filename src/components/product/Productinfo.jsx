@@ -68,7 +68,7 @@ export default function Productinfo({ pid }) {
   useEffect(() => {
       if(selectData.length === 0){
           dispatch(fetchCategories())
-          console.log(selectData)
+         
       }
       setData(selectData)
       if(selectData){
@@ -93,7 +93,7 @@ const router = useRouter()
       const response = await fetchData(`products/${slug}`);
       const resdata = response.products
       setproductinfo(resdata);
-      console.log(resdata)
+  
       setpdata({
         ...pdata,
            _id : resdata?._id,
@@ -192,8 +192,7 @@ const router = useRouter()
       price : pdata.price * pdata.selectedQty,
       originalprice   : pdata.price,
 
-    }
-    console.log({'selectedQty' : obj})
+    };
 
     dispatch(addToCart(obj));
     if (selectedCartData.some((item) => item.p_id === obj.p_id)) {
@@ -234,9 +233,8 @@ const router = useRouter()
     }
   };
 
-  console.log(selectedCartData)
   let commonCartData = selectedCartData.filter((item) => item._id === pdata._id);
-console.log(commonCartData)
+
 let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
 
 const routeToProducts = () => {
@@ -247,12 +245,12 @@ const routeToProducts = () => {
     dispatch(toggleCategoryCall(
     productinfo?.category
     ));
-  console.log(productinfo?.category)
+
   // router.push(`/products`)
 }
 
   
-// console.log(currentProduct?.selectedQty>= currentProduct?.quantity)
+
   return (
     <>
       {loader ? (

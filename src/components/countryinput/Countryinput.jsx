@@ -10,20 +10,14 @@ export default function Countryinput({ onCountryChange, onPhoneChange,defaultVal
   const [phone, setPhone] = useState(
     userdata?.phone_number?.replace("+91", "") || ""
   ); // Define phone state
-  // userdata?.phone_number?.replace("+91", "") || ""
-  // useEffect(() => {
-  //   setPhone(userdata?.phone_number?.replace("+91", "") || ""); // Set phone state to default value
-  // }, [userdata,defaultValue]);
+
   useEffect(() => {
     setPhone(userdata?.phone_number?.replace("+91", "") || ""); // Set phone state to default value
   }, [userdata]);
- console.log(userdata)
-  // console.log(defaultValue)
   const [data, setData] = useState(countrylist);
   const [showMenu, setShowMenu] = useState(false);
   const[localvalidation,setlocalvalidation] = useState(0)
   const divRef = useRef();
-console.log(userdata)
   const handleFilterCountry = (val) => {
     if (val) {
       const lowerCaseSearch = val.toLowerCase();

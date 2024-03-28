@@ -17,9 +17,7 @@ export default function Sidemenufilterlist({
   onShowLess,
 }) {
   const dispatch = useDispatch();
-  console.log(category);
   const selectedSubcategories = useSelector(selectSubcategory);
-  console.log(selectedSubcategories);
   const currentData=useSelector(selectCategoryProduct)
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -45,7 +43,11 @@ export default function Sidemenufilterlist({
     if(allsubcategories?.length <= selectedSubcategories?.length){
       dispatch(toggleSubcategory([]));
       dispatch(addMultiSubcategory([]));
-      console.log("i ran")
+
+      
+
+
+      
     }
    
   }, [dispatch,fixSelect]);

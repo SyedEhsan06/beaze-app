@@ -44,8 +44,7 @@ export async function PUT(req) {
 
     const decodedToken = jwt.verify(token, secret);
     const { phone } = decodedToken;
-    // const phone="+918340263940"
-    console.log('phone',phone)
+
     let user = await User.findOne({ phone_number: phone });
 
     if (!user) {
@@ -106,8 +105,7 @@ export async function PUT(req) {
       addressId,
       address_type,
     };
-    
-// console.log('address',address)
+
     switch (operation) {
       case "add":
       await  user.address.push(address);
@@ -125,12 +123,13 @@ export async function PUT(req) {
           editedAddress.state = address.state;
           editedAddress.pincode = address.pincode;
           editedAddress.address_type = address.address_type;
+        
       }
+
       
         break;
         case "delete":
           await user.address.pull(addressId);
-          console.log('user.address',user.address)
           
 
           break;

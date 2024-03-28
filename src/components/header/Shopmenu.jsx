@@ -9,7 +9,6 @@ export default function Shopmenu({ meudata, Closeref, closevaribale,showmenucose
   const dispatch = useDispatch();
 
   const handleDispatch = (type, item) => {
-    console.log("type", type, "item", item.subcategories.map((item) => item.name));
     dispatch(toggleSubcategory([]));
     dispatch(toggleCategory([]));
     dispatch(toggleCategoryCall([]));
@@ -17,7 +16,6 @@ export default function Shopmenu({ meudata, Closeref, closevaribale,showmenucose
     dispatch(toggleCategory(item.name));
     dispatch(toggleCategoryCall(item.name));
     // item.subcategories.forEach((subcategory) => {
-    //   // console.log("subcategory", subcategory.name);
     //   dispatch(toggleSubcategory(subcategory.name));
     //   // dispatch(
     //   //   fetchProducts({

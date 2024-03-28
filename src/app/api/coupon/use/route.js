@@ -35,8 +35,7 @@ export async function POST(req) {
     }
 
     // Find the coupon by its code
-    console.log(coupon)
-    console.log(total)
+    
     if (!coupon) {
       return Response.json({ error: "Coupon not found" }, { status: 200 });
     }

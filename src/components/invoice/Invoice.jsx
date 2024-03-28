@@ -7,6 +7,7 @@ import cookieCutter from "cookie-cutter";
 import Loaderfixed from "../loader/Loaderfixed";
 import { useDispatch } from "react-redux";
 import { emptyCart } from "@/redux/slices/cartSlice";
+import { setUser } from "@/redux/slices/userData.slice";
 
 export default function Invoice() {
   const [pdfContent, setPdfContent] = useState("");
@@ -15,7 +16,27 @@ export default function Invoice() {
   const orderId = params.get("orderId");
   const [orderData, setOrderData] = useState(null);
   const dispatch = useDispatch();
-  // console.log(orderId);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${cookieCutter.get("token")}`,
+            },
+          }
+        );
+
+        dispatch(setUser(response.data.user));
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    fetchUser();
+  }, []);
   useEffect(() => {
     const fetchOrderData = async () => {
       setloader(true);
@@ -23,7 +44,6 @@ export default function Invoice() {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/checkout?orderId=${orderId}`,
           {
-            
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${cookieCutter.get("token")}`,
@@ -40,7 +60,7 @@ export default function Invoice() {
     };
     fetchOrderData();
   }, [orderId]);
-  console.log(orderData);
+
   // let totalPrice = orderData?.orders?.reduce((acc, order) => acc + order.price, 0);
   useEffect(() => {
     // Ensure the code runs only in the browser environment
@@ -168,11 +188,14 @@ export default function Invoice() {
                             <div key={item._id}>
                               <p className="my-2 leading-[1.2rem]">
                                 {item.title} * {item.selectedQty} <br />
-                                {item.size && item.color ? (
+                           
+                                {item.size &&
+                                item.size != "false" &&
+                                item.color ? (
                                   <>
                                     Size: {item.size}, Colour: {item.color}
                                   </>
-                                ) : item.size ? (
+                                ) : item.size && item.size != "false" ? (
                                   <>Size: {item.size}</>
                                 ) : item.color ? (
                                   <>Colour: {item.color}</>

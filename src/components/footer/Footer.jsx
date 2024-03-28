@@ -9,11 +9,8 @@ import { selectCategories } from "@/redux/slices/categorySlice";
 
 export default function footer() {
   const pathname = usePathname();
-  console.log(pathname);
   const categrories = useSelector(selectCategories);
-  console.log(categrories);
   let cats = categrories?.categories
-  console.log(cats);
   if (pathname == "/login" || pathname == "/signup" || pathname === "/otp") {
     return null;
   } 

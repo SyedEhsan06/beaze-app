@@ -28,7 +28,6 @@ export default function Accountdetails({ data }) {
     setCountryCode("+91");
     setPhoneNumber(initalData?.phone_number);
   }, [initalData]);
-  console.log(initalData);
   const [otp, setOtp] = useState("");
   const [isEditabel, setIsEditabel] = useState(false);
   const [error, setError] = useState("");
@@ -49,7 +48,6 @@ export default function Accountdetails({ data }) {
     }
     setNumberChanged(isphoneNumberchanged);
   }, [phoneNumber]);
- console.log(numberChanged)
   const [otpTime, setOtpTime] = useState(45);
   useEffect(() => {
     if (!ismodalopen) {
@@ -87,7 +85,6 @@ export default function Accountdetails({ data }) {
       setLoading(false);
       
   
-      // console.log("Updated user:", updatedUser);
       setError("");
     } catch (error) {
       setismodalopen(true);
@@ -98,7 +95,6 @@ export default function Accountdetails({ data }) {
       setError("Failed to update account details. Please try again.");
     }
   };
-  // console.log(phoneNumber);
   const handleUpdate = async () => {
     try {
       const response = await axios.put(
@@ -114,7 +110,6 @@ export default function Accountdetails({ data }) {
         }
       );
       const updatedUser = response.data.user;
-      // console.log("Updated user:", updatedUser);
       dispatch(
         updateUser({
           first_name: updatedUser.first_name,
@@ -148,7 +143,6 @@ export default function Accountdetails({ data }) {
         }
       );
       const updatedUser = response.data.user;
-      // console.log("Updated user:", updatedUser);
       dispatch(
         updateUser({
           first_name: updatedUser.first_name,
@@ -199,7 +193,6 @@ export default function Accountdetails({ data }) {
     setOtp(otp);
   };
 
-  // console.log({'token' : cookieCutter.get("token")})
   return (
     <>
       {loading && <Loaderfixed />}

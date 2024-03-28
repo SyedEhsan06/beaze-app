@@ -19,7 +19,7 @@ export default function Signup() {
   const [showicon,setshowicon] = useState(false)
 
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup`
-    // console.log(firstname, lastname, phone, country)
+   
   const handleSubmit = async (e) => {
     e.preventDefault();
    if(phone.length === 10){

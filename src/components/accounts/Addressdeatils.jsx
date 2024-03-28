@@ -8,10 +8,10 @@ import { FaDeleteLeft } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 import { FaTrashAlt } from "react-icons/fa";
 import cookiesCutter from "cookie-cutter";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 export default function Addressdeatils({ data }) {
   const [bars, setbars] = useState(0);
-  const [isEdit, setIsEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(true);
   const [userAddress, setUserAddress] = useState([]);
   useEffect(() => {
     setUserAddress(data?.address);
@@ -24,7 +24,6 @@ export default function Addressdeatils({ data }) {
   const [phone, setphone] = useState("");
   const [ismodalopen, setismodalopen] = useState(false);
   const [addressType, setAddressType] = useState("");
-  console.log(data);
   useEffect(() => {
     if (data) {
       setAddressLine1(data?.address?.address_line1);
@@ -36,11 +35,20 @@ export default function Addressdeatils({ data }) {
       // setphone(data?.phone_number);
     }
   }, [data]);
-  const handelopenadddeatis = (id) => {
-    bars === id ? setbars(0) : setbars(id);
+  const handelopenadddeatis = (item) => {
+    bars === item.addressId ? setbars(0) : setbars(
+      item.addressId
+    );
+    setIsEdit(true);
+    setAddressLine1(item.address_line1);
+    setAddressLine2(item.address_line2);
+    setCity(item.city);
+    setState(item.state);
+    setPincode(item.pincode);
+    setAddressType(item.address_type);
+
   };
-  console.log(data);
-  // console.log(data);
+  
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
   const token = cookiesCutter.get("token");
   // const [token, setToken] = useState("");
@@ -53,33 +61,41 @@ export default function Addressdeatils({ data }) {
       Authorization: `Bearer ${token}`,
     },
   };
-  const handleSubmit = async () => {
-    console.log("submit");
-
-    const address = {
+  const handleSubmit = async (items) => {
+  setLoader(true);
+    await axios.put(url, { 
       address_line1: AddressLine1,
       address_line2: AddressLine2,
       city: City,
       state: State,
       pincode: Pincode,
       operation: "edit",
-      addressId: (Date.now() * Math.random(1000, 9999) + Date.now())
-        .toString()
-        .slice(0, 10),
-      address_type: "other",
-    };
-    await axios.put(url, { address }, config).then((res) => {
-      console.log(res);
-    });
+      addressId: items.addressId,
+      address_type: items.address_type,
+      
+     }, config).then((res) => {
+      setbars(0);
+      setLoader(false);
+      dispatch(updateUser(res.data.user));
+      setUserAddress(res.data.address);
+      setAddressType("");
+      setAddressLine1("");
+      setAddressLine2("");
+      setCity("");
+      setState("");
+      setPincode("");
+    }).catch((err) => {
+      console.log(err);
+      setLoader(false);
+    }
+    );
   };
   const [loader, setLoader] = useState(false);
   const dispatch = useDispatch();
   const handleAddAddress = async (e) => {
     e.preventDefault();
-    console.log("add");
     setismodalopen(false);
     setLoader(true);
-    // console.log(AddressLine1, AddressLine2, City, State, Pincode);
     await axios
       .put(
         url,
@@ -99,7 +115,6 @@ export default function Addressdeatils({ data }) {
       )
       .then((res) => {
         dispatch(updateUser(res.data.user));
-        console.log(res);
         setLoader(false);
         setAddressType("");
         setAddressLine1("");
@@ -110,9 +125,7 @@ export default function Addressdeatils({ data }) {
         setUserAddress(res.data.address);
       });
   };
-  const handleDeleteAddress = async(id) => {
-
-
+  const handleDeleteAddress = async (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -120,38 +133,34 @@ export default function Addressdeatils({ data }) {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then( async(result) => {
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        await axios.put(
-          url,
-          {
-            operation: "delete",
-            addressId: id,
-          },
-          config
-        ).then((res) => {
-          console.log(res);
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your address has been deleted.",
-            icon: "success"
+        await axios
+          .put(
+            url,
+            {
+              operation: "delete",
+              addressId: id,
+            },
+            config
+          )
+          .then((res) => {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your address has been deleted.",
+              icon: "success",
+            });
+            dispatch(updateUser(res.data.user));
+            setUserAddress(res.data.address);
           });
-          dispatch(updateUser(res.data.user));
-          setUserAddress(res.data.address);
-    
-        });
-       
       }
     });
-   
-  
   };
 
   const closeModal = () => {
     setismodalopen(false);
   };
-  // console.log(data)
   return (
     <>
       <div className="w-full">
@@ -164,7 +173,7 @@ export default function Addressdeatils({ data }) {
               <div className="w-full flex items-center">
                 <div
                   className="w-[90%]"
-                  onClick={() => handelopenadddeatis(items.addressId)}
+                  onClick={() => handelopenadddeatis(items)}
                 >
                   <h5 className=" font-[600] md:text-xl text-lg headtext text-text-secondary ">
                     {items.address_type}
@@ -174,7 +183,7 @@ export default function Addressdeatils({ data }) {
                 <div className="w-[10%] flex gap-2 items-center ml-auto">
                   <div
                     className="w-[50%]"
-                    onClick={() => handelopenadddeatis(items.addressId)}
+                    onClick={() => handelopenadddeatis(items)}
                   >
                     <img
                       src={
@@ -213,7 +222,9 @@ export default function Addressdeatils({ data }) {
                       id="add1"
                       className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
                       placeholder="Flat, House, Building and other details"
-                      value={items?.address_line1}
+                      value={
+                        AddressLine1 
+                      }
                       onChange={(e) => setAddressLine1(e.target.value)}
                       disabled={!isEdit}
                       required={true}
@@ -232,11 +243,12 @@ export default function Addressdeatils({ data }) {
                       id="add2"
                       className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
                       placeholder="Lane, Street & Landmark"
-                      value={items?.address_line2}
-                      // onChange={(e) => setAddressLine2(e.target.value)}
+                      value={
+                        AddressLine2
+                      }
+                      onChange={(e) => setAddressLine2(e.target.value)}
                       disabled={!isEdit}
                       required={true}
-
                     />
                   </div>
 
@@ -253,11 +265,12 @@ export default function Addressdeatils({ data }) {
                         type="text"
                         id="City"
                         className="w-full border border-text-secondary shadow-sm px-4 h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                        value={items?.city}
+                        value={
+                          City 
+                        }
                         onChange={(e) => setCity(e.target.value)}
                         disabled={!isEdit}
-                      required={true}
-
+                        required={true}
                       />
                     </div>
 
@@ -273,13 +286,12 @@ export default function Addressdeatils({ data }) {
                         type="text"
                         id="State"
                         className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                        value={items?.state}
+                        value={
+                          State
+                        }
                         onChange={(e) => setState(e.target.value)}
                         disabled={!isEdit}
-                      required={true}
-
-
-
+                        required={true}
                       />
                     </div>
 
@@ -295,11 +307,12 @@ export default function Addressdeatils({ data }) {
                         type="text"
                         id="Pincode"
                         className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                        value={items?.pincode}
+                        value={
+                          Pincode
+                        }
                         onChange={(e) => setPincode(e.target.value)}
                         disabled={!isEdit}
-                      required={true}
-
+                        required={true}
                       />
                     </div>
                   </div>
@@ -313,7 +326,9 @@ export default function Addressdeatils({ data }) {
                     Cancel
                   </button>
                   <button
-                    onClick={handleSubmit}
+                    onClick={() =>
+                      handleSubmit(items)
+                    }
                     className=" bg-[#F8B43A] w-[50%]  font-[600] lg:text-xl md:text-lg text-[1rem] headtext rounded-[21.5px] text-theme-footer-bg py-2  text-center border border-transparent"
                   >
                     Save Details
@@ -337,72 +352,38 @@ export default function Addressdeatils({ data }) {
 
       <Modal visible={ismodalopen} effect="fadeInDown" onClickAway={closeModal}>
         <form onSubmit={handleAddAddress}>
-        <div className="lg:w-[800px] md:w-[600px] w-[340px] px-5 pt-3 pb-5">
-          <div className="flex">
-            <button className="ml-auto" onClick={closeModal}
-            type="button"
-            >
-              <img src="/images/web/xmark.png" className="w-[20px]" alt="" />
-            </button>
-          </div>
-          <h6 className="context font-[900] lg:text-[2.5rem] md:text-[2rem] text-2xl text-center mb-4">
-            Edit Address
-          </h6>
+          <div className="lg:w-[800px] md:w-[600px] w-[340px] px-5 pt-3 pb-5">
+            <div className="flex">
+              <button className="ml-auto" onClick={closeModal} type="button">
+                <img src="/images/web/xmark.png" className="w-[20px]" alt="" />
+              </button>
+            </div>
+            <h6 className="context font-[900] lg:text-[2.5rem] md:text-[2rem] text-2xl text-center mb-4">
+              Edit Address
+            </h6>
 
-          <div className="w-full mt-3">
-            <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
-              <div className="w-full context">
-                <label htmlFor="addressType" className="mb-2">
-                  Address Type{" "}
-                  <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">*</sup>{" "}
-                </label>
-                <input
-                  type="text"
-                  id="addressType"
-                  className="w-full border border-text-secondary shadow-sm px-4 rounded-lg focus:outline-none transition-all duration-100 relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
-                  placeholder="Home Work Other"
-                  value={addressType}
-                  required={true}
-                  onChange={(e) => setAddressType(e.target.value)}
-                />
-              </div>
-              <div className=" w-full context">
-                <label htmlFor="add1" className="mb-2">
-                  Address Line 1{" "}
-                  <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">*</sup>{" "}
-                </label>
-
-                <input
-                  type="text"
-                  id="add1"
-                  className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
-                  placeholder="Flat, House, Building and other details"
-                  value={AddressLine1}
-                  onChange={(e) => setAddressLine1(e.target.value)}
-                  required
-                />
-              </div>
-              <div className=" w-full context">
-                <label htmlFor="add2" className="mb-2">
-                  Address Line 2{" "}
-                  <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">*</sup>{" "}
-                </label>
-
-                <input
-                  type="text"
-                  id="add2"
-                  className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
-                  placeholder="Lane, Street & Landmark"
-                  value={AddressLine2}
-                  onChange={(e) => setAddressLine2(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className=" w-full grid lg:grid-cols-3 grid-cols-2 gap-y-2 lg:gap-y-0 gap-x-3">
+            <div className="w-full mt-3">
+              <div className=" lg:mt-5 mt-2 grid grid-cols-1 gap-y-2 lg:text-[1rem] text-sm">
+                <div className="w-full context">
+                  <label htmlFor="addressType" className="mb-2">
+                    Address Type{" "}
+                    <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
+                      *
+                    </sup>{" "}
+                  </label>
+                  <input
+                    type="text"
+                    id="addressType"
+                    className="w-full border border-text-secondary shadow-sm px-4 rounded-lg focus:outline-none transition-all duration-100 relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
+                    placeholder="Home Work Other"
+                    value={addressType}
+                    required={true}
+                    onChange={(e) => setAddressType(e.target.value)}
+                  />
+                </div>
                 <div className=" w-full context">
-                  <label htmlFor="City" className="mb-2">
-                    City{" "}
+                  <label htmlFor="add1" className="mb-2">
+                    Address Line 1{" "}
                     <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
                       *
                     </sup>{" "}
@@ -410,35 +391,17 @@ export default function Addressdeatils({ data }) {
 
                   <input
                     type="text"
-                    id="City"
-                    className="w-full border border-text-secondary shadow-sm px-4 h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                    value={City}
-                    onChange={(e) => setCity(e.target.value)}
+                    id="add1"
+                    className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
+                    placeholder="Flat, House, Building and other details"
+                    value={AddressLine1}
+                    onChange={(e) => setAddressLine1(e.target.value)}
                     required
                   />
                 </div>
-
                 <div className=" w-full context">
-                  <label htmlFor="State" className="mb-2">
-                    State{" "}
-                    <sup className="text-[#FF2A2A] !top-[5px] text-[24px] ">
-                      *
-                    </sup>{" "}
-                  </label>
-
-                  <input
-                    type="text"
-                    id="State"
-                    className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                    value={State}
-                    onChange={(e) => setState(e.target.value)}
-                    required
-                  />
-                </div>
-
-                <div className=" w-full context">
-                  <label htmlFor="Pincode" className="mb-2">
-                    Pincode{" "}
+                  <label htmlFor="add2" className="mb-2">
+                    Address Line 2{" "}
                     <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
                       *
                     </sup>{" "}
@@ -446,35 +409,91 @@ export default function Addressdeatils({ data }) {
 
                   <input
                     type="text"
-                    id="Pincode"
-                    className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
-                    value={Pincode}
-                    onChange={(e) => setPincode(e.target.value)}
+                    id="add2"
+                    className="w-full border border-text-secondary shadow-sm px-4  rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400] h-[52px]"
+                    placeholder="Lane, Street & Landmark"
+                    value={AddressLine2}
+                    onChange={(e) => setAddressLine2(e.target.value)}
                     required
                   />
+                </div>
+
+                <div className=" w-full grid lg:grid-cols-3 grid-cols-2 gap-y-2 lg:gap-y-0 gap-x-3">
+                  <div className=" w-full context">
+                    <label htmlFor="City" className="mb-2">
+                      City{" "}
+                      <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
+                        *
+                      </sup>{" "}
+                    </label>
+
+                    <input
+                      type="text"
+                      id="City"
+                      className="w-full border border-text-secondary shadow-sm px-4 h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
+                      value={City}
+                      onChange={(e) => setCity(e.target.value)}
+                      required
+                    />
+                  </div>
+
+                  <div className=" w-full context">
+                    <label htmlFor="State" className="mb-2">
+                      State{" "}
+                      <sup className="text-[#FF2A2A] !top-[5px] text-[24px] ">
+                        *
+                      </sup>{" "}
+                    </label>
+
+                    <input
+                      type="text"
+                      id="State"
+                      className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
+                      value={State}
+                      onChange={(e) => setState(e.target.value)}
+                      required
+                    />
+                  </div>
+
+                  <div className=" w-full context">
+                    <label htmlFor="Pincode" className="mb-2">
+                      Pincode{" "}
+                      <sup className="text-[#FF2A2A] !top-[5px] text-[24px]">
+                        *
+                      </sup>{" "}
+                    </label>
+
+                    <input
+                      type="text"
+                      id="Pincode"
+                      className="w-full border border-text-secondary shadow-sm px-4  h-[52px] rounded-lg   focus:outline-none transition-all duration-100   relative leading-normal checkout-input placeholder:text-[#AAA5A5] placeholder:font-[400]"
+                      value={Pincode}
+                      onChange={(e) => setPincode(e.target.value)}
+                      required
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className=" grid grid-cols-2 gap-x-4 headtext py-2 mt-6">
-            <button
-            type="button"
-              className=" w-full  text-[#474747] font-[300] md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] "
-              onClick={closeModal}
-            >
-              cancel
-            </button>
-            <button
-              // disabled={addressType !== ""}
-              type="submit"
-              className=" w-full bg-theme-footer-bg text-white font-[700] md:text-lg text-[1rem] py-2 rounded "
-            >
-              Save Details
-            </button>
+            <div className=" grid grid-cols-2 gap-x-4 headtext py-2 mt-6">
+              <button
+                type="button"
+                className=" w-full  text-[#474747] font-[300] md:text-lg text-[1rem] py-2 rounded border-[0.3px] border-[#000000] "
+                onClick={closeModal}
+              >
+                cancel
+              </button>
+              <button
+                // disabled={addressType !== ""}
+                type="submit"
+                className=" w-full bg-theme-footer-bg text-white font-[700] md:text-lg text-[1rem] py-2 rounded "
+              >
+                Save Details
+              </button>
+            </div>
           </div>
-        </div>
-          </form>
+        </form>
       </Modal>
     </>
   );
