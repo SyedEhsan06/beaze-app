@@ -1,20 +1,30 @@
-"use client"
+"use client";
 import { useRouter } from "next/navigation";
 import cookieCutter from "cookie-cutter";
-import { useDispatch,useSelector } from "react-redux";
-import { selectUser,updateUser} from "@/redux/slices/userData.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser, updateUser } from "@/redux/slices/userData.slice";
 import { emptyCart } from "@/redux/slices/cartSlice";
 export default function Accounthead() {
-    const router = useRouter();
-    const dispatch = useDispatch();
-    const handleLogout = () => {
-        cookieCutter.set("token", "");
-        router.push("/");
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    cookieCutter.set("token","");
+    router.push("/");
     dispatch(emptyCart());
 
-        dispatch(updateUser({first_name: '',last_name: '',phone_number: '',address: [],cart: [],email: '',role: '',isVerified: false}));
-
-    };
+    dispatch(
+      updateUser({
+        first_name: "",
+        last_name: "",
+        phone_number: "",
+        address: [],
+        cart: [],
+        email: "",
+        role: "",
+        isVerified: false,
+      })
+    );
+  };
 
   const data = useSelector(selectUser);
 
@@ -25,8 +35,9 @@ export default function Accounthead() {
           Welcome, {data?.first_name}
         </h5>
         <button
-        onClick={handleLogout}
-        className=" ml-auto  my-3 md:mt-0 headtext md:w-[13%] w-[40%] md:py-2 py-1 text-white font-[400]  bg-[#3E3C3F] md:text-xl text-lg  rounded shadow-sm">
+          onClick={handleLogout}
+          className=" ml-auto  my-3 md:mt-0 headtext md:w-[13%] w-[40%] md:py-2 py-1 text-white font-[400]  bg-[#3E3C3F] md:text-xl text-lg  rounded shadow-sm"
+        >
           Logout
         </button>
       </div>

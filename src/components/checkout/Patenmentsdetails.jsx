@@ -186,7 +186,9 @@ export default function Patenmentsdetails() {
         setOtp("");
         setismodalopen(false);
         setToken(response.data.token);
-        cookieCutter.set("token", response.data.token);
+        cookieCutter.set("token", response.data.token, {
+          expires: new Date(new Date().getTime() + 60 * 60 * 24 * 1000),
+        });
       }
 
       // Handle response data as needed
