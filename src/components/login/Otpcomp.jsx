@@ -88,7 +88,9 @@ export default function Otpcomp() {
         }
         // setwrongotp(true)
         localStorage.setItem("token", res.data.token);
-        cookieCutter.set("token", res.data.token);
+        cookieCutter.set("token", res.data.token, {
+          expires: 1,
+        });
         setToken(res.data.token);
       })
       .catch((err) => {

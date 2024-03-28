@@ -30,7 +30,7 @@ export async function GET(req) {
     return Response.json({ user });
   } catch (error) {
     console.error("Profile retrieval error:", error);
-    return handleCommonError("Invalid or expired token");
+    return Response.json({ error: "Invalid or expired token" }, { status: 401 });
   }
 }
 
