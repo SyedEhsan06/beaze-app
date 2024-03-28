@@ -80,7 +80,7 @@ export default function Otpcomp() {
         phone: phone,
       })
       .then((res) => {
-        console.log(res.data);
+      
         if (res.data.error) {
           setError(res.data.error);
           setwrongotp(true)
@@ -139,7 +139,7 @@ export default function Otpcomp() {
       await axios
         .post(url, { phone: phone })
         .then((res) => {
-          console.log(res);
+
         })
         .catch((err) => {
           console.log(err);

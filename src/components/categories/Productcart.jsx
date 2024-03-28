@@ -76,8 +76,7 @@ export default function Productcart({ setCartOpen }) {
   let tax = data.reduce((a, b) => a + b.tax * b.selectedQty, 0);
   let total = tax + data.reduce((a, b) => a + b.price * b.selectedQty, 0);
   const discountState = useSelector(selectDiscount);
-  console.log(discountState);
-    // console.log(data);
+
   const totalPrice = data.reduce(
     (a, b) => a + b.originalprice * b.selectedQty,
     0
@@ -91,7 +90,7 @@ export default function Productcart({ setCartOpen }) {
     router.push("/checkout");
     setCartOpen(false);
   };
-  // console.log({'cartdata' : cartData})
+
   //coupon
   const [couponName, setcouponName] = useState("");
   const handleCoupon = async () => {
@@ -110,7 +109,7 @@ export default function Productcart({ setCartOpen }) {
           },
         }
       );
-        console.log(response)
+      
 
         setloder(false);
       if (response.data.error) {
@@ -139,8 +138,7 @@ export default function Productcart({ setCartOpen }) {
     }
   };
 
-  console.log(couponDiscount);
-  console.log(couponError);
+  
   
 
   return (

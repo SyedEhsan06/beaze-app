@@ -15,7 +15,6 @@ export default function Account() {
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(false);
   const selectDataOfUser = useSelector(selectUser);
-  // console.log(selectDataOfUser)
   const[token,settoken] = useState("")
 useEffect(() => {
 const newtoken = cookieCutter.get("token");
@@ -30,14 +29,12 @@ settoken(newtoken)
     setLoading(true)
     try {
      
-      // console.log(url);
       if (token) {
         const res = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(res)
         setUserData(res.data.user);
         setLoading(false); 
       }
@@ -52,7 +49,6 @@ settoken(newtoken)
   }, [
     selectDataOfUser
   ]);
-console.log(userData)
   const [tabs, settabs] = useState(0);
   if(router.isFallback) return <Loaderfixed/>
   return (

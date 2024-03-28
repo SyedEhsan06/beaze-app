@@ -6,8 +6,7 @@ const secret = process.env.SECRET;
 
 export async function POST(req) {
   const { phone, otp } = await req.json();
-  console.log("phone", phone);
-  console.log("otp", otp);
+
   try {
     const isOTPVerified = await verifyOTP(phone, otp);
     if (!isOTPVerified) {

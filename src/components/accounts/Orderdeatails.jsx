@@ -36,12 +36,9 @@ export default function OrderDetails({ userData }) {
     setBars((prevBars) => (prevBars === id ? 0 : id));
   };
 
-  console.log({ userData: userData });
-  console.log(orders);
   const ordersToShow = orders?.orders?.filter(
     (order) => order.paymentStatus !== "pending"
   );
-  console.log(ordersToShow);
 
   return (
     <>
@@ -97,11 +94,13 @@ export default function OrderDetails({ userData }) {
                             <div key={item._id}>
                               <p className="my-2 leading-[1.2rem]">
                                 {item.title} * {item.selectedQty} <br />
-                                {item.size && item.color ? (
+                                {item.size &&
+                                item.size != "false" &&
+                                item.color ? (
                                   <>
                                     Size: {item.size}, Colour: {item.color}
                                   </>
-                                ) : item.size ? (
+                                ) : item.size && item.size != "false" ? (
                                   <>Size: {item.size}</>
                                 ) : item.color ? (
                                   <>Colour: {item.color}</>

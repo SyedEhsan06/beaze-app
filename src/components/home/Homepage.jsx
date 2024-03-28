@@ -15,7 +15,7 @@ export default function Homepage() {
     useEffect(() => {
         if(selectData.length === 0){
             dispatch(fetchCategories())
-            console.log(selectData)
+  
         }
         setData(selectData)
         if(selectData){

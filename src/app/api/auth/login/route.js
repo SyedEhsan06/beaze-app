@@ -12,7 +12,7 @@ function generateToken(user) {
 export async function POST(req) {
   await connectToDb(); 
   let { phone } = await req.json();
-  console.log(phone);
+  
     phone = "+91" + phone;  
     if (!phone) {
     return Response.json({ error: "Phone number is required" });

@@ -77,8 +77,7 @@ setsizes(elemcsizes?.value ? elemcsizes.value : [])
   
   
 },[produtdata,ismodalopen])
-console.log(pdata)
-console.log(produtdata)
+
 
   const dispatch = useDispatch();
 
@@ -184,9 +183,7 @@ const handelincreaseqty = () => {
   }
 
 
-//  console.log(pdata)
   let currentProduct = selectedCartData?.find((item) => item._id === pdata._id);
-  // console.log(currentProduct?.selectedQty>= currentProduct?.quantity)
   return (
     <>
       {showimage ? (

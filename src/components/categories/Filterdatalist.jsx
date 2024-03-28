@@ -12,7 +12,6 @@ export default function Filterdatalist({ Ftitle, onFilterSelection, subcategory,
     const selectedSleeve = useSelector(selectSleeve);
 
     useEffect(() => {
-        // console.log("Selected Filters:", selectedFilters);
     }, [selectedFilters]);
 
     const handleCheckboxChange = (item) => {
@@ -28,7 +27,6 @@ export default function Filterdatalist({ Ftitle, onFilterSelection, subcategory,
         setSelectedFilters(updatedFilters);
         dispatchFilterAction(item); 
     }
-    console.log(Ftitle)
     const dispatchFilterAction = (item) => {
         switch (Ftitle) {
             case 'Colors':

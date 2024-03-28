@@ -6,7 +6,7 @@ export async function GET(req) {
     await connectToDb();
     try{
         let query = req.url.split('?')[1];
-        console.log(query);
+      
         if(query){
             let code = query.split('=')[1];
             let coupon = await couponModel.findOne({code});

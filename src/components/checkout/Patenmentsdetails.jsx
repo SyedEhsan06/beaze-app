@@ -64,25 +64,19 @@ export default function Patenmentsdetails() {
   const [usedsavedaddressbilling, setusedsavedaddressbilling] = useState(false);
   const [createAccount, setCreateAccount] = useState(false);
   const profilelogindata = useSelector(selectUser);
-  console.log(userProfileData?.phone_number);
-  console.log(phone);
-  console.log("+91" + phone);
-  console.log(
-    userProfileData?.phone_number == "+91" + phone ||
-      userProfileData?.phone_number == phone
-  );
+
 
   useEffect(() => {
-    console.log(phone);
+
 
     let cookieToken = cookieCutter.get("token");
     if (cookieToken) {
       setToken(cookieToken);
     }
   }, []);
-  // console.log(orderData)
+
   useEffect(() => {
-    console.log("token", token);
+    
     if (token) {
       const fetchProfile = async () => {
         try {
@@ -94,7 +88,7 @@ export default function Patenmentsdetails() {
               },
             }
           );
-          console.log(response.data);
+    
           setUserProfileData(response.data.user);
           setFirstName(response.data.user.first_name);
           setLastName(response.data.user.last_name);
@@ -112,7 +106,7 @@ export default function Patenmentsdetails() {
   //api1
   const dataFromStore = useSelector(selectCart);
   useEffect(() => {
-    console.log(phone);
+
 
     setCartData(dataFromStore);
     setTotalPrice(
@@ -135,7 +129,7 @@ export default function Patenmentsdetails() {
         setOtpTime(45);
         setloaderotpnew(false);
         setismodalopen(true);
-        console.log(response.data);
+    
         setIsOtpSent(true);
 
         // Handle response data as needed
@@ -160,7 +154,7 @@ export default function Patenmentsdetails() {
       setOtpTime(45);
       setloaderotpnew(false);
       setismodalopen(true);
-      console.log(response.data);
+
       setIsOtpSent(true);
     } catch (error) {
       setloaderotpnew(false);
@@ -246,7 +240,7 @@ export default function Patenmentsdetails() {
           },
         }
       );
-      console.log(response.data);
+   
       setIsOrderPlaced(true);
       setLoader(false);
 
@@ -283,7 +277,7 @@ export default function Patenmentsdetails() {
   };
 
   useEffect(() => {
-    console.log(phone);
+    
 
     if (tabs === 2 && !isBillingSame) {
       window.scrollTo({
@@ -325,8 +319,7 @@ export default function Patenmentsdetails() {
   //   orderData?.order?._id,
   // ]);
   // // const paymentStatuss = cookieCutter.get("paymentStatus");
-  // console.log(paymentStatusCookie);
-  // console.log(orderData?.order?._id);
+
 
   // useEffect(() => {
   //   let orderToRoute = paymentStatusCookie
@@ -334,7 +327,7 @@ export default function Patenmentsdetails() {
   //       ? paymentStatusCookie.split(" ")[1]
   //       : null
   //     : null;
-  //   console.log(orderToRoute);
+
 
   //   if (orderToRoute === orderData?.order?._id) {
   //     router.push(`/invoice/orderId=${orderToRoute}`);

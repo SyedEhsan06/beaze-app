@@ -11,11 +11,9 @@ export default function Footermenu({
 }) {
 
   const [logdata,setlogdata] = useState(null)
-  // console.log(categrories)
-  // console.log(footerlinkshop)
+ 
   const dispatch = useDispatch();
   const handleDispatch = (item) => {
-    // console.log("type", type, "item", item.subcategories.map((item) => item.name));
     dispatch(toggleSubcategory([]));
     dispatch(toggleCategory([]));
     dispatch(toggleCategoryCall([]));

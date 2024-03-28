@@ -18,7 +18,6 @@ export default function Accounthead() {
 
   const data = useSelector(selectUser);
 
-  console.log(data);
   return (
     <div>
       <div className="w-full md:flex">

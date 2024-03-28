@@ -53,7 +53,7 @@ export default function Header() {
 const router = useRouter();
 const searchSelector = useSelector(selectSearch);
 const profilelogindata = useSelector(selectUser);
-console.log({'profilelogindata' : profilelogindata})
+
   const dispatch = useDispatch();
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -151,7 +151,7 @@ console.log({'profilelogindata' : profilelogindata})
     }
 
     setSearch(val);
-    console.log(val);
+   
     if (val.length === 0) {
       setshowhide(0);
       setshowsearchmobile(false);
@@ -199,7 +199,7 @@ console.log({'profilelogindata' : profilelogindata})
     }
   }, [searchSelector]);
   
-  console.log(searchSelector);
+  
   const handleDispatch = () => {
     dispatch(toggleSubcategory([]));
     dispatch(toggleCategory(""));
@@ -210,9 +210,9 @@ console.log({'profilelogindata' : profilelogindata})
       dispatch(addSearch(search));
     }
     setSearch("");
-    // console.log(searchdata);
+
     // const subcategories = searchdata.map((item) => item.subcategory);
-    // console.log(subcategories);
+   
     // const unique = [...new Set(subcategories)];
     // const category = searchdata.map((item) => item.category);
     // const uniqueCategory = [...new Set(category)];
@@ -229,17 +229,17 @@ console.log({'profilelogindata' : profilelogindata})
     setCartOpen(!cartOpen);
   };
   const cartState = useSelector(selectCartOpen);
-  // console.log(cartState);
+
   useEffect(() => {
     if (cartOpen) {
       dispatch(openCart());
     } else {
       dispatch(closeCart());
     }
-    // console.log(cartOpen);
+;
   }, [cartOpen, dispatch]);
 
-  // console.log(cartState);
+
   const [count, setCount] = useState(0);
   // let countData = useSelector((state) => state.cart.cart)
   // if(countData.length >= 1){
@@ -252,7 +252,7 @@ console.log({'profilelogindata' : profilelogindata})
 
   const countData = useSelector((state) => state.cart.cart);
   useEffect(() => {
-    console.log(countData);
+   
     let supCount = countData.map((item) => item.p_id);
     let unique = [...new Set(supCount)];
     let count = unique.length;
@@ -332,23 +332,21 @@ console.log({'profilelogindata' : profilelogindata})
   }, [showhide]);
   const [userData, setUserData] = useState();
   const path = usePathname();
-  // console.log(process.env.NEXT_PUBLIC_API_URL)
+
   let url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/profile`;
   const fetchDataProfile = async () => {
-    // console.log("fetching user data");
-    // console.log(localStorage.getItem("token"));
+
     try {
-      // console.log(url);
-      // const token = localStorage.getItem("token");
+
       const token = cookieCutter.get("token");
-      // console.log(token);/
+      
       if (token) {
         const res = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        // console.log(res.data);
+
         setUserData(res.data.user);
         dispatch(setUser(res.data.user));
       }
@@ -357,7 +355,7 @@ console.log({'profilelogindata' : profilelogindata})
       console.error("Error fetching user data:", error);
     }
   };
-  // console.log(userData?.first_name)
+ 
   // useEffect(() => {
   //   fetchData();
   // }, [path, setUserData, window ? localStorage.getItem("token") : null]);
@@ -374,7 +372,7 @@ console.log({'profilelogindata' : profilelogindata})
   ]);
   const handleRecentSearch = (e) => {
     const search = e.target.textContent;
-    console.log(search);
+  
     handelsearch(search);
     dispatch(addSearch(search));
     setshowhide(0);

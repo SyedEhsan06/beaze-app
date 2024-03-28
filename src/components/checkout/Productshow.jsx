@@ -14,13 +14,13 @@ export default function Productshow({ buttonevent, cartData,orderId,ischeckoutse
   const [code,setCode] = useState("");
   const [discount, setDiscount] = useState(0);
   useEffect(() => {
-    // console.log(discountState);
+
     setCode(discountState?.code)
     setDiscount(discountState?.discount)
   }, [discountState]);
 
   
-  // console.log(cart);
+
   let totalPrice = cart.reduce((total, item) => {
     const itemPrice = item.originalprice * item.selectedQty; // Calculate item price
     const itemTax = item.tax * item.selectedQty; // Calculate item tax
@@ -28,7 +28,7 @@ export default function Productshow({ buttonevent, cartData,orderId,ischeckoutse
   }, 0);
 
   totalPrice = parseFloat(totalPrice).toFixed(2);
-  console.log(totalPrice);
+
   const makePayment = () => {
     setShowPayment(true); // Show PaymentComponent when button is clicked
   };

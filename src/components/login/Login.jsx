@@ -17,11 +17,7 @@ export default function Login() {
   const router = useRouter();
   const[showicon,setshowicon] = useState(false);
   const[loader,setloader] = useState(false)
-  
-  console.log(
-    phone,
-    country
-  )
+
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`;
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -104,7 +100,7 @@ export default function Login() {
   const handleCountryChange = (code) => {
     setCountry(code);
   }
-  console.log(phone)
+
 
   return (
     <div className="h-[100vh] w-[100%] pb-4 pt-8  lg:px-10 px-2 relative mianconlogins flex items-center lg:block">

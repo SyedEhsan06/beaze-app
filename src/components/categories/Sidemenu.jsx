@@ -28,8 +28,7 @@ export default function Sidemenu({ categories }) {
   const usepathname = usePathname();
   const selectedSubcategories = useSelector(selectSubcategory);
   const categorySelect = useSelector(selectCategory);
-  console.log(selectedSubcategories);
-console.log(categorySelect);
+
   useEffect(() => {
     // Reset component and remove all selected items when router pathname changes
     setCheckedMenus([]);
@@ -41,7 +40,6 @@ console.log(categorySelect);
 
   }, [categorySelect, dispatch, currentData]); 
   const handleCheckboxChange = (items,index) => {
-    console.log(items.name)
     dispatch(toggleCategory(items.name));
     const currentIndex = checkedMenus.indexOf(index);
     const newCheckedItems = [...checkedMenus];
@@ -73,9 +71,7 @@ console.log(categorySelect);
   let currentCategory = currentData?.response?.products.map(
     (item) => item.category
   );
-  // console.log(currentData);
   let category = [...new Set(currentCategory)];
-  // console.log(category);
   
 
   return (
