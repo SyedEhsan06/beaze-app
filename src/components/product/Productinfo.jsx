@@ -506,7 +506,7 @@ const routeToProducts = () => {
                   </div>
 
                   <div
-                    className={`w-full   context mt-6 ${showdesc ? "block" : " lg:block hidden"
+                    className={`w-full   context mt-6 ${showdesc ? "block" : " block"
                       }`}
                   >
                     <div className="w-[80%] mb-10">
