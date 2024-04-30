@@ -77,53 +77,84 @@ export default function Productinfo({ pid }) {
   }
   , [selectData]);
   
-
-
-
   useEffect(() => {
-    handelproductinfo();
+    setloader(true)
+    let data = async () => {
+      const res = await fetchData('products/'+slug)
+      setproductinfo(res.products)
+      console.log("res", res.products);
+    }
+
+    data()
+  
   }, []);
 
+
+
+  // useEffect(() => {
+  //   handelproductinfo();
+  // }, []);
+let produtdata = productinfo
   
 const router = useRouter() 
-
-  const handelproductinfo = async () => {
-    setloader(true);
-    try {
-      const response = await fetchData(`products/${slug}`);
-      const resdata = response.products
-      setproductinfo(resdata);
-  
+const [selectedVariant, setselectedVariant] = useState(0);
+useEffect(() => {
+  console.log("produtdata", produtdata.varients);
+  if (produtdata.varients && produtdata.varients.length > 0) {
+    let fetchVarient = async () => {
+      const res = await fetch(
+        `/api/products/${produtdata.varients[selectedVariant].id}`
+      );
+      const x = await res.json();
+      console.log("x", x);
+      let data = x.products;
       setpdata({
         ...pdata,
-           _id : resdata?._id,
-           productId : resdata?.productId,
-           title : resdata?.title,
-           tax: resdata?.tax,
-           images : resdata?.images && Array.isArray(resdata?.images) && resdata?.images,
-           pquantity : 1,
-           selectedQty : 1,
-           quantity : resdata?.quantity,
-           color : findItemByKey(resdata.attributes, 'name', 'Colors')?.value[0],
-           size :findItemByKey(resdata.attributes, 'name', 'Sizes')?.value[0],
-           price : resdata?.price,
-        
-      })
-      const elemcolor = findItemByKey(resdata.attributes, 'name', 'Colors');
-      setcolors(elemcolor?.value ? elemcolor.value : [])
-      
-      
-      const elemcsizes = findItemByKey(resdata.attributes, 'name', 'Sizes');
-      setsizes(elemcsizes?.value ? elemcsizes.value : [])
-      
-      setloader(false);
-      
-     
-    } catch (err) {
-      setloader(false);
-      console.log(err);
-    }
-  };
+        _id: data._id,
+        productId: data.productId,
+        tax: data.tax,
+        title: data.title,
+        images: data.images && Array.isArray(data.images) && data.images,
+        pquantity: 1,
+        selectedQty: 1,
+        quantity: data.quantity,
+        color: findItemByKey(data.attributes, "name", "Colors")?.value[0],
+        size: findItemByKey(data.attributes, "name", "Sizes")?.value[0],
+        price: data.price,
+      });
+      setsizeindex(0);
+      const elemcolor = findItemByKey(data.attributes, "name", "Colors");
+      setcolors(elemcolor?.value ? elemcolor.value : []);
+      const elemcsizes = findItemByKey(data.attributes, "name", "Sizes");
+      setsizes(elemcsizes?.value ? elemcsizes.value : []);
+    };
+    fetchVarient();
+  } else {
+    setpdata({
+      ...pdata,
+      _id: produtdata._id,
+      productId: produtdata.productId,
+      tax: produtdata.tax,
+      title: produtdata.title,
+      images:
+        produtdata.images &&
+        Array.isArray(produtdata.images) &&
+        produtdata.images,
+      pquantity: 1,
+      selectedQty: 1,
+      quantity: produtdata.quantity,
+      color: findItemByKey(produtdata.attributes, "name", "Colors")?.value[0],
+      size: findItemByKey(produtdata.attributes, "name", "Sizes")?.value[0],
+      price: produtdata.price,
+    });
+    setsizeindex(0);
+    const elemcolor = findItemByKey(produtdata.attributes, "name", "Colors");
+    setcolors(elemcolor?.value ? elemcolor.value : []);
+
+    const elemcsizes = findItemByKey(produtdata.attributes, "name", "Sizes");
+    setsizes(elemcsizes?.value ? elemcsizes.value : []);
+  }
+}, [pid,ismodalopen, selectedVariant]);
 
   const closeModal = () => {
     setismodalopen(false)
@@ -249,7 +280,7 @@ const routeToProducts = () => {
   // router.push(`/products`)
 }
 
-  
+  console.log("pdata", pdata);
 
   return (
     <>
@@ -261,10 +292,10 @@ const routeToProducts = () => {
             <div className="w-[25%]">
 
               <h5 className="context font-semibold  text-xl">
-                {productinfo?.title}
+                {pdata?.title}
               </h5>
               <p className="context font-[500]  text-lg">
-                INR {productinfo?.price}
+                INR {pdata?.price}
               </p>
 
             </div>
@@ -381,10 +412,10 @@ const routeToProducts = () => {
                       }
                       </p>
                       <h5 className="headtext font-semibold md:text-3xl text-2xl lg:leading-[2.8rem]">
-                        {productinfo?.title}
+                        {pdata?.title}
                       </h5>
                       <p className="context font-[500] md:text-2xl text-[1.3rem]">
-                        INR {productinfo?.price}
+                        INR {pdata?.price}
                       </p>
 
                       {/* <p className="context mt-2 text-[1rem] text-opacity-[50%] font-[300]">
@@ -415,7 +446,42 @@ const routeToProducts = () => {
                       </div>
                     </div>
                    }
-
+   {produtdata.varients && produtdata.varients.length > 0 && (
+                <div className="context">
+                  <div className="w-full">
+                    <label
+                      htmlFor="variantSelect"
+                      className="font-[400] text-lg"
+                    >
+                      Select a variant
+                    </label>
+                    <div className="md:w-[40%] w-[100%] border-[0.5px] border-[#989898CC] border-opacity-[80%] rounded-[4px] text-opacity-[50%] text-[#00000096] pl-4 py-1 flex items-center relative">
+                      <div className="w-[100%]">
+                        <select
+                          className="w-full border-none focus:outline-none appearance-none bg-transparent cursor-pointer"
+                          id="variantSelect"
+                          value={selectedVariant}
+                          onChange={(e) =>
+                            setselectedVariant(e.target.value)
+                          }
+                        >
+                          {produtdata.varients.map((variant, index) => (
+                            <option key={index} value={index}>
+                              {variant.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="absolute right-1 top-[5px]">
+                        <BiSolidChevronDown
+                          size={20}
+                          className="text-gray-950"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
                     <div className="md:block grid grid-cols-2 gap-3">
                       {
                         colors.length > 0 && <div className=" context mt-3">

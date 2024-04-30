@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Define the attribute schema
@@ -10,36 +10,29 @@ const attributeSchema = new Schema({
   value: Schema.Types.Mixed,
 });
 
-
 const productSchema = new Schema(
   {
     title: {
       type: String,
-      
     },
     images: {
       type: [String],
-      
     },
     subcategory: {
       type: String,
     },
     category: {
       type: String,
-      
     },
-    attributes: [attributeSchema], 
+    attributes: [attributeSchema],
     productId: {
       type: String,
-      
     },
     price: {
       type: Number,
-      
     },
     description: {
       type: String,
-      
     },
     shipping: {
       type: Number,
@@ -48,6 +41,24 @@ const productSchema = new Schema(
     tax: {
       type: Number,
       default: 0,
+    },
+    isVariants: {
+      type: Boolean,
+      default: false,
+    },
+    varients: [
+      {
+        name: String,
+        id: String,
+      },
+    ],
+    weight: { type: Number },
+    dimensions: {
+      type: {
+        length: Number,
+        breadth: Number,
+        height: Number,
+      },
     },
     features: {
       type: [
@@ -66,5 +77,6 @@ const productSchema = new Schema(
   }
 );
 
-const Product = mongoose.models.Products || mongoose.model('Products', productSchema);
+const Product =
+  mongoose.models.Products || mongoose.model("Products", productSchema);
 export default Product;

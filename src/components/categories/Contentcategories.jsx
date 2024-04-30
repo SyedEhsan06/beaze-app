@@ -335,12 +335,20 @@ useEffect(() => {
     toggleSubcategory(selectedFilters);
   };
 
-  const handelpeoductinfo = async (id) => {
+  const handelpeoductinfo = async (item) => {
     setLoader(true);
-  
+      // console.log(item)
+      let id ;
+      id = item._id
+      // if(item.varients?.length > 0){
+      //   id = item.varients[0]
+      // }else{
+        // id = item._id
+      // }
     try {
       const response = await fetchData(`products/${id}`);
       setproductdata(response.products);
+      
       setLoader(false);
       setismodalopen(true);
     } catch (err) {
@@ -715,7 +723,6 @@ useEffect(() => {
     sessionStorage.setItem("cachedData",null)
   }
 
-
   return (
    <>
    {loader && <Loaderfixed/>}
@@ -891,14 +898,14 @@ useEffect(() => {
                   </p>
                   <button
                       className=" transition-all duration-100 w-full md:py-2 py-1 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  lg:hover:bg-opacity-[80%]"
-                      onClick={() => handelpeoductinfo(items._id)}
+                      onClick={() => handelpeoductinfo(items)}
                     >
                      Add to Cart
                     </button>
                 </div>
                 <button
                   className="w-[70%] transition-all duration-100 cursor-pointer rounded-xl absolute left-[50%] translate-x-[-50%] lg:hidden lg:group-hover:block top-[50%] lg:z-10 z-[1] bg-button-secondary px-5  text-text-secondary text-[1rem]  text-center  lg:hover:shadow-gray-950  hover:shadow"
-                  onClick={() => handelpeoductinfo(items._id)}
+                  onClick={() => handelpeoductinfo(items)}
                 >
                   Quick buy
                 </button>
@@ -976,7 +983,7 @@ useEffect(() => {
                     {/* <Link href={`/productinfo/${items._id}`}> */}
                       <button
                         className=" transition-all duration-100 w-full md:py-2 py-1 text-center bg-theme-footer-bg rounded text-white text-lg font-[400]  lg:hover:bg-opacity-[80%]"
-                        onClick={() => handelpeoductinfo(items._id)}
+                        onClick={() => handelpeoductinfo(items)}
                       >
                        Add to cart
                       </button>
@@ -984,7 +991,7 @@ useEffect(() => {
                   </div>
                   <button
                     className="w-[70%] transition-all duration-100 cursor-pointer rounded-xl absolute left-[50%] translate-x-[-50%] lg:hidden lg:group-hover:block top-[50%] lg:z-10 z-[1] bg-button-secondary px-5  text-text-secondary text-[1rem]  text-center  lg:hover:shadow-gray-950  hover:shadow"
-                    onClick={() => handelpeoductinfo(items._id)}
+                    onClick={() => handelpeoductinfo(items)}
                   >
                     Quick buy
                   </button>

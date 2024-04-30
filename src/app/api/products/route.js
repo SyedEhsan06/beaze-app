@@ -121,7 +121,16 @@ export async function GET(req) {
       });
       return Response.json({ products, count: products.length });
     } else {
-      products = await Product.find({});
+      products = await Product.aggregate([
+        {
+          $match: {
+            $or: [
+              { isVariants: { $exists: false } }, // Documents without isVariant field
+              { isVariants: false } // Documents where isVariant is false
+            ]
+          }
+        }
+      ])
     }
 
     return Response.json({ products, count: products.length });
