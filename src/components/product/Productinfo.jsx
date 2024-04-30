@@ -107,7 +107,6 @@ const router = useRouter()
            color : findItemByKey(resdata.attributes, 'name', 'Colors')?.value[0],
            size :findItemByKey(resdata.attributes, 'name', 'Sizes')?.value[0],
            price : resdata?.price,
-        
       })
       const elemcolor = findItemByKey(resdata.attributes, 'name', 'Colors');
       setcolors(elemcolor?.value ? elemcolor.value : [])
